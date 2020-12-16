@@ -43,13 +43,15 @@ public class ControllerLogin {
 		}
 		
 	}
-	public Boolean Regist(String Username,String password,String Name,String Surname,String Email,Date Data,String gender)
+	public Boolean Regist(String Username,String password,UserBean user)
 	{
 		DB database = new DB();
-		this.myUser=database.Register(Username,password, Name, Surname, Email, Data, gender);
+		this.myUser=database.Register(Username,password,user);
 		if(myUser!=null)return true;
 		return false;
 	}
 	
+
+
 
 }

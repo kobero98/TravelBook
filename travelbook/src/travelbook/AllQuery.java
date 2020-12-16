@@ -1,4 +1,4 @@
-package travelbook.controller;
+package travelbook;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -9,13 +9,51 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import travelbook.model.bean.TravelBean;
-import travelbook.model.bean.UserEntity;
-import travelbook.util.DateUtil;
-
+import travelbook.controller.ExceptionLogin;
 public class AllQuery {
 	private String MyUrl="jdbc:mysql://localhost:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	
+	public void updateUser(UserEntity User) {
+		Connection connessione = null;
+				
+				try {
+					  connessione= DriverManager.getConnection(MyUrl,"root","root");
+				
+					if (connessione != null) { 
+						  String query = " update User set Username=?, password=?,NameUser=?, Surname=?, BirthDate=?,DescriptionProfile=?,Email=?,FollowerNumeber=?,FollowingNumber=?,TripNumber=?,ProfileImage=?,Gender=? where idUser=?";
+					      PreparedStatement preparedStmt = connessione.prepareStatement(query);
+					      preparedStmt.setString (1, User.getUsername());
+					      preparedStmt.setString (2, User.getPassword());
+					      preparedStmt.setString (3, User.getName());
+					      preparedStmt.setString (4, User.getSurname());
+					      preparedStmt.setDate   (5,new Date(1999-1-1));// il data va sistemato
+					      preparedStmt.setString (6,User.getDescription());
+					      preparedStmt.setString (7,User.getEmail());
+					      preparedStmt.setInt (8,User.getNFollower());
+					      preparedStmt.setInt (9,User.getNFollowing());
+					      preparedStmt.setInt (10,User.getNTrip());
+					      preparedStmt.setString (11,User.getUrlPhoto());
+					      preparedStmt.setString (12,User.getGender());
+					   
+					      preparedStmt.execute();
+					} 
+				}catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally {
+					try {
+						connessione.close();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+	}
+	public void updateTrip() {}
+	public void updateStep() {}
+	public void updatePhoto() {}
+	
+
 	public ResultSet RequestLogin(Statement stmt,String Username,String Password) throws ExceptionLogin{
 		ResultSet rs=null;
 			try {

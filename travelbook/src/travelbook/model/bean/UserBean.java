@@ -2,22 +2,30 @@ package travelbook.model.bean;
 
 import java.util.List;
 
+import javafx.scene.image.Image;
+import travelbook.UserEntity;
+
 public class UserBean{
-	private String Name,Surname,Description,Sex,URLphoto;
-	private int  id,NFollower,NFollowing,NTrip;
+	private String Name,Surname,Description,Sex;
+	private Image URLphoto;
+	private int  NFollower,NFollowing,NTrip;
 	private List <TravelBean> Travel;
 	private List <MessageBean> message;
 	
 
-	public UserBean(int Id)
-	{
-		this.id=Id;
-	}
 	public UserBean() {}
-	
-	private void setId(int n){
-		this.id=n;
+	public UserBean(UserEntity user) {
+		this.Name=user.getName();
+		this.Surname=user.getSurname();
+		this.Description=user.getDescription();
+		this.Sex=user.getGender();
+		this.URLphoto= new Image(user.getUrlPhoto());
+		this.NFollower=user.getNFollower();
+		this.NFollowing=user.getNFollowing();
+		this.NTrip=user.getNTrip();
 	}
+	
+
 	public void setName(String name)
 	{
 		this.Name=name;
@@ -30,9 +38,9 @@ public class UserBean{
 	{
 		this.Description=Description;
 	}
-	public void setUrlPhoto(String url)
+	public void setUrlPhoto(Image photo)
 	{
-		this.URLphoto=url;
+		this.URLphoto=photo;
 	}
 	public void setSex(String sex)
 	{
@@ -58,10 +66,7 @@ public class UserBean{
 		this.message=M;
 	}
 	
-	public int getId()
-	{
-		return this.id;
-	}
+	
 	public String getName()
 	{
 		return this.Name;
@@ -74,7 +79,7 @@ public class UserBean{
 	{
 		return this.Description;
 	}
-	public String getUrlPhoto()
+	public Image getUrlPhoto()
 	{
 		return this.URLphoto;
 	}
@@ -100,4 +105,5 @@ public class UserBean{
 	public List <MessageBean> getMessage(){
 		return this.message;
 	}
+
 }

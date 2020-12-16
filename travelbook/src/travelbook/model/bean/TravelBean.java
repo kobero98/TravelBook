@@ -1,29 +1,30 @@
 package travelbook.model.bean;
 
 import java.util.List;
-import java.util.ArrayList;
+
+import javafx.scene.image.Image;
+import travelbook.TravelEntity;
+
 public class TravelBean {
 
 	private double CostTravel;
-	private int Id,CreatorId,StepNumber,likeNumber;
-	private String NameTravel,Type,PathBackground;
+	private int StepNumber,likeNumber;
+	private String NameTravel;
+	Image PathBackground;
+	List<String> Type;
 	private String StartDate,EndDate;
 	private List <StepBean> Step;
 	
 	public TravelBean() {
-		Step=new ArrayList<>();
 	}
-	public TravelBean(int id,int idcreator) {
-		this.Id=id;
-		this.CreatorId=idcreator;
-	}
-	
-
-	public int getIdTravel() {
-		return this.Id;
-	}
-	public int getCreatorId() {
-		return this.CreatorId;
+	public TravelBean(TravelEntity travel)
+	{
+		this.CostTravel=travel.getCostTravel();
+		this.StepNumber=travel.getStepNumber();
+		this.likeNumber=travel.getLikeNumber();
+		this.NameTravel=travel.getNameTravel();
+		this.PathBackground=new Image(travel.getPathImage());
+		
 	}
 	public int getStepNumber() {
 		return this.StepNumber;
@@ -39,10 +40,10 @@ public class TravelBean {
 	public String getNameTravel() {
 		return this.NameTravel;
 	}
-	public String getTypeTravel() {
+	public List<String> getTypeTravel() {
 		return this.Type;
 	}
-	public String getPathImage() {
+	public Image getPathImage() {
 		return this.PathBackground;
 	}
 	public String getStartDate() {
@@ -56,12 +57,6 @@ public class TravelBean {
 	}
 
 	
-	//private void setIdTravel(int Id) {
-	//	this.Id=Id;
-	//}
-	public void setCreatorTravel(int id) {
-		this.CreatorId=id;
-	}
 	public void setStepNumber(int Number) {
 		this.StepNumber=Number;
 	}
@@ -71,10 +66,10 @@ public class TravelBean {
 	public void setNameTravel(String Name) {
 		this.NameTravel=Name;
 	}
-	public void setType(String Type) {
+	public void setType(List<String> Type) {
 		this.Type=Type;
 	}
-	public void setPathBackground(String Path)
+	public void setPathBackground(Image Path)
 	{
 		this.PathBackground=Path;
 	}

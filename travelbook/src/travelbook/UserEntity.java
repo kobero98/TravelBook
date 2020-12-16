@@ -1,12 +1,16 @@
-package travelbook.model.bean;
-
+package travelbook;
+import java.sql.Date;
 import java.util.List;
+
+import travelbook.model.bean.MessageBean;
+import travelbook.model.bean.TravelBean;
 
 public class UserEntity{
 	private String Username,Password;
-	private String Name,Surname,Email,Description,Sex,URLphoto,BirthDate;
+	private String Name,Surname,Email,Description,Sex,URLphoto;
+	private Date BirthDate;
 	private int  id,NFollower,NFollowing,NTrip;
-	private List <TravelBean> Travel;
+	private List <TravelEntity> Travel;
 	private List <MessageBean> message;
 	
 	public UserEntity(int Id)
@@ -57,11 +61,11 @@ public class UserEntity{
 	{
 		this.NTrip=Ntrip;
 	}
-	public void setBirthDate(String BirthDate) {
+	public void setBirthDate(Date BirthDate) {
 		this.BirthDate=BirthDate;
 	}
 
-	public void setTravel(List <TravelBean> T)
+	public void setTravel(List <TravelEntity> T)
 	{
 		this.Travel= T;
 	}
@@ -112,14 +116,14 @@ public class UserEntity{
 	{
 		return this.NTrip;
 	}
-	public String getBirthDate() {
+	public Date getBirthDate() {
 		return this.BirthDate;
 	}
 
 	public String getEmail() {
 		return this.Email;
 	}
-	public List <TravelBean>  getTravel() {
+	public List <TravelEntity>  getTravel() {
 		return this.Travel;
 	}
 	public List <MessageBean> getMessage(){
