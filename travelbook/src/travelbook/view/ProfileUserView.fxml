@@ -39,7 +39,7 @@
          <graphic>
             <ImageView fx:id="favIcon" fitHeight="27.53" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../Downloads/Vector.png" />
+                  <Image url="@../resource/ProfilePageImages/Vector.png" />
                </image>
             </ImageView>
          </graphic>
@@ -51,17 +51,17 @@
       </Text>
       <ImageView fx:id="map" fitHeight="160.0" fitWidth="285.0" layoutX="307.0" layoutY="434.0" opacity="0.49" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../resource/ExplorePageImages/cartina-no-sfondo.png" />
+            <Image url="@../resource/ExplorePageImages/cartina-no-sfondo.png" />
          </image>
       </ImageView>
     <AnchorPane fx:id="profileAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="592.0" styleClass="profile-pane">
          <children>
-            <Text fx:id="userName" layoutX="238.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="UserName" wrappingWidth="326.0">
+            <Text fx:id="userName" layoutX="238.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="UserName" textAlignment="CENTER" wrappingWidth="326.0">
                <font>
                   <Font size="40.0" />
                </font>
             </Text>
-            <Text fx:id="myDescr" layoutX="255.0" layoutY="187.0" onMouseEntered="#myDescrEdit" onMouseExited="#myDescrEditDisappear" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="297.0">
+            <Text fx:id="myDescr" layoutX="255.0" layoutY="187.0" onMouseEntered="#myDescrEdit" onMouseExited="#myDescrEditDisappear" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" textAlignment="CENTER" wrappingWidth="297.0">
                <font>
                   <Font name="System Italic" size="30.0" />
                </font>
@@ -88,7 +88,7 @@
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/profile.png" />
+                        <Image url="@../resource/ExplorePageImages/profile.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -118,7 +118,7 @@
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/explore.png" />
+                        <Image url="@../resource/ExplorePageImages/explore.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -133,7 +133,7 @@
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/chat.png" />
+                        <Image url="@../resource/ExplorePageImages/chat.png" />
                      </image>
                   </ImageView>
                </graphic>

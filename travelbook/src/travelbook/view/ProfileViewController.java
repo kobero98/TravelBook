@@ -192,6 +192,8 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			ProfilePhoto.setPrefHeight(mainAnchor.getHeight()*200/625);
 			ProfilePhoto.setLayoutY(mainAnchor.getHeight()*45/625);
 			userName.setLayoutY(mainAnchor.getHeight()*137/625);
+			userName.setWrappingWidth(mainAnchor.getWidth()*326/1280);
+			myDescr.setWrappingWidth(mainAnchor.getWidth()*297/1280);
 			myDescr.setLayoutY(mainAnchor.getHeight()*187/625);
 			logOutButton.setPrefHeight(mainAnchor.getHeight()*35/625);
 			logOutButton.setLayoutY(mainAnchor.getHeight()*14/625);
@@ -199,7 +201,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			ChoosePhoto.setLayoutY(mainAnchor.getHeight()*80/625);
 			myDescrEdit.setPrefHeight(mainAnchor.getHeight()*35/625);
 			myDescrEdit.setLayoutY(mainAnchor.getHeight()*165/625);
-			DescrWrite.setPrefWidth(mainAnchor.getHeight()*100/625);
+			DescrWrite.setPrefHeight(mainAnchor.getHeight()*100/625);
 			DescrWrite.setLayoutY(mainAnchor.getHeight()*150/625);
 			menuBar.setPrefHeight(mainAnchor.getHeight()*85/625);
 			menuBar.setLayoutY(mainAnchor.getHeight()*300/625);
