@@ -1,0 +1,17 @@
+/* Rectangle 1 */
+#AnchorPane
+{
+    -fx-background-color: black;
+}
+#Bottone
+{
+    -fx-effect: innerShadows;
+    width: 40px;
+    height:40px;
+    background: #82C562;
+
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+
