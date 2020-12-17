@@ -1,7 +1,10 @@
 package main.java.travelbook.view;
 import java.io.IOException;
+import javafx.scene.control.CheckBox;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.bean.CityBean;
@@ -84,8 +87,7 @@ public class AddViewController {
 	private Button chooseStepImages;
 	@FXML
 	private ProgressIndicator progressIndicator;
-	@FXML
-	private GridPane imageGridPane;
+	private ImageGridPane imageGridPane;
 	@FXML
 	private AnchorPane stepInfoPane;
 	@FXML
@@ -105,7 +107,7 @@ public class AddViewController {
 	private Integer dayNumber;
 	private List<List<StepBean>> stepByDay=new ArrayList<List<StepBean>>();
 	private TravelBean travel;
-	private List<List<GridPane>> dayImagePane=new ArrayList<List<GridPane>>();
+	private List<List<ImageGridPane>> dayImagePane=new ArrayList<List<ImageGridPane>>();
 	private int stepNumber,nextRow,nextCol;
 	private double standardImageHeight=89.34,standardImageWidth=89.34;
 	private Image presentationImage;
@@ -115,7 +117,7 @@ public class AddViewController {
 	@FXML
 	private void initialize() {
 		//set travel and the first day and the first step by default.
-		travel=new TravelBean();
+		imageGridPane=new ImageGridPane();
 		dayNumber=0;
 		stepNumber=0;
 		startDate.valueProperty().addListener((observable,oldValue,newValue)->{
@@ -188,6 +190,63 @@ public class AddViewController {
 			this.stepByDay.get(dayNumber).get(stepNumber).setDescriptionStep(stopDescription.getText());
 		});
 	}
+	public class ImageGridPane extends GridPane{
+		//GridPane with a matrix that show if an entry (row,col) is empty or not. 
+		//If is empty positions[row][col]==1
+		private List<List<Integer>> positions=new ArrayList<List<Integer>>();
+		
+		public ImageGridPane() {
+			super();
+			//setup to a gridPane with 5 col and 1 row
+			nextCol=0;
+    		nextRow=0;
+    		this.setPrefHeight(standardImageHeight);
+    		this.setPrefWidth(standardImageWidth*5);
+    		ColumnConstraints column1=new ColumnConstraints();
+    		ColumnConstraints column2=new ColumnConstraints();
+    		ColumnConstraints column3=new ColumnConstraints();
+    		ColumnConstraints column4=new ColumnConstraints();
+    		ColumnConstraints column5=new ColumnConstraints();
+    		column1.setPercentWidth(20);
+    		column2.setPercentWidth(20);
+    		column3.setPercentWidth(20);
+    		column4.setPercentWidth(20);
+    		column5.setPercentWidth(20);
+    		this.getColumnConstraints().addAll(column1,column2,column3,column4,column5);
+    		this.setLayoutX(35);
+    		this.setLayoutY(520);
+    		RowConstraints row1=new RowConstraints();
+    		row1.setPrefHeight(standardImageHeight);
+    		this.getRowConstraints().add(row1);
+			positions.add(new ArrayList<Integer>());
+			for(int i=0;i<5;i++) {
+				positions.get(0).add(1);
+			}
+			
+		}
+		@Override
+		public void add(Node node,int col,int row) {
+			super.add(node, col,row);
+			positions.get(row).set(col, 0);
+		}
+		public void updateRow() {
+			positions.add(new ArrayList<Integer>());
+			for(int i=0;i<5;i++) {
+				positions.get(positions.size()-1).add(1);
+			}
+		}
+		public void remove(int row,int col) {
+			//set valid the entry
+			this.positions.get(row).set(col, 1);
+		}
+		public boolean isValid(int row,int col) {
+			//return ture if the position is valid
+			if(this.positions.get(row).get(col)==1) {
+				return true;
+			}
+			return false;
+		}
+	}
 	public void setMain(BorderPane main) {
 		this.mainPane=main;
 	}
@@ -229,19 +288,102 @@ public class AddViewController {
 	    @FXML
 	    private void allDoneHanlder() {
 	    	//TODO complete with the save of information logic... now i define the progress bar animation
-	    	OpacityAnimation anim=new OpacityAnimation();
+	    	travel=new TravelBean();
+	    	List<Object> listOfErrors=new ArrayList<Object>();
+	    	travel.setListStep(new ArrayList<StepBean>());
 	    	progressPane.setVisible(true);
-	    	anim.setBackTop(internalPane, progressPane);
-	    	anim.setLimits(0.1, 0.9);
-	    	anim.start();
+	    	progressPane.setOpacity(0.9);
+	    	internalPane.setOpacity(0.1);
 	    	// sostituire questo codice con invio al controller applicativo dei dati.
-	    	double i=0;
-	    	while(i<1) {
-	    	progressBar.setProgress(progressBar.getProgress()+0.01);
-	    	i=i+0.01;
+	    	if(!travelName.getText().isEmpty()) {
+	    		travel.setNameTravel(travelName.getText());
+	    		incrementProgress();
+	    	}
+	    	else {
+	    		//Then show an error message and mostra rosso il bordo di name travel
+	    		//termina
+	    		listOfErrors.add(travelName);
+	    	}
+	    	if(!travelDescription.getText().isEmpty()) {
+	    		//manca l'attributo nel travel bean
+	    		incrementProgress();
+	    	}
+	    	else {
+	    		listOfErrors.add(travelDescription);
+	    	}
+	    	if(viewPresentation.getImage()!=null) {
+	    		travel.setPathBackground(viewPresentation.getImage());
+	    		incrementProgress();
+	    	}
+	    	else {
+	    		listOfErrors.add(viewPresentation);
+	    	}
+	    	CheckBox element;
+	    	List<String> filtri=new ArrayList<String>();
+	    	for(int i=0;i<filterPane.getChildren().size();i++) {
+	    		element=(CheckBox)filterPane.getChildren().get(i);
+	    		if(element.isSelected()) {
+	    			filtri.add(element.getText());
+	    		}
+	    	}
+	    	if(filtri.size()>0) {
+	    		travel.setType(filtri);
+	    		incrementProgress();
+	    	}
+	    	else {
+	    		listOfErrors.add(filterPane);
+	    	}
+	    	boolean error=false;
+	    	//then take every steps for each day
+	    	travel.setListStep(new ArrayList<StepBean>());
+	    	for(int day=0;day<this.stepByDay.size();day++) {
+	    		List<StepBean> steps=stepByDay.get(day);
+	    		for(int stepN=0;stepN<steps.size();stepN++) {
+	    			//for each step
+	    			StepBean step=steps.get(stepN);
+	    			if(step.getPlace()!=null && step.getDescriptionStep()!=null) {
+	    				step.setListPhoto(new ArrayList<Image>());
+	    				List<Node> pics=dayImagePane.get(day).get(stepN).getChildren();
+	    				for(int picN=0;picN<pics.size();picN++) {
+	    					ImageView foto= (ImageView)pics.get(picN);
+	    					step.getListPhoto().add(foto.getImage());
+	    				}
+	    				travel.getListStep().add(step);
+	    			}
+	    			else {
+	    				error=true;
+	    				break;
+	    			}
+	    		}
+	    		if(error)
+	    			break;
+	    	}
+	    	if(error) {
+	    		//Show error message that show how some steps are incompleted.
+	    	}
+	    	else {
+	    		if(listOfErrors.isEmpty()) {
+	    			//TODO call the controller applicativo
+	    			System.out.println("Tutto ok ho salvato tutto");
+	    		}
+	    		else {
+	    			//TODO then colora di rosso il bordo degli elementi.
+	    			for(int i=0;i<listOfErrors.size();i++) {
+	    				Node node=(Node) listOfErrors.get(i);
+	    				node.setStyle("-fx-border-color: #FF0000");
+	    			}
+	    			progressPane.setOpacity(0);
+	    			internalPane.setOpacity(1);
+	    			progressPane.setVisible(false);
+	    			
+	    		}
 	    	}
 	    	//when done activate the close button
 	    	closeProgressBar.setVisible(true);
+	    	
+	    }
+	    private void incrementProgress() {
+	    	this.progressBar.setProgress(this.progressBar.getProgress()+ 0.001);
 	    }
 	    @FXML
 	    private void progressBarDoneHandler() {
@@ -252,7 +394,7 @@ public class AddViewController {
 	    	anim.start();
 	    	progressPane.setVisible(false);
 	    	System.out.println("Finito");
-	    	//redirect to ...
+	    	//redirect to the view of the travel
 	    }
 	    @FXML
 	    private void multipleChoosHandler() {
@@ -262,8 +404,11 @@ public class AddViewController {
 	    	dialog.setTitle("Choose some photos for this step" + stepByDay.get(dayNumber).get(stepNumber).getPlace());
 	    	dialog.getExtensionFilters().add(new ExtensionFilter("Image","*.png","*.jpg"));
 	    	List<File> files = dialog.showOpenMultipleDialog(mainPane.getScene().getWindow());
+	    	if(files!=null) {
 	    	Image im;
 	    	ImageView view;
+	    	double percentuale=(double)1/(double)files.size();
+	    	
 	    	for(int i=0;i<files.size();i++) {
 	    		im=new Image(files.get(i).toURI().toString(),false);
 	    		view=new ImageView();
@@ -282,35 +427,42 @@ public class AddViewController {
 	    			anim.setLimits(0.1, 0.9);
 	    			anim.start();
 	    		});
-	    		
+	    		while(!imageGridPane.isValid(nextRow,nextCol)) {
+	    			nextCol++;
+	    			if(nextCol==5) {
+	    				nextCol=0;
+	    				nextRow++;
+	    			}
+	    		}
 	    		imageGridPane.add(view, nextCol, nextRow);
 	    		updateGridIndex();
+	    		progressIndicator.setProgress(progressIndicator.getProgress()+percentuale);
+	    		
+	    	}
 	    	}
 	    	}
 	    }
 	    private void updateGridIndex() {
+	    	nextCol++;
 	    	if (nextCol==5) {
 	    		nextCol=0;
 	    		int numRow=imageGridPane.getRowConstraints().size();
 	    		imageGridPane.getRowConstraints().add(new RowConstraints(imageGridPane.getRowConstraints().get(0).getPrefHeight()));
 	    		imageGridPane.setPrefHeight(imageGridPane.getHeight()/numRow + imageGridPane.getHeight());
 	    		nextRow++;
-	    	}
-	    	else {
-	    		nextCol++;
+	    		imageGridPane.updateRow();
 	    	}
 	    }
 	    @FXML
 	    private void addStepButton() {
 	    	if(dayNumber>=0) {
-	    	dayImagePane.get(dayNumber).add(makeGridPane());
+	    	dayImagePane.get(dayNumber).add(new ImageGridPane());
 	    	stepNumber++;
 	    	System.out.println("Step numero: "+stepNumber);
 	    	StepBean step=new StepBean();
 	    	
 	    	step.setGroupDay(dayNumber);
 	    	stepByDay.get(dayNumber).add(step);
-	    	travel.getListStep().add(step);
 	    	//incrementa il valore nel travelBean e memorizza questo stepBean nel travelBean
 	    	//setta i valori per StepBean;
 	    	Button button=makeButton();
@@ -360,36 +512,12 @@ public class AddViewController {
     		});
     		return button;
 	    }
-	    private GridPane makeGridPane() {
-	    	nextCol=0;
-    		nextRow=0;
-    		GridPane newGrid=new GridPane();
-    		newGrid.setPrefHeight(standardImageHeight);
-    		newGrid.setPrefWidth(standardImageWidth*5);
-    		ColumnConstraints column1=new ColumnConstraints();
-    		ColumnConstraints column2=new ColumnConstraints();
-    		ColumnConstraints column3=new ColumnConstraints();
-    		ColumnConstraints column4=new ColumnConstraints();
-    		ColumnConstraints column5=new ColumnConstraints();
-    		column1.setPercentWidth(20);
-    		column2.setPercentWidth(20);
-    		column3.setPercentWidth(20);
-    		column4.setPercentWidth(20);
-    		column5.setPercentWidth(20);
-    		newGrid.getColumnConstraints().addAll(column1,column2,column3,column4,column5);
-    		newGrid.setLayoutX(imageGridPane.getLayoutX());
-    		newGrid.setLayoutY(imageGridPane.getLayoutY());
-    		RowConstraints row1=new RowConstraints();
-    		row1.setPrefHeight(imageGridPane.getPrefHeight()/(imageGridPane.getRowConstraints().size()));
-    		newGrid.getRowConstraints().add(row1);
-    		
-    		return newGrid;
-	    }
+	    
 	    private void changeListOfDays() {
 	    	if(numOfDays>0) {
 	    		searchText.unblock();
 	    	}
-	    	for(Integer i=0;i<numOfDays;i++) {
+	    	/*for(Integer i=0;i<numOfDays;i++) {
 	    		System.out.println("Aggiunto il giorno: "+i);
 	    		Integer num=i+1;
 	    		dayBox.getItems().add((num).toString());
@@ -399,19 +527,21 @@ public class AddViewController {
 	    		
 	    		step.setGroupDay(stepByDay.size()-1);
 	    		System.out.println("Aggiunto step per giorno: "+step.getGroupDay());
-	    		travel.getListStep().add(step);
+	    		
 	    		stepByDay.get(stepByDay.size()-1).add(step);
-	    	}
+	    	}*/
 	    	if(numOfDays>dayImagePane.size()) {
 	    		Integer x=dayImagePane.size();
-	    		for(Integer i=0;i<(numOfDays-x);i++) {
-	    			dayImagePane.add(new ArrayList<GridPane>());
-	    			dayImagePane.get(i).add(makeGridPane());
+	    		for(Integer i=x;i<numOfDays;i++) {
+	    			Integer num=i+1;
+		    		dayBox.getItems().add((num).toString());
+	    			dayImagePane.add(new ArrayList<ImageGridPane>());
+	    			dayImagePane.get(i).add(new ImageGridPane());
 	    			//Add one entry for each day added
 		    		stepByDay.add(new ArrayList<>());
 		    		StepBean step=new StepBean();
 		    		step.setGroupDay(stepByDay.size()-1);
-		    		travel.getListStep().add(step);
+		    		
 		    		stepByDay.get(stepByDay.size()-1).add(step);
 	    		}
 	    	}
@@ -419,9 +549,23 @@ public class AddViewController {
 	    	if(numOfDays<dayImagePane.size()) {
 	    		Integer x=dayImagePane.size();
 	    		int y=(int)numOfDays;
+	    		/*Alert alert=new Alert(AlertType.CONFIRMATION);
+	    		alert.setTitle("Delete days confirmation");
+	    		alert.setHeaderText("Richiesta implicita di cancellazione");
+	    		
+	    		alert.setContentText("Con questa operazione saranno rimossi i dati corrispondenti ad alcuni giorni, sei sicuro di voler continuare?" );
+	    		alert.initOwner(this.mainPane.getScene().getWindow());
+	    		alert.showAndWait();*
+	    		ButtonType result=alert.getResult();
+	    		if(result.getButtonData()==ButtonData.OK_DONE) {*/
+	    		int deleted=0;
 	    		for(int i=y;i<x;i++) {
-	    			dayImagePane.remove(i);
+	    			dayBox.getItems().remove(i-deleted);
+	    			dayImagePane.remove(i-deleted);
+	    			stepByDay.remove(i-deleted);
+	    			deleted++;
 	    		}
+	    		//}
 	    	}
 	    	}
 	    	dayBox.setValue("1");
@@ -444,6 +588,7 @@ public class AddViewController {
 	    		for(int j=0;j<col;j++) {
 	    			if(imageGridPane.getChildren().get(i*col +j)==actualImage) {
 	    				imageGridPane.getChildren().remove(i*col+j);
+	    				imageGridPane.remove(i, j);
 	    				nextCol=j;
 	    				nextRow=i;
 	    				break;
@@ -457,6 +602,7 @@ public class AddViewController {
 	    @FXML
 	    private void removeStepHandler() {
 	    	//then remove the selected step from the list and the button bar.
+	    	if(stepsBar.getButtons().size()>0) {
 	    	Alert confirmAlert=new Alert(AlertType.CONFIRMATION);
 	    	confirmAlert.setTitle("Delete step confirmation");
 	    	confirmAlert.setHeaderText("Are you sure to remove this step?");
@@ -466,7 +612,6 @@ public class AddViewController {
 	    	ButtonType result=confirmAlert.getResult();
 	    	if(result.getButtonData()==ButtonData.OK_DONE) {
 	    		//then remove the step
-	    		if(stepsBar.getButtons().size()>0) {
 	    			//Remove the step from the list and delete the gridPane associated and then also from the buttonbar
 	    			stepByDay.get(dayNumber).remove(stepNumber);
 	    			dayImagePane.get(dayNumber).remove(stepNumber);
@@ -480,11 +625,13 @@ public class AddViewController {
 	    				//We can't have a day without steps so create a new step and fire on it
 	    				addStepButton();
 	    			}
-	    		}
-	    		else {
-	    			errorDayPanel.setVisible(true);
-	    			//then run a thread that wait for seconds and later remove the error message.
-	    		}
+	    		
+	    		
 	    	}
+	    	}
+	    	else {
+    			errorDayPanel.setVisible(true);
+    			//then run a thread that wait for seconds and later remove the error message.
+    		}
 	    }
 }
