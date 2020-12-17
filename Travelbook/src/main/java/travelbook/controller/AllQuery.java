@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import main.java.travelbook.model.StepEntity;
+import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.util.DateUtil;
@@ -89,7 +91,7 @@ public class AllQuery {
 			      preparedStmt.setString (2, User.getPassword());
 			      preparedStmt.setString (3, User.getName());
 			      preparedStmt.setString (4, User.getSurname());
-			      preparedStmt.setDate   (5,new Date(1999-1-1));// il data va sistemato
+			      preparedStmt.setDate   (5,User.getBirthDate());// il data va sistemato
 			      preparedStmt.setString (6,User.getEmail());
 			      preparedStmt.setString (7,User.getGender());
 			      preparedStmt.execute();
@@ -104,13 +106,110 @@ public class AllQuery {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			}
+	}
+	public void RequestRegistrationStep(StepEntity Step) {
+		Connection connessione = null;
+		try {
+			  connessione= DriverManager.getConnection(MyUrl,"root","root");
+		
+			if (connessione != null) { 
+				  String query = " insert into Step (groupDay,place,DescriptionStep) ";
+			      PreparedStatement preparedStmt = connessione.prepareStatement(query);
+			      preparedStmt.setInt (1, Step.getGroupDay());
+			      preparedStmt.execute();
+			} 
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				connessione.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
-	public void RequestRegistrationStep() {
+	public void RequestRegistrationTrip(TravelEntity trip) {
+		Connection connessione = null;
 		
-	}
-	public void RequestRegistrationTrip() {
+		try {
+			  connessione= DriverManager.getConnection(MyUrl,"root","root");
 		
+			if (connessione != null) { 
+				  String query = " insert into Trip (nome,costo,tipo,StartDate,EndDate,PhotoBackground,DescriptionTravel,CreatorTrip)" + " values (?, ?, ?, ?, ?, ? ,? ,?)";
+			      PreparedStatement preparedStmt = connessione.prepareStatement(query);
+			      preparedStmt.setString (1, trip.getNameTravel());
+			      preparedStmt.setDouble (2, trip.getCostTravel());
+			      preparedStmt.setString (3, trip.getTypeTravel());
+			      preparedStmt.setDate (4, trip.getStartDate());
+			      preparedStmt.setDate   (5,trip.getEndDate());// il data va sistemato
+			      preparedStmt.setString (6,trip.getPathImage());
+			      preparedStmt.setString (7,trip.getDescriptionTravel());
+			      preparedStmt.setInt (8,trip.getCreatorId());
+			      preparedStmt.execute();
+			} 
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				connessione.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}	
-
+	public void deleteTravel(int idtrip)
+	{
+		Connection connessione = null;
+		try {
+			  connessione= DriverManager.getConnection(MyUrl,"root","root");
+		
+			if (connessione != null) { 
+				  String query = "Delete from Trip where idTrip=? ";
+			      PreparedStatement preparedStmt = connessione.prepareStatement(query);
+			      preparedStmt.setInt (1,idtrip);
+			      preparedStmt.execute();
+			} 
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				connessione.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	public void deleteAccount(int iduser)
+	{ 	
+		Connection connessione = null;
+		try {
+			  connessione= DriverManager.getConnection(MyUrl,"root","root");
+		
+			if (connessione != null) { 
+				  String query = "Delete from User where idUser=? ";
+			      PreparedStatement preparedStmt = connessione.prepareStatement(query);
+			      preparedStmt.setInt (1,iduser);
+			      preparedStmt.execute();
+			} 
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				connessione.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 }

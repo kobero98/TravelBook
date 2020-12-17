@@ -8,7 +8,7 @@ public class TravelBean {
 
 	private double CostTravel;
 	private int StepNumber,likeNumber;
-	private String NameTravel;
+	private String NameTravel,DescriptionTravel;
 	Image PathBackground;
 	List<String> Type;
 	private String StartDate,EndDate;
@@ -27,6 +27,9 @@ public class TravelBean {
 	}
 	public int getStepNumber() {
 		return this.StepNumber;
+	}
+	public String getDescriptionTravel() {
+		return this.DescriptionTravel;
 	}
 	public int getLikeNumber()
 	{
@@ -64,6 +67,9 @@ public class TravelBean {
 	}
 	public void setNameTravel(String Name) {
 		this.NameTravel=Name;
+	}
+	public void setDescriptionTravel(String description) {
+		this.DescriptionTravel=description;
 	}
 	public void setType(List<String> Type) {
 		this.Type=Type;

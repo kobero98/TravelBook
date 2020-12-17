@@ -10,9 +10,9 @@ public class TravelEntity {
 
 	private double CostTravel;
 	private int Id,CreatorId,StepNumber,likeNumber;
-	private String NameTravel,Type,PathBackground;
+	private String NameTravel,Type,PathBackground,Description;
 	private Date StartDate,EndDate;
-	private List <StepBean> Step;
+	private List <StepEntity> Step;
 	
 	public TravelEntity() {}
 	public TravelEntity(int idcreator) {
@@ -56,10 +56,14 @@ public class TravelEntity {
 	public Date getEndDate() {
 		return this.EndDate;
 	}
-	public List <StepBean> getListStep(){
-		return this.Step;
+	public String getDescriptionTravel() {
+		return this.Description;
 	}
 
+	public List <StepEntity> getListStep(){
+		return this.Step;
+	}
+	
 	
 	//private void setIdTravel(int Id) {
 	//	this.Id=Id;
@@ -95,7 +99,11 @@ public class TravelEntity {
 	{
 		this.EndDate=End;
 	}
-	public void setListStep(List <StepBean> step) {
+	public void setDescriptionTravel(String description)
+	{
+		this.Description=description;
+	}
+	public void setListStep(List <StepEntity> step) {
 		this.Step=step;
 	}
 
