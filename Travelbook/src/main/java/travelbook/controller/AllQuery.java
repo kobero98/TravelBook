@@ -43,7 +43,6 @@ public class AllQuery {
 				throw new ExceptionLogin("Errore Connessione");
 			}
 		}
-	
 	public ResultSet RequestTripById(Statement stmt,int idTrip)
 	{	ResultSet rs=null;
 		try {
@@ -114,11 +113,32 @@ public class AllQuery {
 			  connessione= DriverManager.getConnection(MyUrl,"root","root");
 		
 			if (connessione != null) { 
-				  String query = " insert into Step (groupDay,place,DescriptionStep) ";
+				  System.out.println("sto inserendo lo step");
+				  String query = " insert into Step (groupDay,place,DescriptionStep,codiceTrip,codiceCreatore,Number) values( ?, ?, ?, ?, ?, ?) ";
 			      PreparedStatement preparedStmt = connessione.prepareStatement(query);
+			      
 			      preparedStmt.setInt (1, Step.getGroupDay());
+			      preparedStmt.setString (2, Step.getPlace());
+			      preparedStmt.setString (3, Step.getDescriptionStep());
+			      preparedStmt.setInt (4, Step.getIDTravel());
+			      preparedStmt.setInt (5, Step.getIDCreator());
+			      preparedStmt.setInt (6, Step.getNumber());
+			      System.out.println("sto inserendo lo step1");
 			      preparedStmt.execute();
+			      System.out.println("sto prendendo l'id");
+			      System.out.println("inserisco le foto");
+			      for(String s : Step.getListPhoto()){
+			    	  String queryPhoto = " insert into photostep (LinkPhoto,Step_Number,codiceViaggio,codiceCreatoreViaggio) values(?,?,?,?) ";
+				      PreparedStatement preparedStmt1 = connessione.prepareStatement(queryPhoto);
+				      preparedStmt1.setString (1,s);
+				      preparedStmt1.setInt (2,Step.getNumber());
+				      preparedStmt1.setInt (3, Step.getIDTravel());
+				      preparedStmt1.setInt (4, Step.getIDCreator());
+				      preparedStmt1.execute();  
+			      }
+
 			} 
+				
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -149,6 +169,27 @@ public class AllQuery {
 			      preparedStmt.setString (7,trip.getDescriptionTravel());
 			      preparedStmt.setInt (8,trip.getCreatorId());
 			      preparedStmt.execute();
+			      query = " select idTrip from Trip where nome= ? and costo= ? and tipo=? and StartDate=? and EndDate=? ";
+			      preparedStmt = connessione.prepareStatement(query);
+			      preparedStmt.setString (1, trip.getNameTravel());
+			      preparedStmt.setDouble (2, trip.getCostTravel());
+			      preparedStmt.setString (3, trip.getTypeTravel());
+			      preparedStmt.setDate (4, trip.getStartDate());
+			      preparedStmt.setDate   (5,trip.getEndDate());
+			      ResultSet rs=preparedStmt.executeQuery();
+			      rs.next();
+			      
+			      int i=0;
+			      for(StepEntity e:trip.getListStep())
+			      {
+			    	  System.out.println("ciao "+i);
+			    	  //e.setUserId(trip.getCreatorId());
+			    	  e.setTripId(rs.getInt(1));
+			    	  System.out.println("idViaggio="+rs.getInt(1));
+			    	  RequestRegistrationStep(e);
+			    	  i++;
+			    	  
+			      }
 			} 
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block

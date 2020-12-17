@@ -11,6 +11,10 @@ public class StepEntity {
 	private List <String> Photo;
 	
 	public  StepEntity(){}
+	public StepEntity(int idCreator,int Number) {
+		this.IDCreator=idCreator;
+		this.Number=Number;
+	}
 	public  StepEntity(int Number,int IDTravel,int IDCreator){
 		this.Number=Number;
 		this.IDCreator=IDCreator;
@@ -62,6 +66,10 @@ public class StepEntity {
 	public void setListPhoto(List <String> photo) {
 		this.Photo=photo;
 	}
-	
-
+	public void setTripId(int id) {
+		this.IDTravel=id;
+	}
+	public void setUserId(int id) {
+		this.IDCreator=id;
+	}
 }

@@ -30,7 +30,7 @@
    <children>
       <AnchorPane fx:id="internalPane" prefHeight="625.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ScrollPane hbarPolicy="NEVER" layoutX="10.0" layoutY="95.0" prefHeight="526.0" prefWidth="640.0">
+            <ScrollPane hbarPolicy="NEVER" layoutX="10.0" layoutY="95.0" prefHeight="526.0" prefWidth="640.0" vvalue="1.0">
               <content>
                 <AnchorPane maxWidth="750.0" minHeight="0.0" minWidth="0.0" prefWidth="640.0">
                      <children>
@@ -215,7 +215,7 @@
                         <Button fx:id="chooseStepImages" layoutX="307.0" layoutY="470.0" mnemonicParsing="false" onAction="#multipleChoosHandler" text="Choose" />
                         <ProgressIndicator fx:id="progressIndicator" layoutX="420.0" layoutY="470.0" prefHeight="42.0" prefWidth="45.0" progress="0.0" />
                         <Button fx:id="newStop" layoutX="504.0" layoutY="80.0" mnemonicParsing="false" onAction="#addStepButton" prefHeight="40.0" prefWidth="40.0" styleClass="add" />
-                        <GridPane fx:id="imageGridPane" layoutX="35.0" layoutY="520.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="89.34" prefWidth="446.7">
+                        <GridPane layoutX="35.0" layoutY="520.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="89.34" prefWidth="446.7">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="89.34" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="89.34" />
@@ -232,7 +232,7 @@
                   </AnchorPane>
                </content>
             </ScrollPane>
-            <Label layoutX="648.0" layoutY="93.0" text="Devi selezionare prima start date e end date per usare questa sezione" visible="false" />
+            <Label fx:id="errorDayPanel" layoutX="648.0" layoutY="93.0" text="Devi selezionare prima start date e end date per usare questa sezione" visible="false" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="650.0" layoutY="295.0" pickOnBounds="true" preserveRatio="true">
@@ -243,7 +243,7 @@
       <Pane fx:id="progressPane" layoutX="300.0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.0" prefHeight="400.0" prefWidth="600.0" visible="false">
          <children>
             <ProgressBar fx:id="progressBar" layoutX="200.0" layoutY="175.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" progress="0.0" />
-            <Button layoutX="500.0" layoutY="20.0" mnemonicParsing="false" onAction="#progressBarDoneHandler" text="Close" />
+            <Button fx:id="closeProgressBar" layoutX="500.0" layoutY="20.0" mnemonicParsing="false" onAction="#progressBarDoneHandler" text="Close" visible="false" />
          </children>
          <stylesheets>
             <URL value="@../css/add-travel.css" />

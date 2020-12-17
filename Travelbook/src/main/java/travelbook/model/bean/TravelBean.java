@@ -14,8 +14,7 @@ public class TravelBean {
 	private String StartDate,EndDate;
 	private List <StepBean> Step;
 	
-	public TravelBean() {
-	}
+	public TravelBean() {}
 	public TravelBean(TravelEntity travel)
 	{
 		this.CostTravel=travel.getCostTravel();
