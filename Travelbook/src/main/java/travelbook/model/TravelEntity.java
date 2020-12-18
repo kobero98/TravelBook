@@ -12,7 +12,10 @@ public class TravelEntity {
 	private int Id,CreatorId,StepNumber,likeNumber;
 	private String NameTravel,Type,PathBackground,Description;
 	private Date StartDate,EndDate;
+	private Boolean Share;
 	private List <StepEntity> Step;
+	private List <String> CityView;
+	
 	
 	public TravelEntity() {}
 	public TravelEntity(int idcreator) {
@@ -59,12 +62,15 @@ public class TravelEntity {
 	public String getDescriptionTravel() {
 		return this.Description;
 	}
-
+	public Boolean getShare() {
+		return this.Share;
+	}
 	public List <StepEntity> getListStep(){
 		return this.Step;
 	}
-	
-	
+	public List<String> getCityView(){
+		return this.CityView;
+	}
 	//private void setIdTravel(int Id) {
 	//	this.Id=Id;
 	//}
@@ -103,8 +109,15 @@ public class TravelEntity {
 	{
 		this.Description=description;
 	}
+	public void setShare(Boolean v)
+	{
+		this.Share=v;
+	}
 	public void setListStep(List <StepEntity> step) {
 		this.Step=step;
+	}
+	public void setCityView(List <String> list) {
+		this.CityView=list;
 	}
 
 }

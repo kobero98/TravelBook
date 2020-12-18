@@ -12,6 +12,7 @@ public class UserEntity{
 	private String Name,Surname,Email,Description,Sex,URLphoto;
 	private Date BirthDate;
 	private int  id,NFollower,NFollowing,NTrip;
+	private String Nation;
 	private List <TravelEntity> Travel;
 	private List <MessageBean> message;
 	
@@ -66,7 +67,10 @@ public class UserEntity{
 	public void setBirthDate(Date BirthDate) {
 		this.BirthDate=BirthDate;
 	}
-
+	public void setNation(String nation) {
+		this.Nation=nation;
+	}
+	
 	public void setTravel(List <TravelEntity> T)
 	{
 		this.Travel= T;
@@ -121,7 +125,9 @@ public class UserEntity{
 	public Date getBirthDate() {
 		return this.BirthDate;
 	}
-
+	public String	getNation() {
+		return this.Nation;
+	}
 	public String getEmail() {
 		return this.Email;
 	}

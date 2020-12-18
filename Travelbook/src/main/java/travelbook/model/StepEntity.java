@@ -5,7 +5,7 @@ import java.util.List;
 
 
 public class StepEntity {
-	private int Number,IDTravel,IDCreator,GroupDay;
+	private int Number,IDTravel,IDCreator,GroupDay,NumberOfDay;
 	private String DescriptionStep,Place;
 	private Date Day;
 	private List <String> Photo;
@@ -44,6 +44,9 @@ public class StepEntity {
 	{
 		return this.Day;
 	}
+	public int getNumberOfDay() {
+		return this.NumberOfDay;
+	}
 	public List<String> getListPhoto(){
 		return this.Photo;
 	}
@@ -65,6 +68,9 @@ public class StepEntity {
 	}
 	public void setListPhoto(List <String> photo) {
 		this.Photo=photo;
+	}
+	public void setNumberOfDay(int number) {
+		this.NumberOfDay=number;
 	}
 	public void setTripId(int id) {
 		this.IDTravel=id;

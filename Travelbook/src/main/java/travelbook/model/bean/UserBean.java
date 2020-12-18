@@ -6,6 +6,7 @@ import main.java.travelbook.model.UserEntity;
 public class UserBean{
 	private String Name,Surname,Description,Sex;
 	private Image URLphoto;
+	private String Nation;
 	private int  NFollower,NFollowing,NTrip;
 	private List <TravelBean> Travel;
 	private List <MessageBean> message;
@@ -56,6 +57,9 @@ public class UserBean{
 	{
 		this.NTrip=Ntrip;
 	}
+	public void setNation(String nation) {
+		this.Nation=nation;
+	}
 	public void setTravel(List <TravelBean> T)
 	{
 		this.Travel= T;
@@ -84,6 +88,9 @@ public class UserBean{
 	public String getSex()
 	{
 		return this.Sex;
+	}
+	public String getNation() {
+		return this.Nation;
 	}
 	public int getNFollower()
 	{
