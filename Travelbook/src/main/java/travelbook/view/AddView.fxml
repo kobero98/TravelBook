@@ -95,11 +95,11 @@
                               <Font size="24.0" />
                            </font>
                         </Button>
-                        <Button fx:id="saveDraft" layoutX="350.0" layoutY="580.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="270.0" text="Save as  draft">
+                        <Button fx:id="saveDraft" layoutX="350.0" layoutY="580.0" mnemonicParsing="false" onAction="#saveAsDraftHandler" prefHeight="70.0" prefWidth="270.0" text="Save as  draft">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../Downloads/iconfinder_save_2639912.png" />
+                                    <Image url="@../../../resources/AddViewImages/iconfinder_save_2639912.png" />
                                  </image>
                               </ImageView>
                            </graphic>

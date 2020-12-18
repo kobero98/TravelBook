@@ -1,6 +1,7 @@
 package main.java.travelbook.view;
 import java.io.IOException;
 import javafx.scene.control.ScrollPane;
+import java.util.Optional;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.CheckBox;
 import javafx.scene.Node;
@@ -115,6 +116,7 @@ public class AddViewController {
 	@FXML
 	private Label youAreEditing;
 	private Integer dayNumber;
+	private boolean saved=false;
 	private List<List<StepBean>> stepByDay=new ArrayList<List<StepBean>>();
 	private TravelBean travel;
 	private List<List<ImageGridPane>> dayImagePane=new ArrayList<List<ImageGridPane>>();
@@ -131,6 +133,7 @@ public class AddViewController {
 		dayNumber=0;
 		stepNumber=0;
 		startDate.valueProperty().addListener((observable,oldValue,newValue)->{
+			saved=false;
 			DateUtil util=new DateUtil();
 			if(!util.isAfter(endDate.getValue(), startDate.getValue())) {
 				if(endDate.getValue()!=null) {
@@ -146,6 +149,7 @@ public class AddViewController {
 			}
 		});
 		endDate.valueProperty().addListener((observable,oldValue,newValue)->{
+			saved=false;
 			DateUtil util=new DateUtil();
 			if(!util.isAfter(endDate.getValue(),startDate.getValue())) {
 				if(startDate.getValue()!=null) {
@@ -185,6 +189,7 @@ public class AddViewController {
 		searchText.applyCss();
 		stepInfoPane.getChildren().add(searchText);
 		searchText.getLastSelectedItem().addListener((observable,oldValue,newValue)->{
+			saved=false;
 			//Add this value to Place field for the selected StepBean
 			if(searchText.getLastSelectedItem().get()!=null) {
 			PlacePrediction place=searchText.getLastSelectedItem().getValue();
@@ -197,8 +202,26 @@ public class AddViewController {
 		searchText.block();
 		this.stopDescription.textProperty().addListener((observable,oldValue,newValue)->{
 			//Update description for the selected step in "real time"
+			saved=false;
 			this.stepByDay.get(dayNumber).get(stepNumber).setDescriptionStep(stopDescription.getText());
 		});
+		this.travelName.textProperty().addListener((observable,oldValue,newValue)->{
+			//dirty travel
+			saved=false;
+		});
+		this.travelDescription.textProperty().addListener((observable,oldValue,newValue)->{
+			saved=false;
+		});
+		this.viewPresentation.imageProperty().addListener((observable,oldValue,newValue)->{
+			saved=false;
+		});
+		CheckBox element;
+		for(int i=0;i<this.filterPane.getChildren().size();i++) {
+			element=(CheckBox)this.filterPane.getChildren().get(i);
+			element.selectedProperty().addListener((observable,oldValue,newValue)->{
+			saved=false;
+			});
+		}
 	}
 	public class ImageGridPane extends GridPane{
 		//GridPane with a matrix that show if an entry (row,col) is empty or not. 
@@ -260,29 +283,66 @@ public class AddViewController {
 	public void setMain(BorderPane main) {
 		this.mainPane=main;
 	}
+	private boolean alertSave() {
+		Alert saveAlert=new Alert(AlertType.CONFIRMATION);
+		 saveAlert.setTitle("Unsaved information");
+		 saveAlert.setHeaderText("There are some unsaved information");
+		 saveAlert.setContentText("There is some unsaved information that will be lost. What do you want to do?" );
+		 ButtonType saveExit=new ButtonType("Save And Exit");
+		 ButtonType notSave=new ButtonType("Don't save and exit");
+		 ButtonType cancel=new ButtonType("Cancel",ButtonData.CANCEL_CLOSE);
+		 saveAlert.getButtonTypes().clear();
+		 saveAlert.getButtonTypes().addAll(saveExit,notSave,cancel);
+		 saveAlert.initOwner(this.mainPane.getScene().getWindow());
+		 Optional<ButtonType> result=saveAlert.showAndWait();
+		 if(result.get()==saveExit) {
+			 this.saveDraft.fire();
+		 }
+		 else if(result.get()==cancel) {
+			 return false;
+		 }
+		 return true;
+	}
 	 @FXML
 	    private void profileHandler(){
+		 boolean exit=true;
+		 if(!saved) {
+			 //ask if the user want to save 
+			 exit=alertSave();
+			 }
+			 if(exit) {
 	    	try {
 	    	MenuBar.getInstance().moveToProfile(mainPane);
 	    	}catch(IOException e) {
 	    		e.printStackTrace();
 	    	}
+			 }
 	    }
 	    @FXML
 	    private void exploreHandler() {
+	    	boolean exit=true;
+	    	if(!saved) {
+	    		exit=alertSave();
+	    	}
+	    	if(exit) {
 	    	try {
 	    		MenuBar.getInstance().moveToExplore(mainPane);
 	    	}catch(IOException e) {
 	    		e.printStackTrace();
-	    	}
+	    	}}
 	    }
 	    @FXML
 	    private void chatHandler() {
+	    	boolean exit=true;
+	    	if(!saved) {
+	    		exit=alertSave();
+	    	}
+	    	if(exit) {
 	    	try {
 	    		MenuBar.getInstance().moveToChat(mainPane);
 	    	}catch(IOException e) {
 	    		e.printStackTrace();
-	    	}
+	    	}}
 	    }
 	    @FXML
 	    private void choosePresentationHandler() {
@@ -383,6 +443,7 @@ public class AddViewController {
 	    		alert.setHeaderText("Incomplete steps found");
 	    		alert.setContentText("There are some incomplete steps, complete them and then retry");
 	    		alert.setTitle("Error post message");
+	    		alert.initOwner(this.mainPane.getScene().getWindow());
 	    		alert.showAndWait();
 	    		
 	    	}
@@ -452,6 +513,7 @@ public class AddViewController {
 	    		}
 	    	}
 	    	//then call the controller and send data
+	    	saved=true;
 	    }
 	    private void incrementProgress() {
 	    	this.progressBar.setProgress(this.progressBar.getProgress()+ 0.001);
@@ -481,6 +543,7 @@ public class AddViewController {
 	    	double percentuale=(double)1/(double)files.size();
 	    	
 	    	for(int i=0;i<files.size();i++) {
+	    		saved=false;
 	    		im=new Image(files.get(i).toURI().toString(),false);
 	    		view=new ImageView();
 	    		view.setFitHeight(standardImageHeight);
@@ -526,6 +589,7 @@ public class AddViewController {
 	    }
 	    @FXML
 	    private void addStepButton() {
+	    	saved=false;
 	    	if(dayNumber>=0) {
 	    	dayImagePane.get(dayNumber).add(new ImageGridPane());
 	    	stepNumber++;
@@ -657,6 +721,7 @@ public class AddViewController {
 	    }
 	    @FXML
 	    private void removeImage() {
+	    	saved=false;
 	    	//Remove the selected image from gridPane and step.
 	    	int col=imageGridPane.getColumnConstraints().size();
 	    	int row=imageGridPane.getRowConstraints().size();
@@ -677,6 +742,7 @@ public class AddViewController {
 	    }
 	    @FXML
 	    private void removeStepHandler() {
+	    	saved=false;
 	    	//then remove the selected step from the list and the button bar.
 	    	if(stepsBar.getButtons().size()>0) {
 	    	Alert confirmAlert=new Alert(AlertType.CONFIRMATION);
@@ -709,5 +775,23 @@ public class AddViewController {
     			errorDayPanel.setVisible(true);
     			//then run a thread that wait for seconds and later remove the error message.
     		}
+	    }
+	    public void modfiyTravelMode(TravelBean travel) {
+	    	if(travel.getNameTravel()!=null) {
+	    	travelName.setText(travel.getNameTravel());
+	    	}
+	    	if(travel.getDescriptionTravel()!=null) {
+	    	this.travelDescription.setText(travel.getNameTravel());
+	    	}
+	    	DateUtil util=new DateUtil();
+	    	if(travel.getStartDate()!=null) {
+	    		this.startDate.setValue(util.toLocalDate(travel.getStartDate()));
+	    	}
+	    	if(travel.getEndDate()!=null) {
+	    		this.endDate.setValue(util.toLocalDate(travel.getEndDate()));
+	    	}
+	    	if(travel.getPathImage()!=null) {
+	    		this.viewPresentation.setImage(travel.getPathImage());
+	    	}
 	    }
 }
