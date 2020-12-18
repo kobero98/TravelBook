@@ -34,8 +34,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -175,10 +180,20 @@ public class ChatViewController {
 				Text contact = new Text(item.getName());
 				contact.getStyleClass().add("text");
 				Image photo = new Image("main/resources/ProfilePageImages/cupola1.jpg");
-				ImageView contactPic = new ImageView(photo);
-				contactPic.setPreserveRatio(true);
-				contactPic.setFitHeight(50);
-				contactPic.setFitWidth(100);
+				Pane contactPic = new Pane();
+				BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+				Background bg = new Background(bgpic);
+				contactPic.setPrefHeight(mainAnchor.getPrefHeight()*70/625);
+				contactPic.setPrefWidth(mainAnchor.getPrefWidth()*70/1280);
+				mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
+					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*70/1280);
+					hBox.setSpacing(contactList.getPrefWidth()/5);
+				});
+				mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
+					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*70/625);
+				});
+				contactPic.setBackground(bg);
+				contactPic.getStyleClass().add("photo");
 				hBox.getChildren().add(contactPic);
 				hBox.getChildren().add(contact);
 				item.setSpecialIndicator("");
@@ -201,13 +216,13 @@ public class ChatViewController {
 			StackPane title=(StackPane)mainPane.getTop();
 			title.setPrefHeight(mainPane.getHeight()*94/720);
 			mainAnchor.setPrefHeight(mainPane.getHeight()*625/720);
-			System.out.println("Altezza predefinita: "+ this.mainAnchor.getPrefHeight());
+			
 		});
 		this.mainPane.widthProperty().addListener((observable,oldValue,newValue)->{
 			mainAnchor.setPrefWidth(mainPane.getWidth());
 		});
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
-			System.out.println("Altezza anchorPane: " + this.mainAnchor.getHeight());
+	
 			chatAnchor.setPrefHeight(mainAnchor.getPrefHeight()*588/625);
 			chatAnchor.setLayoutY(mainAnchor.getPrefHeight()*25/625);
 			sentList.setPrefHeight(mainAnchor.getPrefHeight()*498/625);
@@ -243,9 +258,12 @@ public class ChatViewController {
 				button=(Button)array1[i];
 				button.setPrefWidth(mainAnchor.getWidth()*147/1280);
 			}
-		});	
+		});
+		
+		
 		this.mainAnchor.setPrefHeight(mainPane.getHeight()*625/720);
 		this.mainAnchor.setPrefWidth(mainPane.getWidth());
+		
 		write.setOnKeyTyped(e -> keyTyped(e));
 	}
 	private void keyTyped(KeyEvent evt) {
@@ -254,13 +272,7 @@ public class ChatViewController {
 			sendHandler();
 		}
 	}
-	private void clickButton(ActionEvent e) {
-		System.out.println("ButtonPressed");
-		Button temp = (Button) e.getSource();
-		temp.getStyleClass().add("button-selected");
-		
-		
-	}
+	
 	@FXML
     private void profileHandler(){
     	try {
