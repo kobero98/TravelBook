@@ -109,10 +109,11 @@ public class ProfileViewController {
             super.updateItem(item, empty);
             if(!empty) {
             	HBox travel = new HBox();
-            	travel.setPrefWidth(travels.getPrefWidth()*530/606);
+            	travel.setPrefWidth(mainAnchor.getPrefWidth()*530/1280);
+        		travel.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
             	travel.setMaxWidth(USE_PREF_SIZE);
             	travel.setMinWidth(USE_PREF_SIZE);
-            	travel.setPrefHeight(travels.getPrefWidth()*180/606);
+            	
             	CornerRadii rad = new CornerRadii(25);
             	Insets in = new Insets(0);
             	BackgroundFill bgcc = new BackgroundFill(Paint.valueOf("rgb(250, 250, 250)"), rad, in);
@@ -120,8 +121,8 @@ public class ProfileViewController {
             	Background mybg = new Background(bgcc);
             	travel.setBackground(mybg);
             	Pane travelPic = new Pane();
-            	travelPic.setPrefHeight(travel.getPrefHeight());
-            	travelPic.setPrefWidth(travel.getPrefWidth()/2);
+            	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
+            	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
             	try {
             		Image myPhoto = new Image("main/java/travelbook/cupola1.jpg");
             		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
@@ -138,19 +139,18 @@ public class ProfileViewController {
             	travelPic.setStyle("-fx-shape: \"M 350 900 L 350 795 C 350 780 360 770 375 770 L 438 770 C 453 770 463 780 463 795 L 463 900 Z\"");
             	VBox vBox = new VBox();
             	HBox hBox = new HBox();
-            	vBox.setPrefWidth(travel.getWidth()/2);
+            	vBox.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
             	vBox.setMaxWidth(USE_PREF_SIZE);
-            	//vBox.setMinWidth(USE_PREF_SIZE);
-            	vBox.setSpacing(travel.getPrefHeight()/15);
+            	vBox.setSpacing(mainAnchor.getPrefHeight()*(180/15)/625);
             	Label name = new Label(item);
             	//name.setPrefSize(travel.getPrefWidth()*1/3, travel.getPrefHeight()*1/4);
             	Text descr = new Text("this is a description mooolto lunga che non è una descrizione");
-            	descr.setWrappingWidth(travel.getPrefWidth()/2);
+            	descr.setWrappingWidth(mainAnchor.getPrefWidth()*265/1280);
             	hBox.setAlignment(Pos.BOTTOM_RIGHT);
  
             	Button edit = new Button();
-            	edit.setPrefWidth(35);
-            	edit.setPrefHeight(35);
+            	edit.setPrefWidth(mainAnchor.getPrefWidth()*35/1280);
+            	edit.setPrefHeight(mainAnchor.getPrefHeight()*35/625);
             	travel.setOnMouseClicked(e->travelExampleHandler());
             	edit.setOnMouseClicked(e->editExampleHandler());
             	hBox.getChildren().add(edit);
@@ -160,8 +160,15 @@ public class ProfileViewController {
             	
             	travel.getChildren().add(travelPic);
             	travel.getChildren().add(vBox);
-     
+            	mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->{            		
+            		travel.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
+            	});
+            	mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->{
+            		travel.setPrefWidth(mainAnchor.getPrefWidth()*530/1280);
+            	});
             	setGraphic(travel);
+            	
+            	
             }
 		}
 	}

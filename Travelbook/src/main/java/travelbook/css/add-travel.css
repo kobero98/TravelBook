@@ -177,3 +177,35 @@
 	-fx-effect: dropshadow(three-pass-box, shadow, 4, 0, -4, 4);
 	-fx-shape: "M22.2857 11.2143H32.5V13.7857H22.2857H21.7857V14.2857V24.5H19.2143V14.2857V13.7857H18.7143H8.5V11.2143H18.7143H19.2143V10.7143V0.5H21.7857V10.7143V11.2143H22.2857Z";
 }
+.choice-box{
+    -fx-background-color: #FDFDFD;
+    -fx-background-insets: 0;
+    -fx-padding: 0;/* 2 4 2 4;*/
+    -fx-border-color: lightGrey;
+    -fx-mark-color: Dcolor;
+}
+.choice-box .context-menu{
+	-fx-background-color: #FDFDFD;
+	-fx-border-color: lightGrey;
+	-fx-padding: 0;
+	-fx-background-insets: 0;
+}
+.choice-box .menu-item:focused { 
+	-fx-background-color: Dcolor;
+	
+} 
+.choice-box .menu-item > .label{
+	-fx-text-fill: textColorL;
+}
+.choice-box .menu-item:focused > .label{
+	-fx-text-fill: white;
+}
+.choice-box .menu-item .mark{
+	-fx-background-color: Dcolor;
+	-fx-shape: "M22.2857 11.2143H32.5V13.7857H22.2857H21.7857V14.2857V24.5H19.2143V14.2857V13.7857H18.7143H8.5V11.2143H18.7143H19.2143V10.7143V0.5H21.7857V10.7143V11.2143H22.2857Z";
+}
+.choice-box .menu-item .mark:focused{
+	-fx-background-color: White;
+}
+
+
