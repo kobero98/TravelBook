@@ -1,5 +1,7 @@
 package main.java.travelbook.view;
 import java.io.IOException;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.CheckBox;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -64,6 +66,8 @@ public class AddViewController {
 	@FXML
 	private DatePicker startDate;
 	@FXML
+	private ImageView arrowImage;
+	@FXML
 	private DatePicker endDate;
 	@FXML
 	private TextField travelName;
@@ -104,6 +108,12 @@ public class AddViewController {
 	private Label errorDayPanel;
 	@FXML
 	private Text errorDateField;
+	@FXML
+	private ScrollPane stepsScroll;
+	@FXML
+	private Label nowGiveUs;
+	@FXML
+	private Label youAreEditing;
 	private Integer dayNumber;
 	private List<List<StepBean>> stepByDay=new ArrayList<List<StepBean>>();
 	private TravelBean travel;
@@ -289,11 +299,13 @@ public class AddViewController {
 	    private void allDoneHanlder() {
 	    	//TODO complete with the save of information logic... now i define the progress bar animation
 	    	travel=new TravelBean();
+	    	travel.setShare(true);
 	    	List<Object> listOfErrors=new ArrayList<Object>();
 	    	travel.setListStep(new ArrayList<StepBean>());
 	    	progressPane.setVisible(true);
 	    	progressPane.setOpacity(0.9);
 	    	internalPane.setOpacity(0.1);
+	    	this.closeProgressBar.setVisible(false);
 	    	// sostituire questo codice con invio al controller applicativo dei dati.
 	    	if(!travelName.getText().isEmpty()) {
 	    		travel.setNameTravel(travelName.getText());
@@ -333,8 +345,8 @@ public class AddViewController {
 	    	else {
 	    		listOfErrors.add(filterPane);
 	    	}
-	    	boolean error=false;
 	    	//then take every steps for each day
+	    	List<StepBean> incompleteSteps=new ArrayList<StepBean>();
 	    	travel.setListStep(new ArrayList<StepBean>());
 	    	for(int day=0;day<this.stepByDay.size();day++) {
 	    		List<StepBean> steps=stepByDay.get(day);
@@ -342,6 +354,7 @@ public class AddViewController {
 	    			//for each step
 	    			StepBean step=steps.get(stepN);
 	    			if(step.getPlace()!=null && step.getDescriptionStep()!=null) {
+	    			if(!step.getPlace().isEmpty() && !step.getDescriptionStep().isEmpty()) {
 	    				step.setListPhoto(new ArrayList<Image>());
 	    				List<Node> pics=dayImagePane.get(day).get(stepN).getChildren();
 	    				for(int picN=0;picN<pics.size();picN++) {
@@ -351,23 +364,30 @@ public class AddViewController {
 	    				travel.getListStep().add(step);
 	    			}
 	    			else {
-	    				error=true;
-	    				break;
+	    				incompleteSteps.add(step);
+	    				
 	    			}
 	    		}
-	    		if(error)
-	    			break;
-	    	}
-	    	if(error) {
-	    		//Show error message that show how some steps are incompleted.
-	    	}
-	    	else {
-	    		if(listOfErrors.isEmpty()) {
-	    			//TODO call the controller applicativo
-	    			System.out.println("Tutto ok ho salvato tutto");
 	    		}
-	    		else {
-	    			//TODO then colora di rosso il bordo degli elementi.
+	    		
+	    	}
+	    	if(!incompleteSteps.isEmpty()) {
+	    		//Vorrei gestire questa situazione in maniera diversa mostrando dove sono
+	    		//gli errori all'utente ma non so bene come
+	    		//Per ora lo avverto che ci sono
+	    		progressPane.setOpacity(0);
+    			internalPane.setOpacity(1);
+    			progressPane.setVisible(false);
+	    		System.out.println("Step mancanti");
+	    		Alert alert=new Alert(AlertType.ERROR);
+	    		alert.setHeaderText("Incomplete steps found");
+	    		alert.setContentText("There are some incomplete steps, complete them and then retry");
+	    		alert.setTitle("Error post message");
+	    		alert.showAndWait();
+	    		
+	    	}
+	    		if(!listOfErrors.isEmpty()) {
+	    			System.out.println("Errori nel resto");
 	    			for(int i=0;i<listOfErrors.size();i++) {
 	    				Node node=(Node) listOfErrors.get(i);
 	    				node.setStyle("-fx-border-color: #FF0000");
@@ -375,12 +395,63 @@ public class AddViewController {
 	    			progressPane.setOpacity(0);
 	    			internalPane.setOpacity(1);
 	    			progressPane.setVisible(false);
+	    		}
+	    	if(listOfErrors.isEmpty()&&incompleteSteps.isEmpty()) {
+	    		//TODO call the controller applicativo and make a thread that wait for it.
+	    		new Thread(()->{
 	    			
+	    			Platform.runLater(()->{
+	    				progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+	    			});
+	    			//Call the controller applicativo
+	    			try {
+	    				//Sleep set to try how work with progress bar but it is not necessary
+						Thread.sleep(10000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	    			System.out.println("Il controller applicativo ha finito");
+	    			Platform.runLater(()->{
+	    				progressBar.setProgress(1);
+	    				//when done activate the close button
+	    		    	closeProgressBar.setVisible(true);
+	    			});
+	    		}).start();
+	    		
+	    	}	
+	    }
+	    @FXML
+	    private void saveAsDraftHandler() {
+	    	DateUtil util=new DateUtil();
+	    	travel=new TravelBean();
+	    	travel.setNameTravel(travelName.getText());
+	    	travel.setDescriptionTravel(this.travelDescription.getText());
+	    	String startDate=util.toString(this.startDate.getValue());
+	    	String endDate=util.toString(this.endDate.getValue());
+	    	travel.setStartTravelDate(startDate);
+	    	travel.setEndTravelDate(endDate);
+	    	travel.setPathBackground(this.viewPresentation.getImage());
+	    	travel.setShare(false);
+	    	List<String> filtri=new ArrayList<String>();
+	    	CheckBox element;
+	    	for(int i=0;i<filterPane.getChildren().size();i++) {
+	    		element=(CheckBox)filterPane.getChildren().get(i);
+	    		if(element.isSelected()) {
+	    			filtri.add(element.getText());
 	    		}
 	    	}
-	    	//when done activate the close button
-	    	closeProgressBar.setVisible(true);
-	    	
+	    	travel.setType(filtri);
+	    	List<StepBean> steps;
+	    	travel.setListStep(new ArrayList<StepBean>());
+	    	for(int day=0;day<stepByDay.size();day++) {
+	    		steps=this.stepByDay.get(day);
+	    		for(int step=0;step<steps.size();step++) {
+	    			//modify number of day
+	    			travel.getListStep().add(steps.get(step));
+	    		}
+	    	}
+	    	//then call the controller and send data
 	    }
 	    private void incrementProgress() {
 	    	this.progressBar.setProgress(this.progressBar.getProgress()+ 0.001);
@@ -516,6 +587,11 @@ public class AddViewController {
 	    private void changeListOfDays() {
 	    	if(numOfDays>0) {
 	    		searchText.unblock();
+	    		this.stepsScroll.setVisible(true);
+	    		this.arrowImage.setVisible(true);
+	    		this.nowGiveUs.setVisible(true);
+	    		this.youAreEditing.setVisible(true);
+	    		this.dayBox.setVisible(true);
 	    	}
 	    	/*for(Integer i=0;i<numOfDays;i++) {
 	    		System.out.println("Aggiunto il giorno: "+i);
@@ -534,7 +610,7 @@ public class AddViewController {
 	    		Integer x=dayImagePane.size();
 	    		for(Integer i=x;i<numOfDays;i++) {
 	    			Integer num=i+1;
-		    		dayBox.getItems().add((num).toString());
+		    		dayBox.getItems().add(num.toString());
 	    			dayImagePane.add(new ArrayList<ImageGridPane>());
 	    			dayImagePane.get(i).add(new ImageGridPane());
 	    			//Add one entry for each day added
