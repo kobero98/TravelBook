@@ -9,8 +9,13 @@ import javafx.util.Callback;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -20,17 +25,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 public class ChatViewController {
 	//private MenuBar menu=new MenuBar();
 	private Object array1[]=new Object[15];
@@ -49,9 +58,42 @@ public class ChatViewController {
 	@FXML
 	private ListView<String> sentList;
 	@FXML
-	private ListView<String> contactList;
+	private ListView<MyItem> contactList;
 	@FXML
 	private ButtonBar menuBar;
+	class MyItem {
+		private StringProperty specialIndicator;
+		private StringProperty name;
+        MyItem(String name) {
+            this.name = new SimpleStringProperty(name);
+            this.specialIndicator = new SimpleStringProperty();
+        }
+
+        public String getName() {
+            return name.get();
+        }
+
+        public StringProperty nameProperty() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name.set(name);
+        }
+
+        public String getSpecialIndicator() {
+            return specialIndicator.get();
+        }
+
+        public StringProperty specialIndicatorProperty() {
+            return specialIndicator;
+        }
+
+        public void setSpecialIndicator(String specialIndicator) {
+            this.specialIndicator.set(specialIndicator);
+        }
+    }
+	
 	public void initialize() {
 	
 	 ObservableList<String> data = FXCollections.observableArrayList(
@@ -70,15 +112,26 @@ public class ChatViewController {
          }
      }
 	);
-	ObservableList<String> contacts = FXCollections.observableArrayList("name1", "name2", "name3");
+	 ObservableList<MyItem> contacts = FXCollections.observableArrayList(new MyItem("object0"), new MyItem("object1"),new MyItem("object2"),new MyItem("object3"),new MyItem("object4"));
+    
 	contactList.setItems(contacts);
-	contactList.setCellFactory(new Callback<ListView<String>,
-			ListCell<String>>(){
+	contactList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<MyItem>() {
+        public void changed(ObservableValue<? extends MyItem> observable,
+                MyItem oldValue, MyItem newValue) { 
+              contactList.getItems().get(contactList.getSelectionModel().getSelectedIndex()).setSpecialIndicator("selected");
+              contactList.setItems(null);
+              contactList.setItems(contacts);
+        }
+        });
+	contactList.setCellFactory(new Callback<ListView<MyItem>,
+			ListCell<MyItem>>(){
 		@Override
-		public ListCell<String> call(ListView<String> list){
+		public ListCell<MyItem> call(ListView<MyItem> list){
 			return new contactCell();
 		}
 	});
+	 
+	 
 	
 	}
 	
@@ -107,25 +160,28 @@ public class ChatViewController {
             }
         }
 	}
-	class contactCell extends ListCell<String>{
+	class contactCell extends ListCell<MyItem>{
 		@Override
-		public void updateItem(String item, boolean empty) {
+		public void updateItem(MyItem item, boolean empty) {
 			super.updateItem(item, empty);
 			if(!empty) {
-				VBox hBox = new VBox();
-				hBox.setFillWidth(true);
+				HBox hBox = new HBox();
+				hBox.setSpacing(contactList.getPrefWidth()/5);
+				hBox.getStyleClass().add("h-box");
 				hBox.setAlignment(Pos.CENTER);
-				Button contact = new Button(item);
-				Image photo = new Image("travelbook/cupola1.jpg");
+				if("selected".equalsIgnoreCase(item.getSpecialIndicator())) {
+					hBox.getStyleClass().add("h-box-selected");
+				}
+				Text contact = new Text(item.getName());
+				contact.getStyleClass().add("text");
+				Image photo = new Image("main/resources/ProfilePageImages/cupola1.jpg");
 				ImageView contactPic = new ImageView(photo);
-				contact.setOnMouseClicked(e -> clickButton(e));
 				contactPic.setPreserveRatio(true);
 				contactPic.setFitHeight(50);
 				contactPic.setFitWidth(100);
-				contact.setAlignment(Pos.CENTER);
-				contact.setMaxWidth(Double.MAX_VALUE);
-				contact.setGraphic(contactPic);
+				hBox.getChildren().add(contactPic);
 				hBox.getChildren().add(contact);
+				item.setSpecialIndicator("");
 				setGraphic(hBox);
 			}
 		}
@@ -198,8 +254,12 @@ public class ChatViewController {
 			sendHandler();
 		}
 	}
-	private void clickButton(MouseEvent evt) {
+	private void clickButton(ActionEvent e) {
 		System.out.println("ButtonPressed");
+		Button temp = (Button) e.getSource();
+		temp.getStyleClass().add("button-selected");
+		
+		
 	}
 	@FXML
     private void profileHandler(){
@@ -231,6 +291,7 @@ public class ChatViewController {
     	write.clear();
     	sentList.scrollTo(sentList.getItems().size());
     }
+    //questo codice non funzionaaaa, è da togliere
     @FXML
     private void scrollAppear() {
     	try {

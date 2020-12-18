@@ -1,3 +1,6 @@
+.text{
+	-fx-fill:textColorD;
+}
 .write-bar{
 	-fx-background-color: Dcolor;
 	-fx-background-radius: 0 0 30 30;
@@ -42,7 +45,7 @@
 	-fx-border-insets: 0.0 35 0.0 10;
 }
 .chat-view{
-	-fx-background-image: url("../../../resource/ChatPageImages/sfondo.png");
+	-fx-background-image: url("../../../resources/ChatPageImages/sfondo.png");
 	-fx-border-color: Mcolor;
 }
 .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell{
@@ -58,12 +61,11 @@
 .contact{
 	-fx-background-color: Mcolor;
 }
-.button{
+.h-box{
 	-fx-background-color: null;
 	-fx-border-width: 0 0 2 0;
 	-fx-border-color: lightGrey;
-	-fx-text-fill: textColorD;
 }
-.button:focused{
+.h-box-selected{
 	-fx-background-color: Dcolor;
 }
