@@ -1,12 +1,14 @@
 package main.java.travelbook.util;
 import java.time.LocalDate;
+
 import java.time.format.DateTimeFormatter;
 public class DateUtil {
 	//Definisce una serie di utility da usare con il tipo di dato LocalDate. Per ora solo converter
 	//e un minimo di controllo
 	private String pattern="dd-MM-yyyy";
+	
 	public DateUtil() {
-		
+
 	}
 	public DateUtil(String pattern) {
 		this.pattern=pattern;
@@ -47,5 +49,8 @@ public class DateUtil {
 	}
 	public long numOfDaysBetween(LocalDate a,LocalDate b) {
 		return a.until(b).getDays();
+	}
+	public boolean isFuture(LocalDate a) {
+		return this.isAfter(a,LocalDate.now());
 	}
 }

@@ -54,6 +54,7 @@ public class AutocompleteTextField extends TextField{
 					entries.clear();
 				}
 				else {
+					this.setText(this.getText().substring(0,1).toUpperCase()+this.getText().substring(1));
 					if(enable) {
 					new Thread(()->{
 						PredictionController controller=new PredictionController();

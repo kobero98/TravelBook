@@ -1,5 +1,10 @@
 package main.java.travelbook.view;
 import java.io.IOException;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.scene.control.Hyperlink;
+import java.util.Collections;
+import main.java.travelbook.util.NumberInDayComparator;
 import javafx.scene.control.ScrollPane;
 import java.util.Optional;
 import javafx.scene.control.DialogPane;
@@ -115,6 +120,10 @@ public class AddViewController {
 	private Label nowGiveUs;
 	@FXML
 	private Label youAreEditing;
+	@FXML
+	private Hyperlink viewOnMap;
+	@FXML
+	private TextField costField;
 	private Integer dayNumber;
 	private boolean saved=false;
 	private List<List<StepBean>> stepByDay=new ArrayList<List<StepBean>>();
@@ -126,6 +135,7 @@ public class AddViewController {
 	private long numOfDays;
 	private AutocompleteTextField searchText;
 	private ImageView actualImage;
+	private int stepLimit=10;
 	@FXML
 	private void initialize() {
 		//set travel and the first day and the first step by default.
@@ -357,7 +367,7 @@ public class AddViewController {
 	    }
 	    @FXML
 	    private void allDoneHanlder() {
-	    	//TODO complete with the save of information logic... now i define the progress bar animation
+	    	DateUtil util=new DateUtil();
 	    	travel=new TravelBean();
 	    	travel.setShare(true);
 	    	List<Object> listOfErrors=new ArrayList<Object>();
@@ -404,6 +414,18 @@ public class AddViewController {
 	    	}
 	    	else {
 	    		listOfErrors.add(filterPane);
+	    	}
+	    	if(this.startDate.getValue()!=null) {
+	    		travel.setStartTravelDate(util.toString(startDate.getValue()));
+	    	}
+	    	else {
+	    		listOfErrors.add(startDate);
+	    	}
+	    	if(this.endDate.getValue()!=null && !util.isFuture(this.endDate.getValue())) {
+	    		travel.setEndTravelDate(util.toString(this.endDate.getValue()));
+	    	}
+	    	else {
+	    		listOfErrors.add(endDate);
 	    	}
 	    	//then take every steps for each day
 	    	List<StepBean> incompleteSteps=new ArrayList<StepBean>();
@@ -589,6 +611,7 @@ public class AddViewController {
 	    }
 	    @FXML
 	    private void addStepButton() {
+	    	if(stepsBar.getButtons().size()<this.stepLimit) {
 	    	saved=false;
 	    	if(dayNumber>=0) {
 	    	dayImagePane.get(dayNumber).add(new ImageGridPane());
@@ -604,6 +627,15 @@ public class AddViewController {
 	    	stepsBar.getButtons().add(button);
 	    	button=(Button)stepsBar.getButtons().get(0);
 	    	button.fire();
+	    	}
+	    	}
+	    	else {
+	    		Alert maxSizeReach=new Alert(AlertType.ERROR);
+	    		maxSizeReach.setTitle("Max number of step error");
+	    		maxSizeReach.setHeaderText("Max size of step per day reached");
+	    		maxSizeReach.setContentText("You have reached the maximum number of steps per day, the maximum number is "+this.stepLimit);
+	    		maxSizeReach.initOwner(this.mainPane.getScene().getWindow());
+	    		maxSizeReach.showAndWait();
 	    	}
 	    }
 	    private Button makeButton() {
@@ -777,6 +809,7 @@ public class AddViewController {
     		}
 	    }
 	    public void modfiyTravelMode(TravelBean travel) {
+	    	this.travel=travel;
 	    	if(travel.getNameTravel()!=null) {
 	    	travelName.setText(travel.getNameTravel());
 	    	}
@@ -793,5 +826,79 @@ public class AddViewController {
 	    	if(travel.getPathImage()!=null) {
 	    		this.viewPresentation.setImage(travel.getPathImage());
 	    	}
+	    	List<String> filtri=travel.getTypeTravel();
+	    	if(filtri!=null) {
+	    		for(String filter: filtri) {
+	    			//Select all filters
+	    			for(int i=0;i<filterPane.getChildren().size();i++) {
+	    				CheckBox elem=(CheckBox)filterPane.getChildren().get(i);
+	    				if(elem.getText()==filter) {
+	    					elem.setSelected(true);
+	    					break;
+	    				}
+	    			}
+	    		}
+	    	}
+	    	List<StepBean> stepOfTravel=travel.getListStep();
+	    	List<List<StepBean>> stepInDay=new ArrayList<List<StepBean>>();
+	    	int numOfDays=this.dayBox.getItems().size();
+	    	if(stepOfTravel!=null) {
+	    		for(int i=0;i<numOfDays;i++) {
+	    			stepInDay.add(new ArrayList<StepBean>());
+	    		}
+	    		for(int i=0;i<stepOfTravel.size();i++) {
+	    			StepBean step=stepOfTravel.get(i);
+	    			stepInDay.get(step.getGroupDay()).add(step);
+	    		}
+	    		for(int i=0;i<numOfDays;i++) {
+	    			Collections.sort(stepInDay.get(i),new NumberInDayComparator());
+	    		}
+	    		this.stepByDay=stepInDay;
+	    		for(int i=0;i<stepByDay.size();i++) {
+	    			for(int step=0;step<stepByDay.get(i).size();step++) {
+	    				nextCol=0;
+	    				nextRow=0;
+	    				//GridPane created before by changeDayListener
+	    				//Add elements to this pane
+	    				for(Image image: stepByDay.get(i).get(step).getListPhoto()) {
+	    					ImageView view=new ImageView();
+	    					view=new ImageView();
+	    		    		view.setFitHeight(standardImageHeight);
+	    		    		view.setFitWidth(standardImageWidth);
+	    		    		view.setImage(image);
+	    		    		view.setOnMouseClicked((MouseEvent e)->{
+	    		    			//Se clicchi sulla foto la apre in "grande"
+	    		    			ImageView io=(ImageView)e.getTarget();
+	    		    			actualImage=io;
+	    		    			viewImage.setImage(io.getImage());
+	    		    			viewImagePane.setVisible(true);
+	    		    			OpacityAnimation anim=new OpacityAnimation();
+	    		    			anim.setBackTop(internalPane, viewImagePane);
+	    		    			anim.setLimits(0.1, 0.9);
+	    		    			anim.start();
+	    		    		});
+	    		    		this.dayImagePane.get(i).get(step).add(view, nextCol, nextRow);
+	    		    		updateGridIndex();
+	    				}
+	    			}
+	    		}
+	    	}
+	    	
 	    }
+	    @FXML
+	    private void viewOnMapHandler() {
+	    	//The idea is to open a new window that is handled by an other controller and this window show only the map
+	    	//Now open a new window only
+	    	//We must define a new fxml file that show a map 
+	    	//It has a controller
+	    	//Così quando carichiamo il file fxml poi diciamo al controller vedi che il viaggio di cui devi mostrare è questo
+	    	Stage stage = new Stage();
+	    	stage.setTitle("MapView");
+	    	AnchorPane root=new AnchorPane();
+	    	root.setPrefSize(300, 300);
+	    	stage.setScene(new Scene(root));
+	    	stage.setResizable(true);
+	    	stage.show();
+	    	}
+	    
 }

@@ -2,6 +2,15 @@ package main.java.travelbook.controller;
 
 import main.java.travelbook.util.PlacePrediction;
 
+import com.google.maps.model.AddressComponent;
+import com.google.maps.model.AddressComponentType;
+import com.google.maps.model.AutocompletePrediction;
+import com.google.maps.model.PlaceDetails;
+import com.google.maps.QueryAutocompleteRequest;
+import com.google.maps.errors.ApiException;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PlacesApi;
+import com.google.maps.PlaceDetailsRequest;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 /*
@@ -12,8 +21,7 @@ import com.esri.arcgisruntime.tasks.geocode.SuggestResult;*/
 import java.util.ArrayList;
 import java.io.IOException;
 public class PredictionController {
-	private String ACCESS_TOKEN="pk.eyJ1IjoiY2ljY2E5OSIsImEiOiJja2lvcnhvMTkxMTFzMzJxc2szdDdqdHdtIn0.2dXv3HXu9G8sXNKupBDjtw";
-	private boolean fatto=false;
+	private String API_KEY;
 	private List<PlacePrediction> results=new ArrayList<>();
 	public List<PlacePrediction> getPredictions(String text) {
 		System.out.println("Ciao");
@@ -60,6 +68,56 @@ public class PredictionController {
 		System.out.println("Fatto");*/
 		
 		return results;
+	}
+	public AutocompletePrediction getPlace(String string) {
+		//string must be the Place value of a StepBean
+		AutocompletePrediction predict=null;
+		QueryAutocompleteRequest query= PlacesApi.queryAutocomplete(new GeoApiContext.Builder().apiKey(API_KEY).build(), string);
+				//Qui dovrei catturare eccezzione
+				try {
+					AutocompletePrediction[] predictions=query.await();
+					predict=predictions[0];
+				} catch (ApiException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return predict;
+				
+	}
+	public PlaceDetails placeDetailsRequest(AutocompletePrediction predict) {
+		if(predict!=null && !predict.placeId.isEmpty()) {
+			PlaceDetailsRequest query= PlacesApi.placeDetails(new GeoApiContext.Builder().apiKey(API_KEY).build(),predict.placeId);
+			return query.awaitIgnoreError();
+		}
+		return null;
+	}
+	public List<String> getCityAndCountry(AutocompletePrediction predict) {
+		List<String> cityAndCountry=new ArrayList<String>();
+		cityAndCountry.add(new String());
+		cityAndCountry.add(new String());
+		PlaceDetails place=placeDetailsRequest(predict);
+		 for (AddressComponent component : place.addressComponents)
+	        {
+	            for (AddressComponentType types : component.types)
+	            {
+	                if (types.equals(AddressComponentType.LOCALITY))
+	                {
+	                    cityAndCountry.set(0, component.longName);
+	                }
+	                if(types.equals(AddressComponentType.COUNTRY)) {
+	                	cityAndCountry.set(1, component.longName);
+	                }
+	            }
+
+	        }
+		 return cityAndCountry;
+		
 	}
 	
 }
