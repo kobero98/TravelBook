@@ -39,7 +39,7 @@
          <graphic>
             <ImageView fx:id="favIcon" fitHeight="27.53" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../Downloads/Vector.png" />
+                  <Image url="@../../../resources/ProfilePageImages/Vector.png" />
                </image>
             </ImageView>
          </graphic>
@@ -51,7 +51,7 @@
       </Text>
       <ImageView fx:id="map" fitHeight="160.0" fitWidth="285.0" layoutX="307.0" layoutY="434.0" opacity="0.49" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../resource/ExplorePageImages/cartina-no-sfondo.png" />
+            <Image url="@../../../resources/ExplorePageImages/cartina-no-sfondo.png" />
          </image>
       </ImageView>
     <AnchorPane fx:id="profileAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="592.0" styleClass="profile-pane">
@@ -88,7 +88,7 @@
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/profile.png" />
+                        <Image url="@../../../resources/ExplorePageImages/profile.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -118,7 +118,7 @@
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/explore.png" />
+                        <Image url="@../../../resources/ExplorePageImages/explore.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -133,7 +133,7 @@
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/chat.png" />
+                        <Image url="@../../../resources/ExplorePageImages/chat.png" />
                      </image>
                   </ImageView>
                </graphic>

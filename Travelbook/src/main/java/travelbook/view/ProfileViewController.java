@@ -162,9 +162,14 @@ public class ProfileViewController {
             	travel.getChildren().add(vBox);
             	mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->{            		
             		travel.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
+            		travelPic.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
+                	edit.setPrefHeight(mainAnchor.getPrefHeight()*35/625);
             	});
             	mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->{
             		travel.setPrefWidth(mainAnchor.getPrefWidth()*530/1280);
+            		travelPic.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
+            		edit.setPrefWidth(mainAnchor.getPrefWidth()*35/1280);
+            		descr.setWrappingWidth(mainAnchor.getPrefWidth()*265/1280);
             	});
             	setGraphic(travel);
             	
@@ -210,6 +215,11 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			DescrWrite.setLayoutY(mainAnchor.getHeight()*150/625);
 			menuBar.setPrefHeight(mainAnchor.getHeight()*85/625);
 			menuBar.setLayoutY(mainAnchor.getHeight()*300/625);
+			show.setPrefHeight(mainAnchor.getHeight()*575/625);
+			show.setLayoutY(mainAnchor.getHeight()*50/625);
+			listTitle.setPrefHeight(mainAnchor.getHeight()*50/625);
+			backButton.setPrefHeight(mainAnchor.getHeight()*40/625);
+			listText.setPrefHeight(mainAnchor.getHeight()*30/625);
 			array1=menuBar.getButtons().toArray();
 			for(int i=0;i<4;i++) {
 				button=(Button)array1[i];
@@ -246,6 +256,10 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			DescrWrite.setPrefWidth(mainAnchor.getWidth()*255/1280);
 			DescrWrite.setLayoutX(mainAnchor.getWidth()*296/1280);
 			menuBar.setPrefWidth(mainAnchor.getWidth()*592/1280);
+			show.setPrefWidth(mainAnchor.getWidth()*297/1280);
+			listTitle.setPrefWidth(mainAnchor.getWidth()*297/1280);
+			backButton.setPrefWidth(mainAnchor.getWidth()*40/1280);
+			listText.setPrefWidth(mainAnchor.getWidth()*200/1280);
 			array1=menuBar.getButtons().toArray();
 			for(int i=0;i<4;i++) {
 				button=(Button)array1[i];
