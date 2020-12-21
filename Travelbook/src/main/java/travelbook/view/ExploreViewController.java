@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Label;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.Group;
@@ -338,6 +339,16 @@ public class ExploreViewController {
 			e.consume();
 		});
 	}
-	
+	@FXML
+	public void moveToSearch()throws IOException {
+		FXMLLoader loader=new FXMLLoader();
+		loader.setLocation(MenuBar.class.getResource("SerchPage.fxml"));
+		AnchorPane internalPane=(AnchorPane)loader.load();
+		mainPane.setCenter(internalPane);
+		SearchTravelController controller=loader.getController();
+		controller.setMainPane(mainPane);
 	}
+	
+	
+}
 

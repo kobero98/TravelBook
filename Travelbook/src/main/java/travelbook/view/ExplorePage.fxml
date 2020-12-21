@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.ExploreViewController">
+<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.ExploreViewController">
    <children>
       <AnchorPane fx:id="worldPane" layoutX="650.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0" prefWidth="611.0" styleClass="map-pane">
          <children>
@@ -58,7 +58,7 @@
                         <Image url="@../../../../../OneDrive/Desktop/freccetta_destra.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="goSearchButton" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#advanceSearchHandler" prefHeight="52.0" prefWidth="54.0" style="-fx-background-color: rgba(0,0,0,0);">
+                  <Button fx:id="goSearchButton" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#moveToSearch" prefHeight="52.0" prefWidth="54.0" text="ciao">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
