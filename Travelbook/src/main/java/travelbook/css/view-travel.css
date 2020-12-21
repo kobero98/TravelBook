@@ -1,6 +1,6 @@
 .back-button{
 	-fx-background-color: textColorD;
--fx-shape: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z";
+	-fx-shape: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z";
 }
 .back-button:hover{
 	-fx-background-color: #FFC2A6;
@@ -23,6 +23,10 @@
 .favourite{
 	-fx-shape: "M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z";
 }
+.button-bar .fav-selected{
+	-fx-background-color: Dcolor;
+	-fx-shape: "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+}
 .message{
 	-fx-shape: "M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4 6V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10c.55 0 1-.45 1-1z";
 }
@@ -43,9 +47,8 @@
 	-fx-fill: textColorD;
 	-fx-font-size: 0.7em;
 }
-.name{
-	-fx-fill: #FDFDFD;
-	-fx-font-size: 1.25em;
+.name > .text{
+	-fx-font-size: 1.5em;
 }
 .tab-pane> .tab-content-area {
     -fx-background-color: #FDFDFD;
@@ -103,4 +106,45 @@
 .tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
     -fx-alignment: CENTER;
     -fx-text-fill: textColorL;
+}
+.h-box{
+	-fx-background-color: #FDFDFD;
+	-fx-background-radius: 25 25 0 0;
+	-fx-border-color: textColorL;
+	-fx-border-width: 0 0 1 0;
+}
+.h-box .label{
+	-fx-padding: 0.5em;
+	-fx-background-radius: 0 0 25 0;
+	-fx-background-color: Dcolor;
+}
+.h-box .label > .text{
+	-fx-font-size: 1.5em;
+	-fx-fill: #FDFDFD;
+}
+.list-view{
+	-fx-border-color: null;
+	-fx-background-color: rgba(252, 220, 200, 0.5);
+	-fx-background-radius: 30 0 0 30;
+}
+.list-view > .virtual-flow > .clipped-container > .sheet > .list-cell{
+	-fx-background-color: null;
+}
+
+.photo-bar{
+	-fx-effect: null;
+	-fx-background-color:null;
+	-fx-padding: 0.5em 2.1em 0 0;
+}
+.left-button{
+	-fx-background-color: lightGrey;
+	-fx-shape: "M7.4446 1.87975L6.11689 0.552368L0.467041 6.20082L6.11689 11.8493L7.4446 10.5219L3.13189 6.20082L7.4446 1.87975Z"
+}
+.right-button{
+	-fx-background-color: lightGrey;
+	-fx-shape: "M1.34987 0.200775L0.0220947 1.52817L4.335 5.84926L0.0220947 10.1704L1.34987 11.4978L6.99996 5.84926L1.34987 0.200775Z" 
+}
+.scroll-photo > .viewport{
+	-fx-background-color: transparent;
+	-fx-background-radius: 0;
 }

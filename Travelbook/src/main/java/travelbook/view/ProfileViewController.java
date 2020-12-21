@@ -1,8 +1,6 @@
 package main.java.travelbook.view;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -22,13 +20,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Callback;
-import main.java.travelbook.view.ChatViewController.messageCell;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
@@ -43,6 +39,8 @@ public class ProfileViewController {
 	private BorderPane mainPane;
 	private Object array1[]=new Object[15];
 	private Button button;
+	private ViewTravelController controller;
+	AnchorPane internalPane;
 	@FXML
 	private AnchorPane mainAnchor;
 	@FXML
@@ -275,8 +273,10 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		FXMLLoader loader=new FXMLLoader();
 		loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
 		try {
-			AnchorPane viewPane=(AnchorPane)loader.load();
-			mainPane.setCenter(viewPane);
+			internalPane=(AnchorPane)loader.load();
+			mainPane.setCenter(internalPane);
+			controller=loader.getController();
+			controller.setMainPane(mainPane);
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
