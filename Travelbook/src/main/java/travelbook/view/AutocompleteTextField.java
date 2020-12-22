@@ -6,6 +6,9 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.application.Platform;
@@ -24,21 +27,23 @@ import java.util.ArrayList;
  * Sostituire S con un qualsiasi tipo di dato
  * Il textField conterrà sempre una stringa 
  * S rappresenta il tipo di dato memorizzato nel contextmenu
+ * ad esempio nella autocomplete per i posti ho sostituito S con la classe PlacePrediction
  */
-public class AutocompleteTextField extends TextField{
-		private final ObjectProperty<PlacePrediction> lastSelectedItem=new SimpleObjectProperty<>();
+public abstract class AutocompleteTextField<S> extends TextField{
+		private final ObjectProperty<S> lastSelectedItem=new SimpleObjectProperty<>();
 		//The entries of the popUp
-		private final List<PlacePrediction> entries;
+		private final List<S> entries;
+		private int characterLowerBound;
 		private boolean enable=true;
 		private boolean blocked=true;
-		private ObservableList<PlacePrediction> filteredEntries=FXCollections.observableArrayList();
+		private ObservableList<S> filteredEntries=FXCollections.observableArrayList();
 		private ContextMenu entriesPopup;
 		private boolean popupHidden=false;
 		//the number of max entries showed in popup
 		private int maxEntries=10;
 		public AutocompleteTextField() {
 			super();
-			this.entries=new ArrayList<PlacePrediction>();
+			this.entries=new ArrayList<S>();
 			this.filteredEntries.addAll(this.entries);
 			//At the start all of the entries are considered filtered
 			entriesPopup=new ContextMenu();
@@ -51,61 +56,63 @@ public class AutocompleteTextField extends TextField{
 					//il testo è stato svuotato
 					filteredEntries.clear();
 					filteredEntries.addAll(this.entries);
+					entriesPopup.hide();
 					entries.clear();
 				}
 				else {
 					this.setText(this.getText().substring(0,1).toUpperCase()+this.getText().substring(1));
-					if(enable) {
+					if(enable && this.getText().length()>characterLowerBound) {
 					new Thread(()->{
-						PredictionController controller=new PredictionController();
-						List<PlacePrediction> predictions=(List<PlacePrediction>)controller.getPredictions(getText());
+						List<S> predictions=getPredictions(this.getText());
 						Platform.runLater(()->{
 							this.entries.clear();
-						for(PlacePrediction predict: predictions) {
+						for(S predict: predictions) {
 							entries.add(predict);
-							System.out.println("Ho aggiunto: "+predict.toString());
 						}
+							LinkedList<S> searchResult= new LinkedList<>();
+							String text1=getText();
+							
+							Pattern pattern;
+							
+							pattern=Pattern.compile(".*"+text1+".*",Pattern.CASE_INSENSITIVE);
+							for(S entry: this.entries) {
+								Matcher matcher=pattern.matcher(entry.toString());
+								if(matcher.matches()) {
+									searchResult.add(entry);
+								}
+							}
+							if(!this.entries.isEmpty()) {
+								filteredEntries.clear();
+								filteredEntries.addAll(searchResult);
+								if(!popupHidden) {
+									populate(searchResult,text1);
+									if(!entriesPopup.isShowing()) {
+										entriesPopup.show(AutocompleteTextField.this,Side.BOTTOM,0,0);
+										
+									}
+								}
+							}
+							else {
+								//togli il popup
+								entriesPopup.hide();
+							}
+						
 						});
 					}).start();
-					LinkedList<PlacePrediction> searchResult= new LinkedList<>();
-					String text1=getText();
-					System.out.println(text1);
-					Pattern pattern;
-					for(int i=0;i<this.entries.size();i++) {
-						PlacePrediction pred= this.entries.get(i);
-						System.out.println(pred.toString());
-					}
-					pattern=Pattern.compile(".*"+text1+".*",Pattern.CASE_INSENSITIVE);
-					for(PlacePrediction entry: this.entries) {
-						Matcher matcher=pattern.matcher(entry.toString());
-						if(matcher.matches()) {
-							searchResult.add(entry);
-						}
-					}
-					if(!this.entries.isEmpty()) {
-						filteredEntries.clear();
-						filteredEntries.addAll(searchResult);
-						if(!popupHidden) {
-							populate(searchResult,text1);
-							if(!entriesPopup.isShowing()) {
-								entriesPopup.show(AutocompleteTextField.this,Side.BOTTOM,0,0);
-								
-							}
-						}
-					}
-					else {
-						//togli il popup
-						entriesPopup.hide();
-					}
-				}}
+					
+				}
+				}
 				}});
 			this.focusedProperty().addListener((observable,oldValue,newValue)->{
 				if(this.isFocused()) {
-				    this.enable=true;
+					//Sostituiscimi con true per provarmi
+				    this.enable=false;
+					
 				}
 				else {
 					this.enable=false;
 					this.entries.clear();
+					this.entriesPopup.hide();
 				}
 			});
 			
@@ -116,12 +123,18 @@ public class AutocompleteTextField extends TextField{
 		public void unblock() {
 			this.blocked=false;
 		}
-		private void populate(LinkedList<PlacePrediction> searchResult, String text1) {
+		//Definisci qui la logica di recupero delle predictions. La classe 
+		//si aspetta di prendere le prediction relative ad un text input da qualche parte
+		//il metodo deve ritornare una List<S> dove S è il tipo di dato scelto per memorizzare le prediction
+		//text è il dato che devi cercare
+		protected abstract List<S> getPredictions(String text);
+		
+		private void populate(LinkedList<S> searchResult, String text1) {
 			LinkedList<CustomMenuItem> menuItems= new LinkedList<>();
 			int count=Math.min(searchResult.size(),maxEntries);
 			for(int i=0;i<count;i++) {
 				final String result=searchResult.get(i).toString();
-				final PlacePrediction object=searchResult.get(i);
+				final S object=searchResult.get(i);
 				int occurence;
 				
 				occurence=result.toLowerCase().indexOf(text1.toLowerCase());
@@ -139,6 +152,9 @@ public class AutocompleteTextField extends TextField{
 				CustomMenuItem item=new CustomMenuItem(entryFlow,true);
 				item.setOnAction((ActionEvent e)->{
 					lastSelectedItem.set(object);
+					//disable autocomplete search
+					//evito di effettuare una nuova chiamata al controller delle prediction.
+					this.enable=false;
 					this.setText(lastSelectedItem.get().toString());
 					searchResult.clear();
 					entriesPopup.hide();
@@ -148,10 +164,10 @@ public class AutocompleteTextField extends TextField{
 			entriesPopup.getItems().clear();
 			entriesPopup.getItems().addAll(menuItems);
 		}
-		public ObservableList<PlacePrediction> getFilteredEntries() {
+		public ObservableList<S> getFilteredEntries() {
 			return filteredEntries;
 		}
-		public void setFilteredEntries(ObservableList<PlacePrediction> filteredEntries) {
+		public void setFilteredEntries(ObservableList<S> filteredEntries) {
 			this.filteredEntries = filteredEntries;
 		}
 		public boolean isPopupHidden() {
@@ -166,11 +182,17 @@ public class AutocompleteTextField extends TextField{
 		public void setMaxEntries(int maxEntries) {
 			this.maxEntries = maxEntries;
 		}
-		public ObjectProperty<PlacePrediction> getLastSelectedItem() {
+		public ObjectProperty<S> getLastSelectedItem() {
 			return lastSelectedItem;
 		}
-		public List<PlacePrediction> getEntries() {
+		public List<S> getEntries() {
 			return entries;
+		}
+		protected int getCharacterLowerBound() {
+			return this.characterLowerBound;
+		}
+		protected void setCharacterLowerBound(int lowerBound) {
+			this.characterLowerBound=lowerBound;
 		}
 		
 }

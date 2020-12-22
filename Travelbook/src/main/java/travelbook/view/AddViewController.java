@@ -13,6 +13,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.bean.CityBean;
@@ -52,6 +55,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 public class AddViewController {
+	@FXML
+	private Label giveUsAName;
+	@FXML
+	private Label hiSoGlad;
+	@FXML
+	private AnchorPane travelInfoPane;
+	@FXML
+	private AnchorPane mainAnchor;
+	@FXML
+	private ScrollPane travelPane;
 	private BorderPane mainPane;
 	@FXML
 	private Button profile;
@@ -133,7 +146,7 @@ public class AddViewController {
 	private double standardImageHeight=89.34,standardImageWidth=89.34;
 	private Image presentationImage;
 	private long numOfDays;
-	private AutocompleteTextField searchText;
+	private SearchPlaceTextField searchText;
 	private ImageView actualImage;
 	private int stepLimit=10;
 	@FXML
@@ -144,6 +157,7 @@ public class AddViewController {
 		stepNumber=0;
 		startDate.valueProperty().addListener((observable,oldValue,newValue)->{
 			saved=false;
+			startDate.setStyle("");
 			DateUtil util=new DateUtil();
 			if(!util.isAfter(endDate.getValue(), startDate.getValue())) {
 				if(endDate.getValue()!=null) {
@@ -152,6 +166,7 @@ public class AddViewController {
 			}
 			}
 			else {
+				
 				//riesamina il numero di giorni del viaggio.
 				numOfDays=util.numOfDaysBetween(startDate.getValue(), endDate.getValue());
 				System.out.println("numero di giorni: "+numOfDays);
@@ -160,6 +175,7 @@ public class AddViewController {
 		});
 		endDate.valueProperty().addListener((observable,oldValue,newValue)->{
 			saved=false;
+			endDate.setStyle("");
 			DateUtil util=new DateUtil();
 			if(!util.isAfter(endDate.getValue(),startDate.getValue())) {
 				if(startDate.getValue()!=null) {
@@ -168,6 +184,7 @@ public class AddViewController {
 				}
 			}
 			else {
+				
 				//riesamina il numero di giorni del viaggio
 				numOfDays=util.numOfDaysBetween(startDate.getValue(),endDate.getValue());
 				System.out.println("numero di giorni: "+numOfDays);
@@ -190,7 +207,7 @@ public class AddViewController {
 			button.fire();
 			
 		});
-		searchText=new AutocompleteTextField();
+		searchText=new SearchPlaceTextField();
 		searchText.setPrefHeight(26);
 		searchText.setPrefWidth(378);
 		searchText.setLayoutX(181);
@@ -217,18 +234,22 @@ public class AddViewController {
 		});
 		this.travelName.textProperty().addListener((observable,oldValue,newValue)->{
 			//dirty travel
+			travelName.setStyle("");
 			saved=false;
 		});
 		this.travelDescription.textProperty().addListener((observable,oldValue,newValue)->{
 			saved=false;
+			travelDescription.setStyle("");
 		});
 		this.viewPresentation.imageProperty().addListener((observable,oldValue,newValue)->{
 			saved=false;
+			viewPresentation.setStyle("");
 		});
 		CheckBox element;
 		for(int i=0;i<this.filterPane.getChildren().size();i++) {
 			element=(CheckBox)this.filterPane.getChildren().get(i);
 			element.selectedProperty().addListener((observable,oldValue,newValue)->{
+			this.filterPane.setStyle("");
 			saved=false;
 			});
 		}
@@ -292,6 +313,39 @@ public class AddViewController {
 	}
 	public void setMain(BorderPane main) {
 		this.mainPane=main;
+		//TODO add resize logic
+		/*this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->{
+			this.mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight());
+		});
+		this.mainPane.heightProperty().addListener((observable,oldValue,newValue)->{
+			AnchorPane anchor=(AnchorPane)mainPane.getCenter();
+			DoubleProperty fontSize = new SimpleDoubleProperty(this.mainPane.getHeight()*20/720); // font size in pt
+			this.mainPane.styleProperty().bind(Bindings.format("-fx-font-size: %.2fpt;", fontSize));
+			StackPane title=(StackPane)mainPane.getTop();
+			title.setPrefHeight(mainPane.getHeight()*94/720);
+			anchor.setPrefHeight(mainPane.getHeight()*625/720);
+		});
+		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->{
+			this.mainPane.setPrefWidth(this.mainPane.getScene().getWindow().getWidth());
+		});
+		this.mainPane.widthProperty().addListener((observable,oldValue,newValue)->{
+			AnchorPane anchor=(AnchorPane)mainPane.getCenter();
+			anchor.setPrefWidth(mainPane.getWidth());
+		});*/
+		/*this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
+			double height=this.mainAnchor.getHeight();
+			this.internalPane.setPrefHeight(this.mainAnchor.getHeight());
+			this.travelPane.setPrefHeight(526*height/625);
+			this.travelPane.setLayoutY(95*height/625);
+			this.travelInfoPane.setPrefHeight(730*height/625);
+			this.hiSoGlad.setPrefHeight(38*height/625);
+			this.giveUsAName.setPrefHeight(23.2*height/625);
+			this.travelName.setPrefHeight(33.6*height/625);
+			this.startDate.setPrefHeight(33.6*height/625);
+			this.endDate.setPrefHeight(33.6*height/625);
+			this.travelDescription.setPrefHeight(100*height/625);
+			this.choosePresentation.setPrefHeight(38.4*height/625);
+		});*/
 	}
 	private boolean alertSave() {
 		Alert saveAlert=new Alert(AlertType.CONFIRMATION);
@@ -399,6 +453,7 @@ public class AddViewController {
 	    	}
 	    	else {
 	    		listOfErrors.add(viewPresentation);
+	    		viewPresentation.setStyle("-fx-border-color: #FF0000");
 	    	}
 	    	CheckBox element;
 	    	List<String> filtri=new ArrayList<String>();
@@ -480,7 +535,7 @@ public class AddViewController {
 	    			progressPane.setVisible(false);
 	    		}
 	    	if(listOfErrors.isEmpty()&&incompleteSteps.isEmpty()) {
-	    		//TODO call the controller applicativo and make a thread that wait for it.
+	    		
 	    		new Thread(()->{
 	    			
 	    			Platform.runLater(()->{
