@@ -25,7 +25,7 @@
                 <Button fx:id="profileButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="16.0" mnemonicParsing="false" onAction="#profileButtonHandler" prefHeight="35.0" prefWidth="35.0" styleClass="view-profile" />
                   <Button fx:id="chatButton" layoutX="253.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#chatButtonHandler" prefHeight="35.0" prefWidth="35.0" styleClass="message" />
                   <Button fx:id="favButton" layoutX="253.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#favButtonHandler" prefHeight="35.0" prefWidth="35.0" styleClass="favourite" />
-                  <Button fx:id="shareButton" layoutX="253.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="35.0" styleClass="share" />
+                  <Button fx:id="shareButton" layoutX="253.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#shareButtonHandler" prefHeight="35.0" prefWidth="35.0" styleClass="share" />
               </buttons>
                <padding>
                   <Insets right="10.0" />

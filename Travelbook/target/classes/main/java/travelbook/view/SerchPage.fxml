@@ -19,9 +19,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="625.0" prefWidth="1280.0" stylesheets="@../css/project.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.SearchTravelController">
+<AnchorPane fx:id="sfondo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="625.0" prefWidth="1280.0" stylesheets="@../css/project.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.SearchTravelController">
    <children>
-      <ScrollPane layoutX="964.0" layoutY="160.0" prefHeight="465.0" prefWidth="316.0">
+      <ScrollPane fitToWidth="true" layoutX="964.0" layoutY="160.0" prefHeight="465.0" prefWidth="316.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="890.0" prefWidth="380.0">
                <children>
@@ -407,13 +407,13 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <Button fx:id="TurnBack" layoutX="26.0" layoutY="50.0" mnemonicParsing="false" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="50.0" />
-      <Label fx:id="Found" layoutX="54.0" layoutY="134.0" text="This is what we have found" textFill="#ffa286" AnchorPane.topAnchor="134.0">
+      <Button fx:id="TurnBack" layoutX="26.0" layoutY="50.0" mnemonicParsing="false" onAction="#moveToExplore" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="50.0" />
+      <Label fx:id="Found" layoutX="54.0" layoutY="134.0" text="This is what we have found" textFill="#ffa286" AnchorPane.leftAnchor="54.0">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Line fx:id="LineaListView" endX="800.0" layoutX="61.0" layoutY="164.0" stroke="#fcdcc8" AnchorPane.topAnchor="163.5" />
+      <Line fx:id="LineaListView" endX="800.0" layoutX="62.0" layoutY="167.0" stroke="#fcdcc8" AnchorPane.leftAnchor="61.5" />
       <Pane prefHeight="45.0" prefWidth="650.0" AnchorPane.leftAnchor="315.0" AnchorPane.topAnchor="50.0">
          <children>
             <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" />
@@ -429,6 +429,7 @@
       </Label>
       <Button fx:id="Advanced" layoutX="33.0" layoutY="113.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showSearchAdvanced" prefHeight="15.0" prefWidth="15.0" />
       <Label layoutX="48.0" layoutY="109.0" text="advanced search" />
+      <ListView fx:id="lista" layoutX="55.0" layoutY="175.0" prefHeight="437.0" prefWidth="887.0" AnchorPane.leftAnchor="55.0" />
       <Pane fx:id="AdvancedSearch" layoutX="34.0" layoutY="133.0" prefHeight="201.0" prefWidth="909.0" visible="false">
          <children>
             <Label layoutX="23.0" layoutY="7.0" text="your Budjet">
@@ -455,6 +456,5 @@
             <TextField layoutX="365.0" layoutY="78.0" prefHeight="44.0" prefWidth="96.0" text="max" />
          </children>
       </Pane>
-      <ListView fx:id="lista" layoutX="61.0" layoutY="175.0" prefHeight="437.0" prefWidth="881.0" />
    </children>
 </AnchorPane>

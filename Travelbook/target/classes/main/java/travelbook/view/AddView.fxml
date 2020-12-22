@@ -29,24 +29,24 @@
 
 <AnchorPane prefHeight="625.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.AddViewController">
    <children>
-      <AnchorPane fx:id="internalPane" prefHeight="625.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="internalPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1280.0">
          <children>
             <ScrollPane hbarPolicy="NEVER" layoutX="10.0" layoutY="95.0" prefHeight="526.0" prefWidth="640.0">
               <content>
-                <AnchorPane maxWidth="750.0" minHeight="0.0" minWidth="0.0" prefWidth="640.0">
+                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="640.0">
                      <children>
-                        <Label layoutX="10.0" prefHeight="38.0" prefWidth="557.0" styleClass="titles" text="Hi, so glad you decided to share your travels" AnchorPane.leftAnchor="10.0">
+                        <Label layoutX="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="557.0" styleClass="titles" text="Hi, so glad you decided to share your travels">
                            <font>
                               <Font name="System Bold" size="25.0" />
                            </font>
                         </Label>
                         <Line endX="527.2000122070312" rotate="3.0" startX="1053.69287109375" startY="-29.776012420654297" styleClass="line" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="20.0" />
-                        <Label layoutX="10.0" text="Give us a name for your travel: " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0">
+                        <Label layoutX="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.2" prefWidth="280.0" text="Give us a name for your travel: " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="travelName" layoutX="296.0" layoutY="67.0" opacity="0.58" prefHeight="26.0" prefWidth="239.0" AnchorPane.leftAnchor="296.0" AnchorPane.topAnchor="67.0">
+                        <TextField fx:id="travelName" layoutX="296.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.58" prefHeight="33.6" prefWidth="239.0" AnchorPane.leftAnchor="296.0" AnchorPane.topAnchor="67.0">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -56,24 +56,24 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <DatePicker fx:id="startDate" layoutX="181.0" layoutY="115.0" prefHeight="26.0" prefWidth="164.0" promptText="Start" showWeekNumbers="true" AnchorPane.leftAnchor="181.0" AnchorPane.topAnchor="115.0">
+                        <DatePicker fx:id="startDate" layoutX="181.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.6" prefWidth="164.0" promptText="Start" showWeekNumbers="true" AnchorPane.leftAnchor="181.0" AnchorPane.topAnchor="115.0">
                            <cursor>
                               <Cursor fx:constant="DEFAULT" />
                            </cursor>
                         </DatePicker>
-                        <DatePicker fx:id="endDate" layoutX="350.0" layoutY="115.0" prefHeight="26.0" prefWidth="173.0" promptText="End" showWeekNumbers="true" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="115.0" />
+                        <DatePicker fx:id="endDate" layoutX="350.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.6" prefWidth="173.0" promptText="End" showWeekNumbers="true" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="115.0" />
                         <Label layoutX="10.0" layoutY="160.0" text="Add a description:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="160.0">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="travelDescription" layoutX="179.0" layoutY="163.0" prefHeight="100.0" prefWidth="400.0" AnchorPane.leftAnchor="179.0" AnchorPane.topAnchor="163.0">
+                        <TextArea fx:id="travelDescription" layoutX="179.0" layoutY="163.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0" AnchorPane.leftAnchor="179.0" AnchorPane.topAnchor="163.0">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
                         </TextArea>
                         <Label layoutX="11.0" layoutY="330.0" text="Upload your presentation photo:" />
-                        <Button fx:id="choosePresentation" layoutX="334.0" layoutY="320.0" mnemonicParsing="false" onAction="#choosePresentationHandler" text="Choose" />
+                        <Button fx:id="choosePresentation" layoutX="334.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#choosePresentationHandler" prefHeight="38.4" prefWidth="102.4" text="Choose" />
                         <ImageView fx:id="viewPresentation" fitHeight="177.04" fitWidth="530.0" layoutX="69.0" layoutY="358.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="69.0" AnchorPane.topAnchor="358.0" />
                         <Label layoutX="10.0" layoutY="583.0" text="What type of trip?">
                            <font>

@@ -16,9 +16,7 @@ import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.util.DateUtil;
 
 public class AllQuery {
-	private String MyUrl="jdbc:mysql://localhost:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	
-	public ResultSet RequestLogin(Statement stmt,String Username,String Password) throws ExceptionLogin{
+	private String MyUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	public ResultSet RequestLogin(Statement stmt,String Username,String Password) throws ExceptionLogin{
 		ResultSet rs=null;
 			try {
 				rs = stmt.executeQuery("SELECT NameUser FROM User where Username='"+Username+"'");
