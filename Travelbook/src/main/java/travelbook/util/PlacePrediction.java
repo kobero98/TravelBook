@@ -6,17 +6,46 @@ import java.util.List;
 public class PlacePrediction {
 	//private AutocompletePrediction pred;
 	private String pred;
+	private String type;
+	private String country;
+	private String city;
+	private double coordinates[];
 	//private SuggestResult res;
 	/*public PlacePrediction(AutocompletePrediction pred) {
 		this.pred=pred;
 	}*/
-	public PlacePrediction(String pred) {
-		//Questo costruttore serve per passare da string ad altro
-		PredictionController controller=new PredictionController();
-		//now call controller method
-		//this.pred=controller.getPlace(pred);
+	public PlacePrediction() {
 		
-		this.pred=pred;
+	}
+	public void setPlaceName(String place) {
+		this.pred=place;
+	}
+	public void setPlaceType(String type) {
+		this.type=type;
+	}
+	public void setCountry(String country) {
+		this.country=country;
+	}
+	public void setCity(String city) {
+		this.city=city;
+	}
+	public void setCoordinates(double coord[]) {
+		this.coordinates=coord;
+	}
+	public double[] getCoordinates() {
+		return this.coordinates;
+	}
+	public String getPlaceName() {
+		return this.pred;
+	}
+	public String getType() {
+		return this.type;
+	}
+	public String getCountry() {
+		return this.country;
+	}
+	public String getCity() {
+		return this.city;
 	}
 	//Decomment this for ArcGIS
 	/*public PlacePrediction(SuggestResult res) {

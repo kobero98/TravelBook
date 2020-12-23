@@ -35,51 +35,9 @@ import java.util.ArrayList;
 import java.io.IOException;
 public class PredictionController {
 	private String API_KEY;
-	private String TOKEN="pk.eyJ1IjoiZGVtYWdvZ28iLCJhIjoiY2tpeXJmMjN1MjRsbzMybW1zNnR1YjQyNSJ9.Tw4ab3jdi3WXYHMlCcalAA";
+	private String TOKEN="INSERT_HERE_YOUR_TOKEN";
 	private List<PlacePrediction> results=new ArrayList<>();
 	public List<PlacePrediction> getPredictions(String text) {
-		System.out.println("Ciao");
-		//return the predictions or null
-		//QueryAutocompleteRequest query= PlacesApi.queryAutocomplete(new GeoApiContext.Builder().apiKey(API_KEY).build(), text);
-		//Qui dovrei catturare eccezzione
-		//try {
-		
-		 //AutocompletePrediction[] predictions=query.await();
-		
-		//List<String> predictions=new ArrayList<>();
-	/*String[] database= {"Roma","Firenze","Milano","Bergamo","Torino","Vibo Marina","Bologna","Napoli","Palermo","Lauro","Cellole","Firenze","Grosseto","Genova","Frascati","Aprilia","Latina","Baia Domizia","Formia","Gaeta","Minturno","Teano","Caserta"};
-		for(String parse: database) {
-			if(parse.contains(text)) {
-				predictions.add(parse);
-			}
-		}
-		 for(String pred: predictions) {
-			 results.add(new PlacePrediction(pred));
-		 }*/
-		/*SuggestParameters geocodeParameters= new SuggestParameters();
-		LocatorTask locator=new LocatorTask("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
-		geocodeParameters.getCategories().add("POI");
-		ListenableFuture<List<SuggestResult>> suggests=locator.suggestAsync(text,geocodeParameters);
-		suggests.addDoneListener(()->{
-			try {
-				List<SuggestResult> res=suggests.get();
-				for(SuggestResult risultato: res) {
-					results.add(new PlacePrediction(risultato));
-				}
-				fatto=true;
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		});
-		while(!fatto) {
-			System.out.println("Sto aspettando");
-		}
-		System.out.println("Fatto");*/
 		String[] part=text.split(" ");
 		StringBuffer newText=new StringBuffer();
 		for(int i=0;i<part.length;i++) {
@@ -106,7 +64,8 @@ public class PredictionController {
                         JSONObject obj =(JSONObject)object;
                         JSONArray arr=(JSONArray)obj.get("features");
                         JSONObject place=(JSONObject)arr.get(0);
-                        results.add(new PlacePrediction((String)place.get("place_name")));
+                        PlacePrediction placePred=new PlacePrediction();
+                        placePred.setPlaceName(place.get("place_name").toString());
                         System.out.println(obj.toString());
                         System.out.println(obj.get("place_name"));
                         System.out.println(obj.get("text"));
@@ -122,7 +81,23 @@ public class PredictionController {
                     JSONObject place;
                     for(int i=0;i<array.size();i++) {
                     	place=(JSONObject)array.get(i);
-                    	results.add(new PlacePrediction((String)place.get("place_name")));
+                    	PlacePrediction placePred=new PlacePrediction();
+                    	placePred.setPlaceName(place.get("place_name").toString());
+                    	placePred.setPlaceType(place.get("place_type").toString());
+                    	placePred.setCoordinates((double[])place.get("center"));
+                    	JSONArray context=(JSONArray)place.get("context");
+                    	for(int j=0;j<context.size();j++) {
+                    		JSONObject first=(JSONObject)context.get(i);
+                    		String id=first.get("id").toString();
+                    		if(id.startsWith("region")) {
+                    			placePred.setCity(first.get("text").toString());
+                    		}
+                    		else if(id.startsWith("country")) {
+                    			placePred.setCountry(first.get("text").toString());
+                    		}
+                    	}
+                    	
+                    	results.add(placePred);
                     }
                     
                     return results;
