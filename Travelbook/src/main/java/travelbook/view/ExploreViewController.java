@@ -134,19 +134,7 @@ public class ExploreViewController {
 	public void setMainPane(BorderPane main) {
 		this.mainPane=main;
 		//then define the resize logic
-		this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->{
-			
-			System.out.println("Altezza: "+this.mainPane.getScene().getWindow().getHeight());
-			this.mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight());
-			System.out.println("Altezza borderPane: "+this.mainPane.getHeight());
-			
-			
-		});
-		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->{
-			this.mainPane.setPrefWidth(mainPane.getScene().getWindow().getWidth());
-			
-			
-		}); 
+		
 		
 		
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{

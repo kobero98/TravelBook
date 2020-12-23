@@ -5,7 +5,7 @@ import java.util.List;
 import javafx.scene.image.Image;
 
 public class StepBean {
-	private int Number,IDTravel,IDCreator,GroupDay;
+	private int Number,IDTravel,IDCreator,GroupDay,NumberInDay;
 	private String DescriptionStep,Place;
 	private String Day;
 	private List <Image> Photo;
@@ -17,6 +17,12 @@ public class StepBean {
 		this.IDTravel=IDTravel;
 	}
 	
+	public int getNumberInDay() {
+		return NumberInDay;
+	}
+	public void setNumberInDay(int numberInDay) {
+		NumberInDay = numberInDay;
+	}
 	public int getNumber()
 	{
 		return this.Number;

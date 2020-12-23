@@ -122,9 +122,10 @@ public class LoginViewController {
 		this.main=main;
 		this.mainPane=this.main.getPane();
 		//then some resize logic
-		this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->{
+		/*this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->{
+			System.out.println("L'altezza della finestra è: "+this.mainPane.getScene().getHeight());
 			this.mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight());
-		});
+		});*/
 		this.mainPane.heightProperty().addListener((observable,oldValue,newValue)->{
 			AnchorPane anchor=(AnchorPane)mainPane.getCenter();
 			DoubleProperty fontSize = new SimpleDoubleProperty(this.mainPane.getHeight()*20/720); // font size in pt
@@ -133,9 +134,9 @@ public class LoginViewController {
 			title.setPrefHeight(mainPane.getHeight()*94/720);
 			anchor.setPrefHeight(mainPane.getHeight()*625/720);
 		});
-		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->{
+		/*this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->{
 			this.mainPane.setPrefWidth(this.mainPane.getScene().getWindow().getWidth());
-		});
+		});*/
 		this.mainPane.widthProperty().addListener((observable,oldValue,newValue)->{
 			AnchorPane anchor=(AnchorPane)mainPane.getCenter();
 			anchor.setPrefWidth(mainPane.getWidth());

@@ -27,76 +27,76 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="625.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.AddViewController">
+<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.AddViewController">
    <children>
       <AnchorPane fx:id="internalPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1280.0">
          <children>
-            <ScrollPane hbarPolicy="NEVER" layoutX="10.0" layoutY="95.0" prefHeight="526.0" prefWidth="640.0">
+            <ScrollPane fx:id="travelPane" hbarPolicy="NEVER" layoutX="10.0" layoutY="95.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="640.0" vvalue="1.0">
               <content>
-                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="640.0">
+                <AnchorPane fx:id="travelInfoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="640.0">
                      <children>
-                        <Label layoutX="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="557.0" styleClass="titles" text="Hi, so glad you decided to share your travels">
+                        <Label fx:id="hiSoGlad" layoutX="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="557.0" styleClass="titles" text="Hi, so glad you decided to share your travels">
                            <font>
                               <Font name="System Bold" size="25.0" />
                            </font>
                         </Label>
-                        <Line endX="527.2000122070312" rotate="3.0" startX="1053.69287109375" startY="-29.776012420654297" styleClass="line" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="20.0" />
-                        <Label layoutX="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.2" prefWidth="280.0" text="Give us a name for your travel: " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0">
+                        <Line fx:id="titleLine" endX="527.2000122070312" layoutX="-515.0" layoutY="53.0" rotate="3.0" startX="1053.69287109375" startY="-29.776012420654297" styleClass="line" />
+                        <Label fx:id="giveUsAName" layoutX="10.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.2" prefWidth="280.0" text="Give us a name for your travel: ">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="travelName" layoutX="296.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.58" prefHeight="33.6" prefWidth="239.0" AnchorPane.leftAnchor="296.0" AnchorPane.topAnchor="67.0">
+                        <TextField fx:id="travelName" layoutX="296.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.58" prefHeight="33.6" prefWidth="239.0">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
                         </TextField>
-                        <Label layoutX="10.0" layoutY="120.0" text="Select your dates:" AnchorPane.topAnchor="120.0">
+                        <Label fx:id="selectDates" layoutX="10.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.2" prefWidth="160.8" text="Select your dates:">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <DatePicker fx:id="startDate" layoutX="181.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.6" prefWidth="164.0" promptText="Start" showWeekNumbers="true" AnchorPane.leftAnchor="181.0" AnchorPane.topAnchor="115.0">
+                        <DatePicker fx:id="startDate" layoutX="181.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.6" prefWidth="164.0" promptText="Start" showWeekNumbers="true">
                            <cursor>
                               <Cursor fx:constant="DEFAULT" />
                            </cursor>
                         </DatePicker>
-                        <DatePicker fx:id="endDate" layoutX="350.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.6" prefWidth="173.0" promptText="End" showWeekNumbers="true" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="115.0" />
-                        <Label layoutX="10.0" layoutY="160.0" text="Add a description:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="160.0">
+                        <DatePicker fx:id="endDate" layoutX="350.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.6" prefWidth="173.0" promptText="End" showWeekNumbers="true" />
+                        <Label fx:id="addDescription" layoutX="10.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.2" prefWidth="160.8" text="Add a description:">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="travelDescription" layoutX="179.0" layoutY="163.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0" AnchorPane.leftAnchor="179.0" AnchorPane.topAnchor="163.0">
+                        <TextArea fx:id="travelDescription" layoutX="179.0" layoutY="163.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
                         </TextArea>
-                        <Label layoutX="11.0" layoutY="330.0" text="Upload your presentation photo:" />
-                        <Button fx:id="choosePresentation" layoutX="334.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#choosePresentationHandler" prefHeight="38.4" prefWidth="102.4" text="Choose" />
-                        <ImageView fx:id="viewPresentation" fitHeight="177.04" fitWidth="530.0" layoutX="69.0" layoutY="358.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="69.0" AnchorPane.topAnchor="358.0" />
-                        <Label layoutX="10.0" layoutY="583.0" text="What type of trip?">
+                        <Label fx:id="uploadFoto" layoutX="10.0" layoutY="330.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.2" prefWidth="284.8" text="Upload your presentation photo:" />
+                        <Button fx:id="choosePresentation" layoutX="334.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#choosePresentationHandler" prefHeight="38.4" prefWidth="105.0" text="Choose" />
+                        <ImageView fx:id="viewPresentation" fitHeight="177.04" fitWidth="530.0" layoutX="69.0" layoutY="358.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="whatType" layoutX="10.0" layoutY="583.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.2" prefWidth="156.8" text="What type of trip?">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <AnchorPane fx:id="filterPane" layoutX="10.0" layoutY="610.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="102.0" prefWidth="307.0">
+                        <AnchorPane fx:id="filterPane" layoutX="10.0" layoutY="610.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="106.4" prefWidth="307.0">
                            <children>
-                              <CheckBox layoutY="10.0" mnemonicParsing="false" text="Romantic Trip" AnchorPane.topAnchor="10.0" />
-                              <CheckBox layoutY="35.0" mnemonicParsing="false" text="Family holiday" />
-                              <CheckBox layoutY="60.0" mnemonicParsing="false" text="On the road" />
-                              <CheckBox layoutY="85.0" mnemonicParsing="false" text="Children friendly" />
-                              <CheckBox layoutX="160.0" layoutY="10.0" mnemonicParsing="false" text="Travel with friends" />
-                              <CheckBox layoutX="160.0" layoutY="35.0" mnemonicParsing="false" text="Cultural travel" />
-                              <CheckBox layoutX="160.0" layoutY="60.0" mnemonicParsing="false" text="Relaxing holiday" />
+                              <CheckBox layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.8" prefWidth="140.0" text="Romantic Trip" />
+                              <CheckBox layoutY="35.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.8" prefWidth="150.0" text="Family holiday" />
+                              <CheckBox layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.8" prefWidth="120.0" text="On the road" />
+                              <CheckBox layoutY="85.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.8" prefWidth="150.0" text="Children friendly" />
+                              <CheckBox layoutX="160.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.8" prefWidth="160.0" text="Travel with friends" />
+                              <CheckBox layoutX="160.0" layoutY="35.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.8" prefWidth="140.0" text="Cultural travel" />
+                              <CheckBox layoutX="160.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.8" prefWidth="150.0" text="Relaxing holiday" />
                            </children>
                         </AnchorPane>
-                        <Button layoutX="350.0" layoutY="660.0" mnemonicParsing="false" onAction="#allDoneHanlder" prefHeight="70.0" prefWidth="270.0" text="All done! Post" wrapText="true">
+                        <Button fx:id="allDoneButton" layoutX="350.0" layoutY="660.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#allDoneHanlder" prefHeight="70.0" prefWidth="270.0" text="All done! Post" wrapText="true">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Button>
-                        <Button fx:id="saveDraft" layoutX="350.0" layoutY="580.0" mnemonicParsing="false" onAction="#saveAsDraftHandler" prefHeight="70.0" prefWidth="270.0" text="Save as  draft">
+                        <Button fx:id="saveDraft" layoutX="350.0" layoutY="580.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveAsDraftHandler" prefHeight="70.0" prefWidth="270.0" text="Save as  draft">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -106,15 +106,15 @@
                            </graphic>
                         </Button>
                         <Text layoutX="544.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a valid date" visible="false" wrappingWidth="70.40000000000009" />
-                        <Label layoutX="10.0" layoutY="280.0" text="What about the cost?" />
-                        <TextField layoutX="223.0" layoutY="275.0" prefHeight="34.0" prefWidth="239.0" />
+                        <Label fx:id="costLabel" layoutX="10.0" layoutY="280.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.2" prefWidth="189.6" text="What about the cost?" />
+                        <TextField fx:id="costField" layoutX="223.0" layoutY="275.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="239.0" />
                      </children>
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <ButtonBar prefHeight="85.0" prefWidth="592.0">
+            <ButtonBar fx:id="menuBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="592.0">
                <buttons>
-                  <Button fx:id="profile" mnemonicParsing="false" onAction="#profileHandler" prefHeight="56.35" prefWidth="147.37" text="PROFILE">
+                  <Button fx:id="profile" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#profileHandler" prefHeight="56.35" prefWidth="147.37" text="PROFILE">
                      <font>
                         <Font size="17.0" />
                      </font>
@@ -129,7 +129,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutX="454.0" layoutY="24.0" mnemonicParsing="false" prefHeight="56.35" prefWidth="147.37" styleClass="pressed-button" text="ADD">
+                  <Button layoutX="454.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="56.35" prefWidth="147.37" styleClass="pressed-button" text="ADD">
                      <font>
                         <Font size="17.0" />
                      </font>
@@ -144,7 +144,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="explore" layoutX="454.0" layoutY="24.0" mnemonicParsing="false" onAction="#exploreHandler" prefHeight="56.35" prefWidth="147.37" text="EXPLORE">
+                  <Button fx:id="explore" layoutX="454.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#exploreHandler" prefHeight="56.35" prefWidth="147.37" text="EXPLORE">
                      <font>
                         <Font size="17.0" />
                      </font>
@@ -159,7 +159,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="chat" layoutX="454.0" layoutY="24.0" mnemonicParsing="false" onAction="#chatHandler" prefHeight="56.35" prefWidth="147.37" text="CHAT">
+                  <Button fx:id="chat" layoutX="454.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#chatHandler" prefHeight="56.35" prefWidth="147.37" text="CHAT">
                      <font>
                         <Font size="17.0" />
                      </font>
@@ -176,47 +176,47 @@
                   </Button>
                </buttons>
             </ButtonBar>
-            <Label fx:id="nowGiveUs" layoutX="700.0" layoutY="27.0" prefHeight="32.0" prefWidth="501.0" styleClass="titles" text="Now give us something more specific..." visible="false">
+            <Label fx:id="nowGiveUs" layoutX="700.0" layoutY="27.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="501.0" styleClass="titles" text="Now give us something more specific..." visible="false">
                <font>
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <Label fx:id="youAreEditing" layoutX="700.0" layoutY="59.0" prefHeight="39.0" prefWidth="184.0" text="You are editing day:" visible="false" />
-            <ChoiceBox fx:id="dayBox" layoutX="889.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="70.0" visible="false" />
-            <ScrollPane fx:id="stepsScroll" hbarPolicy="NEVER" layoutX="677.0" layoutY="100.0" prefHeight="520.0" prefWidth="580.0" visible="false">
+            <Label fx:id="youAreEditing" layoutX="700.0" layoutY="59.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="184.0" text="You are editing day:" visible="false" />
+            <ChoiceBox fx:id="dayBox" layoutX="889.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.2" prefWidth="70.0" visible="false" />
+            <ScrollPane fx:id="stepsScroll" hbarPolicy="NEVER" layoutX="677.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="580.0" visible="false">
                <content>
-                  <AnchorPane fx:id="stepInfoPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="620.0" prefWidth="570.0">
+                  <AnchorPane fx:id="stepInfoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="570.0">
                      <children>
-                        <Label layoutX="14.0" layoutY="20.0" prefHeight="39.0" prefWidth="184.0" text="Select your stops:">
+                        <Label fx:id="selectStops" layoutX="14.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="184.0" text="Select your stops:">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <ButtonBar fx:id="stepsBar" buttonMinWidth="28.0" layoutX="20.0" layoutY="70.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" prefWidth="420.0" styleClass="itinerary">
+                        <ButtonBar fx:id="stepsBar" buttonMinWidth="28.0" layoutX="20.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" prefWidth="420.0" styleClass="itinerary">
                            <padding>
                               <Insets left="40.0" top="20.0" />
                            </padding>
                         </ButtonBar>
-                        <Line endX="264.0" endY="-1.52587890625E-5" layoutX="171.0" layoutY="124.0" startX="-152.0" startY="-1.52587890625E-5" styleClass="itinerary-line" />
-                        <Label layoutX="31.0" layoutY="150.0" prefHeight="39.0" prefWidth="170.0" text="Add a description:">
+                        <Line fx:id="stepsBarLine" endX="264.0" endY="-1.52587890625E-5" layoutX="171.0" layoutY="124.0" startX="-152.0" startY="-1.52587890625E-5" styleClass="itinerary-line" />
+                        <Label fx:id="descriptionLabel" layoutX="31.0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="170.4" text="Add a description:">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="stopDescription" layoutX="200.0" layoutY="160.0" prefHeight="122.0" prefWidth="348.0" />
-                        <Label layoutX="33.0" layoutY="300.0" prefHeight="39.0" prefWidth="444.0" text="Do you want to give some practical information?">
+                        <TextArea fx:id="stopDescription" layoutX="200.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="122.0" prefWidth="348.0" />
+                        <Label fx:id="givePractical" layoutX="33.0" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="444.0" text="Do you want to give some practical information?">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="practicalInformation" layoutX="34.0" layoutY="350.0" prefHeight="98.0" prefWidth="435.0" />
-                        <Label layoutX="36.0" layoutY="470.0" prefHeight="39.0" prefWidth="197.0" text="Upload some photos:">
+                        <TextArea fx:id="practicalInformation" layoutX="34.0" layoutY="350.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0" prefWidth="435.0" />
+                        <Label fx:id="stepImageLabel" layoutX="36.0" layoutY="470.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="197.6" text="Upload some photos:">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Button fx:id="chooseStepImages" layoutX="307.0" layoutY="470.0" mnemonicParsing="false" onAction="#multipleChoosHandler" text="Choose" />
-                        <ProgressIndicator fx:id="progressIndicator" layoutX="420.0" layoutY="470.0" prefHeight="42.0" prefWidth="45.0" progress="0.0" />
+                        <Button fx:id="chooseStepImages" layoutX="307.0" layoutY="470.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#multipleChoosHandler" prefHeight="38.4" prefWidth="102.4" text="Choose" />
+                        <ProgressIndicator fx:id="progressIndicator" layoutX="420.0" layoutY="470.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="45.0" progress="0.0" />
                         <Button fx:id="newStop" layoutX="504.0" layoutY="80.0" mnemonicParsing="false" onAction="#addStepButton" prefHeight="40.0" prefWidth="40.0" styleClass="add" />
                         <GridPane layoutX="35.0" layoutY="520.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="89.34" prefWidth="446.7">
                           <columnConstraints>
@@ -230,8 +230,8 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                         </GridPane>
-                        <Button fx:id="removeStep" layoutX="449.0" layoutY="80.0" mnemonicParsing="false" onAction="#removeStepHandler" prefHeight="40.0" prefWidth="40.0" styleClass="add" />
-                        <Hyperlink layoutX="400.0" onAction="#viewOnMapHandler" text="View on Map" />
+                        <Button fx:id="removeStep" layoutX="449.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeStepHandler" prefHeight="40.0" prefWidth="40.0" styleClass="add" />
+                        <Hyperlink fx:id="viewOnMap" layoutX="400.0" onAction="#viewOnMapHandler" text="View on Map" />
                      </children>
                   </AnchorPane>
                </content>
@@ -247,17 +247,17 @@
       <Pane fx:id="progressPane" layoutX="300.0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.0" prefHeight="400.0" prefWidth="600.0" visible="false">
          <children>
             <ProgressBar fx:id="progressBar" layoutX="200.0" layoutY="175.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" progress="0.0" />
-            <Button fx:id="closeProgressBar" layoutX="500.0" layoutY="20.0" mnemonicParsing="false" onAction="#progressBarDoneHandler" text="Close" visible="false" />
+            <Button fx:id="closeProgressBar" layoutX="500.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#progressBarDoneHandler" prefHeight="38.0" prefWidth="80.0" text="Close" visible="false" />
          </children>
          <stylesheets>
             <URL value="@../css/add-travel.css" />
             <URL value="@../css/project.css" />
          </stylesheets>
       </Pane>
-      <StackPane fx:id="viewImagePane" layoutX="400.0" layoutY="106.0" opacity="0.0" prefHeight="444.0" prefWidth="400.0" visible="false">
+      <StackPane fx:id="viewImagePane" layoutX="400.0" layoutY="106.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.0" prefHeight="444.0" prefWidth="400.0" visible="false">
          <children>
             <ImageView fx:id="viewImage" fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="closeImage" mnemonicParsing="false" onAction="#closeImage" StackPane.alignment="TOP_RIGHT">
+            <Button fx:id="closeImage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#closeImage" prefHeight="36.0" prefWidth="36.0" StackPane.alignment="TOP_RIGHT">
                <StackPane.margin>
                   <Insets top="10.0" />
                </StackPane.margin>
@@ -269,7 +269,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeImage" prefHeight="36.0" prefWidth="31.2" text="Button" StackPane.alignment="TOP_LEFT">
+            <Button fx:id="removeImage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeImage" prefHeight="36.0" prefWidth="31.2" text="Button" StackPane.alignment="TOP_LEFT">
                <StackPane.margin>
                   <Insets left="20.0" top="10.0" />
                </StackPane.margin>

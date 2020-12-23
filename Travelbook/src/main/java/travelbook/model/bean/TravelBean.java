@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import main.java.travelbook.model.TravelEntity;
 public class TravelBean {
 
-	private double CostTravel;
+	private Double CostTravel;
 	private int StepNumber,likeNumber;
 	private String NameTravel,DescriptionTravel;
 	private Image PathBackground;
@@ -35,7 +35,7 @@ public class TravelBean {
 	{
 		return likeNumber;
 	}
-	public double getCostTravel()
+	public Double getCostTravel()
 	{
 		return this.CostTravel;
 	}
@@ -81,7 +81,7 @@ public class TravelBean {
 	{
 		this.PathBackground=Path;
 	}
-	public void setCostTravel(double Cost)
+	public void setCostTravel(Double Cost)
 	{
 		this.CostTravel=Cost;
 	}

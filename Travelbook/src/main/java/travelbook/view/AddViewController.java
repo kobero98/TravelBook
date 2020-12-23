@@ -1,5 +1,6 @@
 package main.java.travelbook.view;
 import java.io.IOException;
+import javafx.scene.shape.Line;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Hyperlink;
@@ -55,6 +56,35 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 public class AddViewController {
+	@FXML
+	private ButtonBar menuBar;
+	@FXML
+	private Line stepsBarLine;
+	@FXML
+	private Line titleLine;
+	@FXML
+	private Label selectDates;
+	@FXML
+	private Label addDescription;
+	@FXML
+	private Label costLabel;
+	@FXML
+	private Label uploadFoto;
+	@FXML
+	private Label whatType;
+	@FXML
+	private Label descriptionLabel;
+	@FXML
+	private Label selectStops;
+	@FXML
+	private Label givePractical;
+	@FXML
+	private Label stepImageLabel;
+	
+	@FXML
+	private Button removeImage;
+	@FXML
+	private Button allDoneButton;
 	@FXML
 	private Label giveUsAName;
 	@FXML
@@ -149,9 +179,11 @@ public class AddViewController {
 	private SearchPlaceTextField searchText;
 	private ImageView actualImage;
 	private int stepLimit=10;
+	private double stepInfoPaneHeight;
 	@FXML
 	private void initialize() {
 		//set travel and the first day and the first step by default.
+		this.stepInfoPaneHeight=620;
 		imageGridPane=new ImageGridPane();
 		dayNumber=0;
 		stepNumber=0;
@@ -253,12 +285,16 @@ public class AddViewController {
 			saved=false;
 			});
 		}
+		this.costField.textProperty().addListener((observable,oldValue,newValue)->{
+			this.costField.setStyle("");
+		});
 	}
 	public class ImageGridPane extends GridPane{
 		//GridPane with a matrix that show if an entry (row,col) is empty or not. 
 		//If is empty positions[row][col]==1
 		private List<List<Integer>> positions=new ArrayList<List<Integer>>();
-		
+		private double layoutX=35;
+		private double layoutY=520;
 		public ImageGridPane() {
 			super();
 			//setup to a gridPane with 5 col and 1 row
@@ -277,8 +313,8 @@ public class AddViewController {
     		column4.setPercentWidth(20);
     		column5.setPercentWidth(20);
     		this.getColumnConstraints().addAll(column1,column2,column3,column4,column5);
-    		this.setLayoutX(35);
-    		this.setLayoutY(520);
+    		this.moveX(35*mainAnchor.getPrefWidth()/1280);
+    		this.moveY(520*mainAnchor.getPrefHeight()/625);
     		RowConstraints row1=new RowConstraints();
     		row1.setPrefHeight(standardImageHeight);
     		this.getRowConstraints().add(row1);
@@ -287,6 +323,14 @@ public class AddViewController {
 				positions.get(0).add(1);
 			}
 			
+		}
+		public void moveX(double newX) {
+			this.layoutX=newX;
+			this.setLayoutX(newX);
+		}
+		public void moveY(double newY) {
+			this.layoutY=newY;
+			this.setLayoutY(newY);
 		}
 		@Override
 		public void add(Node node,int col,int row) {
@@ -310,42 +354,253 @@ public class AddViewController {
 			}
 			return false;
 		}
+		public void resizeRow() {
+			for(int i=0;i<this.getRowConstraints().size();i++) {
+				RowConstraints row=this.getRowConstraints().get(i);
+				row.setPrefHeight(this.getPrefHeight()/this.getRowConstraints().size());
+			}
+		}
 	}
 	public void setMain(BorderPane main) {
 		this.mainPane=main;
 		//TODO add resize logic
-		/*this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->{
-			this.mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight());
-		});
-		this.mainPane.heightProperty().addListener((observable,oldValue,newValue)->{
-			AnchorPane anchor=(AnchorPane)mainPane.getCenter();
-			DoubleProperty fontSize = new SimpleDoubleProperty(this.mainPane.getHeight()*20/720); // font size in pt
-			this.mainPane.styleProperty().bind(Bindings.format("-fx-font-size: %.2fpt;", fontSize));
-			StackPane title=(StackPane)mainPane.getTop();
-			title.setPrefHeight(mainPane.getHeight()*94/720);
-			anchor.setPrefHeight(mainPane.getHeight()*625/720);
-		});
-		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->{
-			this.mainPane.setPrefWidth(this.mainPane.getScene().getWindow().getWidth());
-		});
-		this.mainPane.widthProperty().addListener((observable,oldValue,newValue)->{
-			AnchorPane anchor=(AnchorPane)mainPane.getCenter();
-			anchor.setPrefWidth(mainPane.getWidth());
-		});*/
-		/*this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
-			double height=this.mainAnchor.getHeight();
-			this.internalPane.setPrefHeight(this.mainAnchor.getHeight());
+		
+		
+		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
+			double height=this.mainAnchor.getPrefHeight();
+			System.out.println("Altezza: "+height);
+			this.internalPane.setPrefHeight(height*625/625);
+			this.internalPane.setLayoutY(0);
+			this.menuBar.setPrefHeight(85*height/625);
+			this.menuBar.setLayoutY(0);
+			for(int i=0;i<menuBar.getButtons().size();i++) {
+				Button button=(Button)menuBar.getButtons().get(i);
+				button.setPrefHeight(56.8*height/625);
+			}
 			this.travelPane.setPrefHeight(526*height/625);
 			this.travelPane.setLayoutY(95*height/625);
 			this.travelInfoPane.setPrefHeight(730*height/625);
+			this.travelInfoPane.setLayoutY(0);
 			this.hiSoGlad.setPrefHeight(38*height/625);
+			this.hiSoGlad.setLayoutY(0);
 			this.giveUsAName.setPrefHeight(23.2*height/625);
+			this.giveUsAName.setLayoutY(70*height/625);
 			this.travelName.setPrefHeight(33.6*height/625);
+			this.travelName.setLayoutY(67*height/625);
 			this.startDate.setPrefHeight(33.6*height/625);
+			this.startDate.setLayoutY(115*height/625);
 			this.endDate.setPrefHeight(33.6*height/625);
+			this.endDate.setLayoutY(115*height/625);
 			this.travelDescription.setPrefHeight(100*height/625);
+			this.travelDescription.setLayoutY(163*height/625);
 			this.choosePresentation.setPrefHeight(38.4*height/625);
-		});*/
+			this.choosePresentation.setLayoutY(320*height/625);
+			this.viewPresentation.setFitHeight(177.04*height/625);
+			this.viewPresentation.setLayoutY(358*height/625);
+			this.filterPane.setPrefHeight(106.4*height/625);
+			this.filterPane.setLayoutY(610*height/625);
+			CheckBox element;
+			for(int i=0;i<filterPane.getChildren().size();i++) {
+				element=(CheckBox)filterPane.getChildren().get(i);
+				element.setPrefHeight(height*20.8/625);
+			}
+			saveDraft.setPrefHeight(70*height/625);
+			saveDraft.setLayoutY(580*height/625);
+			allDoneButton.setPrefHeight(70*height/625);
+			allDoneButton.setLayoutY(660*height/625);
+			arrowImage.setFitHeight(30*height/625);
+			this.arrowImage.setLayoutY(295*height/625);
+			progressPane.setPrefHeight(400*height/625);
+			progressPane.setLayoutY(150*height/625);
+			progressBar.setPrefHeight(40*height/625);
+			progressBar.setLayoutY(175*height/625);
+			closeProgressBar.setPrefHeight(38*height/625);
+			closeProgressBar.setLayoutY(20*height/625);
+			viewImagePane.setPrefHeight(444*height/625);
+			viewImagePane.setLayoutY(106*height/625);
+			viewImage.setFitHeight(400*height/625);
+			closeImage.setPrefHeight(36*height/625);
+			removeImage.setPrefHeight(36*height/625);
+			this.nowGiveUs.setPrefHeight(32*height/625);
+			this.nowGiveUs.setLayoutY(27*height/625);
+			this.youAreEditing.setPrefHeight(39*height/625);
+			this.youAreEditing.setLayoutY(59*height/625);
+			this.dayBox.setPrefHeight(31.2*height/625);
+			this.dayBox.setLayoutY(63*height/625);
+			this.stepsScroll.setPrefHeight(520*height/625);
+			this.stepsScroll.setLayoutY(100*height/625);
+			this.stepInfoPane.setPrefHeight(this.stepInfoPaneHeight*height/625);
+			this.stepsBar.setPrefHeight(50*height/625);
+			this.stepsBar.setLayoutY(70*height/625);
+		/*	for(int i=0;i<stepsBar.getButtons().size();i++) {
+				Button button=(Button)stepsBar.getButtons().get(i);
+				button.setPrefHeight(stepsBar.getPrefHeight());
+			}*/
+			this.stopDescription.setPrefHeight(122*height/625);
+			this.stopDescription.setLayoutY(160*height/625);
+			this.practicalInformation.setPrefHeight(98*height/625);
+			this.practicalInformation.setLayoutY(350*height/625);
+			this.chooseStepImages.setPrefHeight(38.4*height/625);
+			this.chooseStepImages.setLayoutY(470*height/625);
+			this.progressIndicator.setPrefHeight(42*height/625);
+			this.progressIndicator.setLayoutY(470*height/625);
+			for(int i=0;i<dayImagePane.size();i++) {
+				for(ImageGridPane gridPane: dayImagePane.get(i)) {
+					gridPane.setPrefHeight(gridPane.getRowConstraints().size()*89.34*height/625);
+					gridPane.moveY(520*height/625);
+					gridPane.resizeRow();
+					for(int j=0;j<gridPane.getChildren().size();j++) {
+						ImageView view=(ImageView)gridPane.getChildren().get(j);
+						view.setFitHeight(89.34*height/625);
+					}
+				}
+			}
+			this.standardImageHeight=89.34*height/625;
+			this.removeStep.setPrefHeight(40*height/625);
+			this.removeStep.setLayoutY(80*height/625);
+			this.newStop.setPrefHeight(40*height/625);
+			this.newStop.setLayoutY(80*height/625);
+			this.addDescription.setPrefHeight(height*23.2/625);
+			this.addDescription.setLayoutY(160*height/625);
+			this.selectDates.setPrefHeight(23.2*height/625);
+			this.selectDates.setLayoutY(120*height/625);
+			this.costLabel.setPrefHeight(23.2*height/625);
+			this.costLabel.setLayoutY(280*height/625);
+			this.costField.setPrefHeight(34*height/625);
+			this.costField.setLayoutY(275*height/625);
+			this.uploadFoto.setPrefHeight(23.2*height/625);
+			this.uploadFoto.setLayoutY(330*height/625);
+			this.whatType.setLayoutY(583*height/625);
+			this.whatType.setPrefHeight(23.2/625*height);
+			this.selectStops.setPrefHeight(39*height/625);
+			this.selectStops.setLayoutY(20*height/625);
+			this.searchText.setPrefHeight(26*height/625);
+			this.searchText.setLayoutY(25*height/625);
+			this.descriptionLabel.setPrefHeight(29.2*height/625);
+			this.descriptionLabel.setLayoutY(150*height/625);
+			this.givePractical.setPrefHeight(39.2*height/625);
+			this.givePractical.setLayoutY(300*height/625);
+			this.stepImageLabel.setPrefHeight(39.2*height/625);
+			this.stepImageLabel.setLayoutY(470*height/625);
+			this.stepsBarLine.setLayoutY(124*height/625);
+			this.titleLine.setLayoutY(53*height/625);
+		});
+		this.mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
+			double width=mainAnchor.getPrefWidth();
+			System.out.println("la larghezza è: "+width);
+			this.internalPane.setPrefWidth(1280*width/1280);
+			this.travelPane.setPrefWidth(640*width/1280);
+			this.travelPane.setLayoutX(10*width/1280);
+			this.travelInfoPane.setLayoutX(640*width/1280);
+			this.hiSoGlad.setPrefWidth(557*width/1280);
+			this.hiSoGlad.setLayoutX(10*width/1280);
+			this.giveUsAName.setPrefWidth(280*width/1280);
+			this.giveUsAName.setLayoutX(10*width/1280);
+			this.travelName.setPrefWidth(236*width/1280);
+			this.travelName.setLayoutX(296*width/1280);
+			this.selectDates.setPrefWidth(160.8*width/1280);
+			this.selectDates.setLayoutX(10*width/1280);
+			this.startDate.setPrefWidth(164*width/1280);
+			this.startDate.setLayoutX(181*width/1280);
+			this.endDate.setPrefWidth(173*width/1280);
+			this.endDate.setLayoutX(width/1280*350);
+			this.addDescription.setPrefWidth(160.8*width/1280);
+			this.addDescription.setLayoutX(10*width/1280);
+			this.travelDescription.setPrefWidth(400*width/1280);
+			this.travelDescription.setLayoutX(179*width/1280);
+			this.costLabel.setPrefWidth(189.6*width/1280);
+			this.costLabel.setLayoutX(10*width/1280);
+			this.costField.setPrefWidth(239*width/1280);
+			this.costField.setLayoutX(223*width/1280);
+			this.uploadFoto.setPrefWidth(284.8*width/1280);
+			this.uploadFoto.setLayoutX(10*width/1280);
+			this.choosePresentation.setPrefWidth(120*width/1280);
+			this.choosePresentation.setLayoutX(334*width/1280);
+			this.viewPresentation.setFitWidth(530*width/1280);
+			this.viewPresentation.setLayoutX(69*width/1280);
+			this.whatType.setPrefWidth(156.8*width/1280);
+			this.whatType.setLayoutX(10*width/1280);
+			this.filterPane.setPrefWidth(307*width/1280);
+			this.filterPane.setLayoutX(10*width/1280);
+			for(int i=0;i<filterPane.getChildren().size();i++) {
+				CheckBox box=(CheckBox)this.filterPane.getChildren().get(i);
+				box.setPrefWidth(150*width/1280);
+				if(i<4) {
+					box.setLayoutX(0);
+				}
+				else {
+					box.setLayoutX(160*width/1280);
+				}
+			}
+			this.allDoneButton.setPrefWidth(270*width/1280);
+			this.allDoneButton.setLayoutX(350*width/1280);
+			this.saveDraft.setLayoutX(350*width/1280);
+			this.saveDraft.setPrefWidth(270*width/1280);
+			this.menuBar.setPrefWidth(592*width/1280);
+			this.menuBar.setButtonMinWidth(136*width/1280);
+			this.nowGiveUs.setPrefWidth(501*width/1280);
+			this.nowGiveUs.setLayoutX(700*width/1280);
+			this.youAreEditing.setPrefWidth(184*width/1280);
+			this.youAreEditing.setLayoutX(700*width/1280);
+			this.dayBox.setPrefWidth(70*width/1280);
+			this.dayBox.setLayoutX(889*width/1280);
+			this.stepsScroll.setPrefWidth(580*width/1280);
+			this.stepsScroll.setLayoutX(677*width/1280);
+			this.stepInfoPane.setPrefWidth(580*width/1280);
+			this.selectStops.setPrefWidth(184*width/1280);
+			this.selectStops.setLayoutX(14*width/1280);
+			this.searchText.setPrefWidth(378*width/1280);
+			this.searchText.setLayoutX(181*width/1280);
+			this.stepsBar.setPrefWidth(420*width/1280);
+			this.stepsBar.setButtonMinWidth(28*width/1280);
+			this.stepsBar.setLayoutX(20*width/1280);
+			this.stepsBarLine.setLayoutX(171*width/1280);
+			this.descriptionLabel.setPrefWidth(170.4*width/1280);
+			this.descriptionLabel.setLayoutX(31*width/1280);
+			this.stopDescription.setPrefWidth(348*width/1280);
+			this.stopDescription.setLayoutX(200*width/1280);
+			this.givePractical.setPrefWidth(444*width/1280);
+			this.givePractical.setLayoutX(33*width/1280);
+			this.practicalInformation.setPrefWidth(435*width/1280);
+			this.practicalInformation.setLayoutX(34*width/1280);
+			this.stepImageLabel.setPrefWidth(197.6*width/1280);
+			this.stepImageLabel.setLayoutX(36*width/1280);
+			this.chooseStepImages.setPrefWidth(120*width/1280);
+			this.chooseStepImages.setLayoutX(307*width/1280);
+			this.progressIndicator.setPrefWidth(45*width/1280);
+			this.progressIndicator.setLayoutX(420*width/1280);
+			for(int i=0;i<dayImagePane.size();i++) {
+				for(ImageGridPane gridPane: dayImagePane.get(i)) {
+					gridPane.setPrefWidth(5*89.34*width/1280);
+					gridPane.moveX(35*width/1280);
+					for(int j=0;j<gridPane.getChildren().size();j++) {
+						ImageView view=(ImageView)gridPane.getChildren().get(j);
+						view.setFitWidth(89.34*width/1280);
+					}
+				}
+			}
+			standardImageWidth=89.34*width/1280;
+			this.newStop.setPrefWidth(40*width/1280);
+			this.newStop.setLayoutX(504*width/1280);
+			this.removeStep.setPrefWidth(40*width/1280);
+			this.removeStep.setLayoutX(449*width/1280);
+			this.arrowImage.setFitWidth(30*width/1280);
+			this.arrowImage.setLayoutX(650*width/1280);
+			this.progressPane.setPrefWidth(600*width/1280);
+			this.progressPane.setLayoutX(300*width/1280);
+			this.progressBar.setPrefWidth(200*width/1280);
+			this.progressBar.setLayoutX(200*width/1280);
+			this.closeProgressBar.setPrefWidth(80*width/1280);
+			this.closeProgressBar.setLayoutX(500*width/1280);
+			this.viewImagePane.setPrefWidth(400*width/1280);
+			this.viewImagePane.setLayoutX(400*width/1280);
+			this.viewImage.setFitWidth(400*width/1280);
+			this.closeImage.setPrefWidth(36*width/1280);
+			this.removeImage.setPrefWidth(36*width/1280);
+		});
+		this.mainAnchor.setPrefWidth(this.mainPane.getWidth());
+		this.mainAnchor.setPrefHeight(625*this.mainPane.getHeight()/720);
+		
 	}
 	private boolean alertSave() {
 		Alert saveAlert=new Alert(AlertType.CONFIRMATION);
@@ -482,6 +737,16 @@ public class AddViewController {
 	    	else {
 	    		listOfErrors.add(endDate);
 	    	}
+	    	if(this.costField.getText()!=null && !this.costField.getText().isEmpty()) {
+	    		try{
+	    			travel.setCostTravel(Double.parseDouble(this.costField.getText()));
+	    		}catch(NumberFormatException e) {
+	    			listOfErrors.add(this.costField);
+	    		}
+	    	}
+	    	else {
+	    		listOfErrors.add(costField);
+	    	}
 	    	//then take every steps for each day
 	    	List<StepBean> incompleteSteps=new ArrayList<StepBean>();
 	    	travel.setListStep(new ArrayList<StepBean>());
@@ -567,6 +832,16 @@ public class AddViewController {
 	    	travel.setDescriptionTravel(this.travelDescription.getText());
 	    	String startDate=util.toString(this.startDate.getValue());
 	    	String endDate=util.toString(this.endDate.getValue());
+	    	try {
+	    		travel.setCostTravel(Double.parseDouble(this.costField.getText()));
+	    	}catch(NullPointerException e) {
+	    		travel.setCostTravel(null);
+	    	}catch(NumberFormatException e) {
+	    		Alert alert=new Alert(AlertType.WARNING);
+	    		alert.setTitle("Invalid format");
+	    		alert.setHeaderText("Invali type for travel's cost");
+	    		alert.setContentText("travel cost must be a number! This information will not be stored");
+	    	}
 	    	travel.setStartTravelDate(startDate);
 	    	travel.setEndTravelDate(endDate);
 	    	travel.setPathBackground(this.viewPresentation.getImage());
@@ -662,6 +937,8 @@ public class AddViewController {
 	    		imageGridPane.setPrefHeight(imageGridPane.getHeight()/numRow + imageGridPane.getHeight());
 	    		nextRow++;
 	    		imageGridPane.updateRow();
+	    		stepInfoPaneHeight=620+89.34*(imageGridPane.getRowConstraints().size()-1);
+	    		this.stepInfoPane.setPrefHeight(this.stepInfoPane.getHeight()+standardImageHeight);
 	    	}
 	    }
 	    @FXML
@@ -825,7 +1102,7 @@ public class AddViewController {
 	    		}
 	    	}
 	    	//then close the image panel
-	    	closeImage();
+	    	this.closeImage();
 	    }
 	    @FXML
 	    private void removeStepHandler() {
