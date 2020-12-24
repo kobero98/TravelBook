@@ -205,6 +205,19 @@ public class AddViewController {
 				changeListOfDays();
 			}
 		});
+		this.viewPresentation.setOnMouseClicked((MouseEvent e)->{
+			if(this.viewPresentation.getImage()!=null) {
+			//Show the image 
+			this.actualImage=viewPresentation;
+			this.viewImage.setImage(viewPresentation.getImage());
+			viewImagePane.setVisible(true);
+			OpacityAnimation anim=new OpacityAnimation();
+			anim.setBackTop(internalPane, viewImagePane);
+			anim.setLimits(0.1, 0.9);
+			anim.start();
+			}
+			//else do nothing
+		});
 		endDate.valueProperty().addListener((observable,oldValue,newValue)->{
 			saved=false;
 			endDate.setStyle("");
@@ -670,7 +683,7 @@ public class AddViewController {
 	    	dialog.getExtensionFilters().add(new ExtensionFilter("Image","*.png","*.jpg"));
 	    	File selectedFile=dialog.showOpenDialog(mainPane.getScene().getWindow());
 	    	if(selectedFile!=null) {
-	    		presentationImage=new Image(selectedFile.toURI().toString(),viewPresentation.getFitWidth(),viewPresentation.getFitHeight(),false,false);
+	    		presentationImage=new Image(selectedFile.toURI().toString());
 	    		viewPresentation.setImage(presentationImage);
 	    	}
 	    }
@@ -999,7 +1012,7 @@ public class AddViewController {
             this.searchText.setText(step.getPlace());
             }
             //Qui penso di costruire un costruttore per PlacePrediction che a partire dal testo ricostruisce l'info iniziale
-            this.searchText.getLastSelectedItem().set(new PlacePrediction(this.searchText.getText()));
+            this.searchText.getLastSelectedItem().set(new PlacePrediction());
     		this.stopDescription.setText(step.getDescriptionStep());
     		
     		//add for practical information
@@ -1086,6 +1099,7 @@ public class AddViewController {
 	    @FXML
 	    private void removeImage() {
 	    	saved=false;
+	    	if(this.actualImage!=this.viewPresentation) {
 	    	//Remove the selected image from gridPane and step.
 	    	int col=imageGridPane.getColumnConstraints().size();
 	    	int row=imageGridPane.getRowConstraints().size();
@@ -1100,6 +1114,10 @@ public class AddViewController {
 	    			}
 	    			
 	    		}
+	    	}
+	    	}
+	    	else {
+	    		viewPresentation.setImage(null);
 	    	}
 	    	//then close the image panel
 	    	this.closeImage();

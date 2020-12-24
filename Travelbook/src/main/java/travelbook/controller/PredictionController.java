@@ -48,7 +48,7 @@ public class PredictionController {
 			}
 		}
 		HttpClient client=HttpClientBuilder.create().build();
-		String url="https://api.mapbox.com/geocoding/v5/mapbox.places/"+newText+".json"+"?autocomplete=true"+"&limit=10"+"&access_token="+TOKEN;
+		String url="https://api.mapbox.com/geocoding/v5/mapbox.places/"+newText+".json"+"?autocomplete=true"+"&limit=10"+"types=place,locality,address,poi"+"&access_token="+TOKEN;
 		HttpGet request=new HttpGet(url);
 		request.addHeader("accept", "application/json");
 		try {
@@ -58,21 +58,7 @@ public class PredictionController {
                 JSONParser parser = new JSONParser();
                 Object resultObject = parser.parse(json);
 
-                if (resultObject instanceof JSONArray) {
-                    JSONArray array=(JSONArray)resultObject;
-                    for (Object object : array) {
-                        JSONObject obj =(JSONObject)object;
-                        JSONArray arr=(JSONArray)obj.get("features");
-                        JSONObject place=(JSONObject)arr.get(0);
-                        PlacePrediction placePred=new PlacePrediction();
-                        placePred.setPlaceName(place.get("place_name").toString());
-                        System.out.println(obj.toString());
-                        System.out.println(obj.get("place_name"));
-                        System.out.println(obj.get("text"));
-                        return results;
-                    }
-
-                }else if (resultObject instanceof JSONObject) {
+                 if (resultObject instanceof JSONObject) {
                     JSONObject obj =(JSONObject)resultObject;
                     JSONArray array=(JSONArray)obj.get("features");
                     
@@ -83,18 +69,30 @@ public class PredictionController {
                     	place=(JSONObject)array.get(i);
                     	PlacePrediction placePred=new PlacePrediction();
                     	placePred.setPlaceName(place.get("place_name").toString());
-                    	placePred.setPlaceType(place.get("place_type").toString());
+                    	String type[]=(String[])place.get("place_type");
+                    	placePred.setPlaceType(type[0]);
                     	placePred.setCoordinates((double[])place.get("center"));
                     	JSONArray context=(JSONArray)place.get("context");
                     	for(int j=0;j<context.size();j++) {
                     		JSONObject first=(JSONObject)context.get(i);
                     		String id=first.get("id").toString();
+                    		if(type[0]=="poi") {
+                    			if(id.startsWith("postcode")) {
+                    				placePred.setPostCode(Double.parseDouble(first.get("text").toString()));
+                    				
+                    			}
+                    			
+                    		}
                     		if(id.startsWith("region")) {
                     			placePred.setCity(first.get("text").toString());
                     		}
                     		else if(id.startsWith("country")) {
                     			placePred.setCountry(first.get("text").toString());
                     		}
+                    	}
+                    	if(type[0]=="poi") {
+                    		JSONObject categoria=(JSONObject)place.get("properties");
+                    		placePred.setCategory(categoria.get("category").toString());
                     	}
                     	
                     	results.add(placePred);

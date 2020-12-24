@@ -74,7 +74,7 @@
                         </TextArea>
                         <Label fx:id="uploadFoto" layoutX="10.0" layoutY="330.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.2" prefWidth="284.8" text="Upload your presentation photo:" />
                         <Button fx:id="choosePresentation" layoutX="334.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#choosePresentationHandler" prefHeight="38.4" prefWidth="105.0" text="Choose" />
-                        <ImageView fx:id="viewPresentation" fitHeight="177.04" fitWidth="530.0" layoutX="69.0" layoutY="358.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="viewPresentation" fitHeight="177.04" fitWidth="530.0" layoutX="69.0" layoutY="358.0" pickOnBounds="true" />
                         <Label fx:id="whatType" layoutX="10.0" layoutY="583.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.2" prefWidth="156.8" text="What type of trip?">
                            <font>
                               <Font size="20.0" />

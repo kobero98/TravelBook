@@ -10,12 +10,26 @@ public class PlacePrediction {
 	private String country;
 	private String city;
 	private double coordinates[];
+	private double postCode;
+	private String category;
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
 	//private SuggestResult res;
 	/*public PlacePrediction(AutocompletePrediction pred) {
 		this.pred=pred;
 	}*/
 	public PlacePrediction() {
 		
+	}
+	public void setPostCode(double code) {
+		this.postCode=code;
+	}
+	public double getPostCode(double code) {
+		return this.postCode;
 	}
 	public void setPlaceName(String place) {
 		this.pred=place;
