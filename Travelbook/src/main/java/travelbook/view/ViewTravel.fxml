@@ -6,13 +6,11 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.ViewTravelController">
@@ -20,40 +18,18 @@
       <Button fx:id="backButton" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#backHandler" prefHeight="34.0" prefWidth="45.0" styleClass="back-button" AnchorPane.leftAnchor="0.0" />
     <AnchorPane fx:id="view" layoutX="46.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="629.0">
          <children>
-            <ButtonBar fx:id="bb" buttonMinWidth="30.0" layoutX="323.5" layoutY="201.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="278.5">
+            <ButtonBar fx:id="bb" buttonMinWidth="0.0" layoutX="323.5" layoutY="201.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="278.5">
               <buttons>
-                <Button fx:id="profileButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="16.0" mnemonicParsing="false" onAction="#profileButtonHandler" prefHeight="35.0" prefWidth="35.0" styleClass="view-profile" />
-                  <Button fx:id="chatButton" layoutX="253.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#chatButtonHandler" prefHeight="35.0" prefWidth="35.0" styleClass="message" />
-                  <Button fx:id="favButton" layoutX="253.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#favButtonHandler" prefHeight="35.0" prefWidth="35.0" styleClass="favourite" />
-                  <Button fx:id="shareButton" layoutX="253.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#shareButtonHandler" prefHeight="35.0" prefWidth="35.0" styleClass="share" />
+                <Button fx:id="profileButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#profileButtonHandler" prefHeight="35.0" prefWidth="35.0" styleClass="view-profile" />
+                  <Button fx:id="chatButton" layoutX="253.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#chatButtonHandler" prefHeight="35.0" prefWidth="35.0" styleClass="message" />
+                  <Button fx:id="favButton" layoutX="253.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#favButtonHandler" prefHeight="35.0" prefWidth="35.0" styleClass="favourite" />
+                  <Button fx:id="shareButton" layoutX="253.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#shareButtonHandler" prefHeight="35.0" prefWidth="35.0" styleClass="share" />
               </buttons>
                <padding>
                   <Insets right="10.0" />
                </padding>
             </ButtonBar>
-            <TabPane fx:id="days" layoutX="46.0" layoutY="343.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="245.0" prefWidth="555.0" tabClosingPolicy="UNAVAILABLE">
-              <tabs>
-                <Tab text="day1">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="177.0" prefWidth="536.0">
-                           <children>
-                              <Line endX="401.0" endY="47.0" layoutX="115.0" layoutY="71.0" startX="-106.0" startY="47.0" />
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                <Tab text="day2">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </Tab>
-                  <Tab text="day3">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                  </Tab>
-              </tabs>
-            </TabPane>
+            <TabPane fx:id="days" layoutX="46.0" layoutY="343.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="245.0" prefWidth="555.0" tabClosingPolicy="UNAVAILABLE" />
             <Pane fx:id="descrbg" layoutX="45.0" layoutY="201.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="134.0" prefWidth="278.5" styleClass="pane">
                <children>
                   <Text fx:id="descr" layoutX="6.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. " textOrigin="TOP" translateY="10.0" wrappingWidth="262.0" />
@@ -62,13 +38,13 @@
             <HBox fx:id="travel" layoutX="45.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="176.0" prefWidth="557.0" styleClass="h-box" />
          </children>
       </AnchorPane>
-      <ScrollPane fx:id="step" prefHeight="609.0" prefWidth="586.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <ScrollPane fx:id="step" hbarPolicy="NEVER" layoutX="684.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="586.0">
          <content>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="565.0">
+            <AnchorPane fx:id="stepAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="565.0">
                <children>
-                  <Text fx:id="stepDescr" layoutX="11.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." wrappingWidth="543.0" />
-                  <Label fx:id="stepName" layoutX="14.0" layoutY="24.0" styleClass="name" text="NOME LUOGO" />
-                  <Text fx:id="stepInf" layoutX="10.0" layoutY="512.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." wrappingWidth="465.0" />
+                  <Text fx:id="stepDescr" layoutX="11.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" wrappingWidth="543.0" />
+                  <Label fx:id="stepName" layoutX="14.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="300.0" styleClass="name" text="NOME LUOGO" />
+                  <Text fx:id="stepInf" layoutX="10.0" layoutY="512.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="543.0" />
                   <StackPane layoutX="5.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="169.0" prefWidth="560.0">
                      <children>
                         <ScrollPane fx:id="stepPhoto" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="169.0" prefWidth="520.0" styleClass="scroll-photo" vbarPolicy="NEVER">
@@ -76,8 +52,8 @@
                               <ButtonBar fx:id="photoBox" buttonMinWidth="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="169.0" prefWidth="0.0" styleClass="photo-bar" />
                            </content>
                         </ScrollPane>
-                        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#topTenScrollRightHandler" prefHeight="20.0" prefWidth="15.0" styleClass="right-button" StackPane.alignment="CENTER_RIGHT" />
-                        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#topTenScrollLeftHandler" prefHeight="20.0" prefWidth="15.0" styleClass="left-button" StackPane.alignment="CENTER_LEFT" />
+                        <Button fx:id="rightScroll" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#topTenScrollRightHandler" prefHeight="20.0" prefWidth="15.0" styleClass="right-button" StackPane.alignment="CENTER_RIGHT" />
+                        <Button fx:id="leftScroll" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#topTenScrollLeftHandler" prefHeight="20.0" prefWidth="15.0" styleClass="left-button" StackPane.alignment="CENTER_LEFT" />
                      </children>
                   </StackPane>
                </children>

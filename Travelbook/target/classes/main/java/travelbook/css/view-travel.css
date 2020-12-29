@@ -148,3 +148,27 @@
 	-fx-background-color: transparent;
 	-fx-background-radius: 0;
 }
+.itinerary{
+	-fx-background-color: transparent;
+	-fx-effect: dropshadow(three-pass-box, shadow, 4,0,0,4);
+}
+.itinerary .button{
+	-fx-background-color: Dcolor;
+	-fx-background-radius: 0;
+	-fx-shape: "M18.509 0.918137C10.7066 0.918137 4.39612 6.50857 4.39612 13.4207C4.39612 22.7976 18.509 36.6397 18.509 36.6397C18.509 36.6397 32.6219 22.7976 32.6219 13.4207C32.6219 6.50857 26.3115 0.918137 18.509 0.918137ZM18.509 17.8859C15.7268 17.8859 13.4687 15.8855 13.4687 13.4207C13.4687 10.9559 15.7268 8.95549 18.509 8.95549C21.2913 8.95549 23.5494 10.9559 23.5494 13.4207C23.5494 15.8855 21.2913 17.8859 18.509 17.8859Z";
+}
+.itinerary-line{
+	-fx-stroke: Dcolor;
+	-fx-stroke-width: 3;
+}
+.itinerary .button:hover{
+	-fx-border-color: lightGrey;
+	-fx-background-color: Dcolor;
+	-fx-background-insets: -16 -8 0 -8;
+	-fx-border-insets: -16 -8 0 -8;
+}
+.itinerary .button-focused{
+	-fx-border-color: lightGrey;
+	-fx-background-insets: -16 -8 0 -8;
+	-fx-border-insets: -16 -8 0 -8;
+}
