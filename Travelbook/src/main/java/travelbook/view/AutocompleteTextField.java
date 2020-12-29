@@ -106,7 +106,7 @@ public abstract class AutocompleteTextField<S> extends TextField{
 			this.focusedProperty().addListener((observable,oldValue,newValue)->{
 				if(this.isFocused()) {
 					//Sostituiscimi con true per provarmi
-				    this.enable=false;
+				    this.enable=true;
 					
 				}
 				else {

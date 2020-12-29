@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -38,6 +39,16 @@ public class PredictionController {
 	private String TOKEN="INSERT_HERE_YOUR_TOKEN";
 	private List<PlacePrediction> results=new ArrayList<>();
 	public List<PlacePrediction> getPredictions(String text) {
+		List<PlacePrediction> results=mapboxQuery(text,true,10);
+		return results;
+	}
+	private List<PlacePrediction> mapboxQuery(String text,boolean bool,int limit) {
+		if(limit>10) {
+			limit=10;
+		}
+		if(limit<1) {
+			limit=1;
+		}
 		String[] part=text.split(" ");
 		StringBuffer newText=new StringBuffer();
 		for(int i=0;i<part.length;i++) {
@@ -48,7 +59,7 @@ public class PredictionController {
 			}
 		}
 		HttpClient client=HttpClientBuilder.create().build();
-		String url="https://api.mapbox.com/geocoding/v5/mapbox.places/"+newText+".json"+"?autocomplete=true"+"&limit=10"+"types=place,locality,address,poi"+"&access_token="+TOKEN;
+		String url="https://api.mapbox.com/geocoding/v5/mapbox.places/"+newText+".json"+"?autocomplete="+bool+"&limit="+limit+"types=place,locality,address,poi"+"&access_token="+TOKEN;
 		HttpGet request=new HttpGet(url);
 		request.addHeader("accept", "application/json");
 		try {
@@ -69,14 +80,18 @@ public class PredictionController {
                     	place=(JSONObject)array.get(i);
                     	PlacePrediction placePred=new PlacePrediction();
                     	placePred.setPlaceName(place.get("place_name").toString());
-                    	String type[]=(String[])place.get("place_type");
-                    	placePred.setPlaceType(type[0]);
-                    	placePred.setCoordinates((double[])place.get("center"));
+                    	System.out.println(placePred.toString());
+                    	JSONArray types=(JSONArray)place.get("place_type");
+                    	
+                    	placePred.setPlaceType((String)types.get(0));
+                    	JSONArray coordinates=(JSONArray)place.get("center");
+                    	//mapbox return a long lat array but i set lat long (see map)
+                    	placePred.setCoordinates((double)coordinates.get(1), (double)coordinates.get(0));
                     	JSONArray context=(JSONArray)place.get("context");
                     	for(int j=0;j<context.size();j++) {
-                    		JSONObject first=(JSONObject)context.get(i);
+                    		JSONObject first=(JSONObject)context.get(j);
                     		String id=first.get("id").toString();
-                    		if(type[0]=="poi") {
+                    		if((String)types.get(0)=="poi") {
                     			if(id.startsWith("postcode")) {
                     				placePred.setPostCode(Double.parseDouble(first.get("text").toString()));
                     				
@@ -90,19 +105,21 @@ public class PredictionController {
                     			placePred.setCountry(first.get("text").toString());
                     		}
                     	}
-                    	if(type[0]=="poi") {
+                    	if((String)types.get(0)=="poi") {
                     		JSONObject categoria=(JSONObject)place.get("properties");
                     		placePred.setCategory(categoria.get("category").toString());
                     	}
                     	
                     	results.add(placePred);
+                    	System.out.println("Aggiunto uno");
                     }
                     
-                    return results;
+                   
                 }
 
             } catch (Exception e) {
                 // TODO: handle exception
+            	e.printStackTrace();
             }
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
@@ -112,6 +129,14 @@ public class PredictionController {
 			e.printStackTrace();
 		}
 		return results;
+	}
+	public PlacePrediction getPlaceByName(String name) {
+		List<PlacePrediction> results=this.mapboxQuery(name, false, 1);
+		PlacePrediction result=results.get(0);
+		return result;
+	}
+	public String getToken() {
+		return this.TOKEN;
 	}
 	
 	

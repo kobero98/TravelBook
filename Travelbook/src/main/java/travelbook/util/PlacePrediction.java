@@ -1,6 +1,7 @@
 package main.java.travelbook.util;
 
 import main.java.travelbook.controller.PredictionController;
+import java.util.ArrayList;
 import java.util.List;
 //import com.esri.arcgisruntime.tasks.geocode.SuggestResult;
 public class PlacePrediction {
@@ -9,7 +10,8 @@ public class PlacePrediction {
 	private String type;
 	private String country;
 	private String city;
-	private double coordinates[];
+	private double lat;
+	private double lon;
 	private double postCode;
 	private String category;
 	public String getCategory() {
@@ -43,11 +45,15 @@ public class PlacePrediction {
 	public void setCity(String city) {
 		this.city=city;
 	}
-	public void setCoordinates(double coord[]) {
-		this.coordinates=coord;
+	public void setCoordinates(double lat,double lon) {
+		this.lat=lat;
+		this.lon=lon;
 	}
-	public double[] getCoordinates() {
-		return this.coordinates;
+	public List<Double> getCoordinates() {
+		List<Double> array=new ArrayList<Double>();
+		array.add(this.lat);
+		array.add(this.lon);
+		return array;
 	}
 	public String getPlaceName() {
 		return this.pred;

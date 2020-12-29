@@ -39,6 +39,7 @@ import javafx.scene.layout.RowConstraints;
 import java.util.List;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.Group;
@@ -1242,13 +1243,8 @@ public class AddViewController {
 	    	//We must define a new fxml file that show a map 
 	    	//It has a controller
 	    	//Così quando carichiamo il file fxml poi diciamo al controller vedi che il viaggio di cui devi mostrare è questo
-	    	Stage stage = new Stage();
-	    	stage.setTitle("MapView");
-	    	AnchorPane root=new AnchorPane();
-	    	root.setPrefSize(300, 300);
-	    	stage.setScene(new Scene(root));
-	    	stage.setResizable(true);
-	    	stage.show();
+	    	ViewOnMapController controller=new ViewOnMapController();
+	    	controller.show();
 	    	}
 	    
 }
