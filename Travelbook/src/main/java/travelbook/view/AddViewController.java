@@ -269,6 +269,9 @@ public class AddViewController {
 			stepByDay.get(dayNumber).get(stepNumber).setPlace(place.toString());
 			//Forse può essere interessante conservare da qualche parte il dato PlacePrediction per query future 
 			//senza doverlo ricercare.
+			stepByDay.get(dayNumber).get(stepNumber).setFullPlace(place);
+			StepBean prova=stepByDay.get(dayNumber).get(stepNumber);
+			System.out.println("Nome: "+prova.getPlace()+" Tipo: "+prova.getFullPlace().getType()+" Category: "+prova.getFullPlace().getCategory());
 			}
 			
 		});
@@ -1238,13 +1241,19 @@ public class AddViewController {
 	    }
 	    @FXML
 	    private void viewOnMapHandler() {
-	    	//The idea is to open a new window that is handled by an other controller and this window show only the map
-	    	//Now open a new window only
-	    	//We must define a new fxml file that show a map 
-	    	//It has a controller
-	    	//Così quando carichiamo il file fxml poi diciamo al controller vedi che il viaggio di cui devi mostrare è questo
+	    	List<StepBean> stepNow=new ArrayList<StepBean>();
+	    	for(List<StepBean> stepInDay: this.stepByDay) {
+	    		for(StepBean step: stepInDay) {
+	    			if(step.getPlace()!=null && !step.getPlace().isEmpty()) {
+	    				//Aggiunge solo gli step di cui è noto almeno il posto
+	    				stepNow.add(step);
+	    			}
+	    		}
+	    	}
+	    	if(stepNow.size()>0) {
 	    	ViewOnMapController controller=new ViewOnMapController();
-	    	controller.show();
+	    	controller.load(stepNow);
+	    	}
 	    	}
 	    
 }

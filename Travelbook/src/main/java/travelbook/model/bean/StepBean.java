@@ -3,13 +3,13 @@ package main.java.travelbook.model.bean;
 import java.util.List;
 
 import javafx.scene.image.Image;
-
+import main.java.travelbook.util.PlacePrediction;
 public class StepBean {
 	private int Number,IDTravel,IDCreator,GroupDay,NumberInDay;
 	private String DescriptionStep,Place;
 	private String Day;
 	private List <Image> Photo;
-	
+	private PlacePrediction fullPlace;
 	public  StepBean(){}
 	public  StepBean(int Number,int IDTravel,int IDCreator){
 		this.Number=Number;
@@ -17,6 +17,12 @@ public class StepBean {
 		this.IDTravel=IDTravel;
 	}
 	
+	public PlacePrediction getFullPlace() {
+		return fullPlace;
+	}
+	public void setFullPlace(PlacePrediction fullPlace) {
+		this.fullPlace = fullPlace;
+	}
 	public int getNumberInDay() {
 		return NumberInDay;
 	}

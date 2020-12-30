@@ -37,12 +37,13 @@ import java.io.IOException;
 public class PredictionController {
 	private String API_KEY;
 	private String TOKEN="INSERT_HERE_YOUR_TOKEN";
-	private List<PlacePrediction> results=new ArrayList<>();
+	
 	public List<PlacePrediction> getPredictions(String text) {
 		List<PlacePrediction> results=mapboxQuery(text,true,10);
 		return results;
 	}
 	private List<PlacePrediction> mapboxQuery(String text,boolean bool,int limit) {
+		List<PlacePrediction> results=new ArrayList<PlacePrediction>();
 		if(limit>10) {
 			limit=10;
 		}
@@ -72,28 +73,31 @@ public class PredictionController {
                  if (resultObject instanceof JSONObject) {
                     JSONObject obj =(JSONObject)resultObject;
                     JSONArray array=(JSONArray)obj.get("features");
-                    
+                 
                     
                    
                     JSONObject place;
                     for(int i=0;i<array.size();i++) {
+                   
                     	place=(JSONObject)array.get(i);
+                    	
                     	PlacePrediction placePred=new PlacePrediction();
                     	placePred.setPlaceName(place.get("place_name").toString());
-                    	System.out.println(placePred.toString());
-                    	JSONArray types=(JSONArray)place.get("place_type");
                     	
-                    	placePred.setPlaceType((String)types.get(0));
+                    	JSONArray types=(JSONArray)place.get("place_type");
+                    	String tipo=(String)types.get(0);
+                    	placePred.setPlaceType(tipo);
                     	JSONArray coordinates=(JSONArray)place.get("center");
-                    	//mapbox return a long lat array but i set lat long (see map)
+                    	//mapbox return a long lat array but i need lat long (see map)
                     	placePred.setCoordinates((double)coordinates.get(1), (double)coordinates.get(0));
                     	JSONArray context=(JSONArray)place.get("context");
+                    	if(context!=null) {
                     	for(int j=0;j<context.size();j++) {
                     		JSONObject first=(JSONObject)context.get(j);
                     		String id=first.get("id").toString();
-                    		if((String)types.get(0)=="poi") {
+                    		if(tipo.compareTo("poi")==0) {
                     			if(id.startsWith("postcode")) {
-                    				placePred.setPostCode(Double.parseDouble(first.get("text").toString()));
+                    				placePred.setPostCode(first.get("text").toString());
                     				
                     			}
                     			
@@ -104,9 +108,12 @@ public class PredictionController {
                     		else if(id.startsWith("country")) {
                     			placePred.setCountry(first.get("text").toString());
                     		}
-                    	}
-                    	if((String)types.get(0)=="poi") {
+                    	}}
+                    	if(tipo.compareTo("poi")==0) {
+                    		
                     		JSONObject categoria=(JSONObject)place.get("properties");
+                    		System.out.println(categoria.toString());
+                    		System.out.println(categoria.get("category").toString());
                     		placePred.setCategory(categoria.get("category").toString());
                     	}
                     	

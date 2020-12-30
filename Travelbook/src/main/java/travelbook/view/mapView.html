@@ -11,23 +11,44 @@
 	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
 </style>
 <script>
-function init(){
+var map;
+var polyline;
+function init(token){
     
-    L.mapbox.accessToken="INSERT_HERE_YOUR_TOKEN";
-    const map= L.mapbox.map('map').setView([41.89306,12.48278],10);
+    L.mapbox.accessToken=token;
+    map= L.mapbox.map('map').setView([41.89306,12.48278],10);
     L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11').addTo(map);
-    L.marker([41.89306,12.48278]).addTo(map);
-    L.marker([	43.7874, 11.2499]).addTo(map);
-    L.marker([40.863, 14.2767]).addTo(map);
-    var polyline=L.polyline([[41.89306,12.48278],[	43.7874, 11.2499],[40.863, 14.2767]],{color: 'white'}).addTo(map);
-    map.fitBounds(polyline.getBounds());
+    
 }
-function addMarker(lat,lon){
-	L.marker([lat,lon]).addTo(map);
+function addMarker(coordinates,description,icon,start){
+	var color;
+	if(start){
+		color="#FF0000";
+	}
+	else{
+		color="#0000FF";
+	}
+	if(icon=="null"){
+		icon="marker";
+	}
+	var marker=L.marker(coordinates, {
+		icon: L.mapbox.marker.icon({
+			'marker-size': 'large',
+	        'marker-symbol': icon,
+	        'marker-color': color
+		})
+	}).addTo(map);
+	var content="<p>"+String(description)+"</p>";
+	marker.bindPopup(content);
+	marker.getPopup().closeOnClik=false;
+	marker.on('click',function(e){
+		marker.openPopup();
+	});
+	
 }
 function drawPath(points){
 	//Points must be an array of LatLng elements
-	var polyline=L.polyline(points, {color: 'red'}).addTo(map);
+	var polyline=L.polyline(points, {color: 'white'}).addTo(map);
 	//set map view on the path beautiful.
 	map.fitBounds(polyline.getBounds());
 }
