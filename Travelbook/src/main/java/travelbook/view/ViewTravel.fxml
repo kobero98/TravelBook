@@ -43,9 +43,9 @@
             <AnchorPane fx:id="stepAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="565.0">
                <children>
                   <Text fx:id="stepDescr" layoutX="11.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" wrappingWidth="543.0" />
-                  <Label fx:id="stepName" layoutX="14.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="300.0" styleClass="name" text="NOME LUOGO" />
-                  <Text fx:id="stepInf" layoutX="10.0" layoutY="512.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="543.0" />
-                  <StackPane layoutX="5.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="169.0" prefWidth="560.0">
+                  <Label fx:id="stepName" layoutX="11.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="543.0" styleClass="name" text="NOME LUOGO" />
+                  <Text fx:id="stepInf" layoutX="11.0" layoutY="512.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="543.0" />
+                  <StackPane fx:id="photoStack" layoutX="5.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="169.0" prefWidth="560.0">
                      <children>
                         <ScrollPane fx:id="stepPhoto" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="169.0" prefWidth="520.0" styleClass="scroll-photo" vbarPolicy="NEVER">
                            <content>
