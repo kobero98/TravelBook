@@ -14,13 +14,14 @@
 var map;
 var polyline;
 function init(token){
-    
+    map=null;
+    polyline=null;
     L.mapbox.accessToken=token;
     map= L.mapbox.map('map').setView([41.89306,12.48278],10);
     L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11').addTo(map);
     
 }
-function addMarker(coordinates,description,icon,start){
+function addMarker(coordinates,description,icon,start,imgUrl){
 	var color;
 	if(start){
 		color="#FF0000";
@@ -38,9 +39,8 @@ function addMarker(coordinates,description,icon,start){
 	        'marker-color': color
 		})
 	}).addTo(map);
-	var content="<p>"+String(description)+"</p>";
-	marker.bindPopup(content);
-	marker.getPopup().closeOnClik=false;
+	
+	marker.bindPopup(description,{closeOnClick: false});
 	marker.on('click',function(e){
 		marker.openPopup();
 	});
@@ -48,9 +48,11 @@ function addMarker(coordinates,description,icon,start){
 }
 function drawPath(points){
 	//Points must be an array of LatLng elements
-	var polyline=L.polyline(points, {color: 'white'}).addTo(map);
+	var polyline=L.polyline(points, {color: 'white', lineJoin: 'arcs'}).addTo(map);
+	polyline.redraw();
 	//set map view on the path beautiful.
 	map.fitBounds(polyline.getBounds());
+	//map.setZoom(11,doubleClickZoom=false);
 }
 	
 </script>

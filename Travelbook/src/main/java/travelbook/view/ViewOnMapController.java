@@ -11,37 +11,18 @@ import javafx.scene.web.WebEngine;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 public class ViewOnMapController {
-	private WebView view=new WebView();
+	private WebView view;
 	private WebEngine engine;
 	private Stage stage;
 	private List<StepBean> steps=null;
 	public ViewOnMapController() {
-		view.setVisible(true);
-		this.engine=view.getEngine();
-		String url= ViewOnMapController.class.getResource("mapView.html").toString();
-		engine.getLoadWorker().stateProperty().addListener((observable,oldValue,newValue)->{
-			if(newValue==Worker.State.SUCCEEDED) {
-				System.out.println("Done");
-				PredictionController controller=new PredictionController();
-				String token="\""+controller.getToken()+"\"";
-				engine.executeScript("init("+token+");");
-				//Sto ancora lavorando a come collegare il controller applicativo per costruire gli script da lanciare in js
-				while(this.steps==null) {
-					
-				}
-				List<String> scripts=ViewOnMap.getIstance().loadTravel(this.steps);
-				for(String script: scripts) {
-					engine.executeScript(script);
-				}
-			}
-			else {
-				System.out.println("Niente");
-			}
-		});
-		engine.load(url);
+	
 		
 	}
 	public void load(List<StepBean> steps) {
+		//Now works fine
+		//Non so perchè ma prima non mi reinstallava la mappa ogni volta ed essendo questo un controller generico deve essere indipendente per ogni istanza lanciata
+		 view=new WebView();
 		 stage=new Stage();
 		 AnchorPane anchor=new AnchorPane();
 		 view.setPrefHeight(720);
@@ -53,5 +34,28 @@ public class ViewOnMapController {
 		 stage.setScene(scene);
 		 this.steps=steps;
 		 stage.show();
+		 view.setVisible(true);
+			this.engine=view.getEngine();
+			String url= ViewOnMapController.class.getResource("mapView.html").toString();
+			engine.getLoadWorker().stateProperty().addListener((observable,oldValue,newValue)->{
+				if(newValue==Worker.State.SUCCEEDED) {
+					System.out.println("Done");
+					PredictionController controller=new PredictionController();
+					String token="\""+controller.getToken()+"\"";
+					engine.executeScript("init("+token+");");
+					//Sto ancora lavorando a come collegare il controller applicativo per costruire gli script da lanciare in js
+					while(this.steps==null) {
+						
+					}
+					List<String> scripts=ViewOnMap.getIstance().loadTravel(this.steps);
+					for(String script: scripts) {
+						engine.executeScript(script);
+					}
+				}
+				else {
+					System.out.println("Niente");
+				}
+			});
+			engine.load(url);
 	}
 }

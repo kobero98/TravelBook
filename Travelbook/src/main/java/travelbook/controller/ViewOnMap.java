@@ -30,33 +30,59 @@ public class ViewOnMap {
 			}
 				forPath.append(step.getFullPlace().getCoordinates().toString()+",");
 				script.append(step.getFullPlace().getCoordinates().toString()+",");
-			
-			if(step.getDescriptionStep()!=null && !step.getDescriptionStep().isEmpty()) {
-				script.append("\""+step.getDescriptionStep()+"\",");
+			StringBuffer popupContent=new StringBuffer();
+			popupContent.append("<b>"+step.getPlace()+"</b><br>");
+			popupContent.append("Category: ");
+			//Category is a comma separeted string if step is a poi or "city" if is a "place" or other
+			String category=step.getFullPlace().getCategory();
+			if(category!=null) {
+				popupContent.append(category+"<br>");
 			}
 			else {
-				script.append("\"No description yet\",");
+				popupContent.append(step.getFullPlace().getType()+"<br>");
 			}
+			popupContent.append("User Description: ");
+			if(step.getDescriptionStep()!=null && !step.getDescriptionStep().isEmpty()) {
+				popupContent.append(step.getDescriptionStep()+"<br>");
+			}
+			else {
+				popupContent.append("No description yet<br>");
+			}
+			script.append("\"<p>"+popupContent+"</p>\",");
 			String icon=null;
-			String category=step.getFullPlace().getCategory();
-			//Do you have some other idea on possible category? put it here 
-			//N.B. Se non le copriamo tutte non è una tragedia uscirà un marker di default
+			
+			//Ho scoperto maki ma sfortunatamente non funziona come vorrei
 			if(category!=null) {
-			if(category.contains("restaurant")) {
-				icon="restaurant";
-			}
-			if(category.contains("historic")||category.contains("museum")) {
-				icon="museum";
-			}
-			if(category.contains("bar")) {
-				icon="bar";
-			}
-			if(category.contains("beach")) {
-				icon="beach";
-			}
-			if(category.contains("mountain")) {
-				icon="mountain";
-			}
+				if(step.getFullPlace().getIcon()!=null) {
+					icon=step.getFullPlace().getIcon();
+				}
+				else {
+					//Add here an if statement if you know some other categories
+					//See maki on google to know how icon are assigned
+					//La risposta json ha un campo maki ma sfortunatamente non funziona come dovrebbe
+					//Ad esempio per un ristorante come Tonnarello non ritorna il campo maki.
+					//Stessa cosa per un monumento come il colosseo
+					//Il mio metodo invece riconosce questi ultimi sfruttando le categories.
+					if(category.contains("restaurant")) {
+						icon="restaurant";
+					}
+					if(category.contains("historic")||category.contains("museum")) {
+						icon="museum";
+					}
+					if(category.contains("bar")) {
+						icon="bar";
+					}
+					if(category.contains("beach")) {
+						icon="beach";
+					}
+					if(category.contains("mountain")) {
+						icon="mountain";
+					}
+					if(category.contains("hotel") || category.contains("bnb")) {
+						icon="home";
+					}
+					
+				}
 			}
 			script.append("\""+icon+"\",");
 			script.append(start);

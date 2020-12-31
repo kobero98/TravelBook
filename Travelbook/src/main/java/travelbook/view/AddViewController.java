@@ -1015,8 +1015,8 @@ public class AddViewController {
             if(step.getPlace()!=null) {
             this.searchText.setText(step.getPlace());
             }
-            //Qui penso di costruire un costruttore per PlacePrediction che a partire dal testo ricostruisce l'info iniziale
-            this.searchText.getLastSelectedItem().set(new PlacePrediction());
+            
+            this.searchText.getLastSelectedItem().set(step.getFullPlace());
     		this.stopDescription.setText(step.getDescriptionStep());
     		
     		//add for practical information

@@ -35,8 +35,8 @@ import com.esri.arcgisruntime.tasks.geocode.SuggestResult;*/
 import java.util.ArrayList;
 import java.io.IOException;
 public class PredictionController {
-	private String API_KEY;
-	private String TOKEN="INSERT_HERE_YOUR_TOKEN";
+	
+	private String TOKEN="INSERT_YOUR_TOKEN_HERE";
 	
 	public List<PlacePrediction> getPredictions(String text) {
 		List<PlacePrediction> results=mapboxQuery(text,true,10);
@@ -112,8 +112,9 @@ public class PredictionController {
                     	if(tipo.compareTo("poi")==0) {
                     		
                     		JSONObject categoria=(JSONObject)place.get("properties");
-                    		System.out.println(categoria.toString());
-                    		System.out.println(categoria.get("category").toString());
+                    		if(categoria.get("maki")!=null) {
+                    		placePred.setIcon(categoria.get("maki").toString());
+                    		}
                     		placePred.setCategory(categoria.get("category").toString());
                     	}
                     	
