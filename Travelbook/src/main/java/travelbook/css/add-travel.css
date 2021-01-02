@@ -172,10 +172,15 @@
     -fx-border-color: lightGrey;
     -fx-border-width: 1.5;
 }
-.add{
+.buttons{
 	-fx-background-color: textColorL;
 	-fx-effect: dropshadow(three-pass-box, shadow, 4, 0, -4, 4);
+}
+.add{
 	-fx-shape: "M22.2857 11.2143H32.5V13.7857H22.2857H21.7857V14.2857V24.5H19.2143V14.2857V13.7857H18.7143H8.5V11.2143H18.7143H19.2143V10.7143V0.5H21.7857V10.7143V11.2143H22.2857Z";
+}
+.remove{
+	-fx-shape:"M19 13H5v-2h14v2z";
 }
 .choice-box{
     -fx-background-color: #FDFDFD;

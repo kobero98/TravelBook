@@ -473,8 +473,8 @@ public class AddViewController {
 				}
 			}
 			this.standardImageHeight=89.34*height/625;
-			this.removeStep.setPrefHeight(40*height/625);
-			this.removeStep.setLayoutY(80*height/625);
+			this.removeStep.setPrefHeight(5*height/625);
+			this.removeStep.setLayoutY(98*height/625);
 			this.newStop.setPrefHeight(40*height/625);
 			this.newStop.setLayoutY(80*height/625);
 			this.addDescription.setPrefHeight(height*23.2/625);
