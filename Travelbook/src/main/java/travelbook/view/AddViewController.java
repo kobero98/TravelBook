@@ -267,7 +267,7 @@ public class AddViewController {
 			if(searchText.getLastSelectedItem().get()!=null) {
 			PlacePrediction place=searchText.getLastSelectedItem().getValue();
 			stepByDay.get(dayNumber).get(stepNumber).setPlace(place.toString());
-			//Forse può essere interessante conservare da qualche parte il dato PlacePrediction per query future 
+			//Forse puï¿½ essere interessante conservare da qualche parte il dato PlacePrediction per query future 
 			//senza doverlo ricercare.
 			stepByDay.get(dayNumber).get(stepNumber).setFullPlace(place);
 			StepBean prova=stepByDay.get(dayNumber).get(stepNumber);
@@ -504,7 +504,7 @@ public class AddViewController {
 		});
 		this.mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
 			double width=mainAnchor.getPrefWidth();
-			System.out.println("la larghezza è: "+width);
+			System.out.println("la larghezza ï¿½: "+width);
 			this.internalPane.setPrefWidth(1280*width/1280);
 			this.travelPane.setPrefWidth(640*width/1280);
 			this.travelPane.setLayoutX(10*width/1280);
@@ -623,12 +623,17 @@ public class AddViewController {
 		Alert saveAlert=new Alert(AlertType.CONFIRMATION);
 		 saveAlert.setTitle("Unsaved information");
 		 saveAlert.setHeaderText("There are some unsaved information");
-		 saveAlert.setContentText("There is some unsaved information that will be lost. What do you want to do?" );
+		 saveAlert.setContentText("There are some unsaved information that will be lost. What do you want to do?" );
 		 ButtonType saveExit=new ButtonType("Save And Exit");
 		 ButtonType notSave=new ButtonType("Don't save and exit");
 		 ButtonType cancel=new ButtonType("Cancel",ButtonData.CANCEL_CLOSE);
 		 saveAlert.getButtonTypes().clear();
 		 saveAlert.getButtonTypes().addAll(saveExit,notSave,cancel);
+		 saveAlert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
+		 saveAlert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
+		 Image image = new Image("main/resources/AddViewImages/help.png");
+		 ImageView imageView = new ImageView(image);
+		 saveAlert.setGraphic(imageView);
 		 saveAlert.initOwner(this.mainPane.getScene().getWindow());
 		 Optional<ButtonType> result=saveAlert.showAndWait();
 		 if(result.get()==saveExit) {
@@ -802,6 +807,8 @@ public class AddViewController {
 	    		alert.setHeaderText("Incomplete steps found");
 	    		alert.setContentText("There are some incomplete steps, complete them and then retry");
 	    		alert.setTitle("Error post message");
+	    		alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
+	   		 	alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
 	    		alert.initOwner(this.mainPane.getScene().getWindow());
 	    		alert.showAndWait();
 	    		
@@ -858,6 +865,8 @@ public class AddViewController {
 	    		alert.setTitle("Invalid format");
 	    		alert.setHeaderText("Invali type for travel's cost");
 	    		alert.setContentText("travel cost must be a number! This information will not be stored");
+	    		alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
+	   		 	alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
 	    	}
 	    	travel.setStartTravelDate(startDate);
 	    	travel.setEndTravelDate(endDate);
@@ -902,7 +911,7 @@ public class AddViewController {
 	    private void multipleChoosHandler() {
 	    	if(dayNumber>=0) {
 	    	FileChooser dialog=new FileChooser();
-	    	//Visto che place dovrebbe essere una stringa lunga forse meglio solo la città
+	    	//Visto che place dovrebbe essere una stringa lunga forse meglio solo la cittï¿½
 	    	dialog.setTitle("Choose some photos for this step" + stepByDay.get(dayNumber).get(stepNumber).getPlace());
 	    	dialog.getExtensionFilters().add(new ExtensionFilter("Image","*.png","*.jpg"));
 	    	List<File> files = dialog.showOpenMultipleDialog(mainPane.getScene().getWindow());
@@ -983,6 +992,11 @@ public class AddViewController {
 	    		maxSizeReach.setTitle("Max number of step error");
 	    		maxSizeReach.setHeaderText("Max size of step per day reached");
 	    		maxSizeReach.setContentText("You have reached the maximum number of steps per day, the maximum number is "+this.stepLimit);
+	    		maxSizeReach.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
+	   		 	maxSizeReach.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
+	   		 	Image image = new Image("main/resources/AddViewImages/error.png");
+	   		 	ImageView imageView = new ImageView(image);
+	   		 	maxSizeReach.setGraphic(imageView);
 	    		maxSizeReach.initOwner(this.mainPane.getScene().getWindow());
 	    		maxSizeReach.showAndWait();
 	    	}
@@ -1135,6 +1149,11 @@ public class AddViewController {
 	    	confirmAlert.setTitle("Delete step confirmation");
 	    	confirmAlert.setHeaderText("Are you sure to remove this step?");
 	    	confirmAlert.setContentText("if you remove this step then all the information are deleted");
+	    	confirmAlert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
+			confirmAlert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
+			Image image = new Image("main/resources/AddViewImages/help.png");
+   		 	ImageView imageView = new ImageView(image);
+   		 	confirmAlert.setGraphic(imageView);
 	    	confirmAlert.initOwner(this.mainPane.getScene().getWindow());
 	    	confirmAlert.showAndWait();
 	    	ButtonType result=confirmAlert.getResult();
@@ -1245,7 +1264,7 @@ public class AddViewController {
 	    	for(List<StepBean> stepInDay: this.stepByDay) {
 	    		for(StepBean step: stepInDay) {
 	    			if(step.getPlace()!=null && !step.getPlace().isEmpty()) {
-	    				//Aggiunge solo gli step di cui è noto almeno il posto
+	    				//Aggiunge solo gli step di cui ï¿½ noto almeno il posto
 	    				stepNow.add(step);
 	    			}
 	    		}
