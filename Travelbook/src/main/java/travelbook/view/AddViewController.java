@@ -813,6 +813,9 @@ public class AddViewController {
 	    		alert.setTitle("Error post message");
 	    		alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
 	   		 	alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
+	   		 	Image image = new Image("main/resources/AddViewImages/error.png");
+	   		 	ImageView imageView = new ImageView(image);
+	   		 	alert.setGraphic(imageView);
 	    		alert.initOwner(this.mainPane.getScene().getWindow());
 	    		alert.showAndWait();
 	    		
@@ -871,6 +874,9 @@ public class AddViewController {
 	    		alert.setContentText("travel cost must be a number! This information will not be stored");
 	    		alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
 	   		 	alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
+	   		 	Image image = new Image("main/resources/AddViewImages/warning.png");
+	   		 	ImageView imageView = new ImageView(image);
+	   		 	alert.setGraphic(imageView);
 	   		 	alert.showAndWait();
 	    	}
 	    	travel.setStartTravelDate(startDate);
