@@ -33,6 +33,8 @@ import javafx.scene.shape.Line;
 public class ExploreViewController {
 	//private Vector<TravelBean> travelSelection;
 	//private Vector<TravelBean> topTenTravel;
+	private ViewTravelController controller;
+	private AnchorPane internalPane;
 	private StackPane stack;
 	private Object array1[]=new Object[15];
 	private BorderPane mainPane;
@@ -100,35 +102,38 @@ public class ExploreViewController {
 		//Now create some buttons 10 for tt and 15 for travelSelection.
 		while(i<10) {
 			istance=new TravelButton(136,190.4,i);
-			istance.getStack().setStyle(".tile-button-bar");
-			istance.getStack().applyCss();
-			istance.getPane().setStyle(".tile-button-bar .pane");
-			istance.getPane().applyCss();
-			istance.getButton().setStyle(".tile-button-bar .button");
-			istance.getButton().applyCss();
-			istance.getSubtitle().setStyle(".tile-button-bar .subtitle");
-			istance.getSubtitle().applyCss();
+			istance.getStack().getStyleClass().add("tile");
+			istance.getPane().getStyleClass().add("pane");
+			istance.getTitle().getStyleClass().add("my-text");
+			istance.getSubtitle().getStyleClass().addAll("my-text", "subtitle");
 			topTenGroup.add(istance);
 			topTenBar.getButtons().add(istance.getStack());
-			istance.getButton().setOnAction((ActionEvent e)->{
-				//Redirect to the travel pointed by istance.getTravel();
-				//We simply print on log
-				e.consume();
-				System.out.println("topTen travel");
-			});
+			istance.getStack().setOnMouseClicked(e->travelExampleHandler());
 			i++;
 		}
 		i=0;
 		while(i<15) {
 			istance=new TravelButton(136,190.4,i);
+			istance.getStack().getStyleClass().add("tile");
+			istance.getPane().getStyleClass().add("pane");
+			istance.getTitle().getStyleClass().add("my-text");
+			istance.getSubtitle().getStyleClass().addAll("my-text", "subtitle");
 			selectionGroup.add(istance);
 			selectionBar.getButtons().add(istance.getStack());
-			istance.getButton().setOnAction((ActionEvent e)->{
-				//As top ten
-				e.consume();
-				System.out.println("selection Travel");
-			});
+			istance.getStack().setOnMouseClicked(e->travelExampleHandler());
 			i++;
+		}
+	}
+	private void travelExampleHandler() {
+		FXMLLoader loader=new FXMLLoader();
+		loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
+		try {
+			internalPane=(AnchorPane)loader.load();
+			mainPane.setCenter(internalPane);
+			controller=loader.getController();
+			controller.setMainPane(mainPane);
+		}catch(IOException e) {
+			e.printStackTrace();
 		}
 	}
 	public void setMainPane(BorderPane main) {
@@ -144,19 +149,12 @@ public class ExploreViewController {
 			cartina.setFitHeight(mainAnchor.getPrefHeight()*269/625);
 			
 			advance.setPrefHeight(mainAnchor.getPrefHeight()*23.2/625);
-			advanceSearch.getFont().font(mainAnchor.getPrefHeight()*12/625);
-			
-			
 			worldTitle.setPrefHeight(mainAnchor.getPrefHeight()*36/625);
 			worldTitle.setLayoutY(mainAnchor.getPrefHeight()*10/625);
-			worldTitle.getFont().font(mainAnchor.getHeight()*12/625);
-			advance.getFont().font(mainAnchor.getHeight()*12/625);
-			goSearchStack.setPrefHeight(mainAnchor.getHeight()*52/625);
 			cartina.setLayoutY(mainAnchor.getPrefHeight()*100/625);
 			advance.setLayoutY(mainAnchor.getPrefHeight()*440/625);
 			advanceSearch.setLayoutY(mainAnchor.getHeight()*480/625);
-			goSearchStack.setLayoutY(mainAnchor.getHeight()*496/625);
-			goSearchImage.setFitHeight(mainAnchor.getHeight()*52/625);
+			goSearchButton.setLayoutY(mainAnchor.getHeight()*480/625);
 			goSearchButton.setPrefHeight(mainAnchor.getHeight()*52/625);
 			menuBar.setPrefHeight(mainAnchor.getHeight()*85/625);
 			menuBar.setLayoutY(0);

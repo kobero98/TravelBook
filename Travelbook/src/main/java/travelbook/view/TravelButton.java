@@ -1,8 +1,7 @@
 package main.java.travelbook.view;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -10,7 +9,7 @@ import javafx.scene.control.Label;
 public class TravelButton {
 	private Pane pane;
 	private StackPane stack;
-	private Button button;
+	//private Button button;
 	private Label title;
 	private Label subtitle;
 	//private TravelBean travel; and setter and getter methods
@@ -19,9 +18,6 @@ public class TravelButton {
 	}
 	public StackPane getStack() {
 		return stack;
-	}
-	public Button getButton() {
-		return button;
 	}
 	public Label getTitle() {
 		return title;
@@ -38,19 +34,17 @@ public class TravelButton {
 	public TravelButton(double width, double height, Integer i) {
 		// the real constructor take a TravelBean as third parameter
 		stack=new StackPane();
-		button=new Button();
 		pane=new Pane();
 		title=new Label(i.toString());
 	    subtitle= new Label(i.toString());
 		stack.setPrefWidth(width);
 		stack.setPrefHeight(height);
 		pane.setPrefWidth(width);
-		pane.setPrefHeight(130.4*100/height);
-		button.setPrefWidth(width);
-		button.setPrefHeight(height);
-		title.setFont((new Font(20)).font("System", FontWeight.BOLD, 20));
-		subtitle.setFont(new Font("System",13));
-		stack.getChildren().addAll(pane,title,subtitle,button);
+		pane.setPrefHeight(height*130/190);
+		pane.setMaxHeight(height*130/190);
+		pane.setMinHeight(height*130/190);
+		System.out.println("height "+ height+ "\npane "+ pane.getPrefHeight());
+		stack.getChildren().addAll(pane,title,subtitle);
 		stack.setAlignment(pane,Pos.TOP_CENTER);
 		stack.setAlignment(title,Pos.CENTER);
 		stack.setAlignment(subtitle,Pos.CENTER);
@@ -68,10 +62,8 @@ public class TravelButton {
 	private void resize() {
 		double width=stack.getWidth();
 		double height=stack.getHeight();
-		button.setPrefWidth(width);
-		button.setPrefHeight(height);
 		pane.setPrefWidth(width);
-		pane.setPrefHeight(130.4*100/height);
+		pane.setPrefHeight(height*130/190);
 	}
 	
 }

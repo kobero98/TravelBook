@@ -212,5 +212,17 @@
 .choice-box .menu-item .mark:focused{
 	-fx-background-color: White;
 }
+.hyperlink{
+	-fx-text-fill: Dcolor;
+	-fx-border-color: transparent;
+	-fx-border-width: 0;
+}
+.hyperlink:hover{
+	-fx-underline: false;
+	-fx-text-fill: white;
+}
+.hyperlink:visited{
+	-fx-underline: true;
+}
 
 

@@ -73,7 +73,10 @@
             </Pane>
             <StackPane fx:id="image" layoutX="625.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="600.0">
                <children>
-                  <ImageView fx:id="backgroundImage" fitHeight="594.0" fitWidth="616.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="backgroundImage" fitHeight="594.0" fitWidth="616.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../resources/LoginPageImages/Image.png" />
+                     </image></ImageView>
                </children>
             </StackPane>
             <Hyperlink fx:id="forgotEP" layoutX="200.0" layoutY="550.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#forgot" prefHeight="48.0" prefWidth="365.6" styleClass="password" text="Forgot your email or password?">

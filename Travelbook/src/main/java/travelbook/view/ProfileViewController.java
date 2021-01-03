@@ -40,7 +40,7 @@ public class ProfileViewController {
 	private Object array1[]=new Object[15];
 	private Button button;
 	private ViewTravelController controller;
-	AnchorPane internalPane;
+	private AnchorPane internalPane;
 	@FXML
 	private AnchorPane mainAnchor;
 	@FXML

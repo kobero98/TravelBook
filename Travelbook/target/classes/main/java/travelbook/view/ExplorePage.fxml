@@ -16,68 +16,40 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.ExploreViewController">
+<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.ExploreViewController">
    <children>
       <AnchorPane fx:id="worldPane" layoutX="650.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0" prefWidth="611.0" styleClass="map-pane">
          <children>
-            <ImageView fx:id="cartina" fitHeight="269.0" fitWidth="580.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+            <Button fx:id="goSearchButton" layoutX="400.0" layoutY="480.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#moveToSearch" prefHeight="52.0" prefWidth="54.0" styleClass="search-button">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <ImageView fx:id="cartina" fitHeight="269.0" fitWidth="580.0" layoutX="15.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../resource/ExplorePageImages/cartina-no-sfondo.png" />
+                  <Image url="@../../../resources/ExplorePageImages/cartina-no-sfondo.png" />
                </image>
             </ImageView>
             <Label fx:id="worldTitle" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="36.0" prefWidth="375.2" styleClass="my-label" text="Where do you want to go?" />
-            <Label fx:id="advance" layoutX="39.0" layoutY="440.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.2" prefWidth="220.0" text="ADVANCED SEARCH">
+            <Label fx:id="advance" layoutX="60.0" layoutY="440.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.2" prefWidth="220.0" text="ADVANCED SEARCH">
                <styleClass>
                   <String fx:value="my-label" />
                   <String fx:value="second-text" />
                </styleClass>
             </Label>
-            <Label layoutX="350.0" layoutY="441.0" text="ORGANIZED TRIPS">
-               <font>
-                  <Font size="20.0" />
-               </font>
-               <styleClass>
-                  <String fx:value="my-label" />
-                  <String fx:value="second-text" />
-               </styleClass>
-            </Label>
-            <StackPane layoutX="528.0" layoutY="494.0" maxHeight="51.32" maxWidth="53.77" prefHeight="51.32" prefWidth="53.77">
-               <children>
-                  <ImageView fitHeight="52.0" fitWidth="54.4" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../OneDrive/Desktop/freccetta_destra.png" />
-                     </image>
-                  </ImageView>
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="52.0" prefWidth="54.0" style="-fx-background-color: rgba(0,0,0,0);" />
-               </children>
-            </StackPane>
-            <StackPane fx:id="goSearchStack" layoutX="206.0" layoutY="496.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="51.32" prefWidth="53.77">
-               <children>
-                  <ImageView fx:id="goSearchImage" fitHeight="52.0" fitWidth="54.4" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../OneDrive/Desktop/freccetta_destra.png" />
-                     </image>
-                  </ImageView>
-                  <Button fx:id="goSearchButton" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#moveToSearch" prefHeight="52.0" prefWidth="54.0" text="ciao">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-               </children>
-            </StackPane>
-            <Text fx:id="advanceSearch" layoutX="40.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="my-text" text="lorem ipsum" wrappingWidth="181.6" />
-            <Text layoutX="355.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="my-text" text="lorem ipsum" wrappingWidth="164.8" />
+            <Text fx:id="advanceSearch" layoutX="60.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="my-text" text="lorem ipsum" wrappingWidth="181.6" />
          </children>
       </AnchorPane>
       <ButtonBar fx:id="menuBar" buttonMinWidth="135.2" layoutX="47.0" layoutY="17.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="592.0" style="-fx-background-color: fdfdfd; -fx-effect: dropshadow(three-pass-box,rgba(0,0,0,0.25),10,0,0,4); -fx-border-radius: 25;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
         <buttons>
-          <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#profileHandler" prefHeight="56.35" prefWidth="147.37" style="-fx-background-color: rgba(0,0,0,0);" text="PROFILE">
+          <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#profileHandler" prefHeight="56.35" prefWidth="147.37" text="PROFILE">
                <font>
                   <Font size="17.0" />
                </font>
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/profile.png" />
+                        <Image url="@../../../resources/ExplorePageImages/profile.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -85,14 +57,14 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button layoutX="454.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#addHandler" prefHeight="56.35" prefWidth="147.37" style="-fx-background-color: rgba(0,0,0,0);" text="ADD">
+            <Button layoutX="454.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#addHandler" prefHeight="56.35" prefWidth="147.37" text="ADD">
                <font>
                   <Font size="17.0" />
                </font>
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/add.png" />
+                        <Image url="@../../../resources/ExplorePageImages/add.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -107,7 +79,7 @@
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/explore.png" />
+                        <Image url="@../../../resources/ExplorePageImages/explore.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -115,14 +87,14 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button layoutX="454.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#chatHandler" prefHeight="56.35" prefWidth="147.37" style="-fx-background-color: rgba(0,0,0,0);" text="CHAT">
+            <Button layoutX="454.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#chatHandler" prefHeight="56.35" prefWidth="147.37" text="CHAT">
                <font>
                   <Font size="17.0" />
                </font>
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/chat.png" />
+                        <Image url="@../../../resources/ExplorePageImages/chat.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -155,7 +127,7 @@
             </StackPane>
             <ScrollPane fx:id="selectionScroll" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="450.0" vbarPolicy="NEVER">
                <content>
-                  <ButtonBar fx:id="selectionBar" buttonMinWidth="136.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="190.0" prefWidth="2250.0" />
+                  <ButtonBar fx:id="selectionBar" buttonMinWidth="136.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="190.0" prefWidth="2250.0" styleClass="tile-button-bar" />
                </content>
             </ScrollPane>
             <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="15.74" prefWidth="9.72" StackPane.alignment="CENTER_RIGHT">
@@ -190,7 +162,7 @@
          <children>
             <ScrollPane fx:id="topTenScroll" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="450.0" vbarPolicy="NEVER">
                <content>
-                  <ButtonBar fx:id="topTenBar" buttonMinWidth="136.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="190.0" prefWidth="1500.0" />
+                  <ButtonBar fx:id="topTenBar" buttonMinWidth="136.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="190.0" prefWidth="1500.0" styleClass="tile-button-bar" />
                </content>
             </ScrollPane>
             <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="15.74" prefWidth="9.72" StackPane.alignment="CENTER_RIGHT">

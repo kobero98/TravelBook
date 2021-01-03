@@ -15,8 +15,26 @@
 	-fx-font-size: 1.75em;
 	-fx-text-fill: textColorL;
 }
+.hyperlink{
+	-fx-border-color: transparent;
+}
+.hyperlink:hover{
+	-fx-text-fill: white;
+	-fx-underline: false;
+}
+.hyperlink:visited{
+	-fx-text-fill: white;
+	
+}
  .password{
 	-fx-text-fill: textColorL;
+}
+.password:hover{
+	-fx-text-fill: textColorL;
+}
+.password:visited{
+	-fx-text-fill: textColorL;
+	-fx-underline: false;
 }
 .label{
 	-fx-text-fill: textColorD;
