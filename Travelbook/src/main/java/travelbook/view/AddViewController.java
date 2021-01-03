@@ -792,6 +792,10 @@ public class AddViewController {
 	    				
 	    			}
 	    		}
+	    			else {
+	    				
+	    				incompleteSteps.add(step);
+	    			}
 	    		}
 	    		
 	    	}
@@ -863,10 +867,11 @@ public class AddViewController {
 	    	}catch(NumberFormatException e) {
 	    		Alert alert=new Alert(AlertType.WARNING);
 	    		alert.setTitle("Invalid format");
-	    		alert.setHeaderText("Invali type for travel's cost");
+	    		alert.setHeaderText("Invalid type for travel's cost");
 	    		alert.setContentText("travel cost must be a number! This information will not be stored");
 	    		alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
 	   		 	alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
+	   		 	alert.showAndWait();
 	    	}
 	    	travel.setStartTravelDate(startDate);
 	    	travel.setEndTravelDate(endDate);
