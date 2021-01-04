@@ -170,8 +170,6 @@ public class SearchTravelController {
 				new MyTypes("Cultural Travel",Color.BLACK),new MyTypes("Relaxing Holiday",Color.YELLOW));
 		
 		this.type.setItems(information);
-
-	 
 		this.type.setCellFactory(new Callback<ListView<MyTypes>,
 				ListCell<MyTypes>>(){
 			@Override
@@ -182,36 +180,41 @@ public class SearchTravelController {
 		type.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<MyTypes>() {
 	          public void changed(ObservableValue<? extends MyTypes> observable,
 	        		MyTypes oldValue, MyTypes newValue) {
-	        	
 	        	MyTypes addType=type.getItems().get(type.getSelectionModel().getSelectedIndex());
 	        	if(typeChoose==null) {
 	        		typeChoose= new ArrayList<>();
 	        		typeChoose.add(addType);
-	        		System.out.println("ciao");
-	        		HBox box= new HBox(2);
-	            	Label label= new Label(addType.getType());
-	            	label.setTextFill(Color.WHITE);
-	            	label.setStyle("-fx-font-size: 0.75em");
-	            	label.setWrapText(true);
-	                Button delet =new Button();
-	                delet.setStyle("-fx-shape:\"M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\" ");
-	            	delet.setPrefSize(13, 13);
-	                box.getChildren().addAll(delet,label);
-	            	box.setMargin(delet, new Insets(2));
-	            	box.setMargin(label, new Insets(2));
-	            	box.setAlignment(Pos.CENTER_LEFT);
-	            	box.setBackground(new Background(new BackgroundFill(addType.getColor(),new CornerRadii(4),null)));
-	            	tipiSelezionati.getChildren().add(box);
-	            	tipiSelezionati.setVisible(true);       		
 	        	}
 	        	else {
-	        		typeChoose.add(addType);
+	        			typeChoose.add(addType);
+	        	}
 	        		HBox box= new HBox(2);
 	            	Label label= new Label(addType.getType());
 	            	label.setTextFill(Color.WHITE);
 	            	label.setStyle("-fx-font-size: 0.75em");
 	            	label.setWrapText(true);
 	                Button delet =new Button();
+	                EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() { 
+	                    public void handle(ActionEvent e) 
+	                    { 
+	                    	Button b= (Button) e.getSource();
+	                    	HBox box=(HBox) b.getParent();
+	                    	
+	                    	Label l =(Label) box.getChildren().get(1);
+	                        MyTypes i=new MyTypes(l.getText(),(Color) box.getBackground().getFills().get(0).getFill());
+	                        for(int j=0;j<typeChoose.size();j++)
+	                        	if(typeChoose.get(j).getType().equals(i.getType())) typeChoose.remove(j);	
+	                        tipiSelezionati.getChildren().remove(box);
+	    	            	tipiSelezionati.setPrefHeight(typeChoose.size()*45);
+	    	            	if(typeChoose.size()==0) {
+	    		        		tipiSelezionati.getParent().getParent().getParent().setVisible(false);
+
+	    	            	}
+	                    } 
+	                }; 
+	          
+	                // when button is pressed 
+	                delet.setOnAction(event); 
 	                delet.setStyle("-fx-shape:\"M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\" ");
 	            	delet.setPrefSize(13, 13);
 	                box.getChildren().addAll(delet,label);
@@ -220,11 +223,10 @@ public class SearchTravelController {
 	            	box.setAlignment(Pos.CENTER_LEFT);
 	            	box.setBackground(new Background(new BackgroundFill(addType.getColor(),new CornerRadii(4),null)));
 	            	tipiSelezionati.getChildren().add(box);
-	            	System.out.println(box.getHeight()+" "+typeChoose.size());
-	            	tipiSelezionati.setPrefHeight(box.getHeight()*30);
+	            	tipiSelezionati.setPrefHeight(typeChoose.size()*45);
+	        		tipiSelezionati.getParent().getParent().getParent().setVisible(true);
+
 	            	
-	        	}
-	        	
 	          }
 	          
 	          });
