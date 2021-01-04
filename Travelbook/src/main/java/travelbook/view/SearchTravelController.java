@@ -23,6 +23,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -60,7 +61,7 @@ public class SearchTravelController {
 	@FXML
 	private RadioButton budjet3;
 	@FXML
-	private RadioButton Budjet4;
+	private RadioButton budjet4;
 	@FXML
 	private Label Found;
 	@FXML
@@ -119,50 +120,6 @@ public class SearchTravelController {
 	            }
 	        }
 		}
-	/*class SelectedTypeList extends ListCell<MyTypes>{
-		@Override
-        public void updateItem(MyTypes item, boolean empty) {
-            super.updateItem(item, empty);
-            if (!empty || item!=null) {
-            	HBox box= new HBox(2);
-            	Label label= new Label(item.getType());
-            	label.setTextFill(Color.WHITE);
-            	label.setStyle("-fx-font-size: 0.75em");
-            	label.setWrapText(true);
-                Button delet =new Button();
-              
-                EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() { 
-                    public void handle(ActionEvent e) 
-                    { 
-                    	Button b= (Button) e.getSource();
-                    	HBox box=(HBox) b.getParent();
-                    	ObservableList <MyTypes> v=typeChoose.
-                    	Label l =(Label) box.getChildren().get(1);
-                        MyTypes i=new MyTypes(l.getText(),(Color) box.getBackground().getFills().get(0).getFill());
-                        for(int j=0;j<v.size();j++)
-                        	if(v.get(j).getType().equals(i.getType())) v.remove(j);	
-                        typeChoose.setItems(null);
-                        typeChoose.setVisible(false);
-                        //typeChoose.setItems(v);
-                    } 
-                }; 
-          
-                // when button is pressed 
-                delet.setOnAction(event); 
-                delet.setStyle("-fx-shape:\"M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\" ");
-            	delet.setPrefSize(13, 13);
-            	delet.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
-            	delet.setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
-                box.getChildren().addAll(delet,label);
-            	box.setMargin(delet, new Insets(2));
-            	box.setMargin(label, new Insets(2));
-            	box.setAlignment(Pos.CENTER_LEFT);
-            	box.setBackground(new Background(new BackgroundFill(item.getColor(),new CornerRadii(4),null)));
-            	setGraphic(box);
-            }
-        }
-	}
-	*/
 	@FXML
 	private void initialize() {
 		ObservableList<MyTypes> information = FXCollections.observableArrayList(new MyTypes("Romantic Trip",Color.RED),new MyTypes("Family Holiday",Color.GREEN),
@@ -225,20 +182,25 @@ public class SearchTravelController {
 	            	tipiSelezionati.getChildren().add(box);
 	            	tipiSelezionati.setPrefHeight(typeChoose.size()*45);
 	        		tipiSelezionati.getParent().getParent().getParent().setVisible(true);
-
-	            	
 	          }
 	          
 	          });
-	    
-	
+		
+
+
 	}
 	public void setMainPane(BorderPane main)
 	{
 		this.mainPane=main;
-		//then define the resize logic
-
-		/*this.sfondo.heightProperty().addListener((observable,oldValue,newValue)->{
+		
+		ToggleGroup group = new ToggleGroup();
+	    budjet1.setToggleGroup(group);
+	    budjet2.setToggleGroup(group);
+	    budjet3.setToggleGroup(group);
+	    budjet4.setToggleGroup(group);
+	    
+	    //then define the resize logic
+		this.sfondo.heightProperty().addListener((observable,oldValue,newValue)->{
 			System.out.println("Altezza Sfondo: " + this.sfondo.getHeight());
 			AdvancedSearch.setPrefHeight(sfondo.getPrefHeight()*200/625);
 			AdvancedSearch.setLayoutY(sfondo.getPrefHeight()*133/625);
@@ -251,14 +213,13 @@ public class SearchTravelController {
 			
 			Advanced.setPrefHeight(sfondo.getHeight()*15/625);
 			Advanced.setLayoutY(sfondo.getHeight()*113/625);
+		});
+		this.sfondo.widthProperty().addListener((observable,oldValue,newValue)->{
 			
-			
-			
-		
 		});
 		sfondo.setPrefHeight(this.mainPane.getHeight()*625/720);
 		sfondo.setPrefWidth(this.mainPane.getWidth());
-		*/
+	
 	}
 	
 	private int soprasotto=0;

@@ -417,8 +417,8 @@
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="650.0" AnchorPane.leftAnchor="315.0" AnchorPane.topAnchor="50.0">
          <children>
             <Line layoutX="60.0" layoutY="8.0" startY="30.0" />
-            <TextField layoutX="75.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="575.0" />
-            <Button layoutX="14.0" layoutY="8.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" />
+            <TextField layoutX="75.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="575.0" styleClass="BarraDiRicerca" />
+            <Button layoutX="14.0" layoutY="8.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="BottoneRicerca" />
          </children>
       </Pane>
       <Line endY="484.0" layoutX="953.0" layoutY="131.0" startY="3.0" stroke="#fcdcc8" />
@@ -427,20 +427,20 @@
             <Font size="32.0" />
          </font>
       </Label>
-      <Button fx:id="Advanced" layoutX="33.0" layoutY="113.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showSearchAdvanced" prefHeight="15.0" prefWidth="15.0" />
+      <Button fx:id="Advanced" layoutX="33.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showSearchAdvanced" prefHeight="13.0" prefWidth="15.0" styleClass="BottoneExtensive" />
       <Label layoutX="48.0" layoutY="109.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="advanced search" />
       <ListView fx:id="lista" layoutX="61.0" layoutY="182.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="885.0" />
-      <Pane fx:id="AdvancedSearch" layoutX="34.0" layoutY="133.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="910.0" visible="false">
+      <Pane fx:id="AdvancedSearch" layoutX="34.0" layoutY="133.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="910.0">
          <children>
             <Label layoutX="6.0" layoutY="7.0" text="your Budjet">
                <font>
                   <Font size="32.0" />
                </font>
             </Label>
-            <RadioButton layoutX="6.0" layoutY="87.0" mnemonicParsing="false" text="300-1000" />
-            <RadioButton layoutX="6.0" layoutY="117.0" mnemonicParsing="false" text="1000-2000" />
-            <RadioButton layoutX="5.0" layoutY="152.0" mnemonicParsing="false" text="2000&gt;" />
-            <RadioButton layoutX="7.0" layoutY="55.0" mnemonicParsing="false" text="&lt;300" />
+            <RadioButton fx:id="budjet2" layoutX="6.0" layoutY="87.0" mnemonicParsing="false" text="300-1000" />
+            <RadioButton fx:id="budjet3" layoutX="6.0" layoutY="117.0" mnemonicParsing="false" text="1000-2000" />
+            <RadioButton fx:id="budjet4" layoutX="5.0" layoutY="152.0" mnemonicParsing="false" text="2000&gt;" />
+            <RadioButton fx:id="budjet1" layoutX="7.0" layoutY="55.0" mnemonicParsing="false" text="&lt;300" />
             <Label layoutX="479.0" layoutY="7.0" text="What do you fancy?">
                <font>
                   <Font size="32.0" />
@@ -466,6 +466,6 @@
    </children>
    <stylesheets>
       <URL value="@../css/project.css" />
-      <URL value="@../../../../../SearchPage.css" />
+      <URL value="@../css/SearchPage.css" />
    </stylesheets>
 </AnchorPane>
