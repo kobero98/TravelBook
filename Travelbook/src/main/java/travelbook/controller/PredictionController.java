@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.io.IOException;
 public class PredictionController {
 	
-	private String TOKEN="INSERT_YOUR_TOKEN_HERE";
+	private String TOKEN="INSERT YOUR TOKEN HERE";
 	
 	public List<PlacePrediction> getPredictions(String text) {
 		List<PlacePrediction> results=mapboxQuery(text,true,10);

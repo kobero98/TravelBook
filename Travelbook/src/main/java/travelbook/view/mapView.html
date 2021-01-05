@@ -48,7 +48,7 @@ function addMarker(coordinates,description,icon,start,imgUrl){
 }
 function drawPath(points){
 	//Points must be an array of LatLng elements
-	var polyline=L.polyline(points, {color: 'white', lineJoin: 'arcs'}).addTo(map);
+	var polyline=L.polyline(points, {color: 'blue', lineJoin: 'arcs'}).addTo(map);
 	polyline.redraw();
 	//set map view on the path beautiful.
 	map.fitBounds(polyline.getBounds());

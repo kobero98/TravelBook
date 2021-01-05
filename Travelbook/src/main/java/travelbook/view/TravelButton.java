@@ -43,7 +43,6 @@ public class TravelButton {
 		pane.setPrefHeight(height*130/190);
 		pane.setMaxHeight(height*130/190);
 		pane.setMinHeight(height*130/190);
-		System.out.println("height "+ height+ "\npane "+ pane.getPrefHeight());
 		stack.getChildren().addAll(pane,title,subtitle);
 		stack.setAlignment(pane,Pos.TOP_CENTER);
 		stack.setAlignment(title,Pos.CENTER);
@@ -64,6 +63,8 @@ public class TravelButton {
 		double height=stack.getHeight();
 		pane.setPrefWidth(width);
 		pane.setPrefHeight(height*130/190);
+		pane.setMaxHeight(height*130/190);
+		pane.setMinHeight(height*130/190);
 	}
 	
 }

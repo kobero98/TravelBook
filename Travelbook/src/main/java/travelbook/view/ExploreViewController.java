@@ -68,10 +68,6 @@ public class ExploreViewController {
 	private Vector<TravelButton> topTenGroup;
 	private Vector<TravelButton> selectionGroup;
 	@FXML
-	private StackPane goSearchStack;
-	@FXML
-	private ImageView goSearchImage;
-	@FXML
 	private ScrollPane selectionScroll;
 	@FXML
 	private ScrollPane topTenScroll;
@@ -131,7 +127,7 @@ public class ExploreViewController {
 			internalPane=(AnchorPane)loader.load();
 			mainPane.setCenter(internalPane);
 			controller=loader.getController();
-			controller.setMainPane(mainPane);
+			controller.setMainPane(mainPane,1);
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -147,7 +143,6 @@ public class ExploreViewController {
 			worldPane.setPrefHeight(mainAnchor.getPrefHeight()*591/625);
 			worldPane.setLayoutY(mainAnchor.getPrefHeight()*10/625);
 			cartina.setFitHeight(mainAnchor.getPrefHeight()*269/625);
-			
 			advance.setPrefHeight(mainAnchor.getPrefHeight()*23.2/625);
 			worldTitle.setPrefHeight(mainAnchor.getPrefHeight()*36/625);
 			worldTitle.setLayoutY(mainAnchor.getPrefHeight()*10/625);
@@ -169,10 +164,14 @@ public class ExploreViewController {
 			ttLine.setLayoutY(mainAnchor.getHeight()*395/625);
 			tt.setPrefHeight(mainAnchor.getHeight()*36/625);
 			tt.setLayoutY(mainAnchor.getHeight()*360/625);
+			ttRight.setPrefHeight(mainAnchor.getHeight()*15.74/625);
+			ttLeft.setPrefHeight(mainAnchor.getHeight()*15.74/625);
 			selectionStack.setPrefHeight(mainAnchor.getHeight()*190/625);
 			selectionBar.setPrefHeight(mainAnchor.getHeight()*190/625);
 			selectionScroll.setPrefHeight(mainAnchor.getHeight()*190/625);
 			selectionStack.setLayoutY(mainAnchor.getPrefHeight()*154/625);
+			selLeft.setPrefHeight(mainAnchor.getPrefHeight()*15.74/625);
+			selRight.setPrefHeight(mainAnchor.getPrefHeight()*15.74/625);
 			array1=selectionBar.getButtons().toArray();
 			/*for(int i=0;i<15;i++) {
 				stack=(StackPane)array1[i];
@@ -192,28 +191,30 @@ public class ExploreViewController {
 			worldPane.setPrefWidth(mainAnchor.getWidth()*611/1280);
 			worldPane.setLayoutX(mainAnchor.getWidth()*650/1280);
 			cartina.setFitWidth(mainAnchor.getWidth()*580/1280);
-			cartina.setLayoutX(0);
+			cartina.setLayoutX(mainAnchor.getWidth()*15/1280);
 			advance.setPrefWidth(mainAnchor.getWidth()*250/1280);
+			advanceSearch.setWrappingWidth(mainAnchor.getWidth()*270/1280);
 			menuBar.setLayoutX(0);
 			worldTitle.setPrefWidth(mainAnchor.getWidth()*375/1280);
 			//ttLine.setEndX(mainAnchor.getWidth()*173.66665649414062/625);
 			//selectionLine.setEndX(mainAnchor.getWidth()*173.66665649414062/625);
-			goSearchStack.setPrefWidth(mainAnchor.getWidth()*54.4/1280);
 			worldTitle.setLayoutX(mainAnchor.getWidth()*10/1280);
-			advanceSearch.setLayoutX(mainAnchor.getWidth()*39/1280);
-			advance.setLayoutX(mainAnchor.getWidth()*39/1280);
-			goSearchStack.setLayoutX(mainAnchor.getWidth()*206/1280);
-			goSearchImage.setFitWidth(mainAnchor.getWidth()*54.4/1280);
-			goSearchButton.setPrefWidth(mainAnchor.getWidth()*54.4/1280);
+			advanceSearch.setLayoutX(mainAnchor.getWidth()*60/1280);
+			advance.setLayoutX(mainAnchor.getWidth()*60/1280);
+			goSearchButton.setPrefWidth(mainAnchor.getWidth()*54/1280);
+			goSearchButton.setLayoutX(mainAnchor.getWidth()*400/1280);
 			menuBar.setPrefWidth(mainAnchor.getWidth()*592/1280);
 			menuBar.setButtonMinWidth(mainAnchor.getWidth()*136/1280);
 			suggests.setPrefWidth(mainAnchor.getWidth()*252/1280);
-			suggests.getFont().font(mainAnchor.getWidth()*25/1280);
 			tt.setPrefWidth(mainAnchor.getWidth()*298.4/1280);
+			ttRight.setPrefWidth(mainAnchor.getWidth()*9.72/1280);
+			ttLeft.setPrefWidth(mainAnchor.getWidth()*9.72/1280);
 			selectionStack.setPrefWidth(mainAnchor.getWidth()*500/1280);
 			selectionScroll.setPrefWidth(mainAnchor.getWidth()*450/1280);
 			selectionBar.setPrefWidth(mainAnchor.getWidth()*2250/1280);
 			selectionBar.setButtonMinWidth(mainAnchor.getWidth()*136/1280);
+			selRight.setPrefWidth(mainAnchor.getWidth()*9.72/1280);
+			selLeft.setPrefWidth(mainAnchor.getWidth()*9.72/1280);
 			topTenBar.setPrefWidth(mainAnchor.getWidth()*1500/1280);
 			topTenBar.setButtonMinWidth(mainAnchor.getWidth()*136/1280);
 			topTenStack.setPrefWidth(mainAnchor.getWidth()*500/1280);

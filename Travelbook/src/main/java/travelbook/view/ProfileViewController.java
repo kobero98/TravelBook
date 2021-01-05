@@ -276,7 +276,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			internalPane=(AnchorPane)loader.load();
 			mainPane.setCenter(internalPane);
 			controller=loader.getController();
-			controller.setMainPane(mainPane);
+			controller.setMainPane(mainPane,2);
 		}catch(IOException e) {
 			e.printStackTrace();
 		}

@@ -112,44 +112,24 @@
       <Line fx:id="selectionLine" endX="173.66665649414062" endY="0.9999847412109375" layoutX="160.0" layoutY="135.0" startX="-111.46002197265625" startY="0.9999847412109375" styleClass="line" />
       <StackPane fx:id="selectionStack" layoutX="24.0" layoutY="154.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#selectionOnMouseEnter" onMouseExited="#selectionOnMouseExit" prefHeight="190.0" prefWidth="500.0">
          <children>
-            <StackPane layoutX="494.0" layoutY="86.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="15.74" prefWidth="9.72" rotate="180.0" StackPane.alignment="CENTER_LEFT">
-               <children>
-                  <ImageView fitHeight="15.74" fitWidth="9.72" pickOnBounds="true" preserveRatio="true" rotate="180.0">
-                     <image>
-                        <Image url="@../../../../Vector(7).png" />
-                     </image>
-                  </ImageView>
-                  <Button fx:id="selLeft" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#selectionScrollLeftHandler" prefHeight="15.74" prefWidth="9.72" style="-fx-background-color: rgba(0,0,0,0);">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-               </children>
-            </StackPane>
             <ScrollPane fx:id="selectionScroll" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="450.0" vbarPolicy="NEVER">
                <content>
                   <ButtonBar fx:id="selectionBar" buttonMinWidth="136.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="190.0" prefWidth="2250.0" styleClass="tile-button-bar" />
                </content>
             </ScrollPane>
-            <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="15.74" prefWidth="9.72" StackPane.alignment="CENTER_RIGHT">
-               <children>
-                  <ImageView fitHeight="15.74" fitWidth="9.72" pickOnBounds="true" preserveRatio="true" rotate="180.0">
-                     <image>
-                        <Image url="@../../../../Vector(7).png" />
-                     </image>
-                  </ImageView>
-                  <Button fx:id="selRight" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#selectionScrollRightHandler" prefHeight="15.74" prefWidth="9.72" style="-fx-background-color: rgba(0,0,0,0);">
-                     <StackPane.margin>
-                        <Insets />
-                     </StackPane.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-               </children>
+            <Button fx:id="selLeft" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#selectionScrollLeftHandler" prefHeight="15.74" prefWidth="9.72" styleClass="left-button" StackPane.alignment="CENTER_LEFT">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="selRight" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#selectionScrollRightHandler" prefHeight="15.74" prefWidth="9.72" styleClass="right-button" StackPane.alignment="CENTER_RIGHT">
                <StackPane.margin>
                   <Insets />
                </StackPane.margin>
-            </StackPane>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </StackPane>
       <Label fx:id="tt" layoutX="59.0" layoutY="360.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="298.4" styleClass="my-label" text="Top ten of the month" textFill="#ffa286">
@@ -165,35 +145,16 @@
                   <ButtonBar fx:id="topTenBar" buttonMinWidth="136.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="190.0" prefWidth="1500.0" styleClass="tile-button-bar" />
                </content>
             </ScrollPane>
-            <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="15.74" prefWidth="9.72" StackPane.alignment="CENTER_RIGHT">
-               <children>
-                  <ImageView fitHeight="15.74" fitWidth="9.72" pickOnBounds="true" preserveRatio="true" rotate="180.0">
-                     <image>
-                        <Image url="@../../../../Vector(7).png" />
-                     </image>
-                  </ImageView>
-                  <Button fx:id="ttRight" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#topTenScrollRightHandler" prefHeight="15.74" prefWidth="9.72" style="-fx-background-color: rgba(0,0,0,0);">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-               </children>
-               <StackPane.margin>
-                  <Insets />
-               </StackPane.margin>
-            </StackPane>
-            <StackPane layoutX="494.0" layoutY="86.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="15.74" prefWidth="9.72" rotate="180.0" StackPane.alignment="CENTER_LEFT">
-               <children>
-                  <ImageView fitHeight="15.74" fitWidth="9.72" pickOnBounds="true" preserveRatio="true" rotate="180.0">
-                     <image>
-                        <Image url="@../../../../Vector(7).png" />
-                     </image>
-                  </ImageView>
-                  <Button fx:id="ttLeft" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#topTenScrollLeftHandler" prefHeight="15.74" prefWidth="9.72" style="-fx-background-color: rgba(0,0,0,0);">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-               </children>
-            </StackPane>
+            <Button fx:id="ttRight" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#topTenScrollRightHandler" prefHeight="15.74" prefWidth="9.72" styleClass="right-button" StackPane.alignment="CENTER_RIGHT">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="ttLeft" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#topTenScrollLeftHandler" prefHeight="15.74" prefWidth="9.72" styleClass="left-button" StackPane.alignment="CENTER_LEFT">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </StackPane>
    </children>

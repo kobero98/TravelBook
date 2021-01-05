@@ -53,6 +53,7 @@ public class ViewTravelController {
 	private Button button;
 	private Text text;
 	private BorderPane mainPane;
+	private int goBack; 
 	@FXML
 	private Button backButton;
 	@FXML 
@@ -227,8 +228,9 @@ public class ViewTravelController {
     	});
 	}
 	
-	public void setMainPane(BorderPane main) {
+	public void setMainPane(BorderPane main, int provenience) {
 		this.mainPane=main;
+		this.goBack=provenience;
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
 			backButton.setPrefHeight(mainAnchor.getHeight()*34/625);
 			backButton.setLayoutY(mainAnchor.getHeight()*10/625);
@@ -360,11 +362,31 @@ public class ViewTravelController {
 	
 	@FXML
 	private void backHandler() {
-		try {
+		switch(goBack) {
+		case 1:
+			try {
+				MenuBar.getInstance().moveToExplore(mainPane);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			break;
+		case 2:
+			try {
     		MenuBar.getInstance().moveToProfile(mainPane);
-    	}catch(IOException e) {
+			}catch(IOException e) {
     		e.printStackTrace();
-    	}
+			}
+			break;
+		case 3:
+			try {
+				profileButtonHandler();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
 	}
 	@FXML
 	private void profileButtonHandler()throws IOException {
@@ -372,8 +394,8 @@ public class ViewTravelController {
 			loader.setLocation(ViewTravelController.class.getResource("ProfileUserViewOther.fxml"));
 			AnchorPane internalPane=(AnchorPane)loader.load();
 			mainPane.setCenter(internalPane);
-			//ExploreViewController controller=loader.getController();
-			//controller.setMainPane(mainPane);
+			ProfileOtherController controller=loader.getController();
+			controller.setMainPane(mainPane, 1);
 	}
 	@FXML
 	private void chatButtonHandler() {
