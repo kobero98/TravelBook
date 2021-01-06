@@ -26,6 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -72,11 +73,28 @@ public class SearchTravelController {
 	private Button Advanced;
 	@FXML
 	private Pane AdvancedSearch;
-	
+	@FXML
+	private Label scritta1;
+	@FXML
+	private Label scritta2;
+	@FXML
+	private Label scritta3;
+	@FXML
+	private Label scritta4;
+	@FXML
+	private Label scritta5;
+	@FXML
+	private Label scritta6;
+	@FXML
+	private ScrollPane Consigliati;
+	@FXML
+	private Pane ricerca;
 	@FXML
 	private ListView <MyTypes> type;
 	@FXML
 	private VBox tipiSelezionati; 
+	
+	
 	private List <MyTypes> typeChoose=null;
 	class MyTypes{
 		private String tipo;
@@ -189,6 +207,18 @@ public class SearchTravelController {
 
 
 	}
+	private EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
+		   @Override 
+		   public void handle(MouseEvent e) { 
+		      TextField s=(TextField) e.getSource();
+		       try{
+		    	   Double.parseDouble((s.getText()));
+		       }catch(NumberFormatException ex)
+		       {
+		    	   s.clear();
+		       }
+		   } 
+		};   
 	public void setMainPane(BorderPane main)
 	{
 		this.mainPane=main;
@@ -198,23 +228,105 @@ public class SearchTravelController {
 	    budjet2.setToggleGroup(group);
 	    budjet3.setToggleGroup(group);
 	    budjet4.setToggleGroup(group);
+	    this.minCost.setOnMouseClicked(eventHandler);
+	    this.maxCost.setOnMouseClicked(eventHandler);
+	    this.minCost.textProperty().addListener(new ChangeListener<String>() {
+	        @Override
+	        public void changed(ObservableValue<? extends String> observable, String oldValue, 
+	            String newValue) {
+	            if (!newValue.matches("\\d*")) {
+	 
+	                minCost.setText(newValue.replaceAll("[^\\d]", ""));
+	            }
+	        }
+	    });
 	    
+	    this.maxCost.textProperty().addListener(new ChangeListener<String>() {
+	        @Override
+	        public void changed(ObservableValue<? extends String> observable, String oldValue, 
+	            String newValue) {
+	            if (!newValue.matches("\\d*")) {
+	                maxCost.setText(newValue.replaceAll("[^\\d]", ""));
+	            }
+	        }
+	    });
 	    //then define the resize logic
 		this.sfondo.heightProperty().addListener((observable,oldValue,newValue)->{
-			System.out.println("Altezza Sfondo: " + this.sfondo.getHeight());
+			
+			
+			scritta1.setLayoutY(sfondo.getPrefHeight()*109/625);
+			scritta2.setLayoutY(sfondo.getPrefHeight()*120/625);
+			if(soprasotto==0) {
+				Found.setLayoutY(sfondo.getPrefHeight()*134/625);
+				lista.setLayoutY(sfondo.getPrefHeight()*182/625);
+				lista.setPrefHeight(sfondo.getPrefHeight()*434/625);
+			}
+			else {
+				Found.setLayoutY(sfondo.getPrefHeight()*(134+this.AdvancedSearch.getHeight())/625);
+				lista.setLayoutY(sfondo.getPrefHeight()*(182+this.AdvancedSearch.getHeight())/625);
+				lista.setPrefHeight(sfondo.getPrefHeight()*(434-this.AdvancedSearch.getHeight())/625);
+			}
+			ricerca.setPrefHeight(sfondo.getPrefHeight()*45/625);
+			ricerca.setLayoutY(sfondo.getPrefHeight()*50/625);
+			
+			Consigliati.setPrefHeight(sfondo.getPrefHeight()*465/625);
+			Consigliati.setLayoutY(sfondo.getPrefHeight()*160/625);
+			
 			AdvancedSearch.setPrefHeight(sfondo.getPrefHeight()*200/625);
 			AdvancedSearch.setLayoutY(sfondo.getPrefHeight()*133/625);
 			
-			TurnBack.setPrefHeight(sfondo.getHeight()*30/625);
-			TurnBack.setLayoutY(sfondo.getHeight()*50/625);
+			scritta3.setLayoutY(sfondo.getPrefHeight()*(7+AdvancedSearch.getLayoutY())/625);
 			
-			lista.setPrefHeight(sfondo.getHeight()*437/625);
-			lista.setLayoutY(sfondo.getHeight()*133/625);
+			budjet1.setLayoutY(sfondo.getPrefHeight()*(AdvancedSearch.getLayoutY()+55)/625);
+			budjet2.setLayoutY(sfondo.getPrefHeight()*(87+AdvancedSearch.getLayoutY())/625);
+			budjet3.setLayoutY(sfondo.getPrefHeight()*(119+AdvancedSearch.getLayoutY())/625);
+			budjet4.setLayoutY(sfondo.getPrefHeight()*(151+AdvancedSearch.getLayoutY())/625);
 			
-			Advanced.setPrefHeight(sfondo.getHeight()*15/625);
-			Advanced.setLayoutY(sfondo.getHeight()*113/625);
+			type.setPrefHeight(sfondo.getPrefHeight()*137/625);
+			type.setLayoutY(sfondo.getPrefHeight()*54/625);
+			
+			TurnBack.setPrefHeight(sfondo.getPrefHeight()*30/625);
+			TurnBack.setLayoutY(sfondo.getPrefHeight()*50/625);
+			System.out.println(lista.getLayoutY()+" "+lista.getPrefHeight());
+			
+		
+			
+			
+			Advanced.setPrefHeight(sfondo.getPrefHeight()*13/625);
+			Advanced.setLayoutY(sfondo.getPrefHeight()*114/625);
 		});
 		this.sfondo.widthProperty().addListener((observable,oldValue,newValue)->{
+			
+			Found.setLayoutX(sfondo.getPrefWidth()*54/1280);
+			scritta1.setLayoutX(sfondo.getPrefWidth()*48/1280);
+			scritta2.setLayoutX(sfondo.getPrefWidth()*972/1280);
+			
+			AdvancedSearch.setPrefWidth(sfondo.getPrefWidth()*910/1280);
+			AdvancedSearch.setLayoutX(sfondo.getPrefWidth()*34/1280);
+			
+			ricerca.setPrefWidth(sfondo.getPrefWidth()*650/1280);
+			ricerca.setLayoutX(sfondo.getPrefWidth()*315/1280);
+						
+			Consigliati.setPrefWidth(sfondo.getPrefWidth()*316/1280);
+			Consigliati.setLayoutX(sfondo.getPrefWidth()*964/1280);
+			
+			budjet1.setLayoutX(sfondo.getPrefWidth()*6/1280);
+			budjet2.setLayoutX(sfondo.getPrefWidth()*6/1280);
+			budjet3.setLayoutX(sfondo.getPrefWidth()*6/1280);
+			budjet4.setLayoutX(sfondo.getPrefWidth()*6/1280);
+			
+			type.setPrefWidth(sfondo.getPrefWidth()*217/1280);
+			type.setLayoutX(sfondo.getPrefWidth()*469/1280);
+			
+			TurnBack.setPrefWidth(sfondo.getPrefWidth()*30/1280);
+			TurnBack.setLayoutX(sfondo.getPrefWidth()*26/1280);
+			
+			lista.setPrefWidth(sfondo.getPrefWidth()*885/1280);
+			lista.setLayoutX(sfondo.getPrefWidth()*61/1280);
+			
+			Advanced.setPrefWidth(sfondo.getPrefWidth()*15/1280);
+			Advanced.setLayoutX(sfondo.getPrefWidth()*27/1280);
+			
 			
 		});
 		sfondo.setPrefHeight(this.mainPane.getHeight()*625/720);
@@ -254,4 +366,8 @@ public class SearchTravelController {
 		ExploreViewController controller=loader.getController();
 		controller.setMainPane(this.mainPane);
 	} 
+
+	public void HandlerReserch() {
+		
+	}
 }
