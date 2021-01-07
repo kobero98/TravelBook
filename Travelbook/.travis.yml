@@ -1,0 +1,5 @@
+language: java
+jdk:
+- openjdk1.8
+script:
+- mvn build
