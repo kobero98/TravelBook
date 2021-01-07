@@ -1,31 +1,23 @@
 package main.java.travelbook.view;
 import java.io.IOException;
+import java.time.LocalDate;
 import javafx.scene.shape.Line;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.control.Hyperlink;
 import java.util.Collections;
 import main.java.travelbook.util.NumberInDayComparator;
 import javafx.scene.control.ScrollPane;
 import java.util.Optional;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.CheckBox;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.collections.ObservableList;
 import main.java.travelbook.model.bean.TravelBean;
-import main.java.travelbook.model.bean.CityBean;
 import javafx.scene.input.MouseEvent;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.util.DateUtil;
 import main.java.travelbook.util.PlacePrediction;
 import javafx.event.ActionEvent;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ButtonBar;
@@ -39,10 +31,8 @@ import javafx.scene.layout.RowConstraints;
 import java.util.List;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -81,7 +71,8 @@ public class AddViewController {
 	private Label givePractical;
 	@FXML
 	private Label stepImageLabel;
-	
+	private static final String ALERTCSS="main/java/travelbook/css/alert.css";
+	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
 	@FXML
 	private Button removeImage;
 	@FXML
@@ -169,13 +160,15 @@ public class AddViewController {
 	@FXML
 	private TextField costField;
 	private Integer dayNumber;
-	private boolean saved=false;
-	private List<List<StepBean>> stepByDay=new ArrayList<List<StepBean>>();
+	private boolean saved=true;
+	private List<List<StepBean>> stepByDay=new ArrayList<>();
 	private TravelBean travel;
-	private List<List<ImageGridPane>> dayImagePane=new ArrayList<List<ImageGridPane>>();
-	private int stepNumber,nextRow,nextCol;
-	private double standardImageHeight=89.34,standardImageWidth=89.34;
-	private Image presentationImage;
+	private List<List<ImageGridPane>> dayImagePane=new ArrayList<>();
+	private int stepNumber;
+	private int nextRow;
+	private int nextCol;
+	private double standardImageHeight=89.34;
+	private double standardImageWidth=89.34;
 	private long numOfDays;
 	private SearchPlaceTextField searchText;
 	private ImageView actualImage;
@@ -184,6 +177,8 @@ public class AddViewController {
 	@FXML
 	private void initialize() {
 		//set travel and the first day and the first step by default.
+		LocalDate dataFinale=endDate.getValue();
+		LocalDate dataIniziale=startDate.getValue();
 		this.stepInfoPaneHeight=620;
 		imageGridPane=new ImageGridPane();
 		dayNumber=0;
@@ -192,17 +187,13 @@ public class AddViewController {
 			saved=false;
 			startDate.setStyle("");
 			DateUtil util=new DateUtil();
-			if(!util.isAfter(endDate.getValue(), startDate.getValue())) {
-				if(endDate.getValue()!=null) {
-					startDate.setValue(null);
-					//then show an error message
-			}
+			if(!util.isAfter(dataFinale,dataIniziale)) {
+				startDate.setValue(null);
 			}
 			else {
 				
 				//riesamina il numero di giorni del viaggio.
 				numOfDays=util.numOfDaysBetween(startDate.getValue(), endDate.getValue());
-				System.out.println("numero di giorni: "+numOfDays);
 				changeListOfDays();
 			}
 		});
@@ -224,16 +215,13 @@ public class AddViewController {
 			endDate.setStyle("");
 			DateUtil util=new DateUtil();
 			if(!util.isAfter(endDate.getValue(),startDate.getValue())) {
-				if(startDate.getValue()!=null) {
 					endDate.setValue(null);
 					//then show an error message
 				}
-			}
 			else {
 				
 				//riesamina il numero di giorni del viaggio
 				numOfDays=util.numOfDaysBetween(startDate.getValue(),endDate.getValue());
-				System.out.println("numero di giorni: "+numOfDays);
 				changeListOfDays();
 			}
 		});
@@ -270,8 +258,6 @@ public class AddViewController {
 			//Forse pu� essere interessante conservare da qualche parte il dato PlacePrediction per query future 
 			//senza doverlo ricercare.
 			stepByDay.get(dayNumber).get(stepNumber).setFullPlace(place);
-			StepBean prova=stepByDay.get(dayNumber).get(stepNumber);
-			System.out.println("Nome: "+prova.getPlace()+" Tipo: "+prova.getFullPlace().getType()+" Category: "+prova.getFullPlace().getCategory());
 			}
 			
 		});
@@ -303,15 +289,14 @@ public class AddViewController {
 			});
 		}
 		this.costField.textProperty().addListener((observable,oldValue,newValue)->{
+			saved=false;
 			this.costField.setStyle("");
 		});
 	}
 	public class ImageGridPane extends GridPane{
 		//GridPane with a matrix that show if an entry (row,col) is empty or not. 
 		//If is empty positions[row][col]==1
-		private List<List<Integer>> positions=new ArrayList<List<Integer>>();
-		private double layoutX=35;
-		private double layoutY=520;
+		private List<List<Integer>> positions=new ArrayList<>();
 		public ImageGridPane() {
 			super();
 			//setup to a gridPane with 5 col and 1 row
@@ -335,18 +320,16 @@ public class AddViewController {
     		RowConstraints row1=new RowConstraints();
     		row1.setPrefHeight(standardImageHeight);
     		this.getRowConstraints().add(row1);
-			positions.add(new ArrayList<Integer>());
+			positions.add(new ArrayList<>());
 			for(int i=0;i<5;i++) {
 				positions.get(0).add(1);
 			}
 			
 		}
 		public void moveX(double newX) {
-			this.layoutX=newX;
 			this.setLayoutX(newX);
 		}
 		public void moveY(double newY) {
-			this.layoutY=newY;
 			this.setLayoutY(newY);
 		}
 		@Override
@@ -355,7 +338,7 @@ public class AddViewController {
 			positions.get(row).set(col, 0);
 		}
 		public void updateRow() {
-			positions.add(new ArrayList<Integer>());
+			positions.add(new ArrayList<>());
 			for(int i=0;i<5;i++) {
 				positions.get(positions.size()-1).add(1);
 			}
@@ -366,10 +349,8 @@ public class AddViewController {
 		}
 		public boolean isValid(int row,int col) {
 			//return ture if the position is valid
-			if(this.positions.get(row).get(col)==1) {
-				return true;
-			}
-			return false;
+			return this.positions.get(row).get(col)==1;
+			
 		}
 		public void resizeRow() {
 			for(int i=0;i<this.getRowConstraints().size();i++) {
@@ -380,12 +361,8 @@ public class AddViewController {
 	}
 	public void setMain(BorderPane main) {
 		this.mainPane=main;
-		//TODO add resize logic
-		
-		
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
 			double height=this.mainAnchor.getPrefHeight();
-			System.out.println("Altezza: "+height);
 			this.internalPane.setPrefHeight(height*625/625);
 			this.internalPane.setLayoutY(0);
 			this.menuBar.setPrefHeight(85*height/625);
@@ -449,10 +426,6 @@ public class AddViewController {
 			this.stepInfoPane.setPrefHeight(this.stepInfoPaneHeight*height/625);
 			this.stepsBar.setPrefHeight(50*height/625);
 			this.stepsBar.setLayoutY(70*height/625);
-		/*	for(int i=0;i<stepsBar.getButtons().size();i++) {
-				Button button=(Button)stepsBar.getButtons().get(i);
-				button.setPrefHeight(stepsBar.getPrefHeight());
-			}*/
 			this.stopDescription.setPrefHeight(122*height/625);
 			this.stopDescription.setLayoutY(160*height/625);
 			this.practicalInformation.setPrefHeight(98*height/625);
@@ -461,17 +434,9 @@ public class AddViewController {
 			this.chooseStepImages.setLayoutY(470*height/625);
 			this.progressIndicator.setPrefHeight(42*height/625);
 			this.progressIndicator.setLayoutY(470*height/625);
-			for(int i=0;i<dayImagePane.size();i++) {
-				for(ImageGridPane gridPane: dayImagePane.get(i)) {
-					gridPane.setPrefHeight(gridPane.getRowConstraints().size()*89.34*height/625);
-					gridPane.moveY(520*height/625);
-					gridPane.resizeRow();
-					for(int j=0;j<gridPane.getChildren().size();j++) {
-						ImageView view=(ImageView)gridPane.getChildren().get(j);
-						view.setFitHeight(89.34*height/625);
-					}
-				}
-			}
+			this.resizeImagesHeight(height);
+		
+			
 			this.standardImageHeight=89.34*height/625;
 			this.removeStep.setPrefHeight(5*height/625);
 			this.removeStep.setLayoutY(98*height/625);
@@ -504,7 +469,6 @@ public class AddViewController {
 		});
 		this.mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
 			double width=mainAnchor.getPrefWidth();
-			System.out.println("la larghezza �: "+width);
 			this.internalPane.setPrefWidth(1280*width/1280);
 			this.travelPane.setPrefWidth(640*width/1280);
 			this.travelPane.setLayoutX(10*width/1280);
@@ -586,16 +550,7 @@ public class AddViewController {
 			this.chooseStepImages.setLayoutX(307*width/1280);
 			this.progressIndicator.setPrefWidth(45*width/1280);
 			this.progressIndicator.setLayoutX(420*width/1280);
-			for(int i=0;i<dayImagePane.size();i++) {
-				for(ImageGridPane gridPane: dayImagePane.get(i)) {
-					gridPane.setPrefWidth(5*89.34*width/1280);
-					gridPane.moveX(35*width/1280);
-					for(int j=0;j<gridPane.getChildren().size();j++) {
-						ImageView view=(ImageView)gridPane.getChildren().get(j);
-						view.setFitWidth(89.34*width/1280);
-					}
-				}
-			}
+			this.resizeImagesWidth(width);
 			standardImageWidth=89.34*width/1280;
 			this.newStop.setPrefWidth(40*width/1280);
 			this.newStop.setLayoutX(504*width/1280);
@@ -619,6 +574,31 @@ public class AddViewController {
 		this.mainAnchor.setPrefHeight(625*this.mainPane.getHeight()/720);
 		
 	}
+	private void resizeImagesHeight(double height) {
+		for(int i=0;i<dayImagePane.size();i++) {
+			for(ImageGridPane gridPane: dayImagePane.get(i)) {
+				gridPane.setPrefHeight(gridPane.getRowConstraints().size()*89.34*height/625);
+				gridPane.moveY(520*height/625);
+				gridPane.resizeRow();
+				for(int j=0;j<gridPane.getChildren().size();j++) {
+					ImageView view=(ImageView)gridPane.getChildren().get(j);
+					view.setFitHeight(89.34*height/625);
+				}
+			}
+	}
+	}
+	private void resizeImagesWidth(double width) {
+		for(int i=0;i<dayImagePane.size();i++) {
+			for(ImageGridPane gridPane: dayImagePane.get(i)) {
+				gridPane.setPrefWidth(5*89.34*width/1280);
+				gridPane.moveX(35*width/1280);
+				for(int j=0;j<gridPane.getChildren().size();j++) {
+					ImageView view=(ImageView)gridPane.getChildren().get(j);
+					view.setFitWidth(89.34*width/1280);
+				}
+			}
+		}
+	}
 	private boolean alertSave() {
 		Alert saveAlert=new Alert(AlertType.CONFIRMATION);
 		 saveAlert.setTitle("Unsaved information");
@@ -629,18 +609,20 @@ public class AddViewController {
 		 ButtonType cancel=new ButtonType("Cancel",ButtonData.CANCEL_CLOSE);
 		 saveAlert.getButtonTypes().clear();
 		 saveAlert.getButtonTypes().addAll(saveExit,notSave,cancel);
-		 saveAlert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
-		 saveAlert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
+		 saveAlert.getDialogPane().getStylesheets().add(PROJECTCSS);
+		 saveAlert.getDialogPane().getStylesheets().add(ALERTCSS);
 		 Image image = new Image("main/resources/AddViewImages/help.png");
 		 ImageView imageView = new ImageView(image);
 		 saveAlert.setGraphic(imageView);
 		 saveAlert.initOwner(this.mainPane.getScene().getWindow());
 		 Optional<ButtonType> result=saveAlert.showAndWait();
+		 if(result.isPresent()) {
 		 if(result.get()==saveExit) {
 			 this.saveDraft.fire();
 		 }
 		 else if(result.get()==cancel) {
 			 return false;
+		 }
 		 }
 		 return true;
 	}
@@ -691,6 +673,7 @@ public class AddViewController {
 	    	dialog.setTitle("Choose a presentation photo");
 	    	dialog.getExtensionFilters().add(new ExtensionFilter("Image","*.png","*.jpg"));
 	    	File selectedFile=dialog.showOpenDialog(mainPane.getScene().getWindow());
+	    	Image presentationImage;
 	    	if(selectedFile!=null) {
 	    		presentationImage=new Image(selectedFile.toURI().toString());
 	    		viewPresentation.setImage(presentationImage);
@@ -698,11 +681,11 @@ public class AddViewController {
 	    }
 	    @FXML
 	    private void allDoneHanlder() {
-	    	DateUtil util=new DateUtil();
+	    	
 	    	travel=new TravelBean();
 	    	travel.setShare(true);
-	    	List<Object> listOfErrors=new ArrayList<Object>();
-	    	travel.setListStep(new ArrayList<StepBean>());
+	    	List<Object> listOfErrors=new ArrayList<>();
+	    	travel.setListStep(new ArrayList<>());
 	    	progressPane.setVisible(true);
 	    	progressPane.setOpacity(0.9);
 	    	internalPane.setOpacity(0.1);
@@ -713,8 +696,6 @@ public class AddViewController {
 	    		incrementProgress();
 	    	}
 	    	else {
-	    		//Then show an error message and mostra rosso il bordo di name travel
-	    		//termina
 	    		listOfErrors.add(travelName);
 	    	}
 	    	if(!travelDescription.getText().isEmpty()) {
@@ -732,15 +713,84 @@ public class AddViewController {
 	    		listOfErrors.add(viewPresentation);
 	    		viewPresentation.setStyle("-fx-border-color: #FF0000");
 	    	}
+	    	this.addFiltersAndDate(listOfErrors, travel);
+	    	
+	    	if(this.costField.getText()!=null && !this.costField.getText().isEmpty()) {
+	    		try{
+	    			travel.setCostTravel(Double.parseDouble(this.costField.getText()));
+	    		}catch(NumberFormatException e) {
+	    			listOfErrors.add(this.costField);
+	    		}
+	    	}
+	    	else {
+	    		listOfErrors.add(costField);
+	    	}
+	    	//then take every steps for each day
+	    	List<StepBean> incompleteSteps=new ArrayList<>();
+	    	travel.setListStep(new ArrayList<>());
+	    	this.setTravelSteps(travel, incompleteSteps);
+	    	if(!incompleteSteps.isEmpty()) {
+	    		//Vorrei gestire questa situazione in maniera diversa mostrando dove sono
+	    		//gli errori all'utente ma non so bene come
+	    		//Per ora lo avverto che ci sono
+	    		progressPane.setOpacity(0);
+    			internalPane.setOpacity(1);
+    			progressPane.setVisible(false);
+	    		Alert alert=new Alert(AlertType.ERROR);
+	    		alert.setHeaderText("Incomplete steps found");
+	    		alert.setContentText("There are some incomplete steps, complete them and then retry");
+	    		alert.setTitle("Error post message");
+	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
+	   		 	Image image = new Image("main/resources/AddViewImages/error.png");
+	   		 	ImageView imageView = new ImageView(image);
+	   		 	alert.setGraphic(imageView);
+	    		alert.initOwner(this.mainPane.getScene().getWindow());
+	    		alert.showAndWait();
+	    		
+	    	}
+	    		if(!listOfErrors.isEmpty()) {
+	    			this.modifyColor(listOfErrors);
+	    			progressPane.setOpacity(0);
+	    			internalPane.setOpacity(1);
+	    			progressPane.setVisible(false);
+	    		}
+	    	if(listOfErrors.isEmpty()&&incompleteSteps.isEmpty()) {
+	    		
+	    		new Thread(()->{
+	    			
+	    			Platform.runLater(()->{
+	    				double indeterminate=ProgressIndicator.INDETERMINATE_PROGRESS;
+	    				progressBar.setProgress(indeterminate);
+	    				});
+	    			//Call the controller applicativo
+	    			
+	    			Platform.runLater(()->{
+	    				progressBar.setProgress(1);
+	    				//when done activate the close button
+	    		    	closeProgressBar.setVisible(true);
+	    			});
+	    		}).start();
+	    		
+	    	}	
+	    }
+	    private void modifyColor(List<Object> listOfErrors) {
+	    	for(int i=0;i<listOfErrors.size();i++) {
+				Node node=(Node) listOfErrors.get(i);
+				node.setStyle("-fx-border-color: #FF0000");
+			}
+	    }
+	    private void addFiltersAndDate(List<Object> listOfErrors,TravelBean travel) {
+	    	DateUtil util=new DateUtil();
 	    	CheckBox element;
-	    	List<String> filtri=new ArrayList<String>();
+	    	List<String> filtri=new ArrayList<>();
 	    	for(int i=0;i<filterPane.getChildren().size();i++) {
 	    		element=(CheckBox)filterPane.getChildren().get(i);
 	    		if(element.isSelected()) {
 	    			filtri.add(element.getText());
 	    		}
 	    	}
-	    	if(filtri.size()>0) {
+	    	if(filtri.isEmpty()) {
 	    		travel.setType(filtri);
 	    		incrementProgress();
 	    	}
@@ -759,27 +809,15 @@ public class AddViewController {
 	    	else {
 	    		listOfErrors.add(endDate);
 	    	}
-	    	if(this.costField.getText()!=null && !this.costField.getText().isEmpty()) {
-	    		try{
-	    			travel.setCostTravel(Double.parseDouble(this.costField.getText()));
-	    		}catch(NumberFormatException e) {
-	    			listOfErrors.add(this.costField);
-	    		}
-	    	}
-	    	else {
-	    		listOfErrors.add(costField);
-	    	}
-	    	//then take every steps for each day
-	    	List<StepBean> incompleteSteps=new ArrayList<StepBean>();
-	    	travel.setListStep(new ArrayList<StepBean>());
+	    }
+	    private void setTravelSteps(TravelBean travel, List<StepBean> incompleteSteps) {
 	    	for(int day=0;day<this.stepByDay.size();day++) {
 	    		List<StepBean> steps=stepByDay.get(day);
 	    		for(int stepN=0;stepN<steps.size();stepN++) {
 	    			//for each step
 	    			StepBean step=steps.get(stepN);
-	    			if(step.getPlace()!=null && step.getDescriptionStep()!=null) {
-	    			if(!step.getPlace().isEmpty() && !step.getDescriptionStep().isEmpty()) {
-	    				step.setListPhoto(new ArrayList<Image>());
+	    			if(step.getPlace()!=null && step.getDescriptionStep()!=null&&!step.getPlace().isEmpty() && !step.getDescriptionStep().isEmpty()) {
+	    				step.setListPhoto(new ArrayList<>());
 	    				List<Node> pics=dayImagePane.get(day).get(stepN).getChildren();
 	    				for(int picN=0;picN<pics.size();picN++) {
 	    					ImageView foto= (ImageView)pics.get(picN);
@@ -791,69 +829,11 @@ public class AddViewController {
 	    				incompleteSteps.add(step);
 	    				
 	    			}
-	    		}
-	    			else {
-	    				
-	    				incompleteSteps.add(step);
-	    			}
+	    		
+	  
 	    		}
 	    		
 	    	}
-	    	if(!incompleteSteps.isEmpty()) {
-	    		//Vorrei gestire questa situazione in maniera diversa mostrando dove sono
-	    		//gli errori all'utente ma non so bene come
-	    		//Per ora lo avverto che ci sono
-	    		progressPane.setOpacity(0);
-    			internalPane.setOpacity(1);
-    			progressPane.setVisible(false);
-	    		System.out.println("Step mancanti");
-	    		Alert alert=new Alert(AlertType.ERROR);
-	    		alert.setHeaderText("Incomplete steps found");
-	    		alert.setContentText("There are some incomplete steps, complete them and then retry");
-	    		alert.setTitle("Error post message");
-	    		alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
-	   		 	alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
-	   		 	Image image = new Image("main/resources/AddViewImages/error.png");
-	   		 	ImageView imageView = new ImageView(image);
-	   		 	alert.setGraphic(imageView);
-	    		alert.initOwner(this.mainPane.getScene().getWindow());
-	    		alert.showAndWait();
-	    		
-	    	}
-	    		if(!listOfErrors.isEmpty()) {
-	    			System.out.println("Errori nel resto");
-	    			for(int i=0;i<listOfErrors.size();i++) {
-	    				Node node=(Node) listOfErrors.get(i);
-	    				node.setStyle("-fx-border-color: #FF0000");
-	    			}
-	    			progressPane.setOpacity(0);
-	    			internalPane.setOpacity(1);
-	    			progressPane.setVisible(false);
-	    		}
-	    	if(listOfErrors.isEmpty()&&incompleteSteps.isEmpty()) {
-	    		
-	    		new Thread(()->{
-	    			
-	    			Platform.runLater(()->{
-	    				progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-	    			});
-	    			//Call the controller applicativo
-	    			try {
-	    				//Sleep set to try how work with progress bar but it is not necessary
-						Thread.sleep(10000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	    			System.out.println("Il controller applicativo ha finito");
-	    			Platform.runLater(()->{
-	    				progressBar.setProgress(1);
-	    				//when done activate the close button
-	    		    	closeProgressBar.setVisible(true);
-	    			});
-	    		}).start();
-	    		
-	    	}	
 	    }
 	    @FXML
 	    private void saveAsDraftHandler() {
@@ -861,10 +841,14 @@ public class AddViewController {
 	    	travel=new TravelBean();
 	    	travel.setNameTravel(travelName.getText());
 	    	travel.setDescriptionTravel(this.travelDescription.getText());
-	    	String startDate=util.toString(this.startDate.getValue());
-	    	String endDate=util.toString(this.endDate.getValue());
+	    	String startDateString=util.toString(this.startDate.getValue());
+	    	String endDateString=util.toString(this.endDate.getValue());
 	    	try {
 	    		travel.setCostTravel(Double.parseDouble(this.costField.getText()));
+	    		String travelCost=this.costField.getText();
+	    		if(travelCost.contains("f") || travelCost.contains("F") || travelCost.contains("d") || travelCost.contains("D")) {
+	    			throw new NumberFormatException();
+	    		}
 	    	}catch(NullPointerException e) {
 	    		travel.setCostTravel(null);
 	    	}catch(NumberFormatException e) {
@@ -872,18 +856,18 @@ public class AddViewController {
 	    		alert.setTitle("Invalid format");
 	    		alert.setHeaderText("Invalid type for travel's cost");
 	    		alert.setContentText("travel cost must be a number! This information will not be stored");
-	    		alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
-	   		 	alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
+	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
 	   		 	Image image = new Image("main/resources/AddViewImages/warning.png");
 	   		 	ImageView imageView = new ImageView(image);
 	   		 	alert.setGraphic(imageView);
 	   		 	alert.showAndWait();
 	    	}
-	    	travel.setStartTravelDate(startDate);
-	    	travel.setEndTravelDate(endDate);
+	    	travel.setStartTravelDate(startDateString);
+	    	travel.setEndTravelDate(endDateString);
 	    	travel.setPathBackground(this.viewPresentation.getImage());
 	    	travel.setShare(false);
-	    	List<String> filtri=new ArrayList<String>();
+	    	List<String> filtri=new ArrayList<>();
 	    	CheckBox element;
 	    	for(int i=0;i<filterPane.getChildren().size();i++) {
 	    		element=(CheckBox)filterPane.getChildren().get(i);
@@ -893,7 +877,7 @@ public class AddViewController {
 	    	}
 	    	travel.setType(filtri);
 	    	List<StepBean> steps;
-	    	travel.setListStep(new ArrayList<StepBean>());
+	    	travel.setListStep(new ArrayList<>());
 	    	for(int day=0;day<stepByDay.size();day++) {
 	    		steps=this.stepByDay.get(day);
 	    		for(int step=0;step<steps.size();step++) {
@@ -909,13 +893,11 @@ public class AddViewController {
 	    }
 	    @FXML
 	    private void progressBarDoneHandler() {
-	    	System.out.println("fatto");
 	    	OpacityAnimation anim=new OpacityAnimation();
 	    	anim.setBackTop(progressPane, internalPane);
 	    	anim.setLimits(0, 1);
 	    	anim.start();
 	    	progressPane.setVisible(false);
-	    	System.out.println("Finito");
 	    	//redirect to the view of the travel
 	    }
 	    @FXML
@@ -937,7 +919,6 @@ public class AddViewController {
 	    		view=new ImageView();
 	    		view.setFitHeight(standardImageHeight);
 	    		view.setFitWidth(standardImageWidth);
-	    		//view.setViewport(new Rectangle2D(standardImageHeight,standardImageWidth,standardImageHeight,standardImageWidth));
 	    		view.setImage(im);
 	    		view.setOnMouseClicked((MouseEvent e)->{
 	    			//Se clicchi sulla foto la apre in "grande"
@@ -985,13 +966,12 @@ public class AddViewController {
 	    	if(dayNumber>=0) {
 	    	dayImagePane.get(dayNumber).add(new ImageGridPane());
 	    	stepNumber++;
-	    	System.out.println("Step numero: "+stepNumber);
 	    	StepBean step=new StepBean();
 	    	
 	    	step.setGroupDay(dayNumber);
 	    	stepByDay.get(dayNumber).add(step);
 	    	//incrementa il valore nel travelBean e memorizza questo stepBean nel travelBean
-	    	//setta i valori per StepBean;
+	    	
 	    	Button button=makeButton();
 	    	stepsBar.getButtons().add(button);
 	    	button=(Button)stepsBar.getButtons().get(0);
@@ -1003,8 +983,8 @@ public class AddViewController {
 	    		maxSizeReach.setTitle("Max number of step error");
 	    		maxSizeReach.setHeaderText("Max size of step per day reached");
 	    		maxSizeReach.setContentText("You have reached the maximum number of steps per day, the maximum number is "+this.stepLimit);
-	    		maxSizeReach.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
-	   		 	maxSizeReach.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
+	    		maxSizeReach.getDialogPane().getStylesheets().add(PROJECTCSS);
+	   		 	maxSizeReach.getDialogPane().getStylesheets().add(ALERTCSS);
 	   		 	Image image = new Image("main/resources/AddViewImages/error.png");
 	   		 	ImageView imageView = new ImageView(image);
 	   		 	maxSizeReach.setGraphic(imageView);
@@ -1026,17 +1006,14 @@ public class AddViewController {
             for(int i=0;i<stepsBar.getButtons().size();i++) {
             	if(stepsBar.getButtons().get(i)==e.getTarget()) {
             		this.stepNumber=stepsBar.getButtons().size()-i-1;
-            		System.out.println("StepNumber: "+stepNumber);
             		Button actual=(Button)stepsBar.getButtons().get(stepsBar.getButtons().size()-stepNumber-1);
             		actual.setStyle("-fx-border-color: lightGrey;-fx-background-color: Dcolor;-fx-background-insets: -16 -8 0 -8;-fx-border-insets: -16 -8 0 -8;");
             		break;
             	}
             }
             StepBean step=this.stepByDay.get(dayNumber).get(stepNumber);
-            System.out.println("Step numero: "+this.stepNumber);
             this.searchText.setText(null);
             this.searchText.getLastSelectedItem().set(null);
-            System.out.println("Place: "+step.getPlace());
             if(step.getPlace()!=null) {
             this.searchText.setText(step.getPlace());
             }
@@ -1063,25 +1040,13 @@ public class AddViewController {
 	    		this.youAreEditing.setVisible(true);
 	    		this.dayBox.setVisible(true);
 	    	}
-	    	/*for(Integer i=0;i<numOfDays;i++) {
-	    		System.out.println("Aggiunto il giorno: "+i);
-	    		Integer num=i+1;
-	    		dayBox.getItems().add((num).toString());
-	    		//Add one entry for each day added
-	    		stepByDay.add(new ArrayList<>());
-	    		StepBean step=new StepBean();
-	    		
-	    		step.setGroupDay(stepByDay.size()-1);
-	    		System.out.println("Aggiunto step per giorno: "+step.getGroupDay());
-	    		
-	    		stepByDay.get(stepByDay.size()-1).add(step);
-	    	}*/
+	    
 	    	if(numOfDays>dayImagePane.size()) {
 	    		Integer x=dayImagePane.size();
 	    		for(Integer i=x;i<numOfDays;i++) {
 	    			Integer num=i+1;
 		    		dayBox.getItems().add(num.toString());
-	    			dayImagePane.add(new ArrayList<ImageGridPane>());
+	    			dayImagePane.add(new ArrayList<>());
 	    			dayImagePane.get(i).add(new ImageGridPane());
 	    			//Add one entry for each day added
 		    		stepByDay.add(new ArrayList<>());
@@ -1095,23 +1060,13 @@ public class AddViewController {
 	    	if(numOfDays<dayImagePane.size()) {
 	    		Integer x=dayImagePane.size();
 	    		int y=(int)numOfDays;
-	    		/*Alert alert=new Alert(AlertType.CONFIRMATION);
-	    		alert.setTitle("Delete days confirmation");
-	    		alert.setHeaderText("Richiesta implicita di cancellazione");
-	    		
-	    		alert.setContentText("Con questa operazione saranno rimossi i dati corrispondenti ad alcuni giorni, sei sicuro di voler continuare?" );
-	    		alert.initOwner(this.mainPane.getScene().getWindow());
-	    		alert.showAndWait();*
-	    		ButtonType result=alert.getResult();
-	    		if(result.getButtonData()==ButtonData.OK_DONE) {*/
-	    		int deleted=0;
-	    		for(int i=y;i<x;i++) {
-	    			dayBox.getItems().remove(i-deleted);
-	    			dayImagePane.remove(i-deleted);
-	    			stepByDay.remove(i-deleted);
-	    			deleted++;
+	    		int count=x;
+	    		while(count>=y) {
+	    			dayBox.getItems().remove(y);
+	    			dayImagePane.remove(y);
+	    			stepByDay.remove(y);
+	    			count--;
 	    		}
-	    		//}
 	    	}
 	    	}
 	    	dayBox.setValue("1");
@@ -1155,13 +1110,13 @@ public class AddViewController {
 	    private void removeStepHandler() {
 	    	saved=false;
 	    	//then remove the selected step from the list and the button bar.
-	    	if(stepsBar.getButtons().size()>0) {
+	    	if(stepsBar.getButtons().isEmpty()) {
 	    	Alert confirmAlert=new Alert(AlertType.CONFIRMATION);
 	    	confirmAlert.setTitle("Delete step confirmation");
 	    	confirmAlert.setHeaderText("Are you sure to remove this step?");
 	    	confirmAlert.setContentText("if you remove this step then all the information are deleted");
-	    	confirmAlert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
-			confirmAlert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
+	    	confirmAlert.getDialogPane().getStylesheets().add(PROJECTCSS);
+			confirmAlert.getDialogPane().getStylesheets().add(ALERTCSS);
 			Image image = new Image("main/resources/AddViewImages/help.png");
    		 	ImageView imageView = new ImageView(image);
    		 	confirmAlert.setGraphic(imageView);
@@ -1175,7 +1130,7 @@ public class AddViewController {
 	    			dayImagePane.get(dayNumber).remove(stepNumber);
 	    			stepsBar.getButtons().remove(stepsBar.getButtons().size()-stepNumber-1);
 	    			//if stepsBar has some buttons then fire on the last else remove all the information in the field.
-	    			if(stepsBar.getButtons().size()>0) {
+	    			if(stepsBar.getButtons().isEmpty()) {
 	    				Button button=(Button)stepsBar.getButtons().get(0);
 	    				button.fire();
 	    			}
@@ -1210,68 +1165,75 @@ public class AddViewController {
 	    	if(travel.getPathImage()!=null) {
 	    		this.viewPresentation.setImage(travel.getPathImage());
 	    	}
-	    	List<String> filtri=travel.getTypeTravel();
+	    	
+	    	List<StepBean> stepOfTravel=travel.getListStep();
+	    	List<List<StepBean>> stepInDay=new ArrayList<>();
+	    	int numOfDaysInt=this.dayBox.getItems().size();
+	    	this.setFiltersFromTravel(travel);
+	    	if(stepOfTravel!=null) {
+	    		for(int i=0;i<numOfDaysInt;i++) {
+	    			stepInDay.add(new ArrayList<>());
+	    		}
+	    		for(int i=0;i<stepOfTravel.size();i++) {
+	    			StepBean step=stepOfTravel.get(i);
+	    			stepInDay.get(step.getGroupDay()).add(step);
+	    		}
+	    		for(int i=0;i<numOfDaysInt;i++) {
+	    			Collections.sort(stepInDay.get(i),new NumberInDayComparator());
+	    		}
+	    		this.stepByDay=stepInDay;
+	    		this.setImageForSteps();
+	    	}
+	    	
+	    }
+		private void setFiltersFromTravel(TravelBean travel) {
+			List<String> filtri=travel.getTypeTravel();
 	    	if(filtri!=null) {
 	    		for(String filter: filtri) {
 	    			//Select all filters
 	    			for(int i=0;i<filterPane.getChildren().size();i++) {
 	    				CheckBox elem=(CheckBox)filterPane.getChildren().get(i);
-	    				if(elem.getText()==filter) {
+	    				if(elem.getText().equals(filter)) {
 	    					elem.setSelected(true);
 	    					break;
 	    				}
 	    			}
 	    		}
 	    	}
-	    	List<StepBean> stepOfTravel=travel.getListStep();
-	    	List<List<StepBean>> stepInDay=new ArrayList<List<StepBean>>();
-	    	int numOfDays=this.dayBox.getItems().size();
-	    	if(stepOfTravel!=null) {
-	    		for(int i=0;i<numOfDays;i++) {
-	    			stepInDay.add(new ArrayList<StepBean>());
-	    		}
-	    		for(int i=0;i<stepOfTravel.size();i++) {
-	    			StepBean step=stepOfTravel.get(i);
-	    			stepInDay.get(step.getGroupDay()).add(step);
-	    		}
-	    		for(int i=0;i<numOfDays;i++) {
-	    			Collections.sort(stepInDay.get(i),new NumberInDayComparator());
-	    		}
-	    		this.stepByDay=stepInDay;
-	    		for(int i=0;i<stepByDay.size();i++) {
-	    			for(int step=0;step<stepByDay.get(i).size();step++) {
-	    				nextCol=0;
-	    				nextRow=0;
-	    				//GridPane created before by changeDayListener
-	    				//Add elements to this pane
-	    				for(Image image: stepByDay.get(i).get(step).getListPhoto()) {
-	    					ImageView view=new ImageView();
-	    					view=new ImageView();
-	    		    		view.setFitHeight(standardImageHeight);
-	    		    		view.setFitWidth(standardImageWidth);
-	    		    		view.setImage(image);
-	    		    		view.setOnMouseClicked((MouseEvent e)->{
-	    		    			//Se clicchi sulla foto la apre in "grande"
-	    		    			ImageView io=(ImageView)e.getTarget();
-	    		    			actualImage=io;
-	    		    			viewImage.setImage(io.getImage());
-	    		    			viewImagePane.setVisible(true);
-	    		    			OpacityAnimation anim=new OpacityAnimation();
-	    		    			anim.setBackTop(internalPane, viewImagePane);
-	    		    			anim.setLimits(0.1, 0.9);
-	    		    			anim.start();
-	    		    		});
-	    		    		this.dayImagePane.get(i).get(step).add(view, nextCol, nextRow);
-	    		    		updateGridIndex();
-	    				}
-	    			}
-	    		}
-	    	}
-	    	
+		}
+	    private void setImageForSteps() {
+	    	for(int i=0;i<stepByDay.size();i++) {
+    			for(int step=0;step<stepByDay.get(i).size();step++) {
+    				nextCol=0;
+    				nextRow=0;
+    				//GridPane created before by changeDayListener
+    				//Add elements to this pane
+    				for(Image image: stepByDay.get(i).get(step).getListPhoto()) {
+    					ImageView view;
+    					view=new ImageView();
+    		    		view.setFitHeight(standardImageHeight);
+    		    		view.setFitWidth(standardImageWidth);
+    		    		view.setImage(image);
+    		    		view.setOnMouseClicked((MouseEvent e)->{
+    		    			//Se clicchi sulla foto la apre in "grande"
+    		    			ImageView io=(ImageView)e.getTarget();
+    		    			actualImage=io;
+    		    			viewImage.setImage(io.getImage());
+    		    			viewImagePane.setVisible(true);
+    		    			OpacityAnimation anim=new OpacityAnimation();
+    		    			anim.setBackTop(internalPane, viewImagePane);
+    		    			anim.setLimits(0.1, 0.9);
+    		    			anim.start();
+    		    		});
+    		    		this.dayImagePane.get(i).get(step).add(view, nextCol, nextRow);
+    		    		updateGridIndex();
+    				}
+    			}
+    		}
 	    }
 	    @FXML
 	    private void viewOnMapHandler() {
-	    	List<StepBean> stepNow=new ArrayList<StepBean>();
+	    	List<StepBean> stepNow=new ArrayList<>();
 	    	for(List<StepBean> stepInDay: this.stepByDay) {
 	    		for(StepBean step: stepInDay) {
 	    			if(step.getPlace()!=null && !step.getPlace().isEmpty()) {
@@ -1280,7 +1242,7 @@ public class AddViewController {
 	    			}
 	    		}
 	    	}
-	    	if(stepNow.size()>0) {
+	    	if(stepNow.isEmpty()) {
 	    	ViewOnMapController controller=new ViewOnMapController();
 	    	controller.load(stepNow);
 	    	}
