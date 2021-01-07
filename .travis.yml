@@ -1,6 +1,5 @@
 language: java
 jdk:
-- openjdk8
+- oraclejdk8
 script:
--cd Travelbook
 - mvn test
