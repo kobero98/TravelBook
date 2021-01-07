@@ -16,7 +16,7 @@ import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.util.DateUtil;
 
 public class AllQuery {
-	private String MyUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	public ResultSet RequestLogin(Statement stmt,String Username,String Password) throws ExceptionLogin{
+	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	public ResultSet RequestLogin(Statement stmt,String Username,String Password) throws ExceptionLogin{
 		ResultSet rs=null;
 			try {
 				rs = stmt.executeQuery("SELECT NameUser FROM User where Username='"+Username+"'");
@@ -36,15 +36,15 @@ public class AllQuery {
 			}
 			return rs;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				throw new ExceptionLogin("Errore Connessione");
 			}
 		}
-	public ResultSet RequestTripById(Statement stmt,int idTrip)
+	public ResultSet requestTripById(Statement stmt,int idTrip)
 	{	ResultSet rs=null;
 		try {
-			rs = stmt.executeQuery("SELECT * FROM Trip where idTrip="+String.valueOf(idTrip));
+			String id=String.valueOf(idTrip);
+			rs = stmt.executeQuery("SELECT * FROM Trip where idTrip="+id);
 			return rs;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -52,7 +52,7 @@ public class AllQuery {
 		}
 	
 	}
-	public ResultSet RequestTripByUser(Statement stmt,int idCreator)
+	public ResultSet requestTripByUser(Statement stmt,int idCreator)
 	{	ResultSet rs=null;
 		try {
 			rs = stmt.executeQuery("SELECT * FROM Trip WHERE idCreator="+String.valueOf(idCreator));
@@ -63,7 +63,7 @@ public class AllQuery {
 		}
 	
 	}
-	public ResultSet RequestStepByTrip(Statement stmt,int idTrip)
+	public ResultSet requestStepByTrip(Statement stmt,int idTrip)
 	{
 		ResultSet rs=null;
 		try {
@@ -74,14 +74,13 @@ public class AllQuery {
 			return rs;
 		}
 	}
-	public void RequestRegistrationUser(UserEntity User) {
+	public void requestRegistrationUser(UserEntity User) {
 	
 		Connection connessione = null;
 		
 		try {
-			  connessione= DriverManager.getConnection(MyUrl,"root","root");
+			  connessione= DriverManager.getConnection(myUrl,"root","root");
 		
-			if (connessione != null) { 
 				  String query = " insert into User (Username, password,NameUser, Surname, BirthDate,Email,Gender)" + " values (?, ?, ?, ?, ?, ?, ?)";
 			      PreparedStatement preparedStmt = connessione.prepareStatement(query);
 			      preparedStmt.setString (1, User.getUsername());
@@ -91,27 +90,26 @@ public class AllQuery {
 			      preparedStmt.setDate   (5,User.getBirthDate());// il data va sistemato
 			      preparedStmt.setString (6,User.getEmail());
 			      preparedStmt.setString (7,User.getGender());
-			      preparedStmt.execute();
-			} 
+			     preparedStmt.execute();
+			
 		}catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
-			try {
-				connessione.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(connessione!=null) {
+				try {
+					connessione.close();
+					} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 			}
 	}
-	public void RequestRegistrationStep(StepEntity Step) {
+	public void requestRegistrationStep(StepEntity Step) {
 		Connection connessione = null;
 		try {
-			  connessione= DriverManager.getConnection(MyUrl,"root","root");
+			  connessione= DriverManager.getConnection(myUrl,"root","root");
 		
-			if (connessione != null) { 
-				  System.out.println("sto inserendo lo step");
+			 
 				  String query = " insert into Step (groupDay,place,DescriptionStep,codiceTrip,codiceCreatore,Number) values( ?, ?, ?, ?, ?, ?) ";
 			      PreparedStatement preparedStmt = connessione.prepareStatement(query);
 			      
@@ -121,10 +119,7 @@ public class AllQuery {
 			      preparedStmt.setInt (4, Step.getIDTravel());
 			      preparedStmt.setInt (5, Step.getIDCreator());
 			      preparedStmt.setInt (6, Step.getNumber());
-			      System.out.println("sto inserendo lo step1");
 			      preparedStmt.execute();
-			      System.out.println("sto prendendo l'id");
-			      System.out.println("inserisco le foto");
 			      for(String s : Step.getListPhoto()){
 			    	  String queryPhoto = " insert into photostep (LinkPhoto,Step_Number,codiceViaggio,codiceCreatoreViaggio) values(?,?,?,?) ";
 				      PreparedStatement preparedStmt1 = connessione.prepareStatement(queryPhoto);
@@ -135,27 +130,25 @@ public class AllQuery {
 				      preparedStmt1.execute();  
 			      }
 
-			} 
 				
 		}catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}finally {
 			try {
 				connessione.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
 	}
-	public void RequestRegistrationTrip(TravelEntity trip) {
+	public void requestRegistrationTrip(TravelEntity trip) {
 		Connection connessione = null;
 		
 		try {
-			  connessione= DriverManager.getConnection(MyUrl,"root","root");
+			  connessione= DriverManager.getConnection(myUrl,"root","root");
 		
-			if (connessione != null) { 
 				  String query = " insert into Trip (nome,costo,tipo,StartDate,EndDate,PhotoBackground,DescriptionTravel,CreatorTrip)" + " values (?, ?, ?, ?, ?, ? ,? ,?)";
 			      PreparedStatement preparedStmt = connessione.prepareStatement(query);
 			      preparedStmt.setString (1, trip.getNameTravel());
@@ -177,26 +170,22 @@ public class AllQuery {
 			      ResultSet rs=preparedStmt.executeQuery();
 			      rs.next();
 			      
-			      int i=0;
 			      for(StepEntity e:trip.getListStep())
 			      {
-			    	  System.out.println("ciao "+i);
+			 
 			    	  //e.setUserId(trip.getCreatorId());
 			    	  e.setTripId(rs.getInt(1));
-			    	  System.out.println("idViaggio="+rs.getInt(1));
-			    	  RequestRegistrationStep(e);
-			    	  i++;
+			    	  
+			    	  requestRegistrationStep(e);
 			    	  
 			      }
-			} 
+			
 		}catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
 				connessione.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -205,22 +194,18 @@ public class AllQuery {
 	{
 		Connection connessione = null;
 		try {
-			  connessione= DriverManager.getConnection(MyUrl,"root","root");
-		
-			if (connessione != null) { 
+			  connessione= DriverManager.getConnection(myUrl,"root","root");
 				  String query = "Delete from Trip where idTrip=? ";
 			      PreparedStatement preparedStmt = connessione.prepareStatement(query);
 			      preparedStmt.setInt (1,idtrip);
 			      preparedStmt.execute();
-			} 
+			
 		}catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
 				connessione.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -229,22 +214,19 @@ public class AllQuery {
 	{ 	
 		Connection connessione = null;
 		try {
-			  connessione= DriverManager.getConnection(MyUrl,"root","root");
+			  connessione= DriverManager.getConnection(myUrl,"root","root");
 		
-			if (connessione != null) { 
 				  String query = "Delete from User where idUser=? ";
 			      PreparedStatement preparedStmt = connessione.prepareStatement(query);
 			      preparedStmt.setInt (1,iduser);
 			      preparedStmt.execute();
-			} 
+		
 		}catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
 				connessione.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
