@@ -27,6 +27,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -66,6 +67,14 @@ public class ChatViewController {
 	private ListView<MyItem> contactList;
 	@FXML
 	private ButtonBar menuBar;
+	@FXML
+	private StackPane search;
+	@FXML
+	private Button searchButton;
+	@FXML
+	private TextField searchField;
+	@FXML
+	private ListView<MyItem> results;
 	class MyItem {
 		private StringProperty specialIndicator;
 		private StringProperty name;
@@ -123,9 +132,12 @@ public class ChatViewController {
 	contactList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<MyItem>() {
         public void changed(ObservableValue<? extends MyItem> observable,
                 MyItem oldValue, MyItem newValue) { 
+        		System.out.println("1");
               contactList.getItems().get(contactList.getSelectionModel().getSelectedIndex()).setSpecialIndicator("selected");
               contactList.setItems(null);
-              contactList.setItems(contacts);
+              System.out.println("2");
+              ObservableList<MyItem> c=contactList.getItems();
+              contactList.setItems(c);
         }
         });
 	contactList.setCellFactory(new Callback<ListView<MyItem>,
@@ -231,8 +243,12 @@ public class ChatViewController {
 			writeBar.setLayoutY(mainAnchor.getPrefHeight()*498/625);
 			write.setPrefHeight(mainAnchor.getPrefHeight()*70/625);
 			send.setPrefHeight(mainAnchor.getHeight()*30/625);
-			contactList.setPrefHeight(mainAnchor.getHeight()*500/625);
+			contactList.setPrefHeight(mainAnchor.getHeight()*450/625);
 			contactList.setLayoutY(mainAnchor.getHeight()*107/625);
+			search.setPrefHeight(mainAnchor.getHeight()*50/625);
+			search.setLayoutY(mainAnchor.getHeight()*557/625);
+			searchButton.setPrefHeight(mainAnchor.getHeight()*40/625);
+			searchField.setPrefHeight(mainAnchor.getHeight()*40/625);
 			menuBar.setPrefHeight(mainAnchor.getHeight()*85/625);
 			menuBar.setLayoutY(0);
 			array1=menuBar.getButtons().toArray();
@@ -251,6 +267,10 @@ public class ChatViewController {
 			send.setPrefWidth(mainAnchor.getWidth()*40/1280);
 			contactList.setPrefWidth(mainAnchor.getWidth()*300/1280);
 			contactList.setLayoutX(mainAnchor.getWidth()*33/1280);
+			search.setPrefWidth(mainAnchor.getWidth()*300/1280);
+			search.setLayoutX(mainAnchor.getWidth()*33/1280);
+			searchButton.setPrefWidth(mainAnchor.getWidth()*40/1280);
+			searchField.setPrefWidth(mainAnchor.getWidth()*250/1280);
 			menuBar.setPrefWidth(mainAnchor.getWidth()*592/1280);
 			menuBar.setLayoutX(0);
 			array1=menuBar.getButtons().toArray();
@@ -264,11 +284,11 @@ public class ChatViewController {
 		this.mainAnchor.setPrefHeight(mainPane.getHeight()*625/720);
 		this.mainAnchor.setPrefWidth(mainPane.getWidth());
 		
-		write.setOnKeyTyped(e -> keyTyped(e));
+		write.setOnKeyPressed(e -> keyPressed(e));
 	}
-	private void keyTyped(KeyEvent evt) {
+	private void keyPressed(KeyEvent evt) {
 		KeyCode ch = evt.getCode();
-		if(ch.equals(KeyCode.ENTER)|| evt.getCharacter().getBytes()[0] == '\n' || evt.getCharacter().getBytes()[0] == '\r') {
+		if(ch.equals(KeyCode.ENTER)){
 			sendHandler();
 		}
 	}
@@ -303,32 +323,23 @@ public class ChatViewController {
     	write.clear();
     	sentList.scrollTo(sentList.getItems().size());
     }
-    //questo codice non funzionaaaa, è da togliere
     @FXML
-    private void scrollAppear() {
-    	try {
-    	for (Node node : sentList.lookupAll(".scroll-bar")) {
-    	    if (node instanceof ScrollBar) {
-    	        ScrollBar scrollBar = (ScrollBar) node;
-    	        scrollBar.setVisible(true);
-    	    }
-    	}
-    	}catch(NullPointerException e) {
-    	e.printStackTrace();
-    	}
-    }
-    @FXML
-    private void scrollDisappear() {
-    	try {
-    	for (Node node : sentList.lookupAll(".scroll-bar")) {
-    	    if (node instanceof ScrollBar) {
-    	        ScrollBar scrollBar = (ScrollBar) node;
-    	        scrollBar.setVisible(false);
-    	    }
-    	}
-    	}catch(NullPointerException e) {
-    		e.printStackTrace();
-    	}
+    private void searchHandler() {
+    	MyItem t = new MyItem(searchField.getText());
+    	System.out.println(t.getName());
+    	contactList.getItems().add(t);
+    	contactList.setItems(contactList.getItems());
+    	contactList.getSelectionModel().select(t);
+    	contactList.scrollTo(t);
+    	//results.setItems(FXCollections.observableArrayList(t,t));
+    	/*results.setCellFactory(new Callback<ListView<MyItem>,
+    			ListCell<MyItem>>(){
+    		@Override
+    		public ListCell<MyItem> call(ListView<MyItem> list){
+    			return new contactCell();
+    		}
+    	});*/
+    	//results.setVisible(true);
     }
 
 

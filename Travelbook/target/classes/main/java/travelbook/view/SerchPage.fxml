@@ -21,7 +21,7 @@
 
 <AnchorPane fx:id="sfondo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.SearchTravelController">
    <children>
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="964.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="316.0">
+      <ScrollPane fx:id="Consigliati" fitToWidth="true" hbarPolicy="NEVER" layoutX="964.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="316.0">
         <content>
           <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="380.0">
                <children>
@@ -414,7 +414,7 @@
          </font>
       </Label>
       <Line fx:id="LineaListView" endX="800.0" layoutX="62.0" layoutY="167.0" stroke="#fcdcc8" />
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="650.0" AnchorPane.leftAnchor="315.0" AnchorPane.topAnchor="50.0">
+      <Pane fx:id="ricerca" layoutX="315.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="650.0">
          <children>
             <Line layoutX="60.0" layoutY="8.0" startY="30.0" />
             <TextField layoutX="75.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="575.0" styleClass="BarraDiRicerca" />
@@ -422,17 +422,17 @@
          </children>
       </Pane>
       <Line endY="484.0" layoutX="953.0" layoutY="131.0" startY="3.0" stroke="#fcdcc8" />
-      <Label layoutX="972.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="i nostri suggerimenti">
+      <Label fx:id="scritta2" layoutX="972.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="i nostri suggerimenti">
          <font>
             <Font size="32.0" />
          </font>
       </Label>
       <Button fx:id="Advanced" layoutX="33.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showSearchAdvanced" prefHeight="13.0" prefWidth="15.0" styleClass="BottoneExtensive" />
-      <Label layoutX="48.0" layoutY="109.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="advanced search" />
+      <Label fx:id="scritta1" layoutX="48.0" layoutY="109.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="advanced search" />
       <ListView fx:id="lista" layoutX="61.0" layoutY="182.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="885.0" />
-      <Pane fx:id="AdvancedSearch" layoutX="34.0" layoutY="133.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="910.0">
+      <Pane fx:id="AdvancedSearch" layoutX="34.0" layoutY="133.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="910.0" visible="false">
          <children>
-            <Label layoutX="6.0" layoutY="7.0" text="your Budjet">
+            <Label fx:id="scritta3" layoutX="6.0" layoutY="7.0" text="your Budjet">
                <font>
                   <Font size="32.0" />
                </font>
@@ -441,18 +441,18 @@
             <RadioButton fx:id="budjet3" layoutX="6.0" layoutY="117.0" mnemonicParsing="false" text="1000-2000" />
             <RadioButton fx:id="budjet4" layoutX="5.0" layoutY="152.0" mnemonicParsing="false" text="2000&gt;" />
             <RadioButton fx:id="budjet1" layoutX="7.0" layoutY="55.0" mnemonicParsing="false" text="&lt;300" />
-            <Label layoutX="479.0" layoutY="7.0" text="What do you fancy?">
+            <Label fx:id="scritta4" layoutX="479.0" layoutY="7.0" text="What do you fancy?">
                <font>
                   <Font size="32.0" />
                </font>
             </Label>
-            <TextField layoutX="220.0" layoutY="78.0" prefHeight="44.0" prefWidth="96.0" text="min" />
-            <Label layoutX="211.0" layoutY="7.0" text="How many days?">
+            <TextField fx:id="minCost" layoutX="220.0" layoutY="78.0" prefHeight="44.0" prefWidth="96.0" text="min" />
+            <Label fx:id="scritta5" layoutX="211.0" layoutY="7.0" text="How many days?">
                <font>
                   <Font size="32.0" />
                </font>
             </Label>
-            <TextField layoutX="347.0" layoutY="78.0" prefHeight="44.0" prefWidth="96.0" text="max" />
+            <TextField fx:id="maxCost" layoutX="347.0" layoutY="78.0" prefHeight="44.0" prefWidth="96.0" text="max" />
             <ListView fx:id="type" layoutX="469.0" layoutY="54.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="137.0" prefWidth="217.0" />
             <ScrollPane hbarPolicy="NEVER" layoutX="697.0" layoutY="55.0" prefHeight="137.0" prefWidth="217.0" vbarPolicy="ALWAYS" visible="false">
                <content>

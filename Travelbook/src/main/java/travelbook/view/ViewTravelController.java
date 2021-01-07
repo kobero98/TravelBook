@@ -395,7 +395,7 @@ public class ViewTravelController {
 			AnchorPane internalPane=(AnchorPane)loader.load();
 			mainPane.setCenter(internalPane);
 			ProfileOtherController controller=loader.getController();
-			controller.setMainPane(mainPane, 1);
+			controller.setMainPane(mainPane, Integer.parseInt("1"+goBack));
 	}
 	@FXML
 	private void chatButtonHandler() {

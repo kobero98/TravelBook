@@ -285,15 +285,40 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 	}
 	@FXML
 	private void back() {
+		FXMLLoader loader;
 		switch (goBack){
-		case 1:
-			FXMLLoader loader=new FXMLLoader();
+		case 11:
+			loader=new FXMLLoader();
 			loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
 			try {
 				internalPane=(AnchorPane)loader.load();
 				mainPane.setCenter(internalPane);
 				controller=loader.getController();
 				controller.setMainPane(mainPane,1); //da risolvere
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case 12:
+			loader=new FXMLLoader();
+			loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
+			try {
+				internalPane=(AnchorPane)loader.load();
+				mainPane.setCenter(internalPane);
+				controller=loader.getController();
+				controller.setMainPane(mainPane,2); //da risolvere
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case 13:
+			loader=new FXMLLoader();
+			loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
+			try {
+				internalPane=(AnchorPane)loader.load();
+				mainPane.setCenter(internalPane);
+				controller=loader.getController();
+				controller.setMainPane(mainPane,3); //da risolvere
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
