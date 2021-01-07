@@ -1,5 +1,5 @@
 language: java
 jdk:
-- openjdk1.8
+- oraclejdk8
 script:
-- mvn build
+- mvn test
