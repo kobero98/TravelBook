@@ -153,7 +153,6 @@ public class ChatViewController {
 	}
 	
 	
-	
 	 class messageCell extends ListCell<String>{
 		@Override
         public void updateItem(String item, boolean empty) {
