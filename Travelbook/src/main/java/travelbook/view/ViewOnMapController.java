@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.concurrent.Worker;
@@ -47,6 +49,11 @@ public class ViewOnMapController {
 						alert.setHeaderText("Map service error");
 						alert.setContentText(e.getMessage());
 						alert.initOwner(stage);
+						alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
+						alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
+						Image image = new Image("main/resources/AddViewImages/error.png");
+						ImageView imageView = new ImageView(image);
+						alert.setGraphic(imageView);
 						alert.showAndWait();
 					}
 					
