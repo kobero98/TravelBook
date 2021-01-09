@@ -3,7 +3,7 @@ package main.java.travelbook.model.bean;
 import java.util.List;
 
 import javafx.scene.image.Image;
-import main.java.travelbook.util.PlacePrediction;
+import main.java.travelbook.util.PlaceAdapter;
 public class StepBean {
 	private int number;
 	private int iDTravel;
@@ -14,7 +14,7 @@ public class StepBean {
 	private String place;
 	private String day;
 	private List <Image> photo;
-	private PlacePrediction fullPlace;
+	private PlaceAdapter fullPlace;
 	public  StepBean(){}
 	public  StepBean(int number,int idtravel,int idcreator){
 		this.number=number;
@@ -22,10 +22,10 @@ public class StepBean {
 		this.iDTravel=idtravel;
 	}
 	
-	public PlacePrediction getFullPlace() {
+	public PlaceAdapter getFullPlace() {
 		return fullPlace;
 	}
-	public void setFullPlace(PlacePrediction fullPlace) {
+	public void setFullPlace(PlaceAdapter fullPlace) {
 		this.fullPlace = fullPlace;
 	}
 	public int getNumberInDay() {

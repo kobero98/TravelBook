@@ -1,14 +1,12 @@
 package main.java.travelbook.controller;
 import java.util.List;
 import java.util.ArrayList;
-import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.bean.StepBean;
-import main.java.travelbook.util.PlacePrediction;
+import main.java.travelbook.util.PlaceAdapter;
 public class ViewOnMap {
-	//Ci sto ancora lavorando per renderlo collegabile alla mappa per adesso non l'ho testato
 	private static ViewOnMap istance =null;
 	private ViewOnMap() {
-		
+	
 	}
 	public static ViewOnMap getIstance() {
 		if(istance==null) {
@@ -17,20 +15,20 @@ public class ViewOnMap {
 		return istance;
 	}
 	
-	public List<String> loadTravel(List<StepBean> steps) {
-		List<String> scripts=new ArrayList<String>();
-		StringBuffer forPath=new StringBuffer();
+	public List<String> loadTravel(List<StepBean> steps) throws MapboxException{
+		List<String> scripts=new ArrayList<>();
+		StringBuilder forPath=new StringBuilder();
 		forPath.append("[");
-		StringBuffer script;
+		StringBuilder script;
 		boolean start=true;
 		for(StepBean step: steps) {
-			script=new StringBuffer();
+			script=new StringBuilder();
 			if(step.getFullPlace()==null) {
 				step.setFullPlace(getPlaceByName(step.getPlace()));
 			}
 				forPath.append(step.getFullPlace().getCoordinates().toString()+",");
 				script.append(step.getFullPlace().getCoordinates().toString()+",");
-			StringBuffer popupContent=new StringBuffer();
+			StringBuilder popupContent=new StringBuilder();
 			popupContent.append("<b>"+step.getPlace()+"</b><br>");
 			popupContent.append("Category: ");
 			//Category is a comma separeted string if step is a poi or "city" if is a "place" or other
@@ -52,52 +50,53 @@ public class ViewOnMap {
 			String icon=null;
 			
 			//Ho scoperto maki ma sfortunatamente non funziona come vorrei
-			if(category!=null) {
-				if(step.getFullPlace().getIcon()!=null) {
+			if(category!=null && step.getFullPlace().getIcon()!=null) {
 					icon=step.getFullPlace().getIcon();
-				}
-				else {
-					//Add here an if statement if you know some other categories
-					//See maki on google to know how icon are assigned
-					//La risposta json ha un campo maki ma sfortunatamente non funziona come dovrebbe
-					//Ad esempio per un ristorante come Tonnarello non ritorna il campo maki.
-					//Stessa cosa per un monumento come il colosseo
-					//Il mio metodo invece riconosce questi ultimi sfruttando le categories.
-					if(category.contains("restaurant")) {
-						icon="restaurant";
-					}
-					if(category.contains("historic")||category.contains("museum")) {
-						icon="museum";
-					}
-					if(category.contains("bar")) {
-						icon="bar";
-					}
-					if(category.contains("beach")) {
-						icon="beach";
-					}
-					if(category.contains("mountain")) {
-						icon="mountain";
-					}
-					if(category.contains("hotel") || category.contains("bnb")) {
-						icon="home";
-					}
-					
-				}
 			}
+				else {
+					icon=this.foundIcon(category);
+				}
 			script.append("\""+icon+"\",");
 			script.append(start);
 			scripts.add("addMarker("+script+");");
 			start=false;
-			System.out.println(scripts.get(scripts.size()-1));
 		}
 		forPath.replace(forPath.length()-1, forPath.length(), "]");
-		System.out.println(forPath);
 		scripts.add("drawPath("+forPath+");");
 		return scripts;
 	}
-	private PlacePrediction getPlaceByName(String place) {
+	private String foundIcon (String category) {
+		String icon=null;
+		//Add here an if statement if you know some other categories
+		//See maki on google to know how icon are assigned
+		//La risposta json ha un campo maki ma sfortunatamente non funziona come dovrebbe
+		//Ad esempio per un ristorante come Tonnarello non ritorna il campo maki.
+		//Stessa cosa per un monumento come il colosseo
+		//Il mio metodo invece riconosce questi ultimi sfruttando le categories.
+		if(category!=null) {
+		if(category.contains("restaurant")) {
+			icon="restaurant";
+		}
+		if(category.contains("historic")||category.contains("museum")) {
+			icon="museum";
+		}
+		if(category.contains("bar")) {
+			icon="bar";
+		}
+		if(category.contains("beach")) {
+			icon="beach";
+		}
+		if(category.contains("mountain")) {
+			icon="mountain";
+		}
+		if(category.contains("hotel") || category.contains("bnb")) {
+			icon="home";
+		}
+		}
+		return icon;
+	}
+	private PlaceAdapter getPlaceByName(String place)throws MapboxException {
 		PredictionController controller=new PredictionController();
-		PlacePrediction predict=controller.getPlaceByName(place);
-		return predict;
+		return new PlaceAdapter(controller.getPlaceByName(place));
 	}
 }

@@ -1,49 +1,36 @@
 package main.java.travelbook.controller;
 
-import main.java.travelbook.util.PlacePrediction;
 
-import com.google.maps.model.AddressComponent;
-import com.google.maps.model.AddressComponentType;
-import com.google.maps.model.AutocompletePrediction;
-import com.google.maps.model.PlaceDetails;
-import com.google.maps.QueryAutocompleteRequest;
-import com.google.maps.errors.ApiException;
-import com.google.maps.GeoApiContext;
-import com.google.maps.PlacesApi;
-import com.google.maps.PlaceDetailsRequest;
+
+
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+
 import java.io.IOException;
-import java.util.Map;
+
 
 import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
+
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-/*
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.tasks.geocode.LocatorTask;
-import com.esri.arcgisruntime.tasks.geocode.SuggestParameters;
-import com.esri.arcgisruntime.tasks.geocode.SuggestResult;*/
+
+
 import java.util.ArrayList;
-import java.io.IOException;
 public class PredictionController {
 	
-	private String TOKEN="INSERT YOUR TOKEN HERE";
+	private static final String TOKEN="INSERT_YOUR_TOKEN_HERE";
 	
-	public List<PlacePrediction> getPredictions(String text) {
-		List<PlacePrediction> results=mapboxQuery(text,true,10);
-		return results;
+	public List<JSONObject> getPredictions(String text) throws MapboxException {
+		return mapboxQuery(text,true,10);
 	}
-	private List<PlacePrediction> mapboxQuery(String text,boolean bool,int limit) {
-		List<PlacePrediction> results=new ArrayList<PlacePrediction>();
+	private List<JSONObject> mapboxQuery(String text,boolean bool,int limit) throws MapboxException {
+		
 		if(limit>10) {
 			limit=10;
 		}
@@ -51,7 +38,7 @@ public class PredictionController {
 			limit=1;
 		}
 		String[] part=text.split(" ");
-		StringBuffer newText=new StringBuffer();
+		StringBuilder newText=new StringBuilder();
 		for(int i=0;i<part.length;i++) {
 			//Le stringhe con gli spazi non funzionano.
 			newText.append(part[i]);
@@ -66,85 +53,38 @@ public class PredictionController {
 		try {
 			HttpResponse response = client.execute(request);
 			String json = EntityUtils.toString(response.getEntity(), "UTF-8");
-			try {
-                JSONParser parser = new JSONParser();
-                Object resultObject = parser.parse(json);
-
-                 if (resultObject instanceof JSONObject) {
-                    JSONObject obj =(JSONObject)resultObject;
-                    JSONArray array=(JSONArray)obj.get("features");
-                 
-                    
-                   
-                    JSONObject place;
-                    for(int i=0;i<array.size();i++) {
-                   
-                    	place=(JSONObject)array.get(i);
-                    	
-                    	PlacePrediction placePred=new PlacePrediction();
-                    	placePred.setPlaceName(place.get("place_name").toString());
-                    	
-                    	JSONArray types=(JSONArray)place.get("place_type");
-                    	String tipo=(String)types.get(0);
-                    	placePred.setPlaceType(tipo);
-                    	JSONArray coordinates=(JSONArray)place.get("center");
-                    	//mapbox return a long lat array but i need lat long (see map)
-                    	placePred.setCoordinates((double)coordinates.get(1), (double)coordinates.get(0));
-                    	JSONArray context=(JSONArray)place.get("context");
-                    	if(context!=null) {
-                    	for(int j=0;j<context.size();j++) {
-                    		JSONObject first=(JSONObject)context.get(j);
-                    		String id=first.get("id").toString();
-                    		if(tipo.compareTo("poi")==0) {
-                    			if(id.startsWith("postcode")) {
-                    				placePred.setPostCode(first.get("text").toString());
-                    				
-                    			}
-                    			
-                    		}
-                    		if(id.startsWith("region")) {
-                    			placePred.setCity(first.get("text").toString());
-                    		}
-                    		else if(id.startsWith("country")) {
-                    			placePred.setCountry(first.get("text").toString());
-                    		}
-                    	}}
-                    	if(tipo.compareTo("poi")==0) {
-                    		
-                    		JSONObject categoria=(JSONObject)place.get("properties");
-                    		if(categoria.get("maki")!=null) {
-                    		placePred.setIcon(categoria.get("maki").toString());
-                    		}
-                    		placePred.setCategory(categoria.get("category").toString());
-                    	}
-                    	
-                    	results.add(placePred);
-                    	System.out.println("Aggiunto uno");
-                    }
-                    
-                   
-                }
-
-            } catch (Exception e) {
-                // TODO: handle exception
-            	e.printStackTrace();
-            }
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return parseString(json);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new MapboxException(e.getMessage());
 		}
-		return results;
+		
+
 	}
-	public PlacePrediction getPlaceByName(String name) {
-		List<PlacePrediction> results=this.mapboxQuery(name, false, 1);
-		PlacePrediction result=results.get(0);
-		return result;
+	private List<JSONObject> parseString(String json) throws MapboxException {
+		List<JSONObject> results=new ArrayList<>();
+		try {
+            JSONParser parser = new JSONParser();
+            Object resultObject = parser.parse(json);
+
+             if (resultObject instanceof JSONObject) {
+                JSONObject obj =(JSONObject)resultObject;
+                JSONArray array=(JSONArray)obj.get("features");
+                for (int i=0;i<array.size();i++) {
+                	results.add((JSONObject)array.get(i));
+                } 
+            }
+     		return results;
+
+        } catch (Exception e) {
+        	throw new MapboxException("Several error unable to get places information");
+        }
+	}
+	public JSONObject getPlaceByName(String name) throws MapboxException {
+		List<JSONObject> results=this.mapboxQuery(name, false, 1);
+		return results.get(0);
 	}
 	public String getToken() {
-		return this.TOKEN;
+		return TOKEN;
 	}
 	
 	

@@ -1,42 +1,25 @@
 package main.java.travelbook.view;
 import main.java.travelbook.view.animation.SlideImageAnimationHR;
 import javafx.scene.input.KeyCode;
+import java.util.List;
+import java.util.ArrayList;
 import javafx.scene.input.KeyEvent;
 import main.java.travelbook.view.animation.SlideImageAnimationHL;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.FontWeight;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
 import javafx.scene.control.Label;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.control.ButtonBar;
-import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import java.util.Vector;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Font;
-import javafx.geometry.Pos;
-import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.ActionEvent;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.shape.Line;
 public class ExploreViewController {
-	//private Vector<TravelBean> travelSelection;
-	//private Vector<TravelBean> topTenTravel;
-	private ViewTravelController controller;
-	private AnchorPane internalPane;
-	private StackPane stack;
-	private Object array1[]=new Object[15];
+	private Object[] array1=new Object[15];
 	private BorderPane mainPane;
 	private Button button;
 	@FXML
@@ -65,8 +48,8 @@ public class ExploreViewController {
 	private StackPane selectionStack;
 	@FXML
 	private StackPane topTenStack;
-	private Vector<TravelButton> topTenGroup;
-	private Vector<TravelButton> selectionGroup;
+	
+	
 	@FXML
 	private ScrollPane selectionScroll;
 	@FXML
@@ -92,9 +75,11 @@ public class ExploreViewController {
 		//The controller must return a Collection of TravelBean compilated and these travelBean must be passed in constructButton
 		//In this example use Empty image as Pane and Some strings a cazzo di cane.
 		int i=0;
+		List<TravelButton> selectionGroup;
+		List<TravelButton> topTenGroup;
 		TravelButton istance;
-		topTenGroup=new Vector(10);
-		selectionGroup=new Vector(15);
+		topTenGroup=new ArrayList<>(10);
+		selectionGroup=new ArrayList<>(15);
 		//Now create some buttons 10 for tt and 15 for travelSelection.
 		while(i<10) {
 			istance=new TravelButton(136,190.4,i);
@@ -124,6 +109,8 @@ public class ExploreViewController {
 		FXMLLoader loader=new FXMLLoader();
 		loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
 		try {
+			ViewTravelController controller;
+			AnchorPane internalPane;
 			internalPane=(AnchorPane)loader.load();
 			mainPane.setCenter(internalPane);
 			controller=loader.getController();
@@ -139,7 +126,6 @@ public class ExploreViewController {
 		
 		
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
-			System.out.println("Altezza anchorPane: " + this.mainAnchor.getHeight());
 			worldPane.setPrefHeight(mainAnchor.getPrefHeight()*591/625);
 			worldPane.setLayoutY(mainAnchor.getPrefHeight()*10/625);
 			cartina.setFitHeight(mainAnchor.getPrefHeight()*269/625);
@@ -173,18 +159,12 @@ public class ExploreViewController {
 			selLeft.setPrefHeight(mainAnchor.getPrefHeight()*15.74/625);
 			selRight.setPrefHeight(mainAnchor.getPrefHeight()*15.74/625);
 			array1=selectionBar.getButtons().toArray();
-			/*for(int i=0;i<15;i++) {
-				stack=(StackPane)array1[i];
-				stack.setPrefHeight(mainAnchor.getHeight()*190/625);
-			}*/
+
 			topTenStack.setPrefHeight(mainAnchor.getHeight()*190/625);
 			topTenScroll.setPrefHeight(mainAnchor.getHeight()*190/625);
 			topTenBar.setPrefHeight(mainAnchor.getHeight()*190/625);
 			array1=topTenBar.getButtons().toArray();
-			/*for(int i=0;i<10;i++) {
-				stack=(StackPane)array1[i];
-				stack.setPrefHeight(mainAnchor.getHeight()*190/625);
-			}*/
+
 			topTenStack.setLayoutY(mainAnchor.getPrefHeight()*404/625);
 		});	
 		this.mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
@@ -196,8 +176,6 @@ public class ExploreViewController {
 			advanceSearch.setWrappingWidth(mainAnchor.getWidth()*270/1280);
 			menuBar.setLayoutX(0);
 			worldTitle.setPrefWidth(mainAnchor.getWidth()*375/1280);
-			//ttLine.setEndX(mainAnchor.getWidth()*173.66665649414062/625);
-			//selectionLine.setEndX(mainAnchor.getWidth()*173.66665649414062/625);
 			worldTitle.setLayoutX(mainAnchor.getWidth()*10/1280);
 			advanceSearch.setLayoutX(mainAnchor.getWidth()*60/1280);
 			advance.setLayoutX(mainAnchor.getWidth()*60/1280);
@@ -225,7 +203,7 @@ public class ExploreViewController {
 		}
 	@FXML
 	private void topTenScrollRightHandler() {
-		Double upgrade= new Double((double)(3.0/7.0));
+
     	SlideImageAnimationHR anim=new SlideImageAnimationHR();
     	anim.setScrollAndMax(topTenScroll, topTenScroll.getHvalue()+0.42);
     	anim.setSpeed(2);
@@ -233,7 +211,7 @@ public class ExploreViewController {
 	}
 	@FXML
 	private void topTenScrollLeftHandler() {
-		Double upgrade= new Double((double)(3.0/7.0));
+
     	SlideImageAnimationHL anim=new SlideImageAnimationHL();
     	anim.setScrollAndMin(topTenScroll, topTenScroll.getHvalue()-0.42);
     	anim.setSpeed(2);
@@ -241,7 +219,7 @@ public class ExploreViewController {
 	}
 	@FXML
 	private void selectionScrollRightHandler() {
-		Double upgrade= new Double((double)(1.0/4.0));
+		Double upgrade= (1.0/4.0);
     	SlideImageAnimationHR anim=new SlideImageAnimationHR();
     	anim.setScrollAndMax(selectionScroll, selectionScroll.getHvalue()+upgrade);
     	anim.setSpeed(1);
@@ -249,7 +227,7 @@ public class ExploreViewController {
 	}
 	@FXML
 	private void selectionScrollLeftHandler() {
-		Double upgrade= new Double((double)(1.0/4.0));
+		Double upgrade= (1.0/4.0);
     	SlideImageAnimationHL anim=new SlideImageAnimationHL();
     	anim.setScrollAndMin(selectionScroll, selectionScroll.getHvalue()-upgrade);
     	anim.setSpeed(1);
@@ -282,11 +260,9 @@ public class ExploreViewController {
 	@FXML
 	private void advanceSearchHandler() {
 		//Redirect to search view but now simply go to stdout
-		System.out.println("Hello i'm trying to go to search");
 	}
 	@FXML
 	private void selectionOnMouseEnter() {
-		System.out.println("Sono entrato in selection");
 		selectionScroll.requestFocus();
 		selectionScroll.setOnKeyPressed((KeyEvent e)->{
 			if(e.getCode()==KeyCode.RIGHT) {
@@ -300,11 +276,12 @@ public class ExploreViewController {
 	}
 	@FXML
 	private void selectionOnMouseExit() {
-		System.out.println("Sono uscito dalla selection");
 		mainAnchor.requestFocus();
 		selectionScroll.setOnKeyPressed((KeyEvent e)->{
 			e.consume();
-		});
+			mainAnchor.requestFocus();
+		}
+	);
 	}
 	@FXML
 	private void ttOnMouseEnter() {
@@ -324,7 +301,9 @@ public class ExploreViewController {
 		mainAnchor.requestFocus();
 		topTenScroll.setOnKeyPressed((KeyEvent e)->{
 			e.consume();
-		});
+			mainAnchor.requestFocus();
+		}
+		);
 	}
 	@FXML
 	public void moveToSearch()throws IOException {

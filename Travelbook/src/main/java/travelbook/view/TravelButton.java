@@ -1,18 +1,16 @@
 package main.java.travelbook.view;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 public class TravelButton {
 	private Pane pane;
 	private StackPane stack;
-	//private Button button;
+
 	private Label title;
 	private Label subtitle;
-	//private TravelBean travel; and setter and getter methods
+
 	public Pane getPane() {
 		return pane;
 	}
@@ -44,20 +42,20 @@ public class TravelButton {
 		pane.setMaxHeight(height*130/190);
 		pane.setMinHeight(height*130/190);
 		stack.getChildren().addAll(pane,title,subtitle);
-		stack.setAlignment(pane,Pos.TOP_CENTER);
-		stack.setAlignment(title,Pos.CENTER);
-		stack.setAlignment(subtitle,Pos.CENTER);
-		stack.setMargin(title, new Insets(105,0,0,0));
-		stack.setMargin(subtitle, new Insets(135,0,0,0));
-		stack.prefWidthProperty().addListener((observable,oldValue,newValue)->{
-			this.resize();
-		});
-		stack.heightProperty().addListener((observable,oldValue,newValue)->{
-			this.resize();
-		});
-		stack.widthProperty().addListener((observable,oldValue,newValue)->{
-			this.resize();
-		});	}
+		StackPane.setAlignment(pane,Pos.TOP_CENTER);
+		StackPane.setAlignment(title,Pos.CENTER);
+		StackPane.setAlignment(subtitle,Pos.CENTER);
+		StackPane.setMargin(title, new Insets(105,0,0,0));
+		StackPane.setMargin(subtitle, new Insets(135,0,0,0));
+		stack.prefWidthProperty().addListener((observable,oldValue,newValue)->
+			this.resize()
+		);
+		stack.heightProperty().addListener((observable,oldValue,newValue)->
+			this.resize()
+		);
+		stack.widthProperty().addListener((observable,oldValue,newValue)->
+			this.resize()
+		);	}
 	private void resize() {
 		double width=stack.getWidth();
 		double height=stack.getHeight();

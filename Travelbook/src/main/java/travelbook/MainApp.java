@@ -11,7 +11,6 @@ public class MainApp extends Application {
    //This is just a test in order to show how explore page work but no methods is implemented for the graphic controller of this view
 	private Stage rootStage;
 	private BorderPane rootLayout;
-	private AnchorPane exploreLayout;
 	private LoginViewController controller;
 	@Override
 	public void start(Stage rootStage) {
@@ -22,6 +21,7 @@ public class MainApp extends Application {
 	}
 	private void initRootLayout() {
 		try {
+		AnchorPane exploreLayout;
 		FXMLLoader loader= new FXMLLoader();
 		loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
 		this.rootLayout=(BorderPane) loader.load();
@@ -29,8 +29,8 @@ public class MainApp extends Application {
 		rootStage.setScene(scene);
 		FXMLLoader loader2=new FXMLLoader();
 		loader2.setLocation(MainApp.class.getResource("view/LoginView.fxml"));
-		this.exploreLayout=(AnchorPane) loader2.load();
-		this.rootLayout.setCenter(this.exploreLayout);
+		exploreLayout=(AnchorPane) loader2.load();
+		this.rootLayout.setCenter(exploreLayout);
 		this.rootStage.show();
 		controller=loader2.getController();
 	}catch (IOException e){

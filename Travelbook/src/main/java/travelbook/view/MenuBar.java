@@ -12,10 +12,10 @@ public class MenuBar {
 		
 	}
 	private static UserBean loggedUser;
-	public void setUser(UserBean user) {
+	public static void  setUser(UserBean user) {
 		loggedUser=user;
 	}
-	public UserBean getLoggedUser() {
+	public static UserBean getLoggedUser() {
 		return loggedUser;
 	}
 	AnchorPane internalPane;

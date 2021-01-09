@@ -1,14 +1,8 @@
 package main.java.travelbook.view;
 import java.util.LinkedList;
-import main.java.travelbook.util.PlacePrediction;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.application.Platform;
@@ -20,39 +14,38 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.event.ActionEvent;
 import javafx.collections.FXCollections;
-import main.java.travelbook.controller.PredictionController;
 import java.util.List;
 import java.util.ArrayList;
 /*This class define an autocompleteTextField
  * Sostituire S con un qualsiasi tipo di dato
- * Il textField conterrà sempre una stringa 
+ * Il textField conterra' sempre una stringa 
  * S rappresenta il tipo di dato memorizzato nel contextmenu
  * ad esempio nella autocomplete per i posti ho sostituito S con la classe PlacePrediction
  */
-public abstract class AutocompleteTextField<S> extends TextField{
+public abstract class AutocompleteTextField<S>{
+		//The text field that we modify with an autocomplete feature
+		private final TextField textField;
 		private final ObjectProperty<S> lastSelectedItem=new SimpleObjectProperty<>();
 		//The entries of the popUp
 		private final List<S> entries;
 		private int characterLowerBound;
 		private boolean enable=true;
-		private boolean blocked=true;
 		private ObservableList<S> filteredEntries=FXCollections.observableArrayList();
 		private ContextMenu entriesPopup;
 		private boolean popupHidden=false;
 		//the number of max entries showed in popup
 		private int maxEntries=10;
-		public AutocompleteTextField() {
-			super();
-			this.entries=new ArrayList<S>();
+		protected AutocompleteTextField() {
+			this(new TextField());
+		}
+		protected AutocompleteTextField(TextField textField) {
+			this.textField=textField;
+			this.entries=new ArrayList<>();
 			this.filteredEntries.addAll(this.entries);
 			//At the start all of the entries are considered filtered
 			entriesPopup=new ContextMenu();
-			textProperty().addListener((observableValue, oldValue,  newValue)->{
-				if(blocked) {
-					this.setText("");
-				}
-				else {
-				if(getText()==null||getText().length()==0) {
+			this.textField.textProperty().addListener((observableValue, oldValue,  newValue)->{
+				if(this.textField.getText()==null||this.textField.getText().length()==0) {
 					//il testo è stato svuotato
 					filteredEntries.clear();
 					filteredEntries.addAll(this.entries);
@@ -60,52 +53,20 @@ public abstract class AutocompleteTextField<S> extends TextField{
 					entries.clear();
 				}
 				else {
-					this.setText(this.getText().substring(0,1).toUpperCase()+this.getText().substring(1));
-					if(enable && this.getText().length()>characterLowerBound) {
+					this.textField.setText(this.textField.getText().substring(0,1).toUpperCase()+this.textField.getText().substring(1));
+					if(enable && this.textField.getText().length()>characterLowerBound) {
 					new Thread(()->{
-						List<S> predictions=getPredictions(this.getText());
-						Platform.runLater(()->{
-							this.entries.clear();
-						for(S predict: predictions) {
-							entries.add(predict);
-						}
-							LinkedList<S> searchResult= new LinkedList<>();
-							String text1=getText();
-							
-							Pattern pattern;
-							
-							pattern=Pattern.compile(".*"+text1+".*",Pattern.CASE_INSENSITIVE);
-							for(S entry: this.entries) {
-								Matcher matcher=pattern.matcher(entry.toString());
-								if(matcher.matches()) {
-									searchResult.add(entry);
-								}
-							}
-							if(!this.entries.isEmpty()) {
-								filteredEntries.clear();
-								filteredEntries.addAll(searchResult);
-								if(!popupHidden) {
-									populate(searchResult,text1);
-									if(!entriesPopup.isShowing()) {
-										entriesPopup.show(AutocompleteTextField.this,Side.BOTTOM,0,0);
-										
-									}
-								}
-							}
-							else {
-								//togli il popup
-								entriesPopup.hide();
-							}
-						
-						});
+						List<S> predictions=getPredictions(this.textField.getText());
+						Platform.runLater(()->
+							this.setUpPopUp(predictions)
+							);
 					}).start();
 					
 				}
 				}
-				}});
-			this.focusedProperty().addListener((observable,oldValue,newValue)->{
-				if(this.isFocused()) {
-					//Sostituiscimi con true per provarmi
+				});
+			this.textField.focusedProperty().addListener((observable,oldValue,newValue)->{
+				if(this.textField.isFocused()) {
 				    this.enable=true;
 					
 				}
@@ -117,16 +78,45 @@ public abstract class AutocompleteTextField<S> extends TextField{
 			});
 			
 		}
-		public void block() {
-			this.blocked=true;
+		protected final void setUpPopUp(List<S> predictions) {
+			this.entries.clear();
+			for(S predict: predictions) {
+				entries.add(predict);
+			}
+				LinkedList<S> searchResult= new LinkedList<>();
+				String text1=this.textField.getText();
+				
+				Pattern pattern;
+				
+				pattern=Pattern.compile(".*"+text1+".*",Pattern.CASE_INSENSITIVE);
+				for(S entry: this.entries) {
+					Matcher matcher=pattern.matcher(entry.toString());
+					if(matcher.matches()) {
+						searchResult.add(entry);
+					}
+				}
+				if(!this.entries.isEmpty()) {
+					filteredEntries.clear();
+					filteredEntries.addAll(searchResult);
+					if(!popupHidden) {
+						populate(searchResult,text1);
+						if(!entriesPopup.isShowing()) {
+							entriesPopup.show(this.textField,Side.BOTTOM,0,0);
+							
+						}
+					}
+				}
+				else {
+					//togli il popup
+					entriesPopup.hide();
+				}
 		}
-		public void unblock() {
-			this.blocked=false;
-		}
+
 		//Definisci qui la logica di recupero delle predictions. La classe 
 		//si aspetta di prendere le prediction relative ad un text input da qualche parte
-		//il metodo deve ritornare una List<S> dove S è il tipo di dato scelto per memorizzare le prediction
-		//text è il dato che devi cercare
+		//il metodo deve ritornare una List<S> dove S e' il tipo di dato scelto per memorizzare le prediction
+		//text e' il dato che devi cercare
+		//Se il metodo ritorna null non garantisco il risultato.
 		protected abstract List<S> getPredictions(String text);
 		
 		private void populate(LinkedList<S> searchResult, String text1) {
@@ -155,7 +145,7 @@ public abstract class AutocompleteTextField<S> extends TextField{
 					//disable autocomplete search
 					//evito di effettuare una nuova chiamata al controller delle prediction.
 					this.enable=false;
-					this.setText(lastSelectedItem.get().toString());
+					this.textField.setText(lastSelectedItem.get().toString());
 					searchResult.clear();
 					entriesPopup.hide();
 				});
@@ -193,6 +183,9 @@ public abstract class AutocompleteTextField<S> extends TextField{
 		}
 		protected void setCharacterLowerBound(int lowerBound) {
 			this.characterLowerBound=lowerBound;
+		}
+		protected TextField getTextField() {
+			return this.textField;
 		}
 		
 }

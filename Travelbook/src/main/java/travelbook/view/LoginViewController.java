@@ -1,9 +1,5 @@
 package main.java.travelbook.view;
 import java.io.IOException;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import main.java.travelbook.controller.ControllerLogin;
-import main.java.travelbook.model.bean.UserBean;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
@@ -23,10 +19,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
-import java.awt.Desktop;
-import java.net.URI;
-import java.io.IOException;
-import java.net.URISyntaxException;
+
 public class LoginViewController {
 	@FXML
 	private Button loginButton;
@@ -61,7 +54,7 @@ public class LoginViewController {
 	@FXML
 	private ImageView backgroundImage;
 	private BorderPane mainPane;
-	private MainApp main;
+
 	@FXML
 	private Label error;
 	//Register Pane elements
@@ -119,13 +112,10 @@ public class LoginViewController {
 		});
 	}
 	public void setMain(MainApp main) {
-		this.main=main;
-		this.mainPane=this.main.getPane();
+
+		this.mainPane=main.getPane();
 		//then some resize logic
-		/*this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->{
-			System.out.println("L'altezza della finestra è: "+this.mainPane.getScene().getHeight());
-			this.mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight());
-		});*/
+
 		this.mainPane.heightProperty().addListener((observable,oldValue,newValue)->{
 			AnchorPane anchor=(AnchorPane)mainPane.getCenter();
 			DoubleProperty fontSize = new SimpleDoubleProperty(this.mainPane.getHeight()*20/720); // font size in pt
@@ -134,9 +124,7 @@ public class LoginViewController {
 			title.setPrefHeight(mainPane.getHeight()*94/720);
 			anchor.setPrefHeight(mainPane.getHeight()*625/720);
 		});
-		/*this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->{
-			this.mainPane.setPrefWidth(this.mainPane.getScene().getWindow().getWidth());
-		});*/
+
 		this.mainPane.widthProperty().addListener((observable,oldValue,newValue)->{
 			AnchorPane anchor=(AnchorPane)mainPane.getCenter();
 			anchor.setPrefWidth(mainPane.getWidth());
@@ -260,28 +248,22 @@ public class LoginViewController {
 	}
 	@FXML
 	private void loginButtonHandler() {
-		//Call to login method in controller and verify email and password only if username and pswd are  in the textfields
-		//ATTENZIONE al momento è disabilitato per permettere di fare testing tra le pagine
-		//Per collegarlo e testarlo con il controller applicativo decommentare le righe: 272,273,276,279,280,281,282,283
-		String username,pswd;
+		String localUsername;
+		String pswd;
 		if(error.isVisible()){
 			error.setVisible(false);
 		}
-		username=emailField.getText();
+		localUsername=emailField.getText();
 		pswd=pswdField.getText();
-		if(!username.isEmpty() && !pswd.isEmpty()) {
-			/*UserBean loggedUser=ControllerLogin.getInstance().login(username, pswd);
-			if(loggedUser!=null) {*/
+		if(!localUsername.isEmpty() && !pswd.isEmpty()) {
+
 			try {
 			        MenuBar.getInstance().moveToExplore(this.mainPane);
-			       // MenuBar.getInstance().setUser(loggedUser);
+
 			}catch(IOException e) {
 				e.printStackTrace();
-			}/*
-			}else {
-		            error.setText("Credenziali errate");
-			        error.setVisible(true);
-			}*/
+			}
+
 			}
 	}
 	@FXML
@@ -307,19 +289,6 @@ public class LoginViewController {
 	private void goToFacebook() {
 		if(error.isVisible())
 			error.setVisible(false);
-		//Change URI with other using facebook api for login
-		//Credo che questo codice vada usato nel controller applicativo e non qui
-		//quindi sostituisci questo codice con una chiamata al controller
-		//lascio il codice perchè può essere di aiuto. Visto che apre il browser da solo per favore
-		//controllate che funziona
-		try {
-		URI facebook=new URI("https://www.facebook.com/");
-		Desktop.getDesktop().browse(facebook);
-		}catch(URISyntaxException e) {
-			System.out.println("sintassi errata");
-		}catch(IOException e) {
-			System.out.println("Impossibile arrivare al desktop");
-		}
 	}
 	@FXML
 	private void goToFacebookButton() {
@@ -330,7 +299,7 @@ public class LoginViewController {
 		if(error.isVisible())
 			error.setVisible(false);
 		//Gestisci aprendo link sul browser che porta alla nostra pagina di gestione credenziali cosi la scriviamo una volta sola in tecnologia web
-		System.out.println("Per ora entra con quello che ti pare");
+
 	}
 	@FXML
 	private void registrami() {
@@ -340,46 +309,41 @@ public class LoginViewController {
 		if(email.isEmpty()) {
 			errore=true;
 		}
-		String name=this.name.getText();
-		if (name.isEmpty()) {
+		String nome=this.name.getText();
+		if (nome.isEmpty()) {
 			errore=true;
 		}
-		String surname= this.surname.getText();
-		if(surname.isEmpty()) {
+		String cognome= this.surname.getText();
+		if(cognome.isEmpty()) {
 			errore=true;
 		}
 		String pswd=this.pswd1.getText();
 		if(pswd.isEmpty()) {
 			errore=true;
 		}
-		String pswdRepeat=this.pswdRepeat.getText();
-		if(pswdRepeat.isEmpty() || !(pswdRepeat.equals(pswd))) {
+		String ripetiPswd=this.pswdRepeat.getText();
+		if(ripetiPswd.isEmpty() || !(ripetiPswd.equals(pswd))) {
 			errore=true;
 		}
 		if(date.getValue()!=null) {
 		DateUtil converter=new DateUtil();
 		String data=converter.toString(date.getValue());
-		//print per vedere se tutto ok
-		System.out.println(data);
 		}
 		else {
 			errore=true;
 		}
-		String genere=null;
+		String gender=null;
 		if(male.isSelected()) {
-			genere=new String("m");
+			gender="m";
 		}
 		if(female.isSelected()) {
-			genere=new String("f");
+			gender= "f";
 		}
 		if(other.isSelected()) {
-			genere=new String("o");
+			gender="o";
 		}
-		if(!errore && genere!=null) {
-		//Ora chiama il controller applicativo e dagli tutte le info
-		 // a titolo di esempio stampo tutto
-			System.out.println("Email: "+email+"\n pswd: "+ pswd+ "pswdRepeat: "+pswdRepeat+"genere: "+genere+"name: "+name+"surname: "+surname+ " username: "+username);
-		
+		if(!errore && gender!=null) {
+          //Ora chiamo il controller applicativo
 		}
 		else {
 			//ora stampa messagggio di errore

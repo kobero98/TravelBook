@@ -31,7 +31,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
 public class SearchTravelController {
-	
 	private BorderPane mainPane;
 	@FXML
 	private AnchorPane sfondo;

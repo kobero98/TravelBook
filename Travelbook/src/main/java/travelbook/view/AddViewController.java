@@ -16,7 +16,7 @@ import main.java.travelbook.model.bean.TravelBean;
 import javafx.scene.input.MouseEvent;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.util.DateUtil;
-import main.java.travelbook.util.PlacePrediction;
+import main.java.travelbook.util.PlaceAdapter;
 import javafx.event.ActionEvent;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ChoiceBox;
@@ -241,27 +241,25 @@ public class AddViewController {
 			button.fire();
 			
 		});
-		searchText=new SearchPlaceTextField();
-		searchText.setPrefHeight(26);
-		searchText.setPrefWidth(378);
-		searchText.setLayoutX(181);
-		searchText.setLayoutY(25);
-		searchText.setPromptText("search location");
-		searchText.applyCss();
-		stepInfoPane.getChildren().add(searchText);
+		TextField text=new TextField();
+		text.setPrefHeight(26);
+		text.setPrefWidth(378);
+		text.setLayoutX(181);
+		text.setLayoutY(25);
+		text.setPromptText("search location");
+		text.applyCss();
+		searchText=new SearchPlaceTextField(text);
+		stepInfoPane.getChildren().add(searchText.getTextField());
 		searchText.getLastSelectedItem().addListener((observable,oldValue,newValue)->{
 			saved=false;
 			//Add this value to Place field for the selected StepBean
 			if(searchText.getLastSelectedItem().get()!=null) {
-			PlacePrediction place=searchText.getLastSelectedItem().getValue();
+			PlaceAdapter place=searchText.getLastSelectedItem().getValue();
 			stepByDay.get(dayNumber).get(stepNumber).setPlace(place.toString());
-			//Forse pu� essere interessante conservare da qualche parte il dato PlacePrediction per query future 
-			//senza doverlo ricercare.
 			stepByDay.get(dayNumber).get(stepNumber).setFullPlace(place);
 			}
 			
 		});
-		searchText.block();
 		this.stopDescription.textProperty().addListener((observable,oldValue,newValue)->{
 			//Update description for the selected step in "real time"
 			saved=false;
@@ -293,17 +291,18 @@ public class AddViewController {
 			this.costField.setStyle("");
 		});
 	}
-	public class ImageGridPane extends GridPane{
+	public class ImageGridPane{
 		//GridPane with a matrix that show if an entry (row,col) is empty or not. 
 		//If is empty positions[row][col]==1
 		private List<List<Integer>> positions=new ArrayList<>();
+		private GridPane gridPane;
 		public ImageGridPane() {
-			super();
+			gridPane=new GridPane();
 			//setup to a gridPane with 5 col and 1 row
 			nextCol=0;
     		nextRow=0;
-    		this.setPrefHeight(standardImageHeight);
-    		this.setPrefWidth(standardImageWidth*5);
+    		this.gridPane.setPrefHeight(standardImageHeight);
+    		this.gridPane.setPrefWidth(standardImageWidth*5);
     		ColumnConstraints column1=new ColumnConstraints();
     		ColumnConstraints column2=new ColumnConstraints();
     		ColumnConstraints column3=new ColumnConstraints();
@@ -314,12 +313,12 @@ public class AddViewController {
     		column3.setPercentWidth(20);
     		column4.setPercentWidth(20);
     		column5.setPercentWidth(20);
-    		this.getColumnConstraints().addAll(column1,column2,column3,column4,column5);
+    		this.gridPane.getColumnConstraints().addAll(column1,column2,column3,column4,column5);
     		this.moveX(35*mainAnchor.getPrefWidth()/1280);
     		this.moveY(520*mainAnchor.getPrefHeight()/625);
     		RowConstraints row1=new RowConstraints();
     		row1.setPrefHeight(standardImageHeight);
-    		this.getRowConstraints().add(row1);
+    		this.gridPane.getRowConstraints().add(row1);
 			positions.add(new ArrayList<>());
 			for(int i=0;i<5;i++) {
 				positions.get(0).add(1);
@@ -327,14 +326,13 @@ public class AddViewController {
 			
 		}
 		public void moveX(double newX) {
-			this.setLayoutX(newX);
+			this.gridPane.setLayoutX(newX);
 		}
 		public void moveY(double newY) {
-			this.setLayoutY(newY);
+			this.gridPane.setLayoutY(newY);
 		}
-		@Override
 		public void add(Node node,int col,int row) {
-			super.add(node, col,row);
+			this.gridPane.add(node, col,row);
 			positions.get(row).set(col, 0);
 		}
 		public void updateRow() {
@@ -353,10 +351,13 @@ public class AddViewController {
 			
 		}
 		public void resizeRow() {
-			for(int i=0;i<this.getRowConstraints().size();i++) {
-				RowConstraints row=this.getRowConstraints().get(i);
-				row.setPrefHeight(this.getPrefHeight()/this.getRowConstraints().size());
+			for(int i=0;i<this.gridPane.getRowConstraints().size();i++) {
+				RowConstraints row=this.gridPane.getRowConstraints().get(i);
+				row.setPrefHeight(this.gridPane.getPrefHeight()/this.gridPane.getRowConstraints().size());
 			}
+		}
+		public GridPane getGridPane() {
+			return this.gridPane;
 		}
 	}
 	public void setMain(BorderPane main) {
@@ -456,8 +457,8 @@ public class AddViewController {
 			this.whatType.setPrefHeight(23.2/625*height);
 			this.selectStops.setPrefHeight(39*height/625);
 			this.selectStops.setLayoutY(20*height/625);
-			this.searchText.setPrefHeight(26*height/625);
-			this.searchText.setLayoutY(25*height/625);
+			this.searchText.getTextField().setPrefHeight(26*height/625);
+			this.searchText.getTextField().setLayoutY(25*height/625);
 			this.descriptionLabel.setPrefHeight(29.2*height/625);
 			this.descriptionLabel.setLayoutY(150*height/625);
 			this.givePractical.setPrefHeight(39.2*height/625);
@@ -530,8 +531,8 @@ public class AddViewController {
 			this.stepInfoPane.setPrefWidth(580*width/1280);
 			this.selectStops.setPrefWidth(184*width/1280);
 			this.selectStops.setLayoutX(14*width/1280);
-			this.searchText.setPrefWidth(378*width/1280);
-			this.searchText.setLayoutX(181*width/1280);
+			this.searchText.getTextField().setPrefWidth(378*width/1280);
+			this.searchText.getTextField().setLayoutX(181*width/1280);
 			this.stepsBar.setPrefWidth(420*width/1280);
 			this.stepsBar.setButtonMinWidth(28*width/1280);
 			this.stepsBar.setLayoutX(20*width/1280);
@@ -576,10 +577,11 @@ public class AddViewController {
 	}
 	private void resizeImagesHeight(double height) {
 		for(int i=0;i<dayImagePane.size();i++) {
-			for(ImageGridPane gridPane: dayImagePane.get(i)) {
+			for(ImageGridPane imageGrid: dayImagePane.get(i)) {
+				GridPane gridPane=imageGrid.getGridPane();
 				gridPane.setPrefHeight(gridPane.getRowConstraints().size()*89.34*height/625);
-				gridPane.moveY(520*height/625);
-				gridPane.resizeRow();
+				imageGrid.moveY(520*height/625);
+				imageGrid.resizeRow();
 				for(int j=0;j<gridPane.getChildren().size();j++) {
 					ImageView view=(ImageView)gridPane.getChildren().get(j);
 					view.setFitHeight(89.34*height/625);
@@ -589,9 +591,10 @@ public class AddViewController {
 	}
 	private void resizeImagesWidth(double width) {
 		for(int i=0;i<dayImagePane.size();i++) {
-			for(ImageGridPane gridPane: dayImagePane.get(i)) {
+			for(ImageGridPane imageGrid: dayImagePane.get(i)) {
+				GridPane gridPane=imageGrid.getGridPane();
 				gridPane.setPrefWidth(5*89.34*width/1280);
-				gridPane.moveX(35*width/1280);
+				imageGrid.moveX(35*width/1280);
 				for(int j=0;j<gridPane.getChildren().size();j++) {
 					ImageView view=(ImageView)gridPane.getChildren().get(j);
 					view.setFitWidth(89.34*width/1280);
@@ -818,7 +821,7 @@ public class AddViewController {
 	    			StepBean step=steps.get(stepN);
 	    			if(step.getPlace()!=null && step.getDescriptionStep()!=null&&!step.getPlace().isEmpty() && !step.getDescriptionStep().isEmpty()) {
 	    				step.setListPhoto(new ArrayList<>());
-	    				List<Node> pics=dayImagePane.get(day).get(stepN).getChildren();
+	    				List<Node> pics=dayImagePane.get(day).get(stepN).getGridPane().getChildren();
 	    				for(int picN=0;picN<pics.size();picN++) {
 	    					ImageView foto= (ImageView)pics.get(picN);
 	    					step.getListPhoto().add(foto.getImage());
@@ -950,12 +953,12 @@ public class AddViewController {
 	    	nextCol++;
 	    	if (nextCol==5) {
 	    		nextCol=0;
-	    		int numRow=imageGridPane.getRowConstraints().size();
-	    		imageGridPane.getRowConstraints().add(new RowConstraints(imageGridPane.getRowConstraints().get(0).getPrefHeight()));
-	    		imageGridPane.setPrefHeight(imageGridPane.getHeight()/numRow + imageGridPane.getHeight());
+	    		int numRow=imageGridPane.getGridPane().getRowConstraints().size();
+	    		imageGridPane.getGridPane().getRowConstraints().add(new RowConstraints(imageGridPane.getGridPane().getRowConstraints().get(0).getPrefHeight()));
+	    		imageGridPane.getGridPane().setPrefHeight(imageGridPane.getGridPane().getHeight()/numRow + imageGridPane.getGridPane().getHeight());
 	    		nextRow++;
 	    		imageGridPane.updateRow();
-	    		stepInfoPaneHeight=620+89.34*(imageGridPane.getRowConstraints().size()-1);
+	    		stepInfoPaneHeight=620+89.34*(imageGridPane.getGridPane().getRowConstraints().size()-1);
 	    		this.stepInfoPane.setPrefHeight(this.stepInfoPane.getHeight()+standardImageHeight);
 	    	}
 	    }
@@ -1012,34 +1015,32 @@ public class AddViewController {
             	}
             }
             StepBean step=this.stepByDay.get(dayNumber).get(stepNumber);
-            this.searchText.setText(null);
+            this.searchText.getTextField().setText(null);
             this.searchText.getLastSelectedItem().set(null);
             if(step.getPlace()!=null) {
-            this.searchText.setText(step.getPlace());
+            this.searchText.getTextField().setText(step.getPlace());
             }
             
             this.searchText.getLastSelectedItem().set(step.getFullPlace());
     		this.stopDescription.setText(step.getDescriptionStep());
     		
     		//add for practical information
-    		stepInfoPane.getChildren().remove(imageGridPane);
+    		stepInfoPane.getChildren().remove(imageGridPane.getGridPane());
     		imageGridPane=dayImagePane.get(step.getGroupDay()).get(this.stepNumber);
-    		stepInfoPane.getChildren().add(imageGridPane);
-    		nextRow=imageGridPane.getRowConstraints().size()-1;
-    		nextCol=imageGridPane.getChildren().size() - nextRow*5;
+    		stepInfoPane.getChildren().add(imageGridPane.getGridPane());
+    		nextRow=imageGridPane.getGridPane().getRowConstraints().size()-1;
+    		nextCol=imageGridPane.getGridPane().getChildren().size() - nextRow*5;
     		});
     		return button;
 	    }
 	    
 	    private void changeListOfDays() {
 	    	if(numOfDays>0) {
-	    		searchText.unblock();
 	    		this.stepsScroll.setVisible(true);
 	    		this.arrowImage.setVisible(true);
 	    		this.nowGiveUs.setVisible(true);
 	    		this.youAreEditing.setVisible(true);
 	    		this.dayBox.setVisible(true);
-	    	}
 	    
 	    	if(numOfDays>dayImagePane.size()) {
 	    		Integer x=dayImagePane.size();
@@ -1070,6 +1071,7 @@ public class AddViewController {
 	    	}
 	    	}
 	    	dayBox.setValue("1");
+	    	}
 	    }
 	    @FXML
 	    private void closeImage() {
@@ -1085,12 +1087,12 @@ public class AddViewController {
 	    	saved=false;
 	    	if(this.actualImage!=this.viewPresentation) {
 	    	//Remove the selected image from gridPane and step.
-	    	int col=imageGridPane.getColumnConstraints().size();
-	    	int row=imageGridPane.getRowConstraints().size();
+	    	int col=imageGridPane.getGridPane().getColumnConstraints().size();
+	    	int row=imageGridPane.getGridPane().getRowConstraints().size();
 	    	for(int i=0;i<row;i++) {
 	    		for(int j=0;j<col;j++) {
-	    			if(imageGridPane.getChildren().get(i*col +j)==actualImage) {
-	    				imageGridPane.getChildren().remove(i*col+j);
+	    			if(imageGridPane.getGridPane().getChildren().get(i*col +j)==actualImage) {
+	    				imageGridPane.getGridPane().getChildren().remove(i*col+j);
 	    				imageGridPane.remove(i, j);
 	    				nextCol=j;
 	    				nextRow=i;
@@ -1242,7 +1244,7 @@ public class AddViewController {
 	    			}
 	    		}
 	    	}
-	    	if(stepNow.isEmpty()) {
+	    	if(!stepNow.isEmpty()) {
 	    	ViewOnMapController controller=new ViewOnMapController();
 	    	controller.load(stepNow);
 	    	}

@@ -1,27 +1,23 @@
 package main.java.travelbook.view;
 import javafx.scene.web.WebView;
+import main.java.travelbook.controller.MapboxException;
 import java.util.List;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.controller.PredictionController;
 import main.java.travelbook.controller.ViewOnMap;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.concurrent.Worker;
-import javafx.fxml.FXML;
 public class ViewOnMapController {
-	private WebView view;
-	private WebEngine engine;
-	private Stage stage;
-	private List<StepBean> steps=null;
-	public ViewOnMapController() {
 	
-		
-	}
 	public void load(List<StepBean> steps) {
-		//Now works fine
-		//Non so perchè ma prima non mi reinstallava la mappa ogni volta ed essendo questo un controller generico deve essere indipendente per ogni istanza lanciata
+		WebView view;
+		WebEngine engine;
+		Stage stage;
 		 view=new WebView();
 		 stage=new Stage();
 		 AnchorPane anchor=new AnchorPane();
@@ -32,28 +28,28 @@ public class ViewOnMapController {
 		 anchor.getChildren().add(view);
 		 Scene scene=new Scene(anchor);
 		 stage.setScene(scene);
-		 this.steps=steps;
 		 stage.show();
 		 view.setVisible(true);
-			this.engine=view.getEngine();
+			engine=view.getEngine();
 			String url= ViewOnMapController.class.getResource("mapView.html").toString();
 			engine.getLoadWorker().stateProperty().addListener((observable,oldValue,newValue)->{
 				if(newValue==Worker.State.SUCCEEDED) {
-					System.out.println("Done");
 					PredictionController controller=new PredictionController();
 					String token="\""+controller.getToken()+"\"";
 					engine.executeScript("init("+token+");");
-					//Sto ancora lavorando a come collegare il controller applicativo per costruire gli script da lanciare in js
-					while(this.steps==null) {
-						
-					}
-					List<String> scripts=ViewOnMap.getIstance().loadTravel(this.steps);
+					try {
+					List<String> scripts=ViewOnMap.getIstance().loadTravel(steps);
 					for(String script: scripts) {
 						engine.executeScript(script);
 					}
-				}
-				else {
-					System.out.println("Niente");
+					}catch(MapboxException e) {
+						Alert alert=new Alert(AlertType.ERROR);
+						alert.setHeaderText("Map service error");
+						alert.setContentText(e.getMessage());
+						alert.initOwner(stage);
+						alert.showAndWait();
+					}
+					
 				}
 			});
 			engine.load(url);

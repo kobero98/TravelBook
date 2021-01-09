@@ -28,14 +28,13 @@ public class DateUtil {
 		return date;
 	}
 	public boolean isAfter(LocalDate a,LocalDate b) {
-		//return false if a is before b or if a is null or b is null
+		//return false if a is before b and a!=null and b!=null
+		//What is null? Unkown so i say yes every time that you want to compare a date with a null
 		if(a!=null && b!=null) {
-		if(a.isAfter(b))
-			return true;
-		return false;
+		return a.isAfter(b);
 		}
 		else {
-			return false;
+			return true;
 		}
 	}
 	public boolean isAfter(String a,String b) {
@@ -48,7 +47,11 @@ public class DateUtil {
 		return this.isAfter(a, this.toLocalDate(b));
 	}
 	public long numOfDaysBetween(LocalDate a,LocalDate b) {
+		if(a!=null && b!=null) {
 		return a.until(b).getDays();
+		}
+		else
+			return 0;
 	}
 	public boolean isFuture(LocalDate a) {
 		return this.isAfter(a,LocalDate.now());
