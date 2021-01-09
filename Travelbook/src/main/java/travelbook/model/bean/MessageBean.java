@@ -3,46 +3,51 @@ package main.java.travelbook.model.bean;
 public class MessageBean {
 
 	
-	private int IdMessaggio,IdDestinatario,IdMittente,Type;
-	private String Text,DataTime;
+	private int idMessaggio;
+	private int idDestinatario;
+	private int idMittente;
+	private int type;
+	private String text;
+	private String dataTime;
+	
 	public MessageBean(int iddestinatario,int idmittente) {
-		this.IdDestinatario=iddestinatario;
-		this.IdMittente=idmittente;
+		this.idDestinatario=iddestinatario;
+		this.idMittente=idmittente;
 	}
 	public MessageBean(int idmessaggio,int iddestinatario,int idmittente) {
-		this.IdDestinatario=iddestinatario;
-		this.IdMittente=idmittente;
-		this.IdMessaggio=idmessaggio;
+		this.idDestinatario=iddestinatario;
+		this.idMittente=idmittente;
+		this.idMessaggio=idmessaggio;
 	}
 	
 	public int getIdMessaggio()
 	{
-		return this.IdMessaggio;
+		return this.idMessaggio;
 	}
 	public int getIdDestinatario(){
-		return this.IdDestinatario;
+		return this.idDestinatario;
 	}
 	public int getIdMittente(){
-		return this.IdMittente;
+		return this.idMittente;
 	}
 	public int getType(){
-		return this.Type;
+		return this.type;
 	}
 	public String getText(){
-		return this.Text;
+		return this.text;
 	}
 	public String getTime() {
-		return this.DataTime;
+		return this.dataTime;
 	}
 
 	public void setText(String testo) {
-		this.Text=testo;
+		this.text=testo;
 	}
-	public void setTime(String Time) {
-		this.DataTime=Time;
+	public void setTime(String time) {
+		this.dataTime=time;
 	}
 	public void setType(int tipo) {
-		this.Type=tipo;
+		this.type=tipo;
 	}
 
 }

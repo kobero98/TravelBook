@@ -2,15 +2,18 @@ package main.java.travelbook.model.bean;
 
 public class PhotoStepBean {
 	
-	private int idPhoto,StepNumber,IdTravel,IDCreator;
-	private String Path;
+	private int idPhoto;
+	private int stepNumber;
+	private int idTravel;
+	private int idCreator;
+	private String path;
 	public PhotoStepBean(){}
 	public PhotoStepBean(int idphoto,int stepnumber,int idtravel,int idcreator)
 	{
-		this.IDCreator=idcreator;
-		this.IdTravel=idtravel;
+		this.idCreator=idcreator;
+		this.idTravel=idtravel;
 		this.idPhoto=idphoto;
-		this.StepNumber=stepnumber;
+		this.stepNumber=stepnumber;
 	}
 	
 
@@ -18,23 +21,23 @@ public class PhotoStepBean {
 		return this.idPhoto;
 	}
 	public int getStepNumber() {
-		return this.StepNumber;
+		return this.stepNumber;
 	}
 	public int getIdTravel() {
-		return this.IdTravel;
+		return this.idTravel;
 	}
 	public int getIdCreator() {
-		return this.IDCreator;
+		return this.idCreator;
 	}
 	public String getPath()
 	{
-		return this.Path;
+		return this.path;
 	}
 	
 
 	public void setPath(String path)
 	{
-		this.Path=path;
+		this.path=path;
 	}
 	
 }

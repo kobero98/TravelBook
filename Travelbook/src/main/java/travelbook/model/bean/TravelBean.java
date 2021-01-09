@@ -1,35 +1,38 @@
 package main.java.travelbook.model.bean;
 
 import java.util.List;
-import java.util.ArrayList;
 import javafx.scene.image.Image;
 import main.java.travelbook.model.TravelEntity;
 public class TravelBean {
 
-	private Double CostTravel;
-	private int StepNumber,likeNumber;
-	private String NameTravel,DescriptionTravel;
-	private Image PathBackground;
-	private boolean Share;
-	private List<String> Type;
-	private String StartDate,EndDate;
-	private List <StepBean> Step;
+	private Double costTravel;
+	private int stepNumber;
+	private int likeNumber;
+	private String nameTravel;
+	private String descriptionTravel;
+	
+	private Image pathBackground;
+	private boolean share;
+	private List<String> type;
+	private String startDate;
+	private String endDate;
+	private List <StepBean> step;
 	
 	public TravelBean() {}
 	public TravelBean(TravelEntity travel)
 	{
-		this.CostTravel=travel.getCostTravel();
-		this.StepNumber=travel.getStepNumber();
+		this.costTravel=travel.getCostTravel();
+		this.stepNumber=travel.getStepNumber();
 		this.likeNumber=travel.getLikeNumber();
-		this.NameTravel=travel.getNameTravel();
-		this.PathBackground=new Image(travel.getPathImage());
+		this.nameTravel=travel.getNameTravel();
+		this.pathBackground=new Image(travel.getPathImage());
 		
 	}
 	public int getStepNumber() {
-		return this.StepNumber;
+		return this.stepNumber;
 	}
 	public String getDescriptionTravel() {
-		return this.DescriptionTravel;
+		return this.descriptionTravel;
 	}
 	public int getLikeNumber()
 	{
@@ -37,67 +40,67 @@ public class TravelBean {
 	}
 	public Double getCostTravel()
 	{
-		return this.CostTravel;
+		return this.costTravel;
 	}
 	public String getNameTravel() {
-		return this.NameTravel;
+		return this.nameTravel;
 	}
 	public List<String> getTypeTravel() {
-		return this.Type;
+		return this.type;
 	}
 	public Image getPathImage() {
-		return this.PathBackground;
+		return this.pathBackground;
 	}
 	public String getStartDate() {
-		return this.StartDate;
+		return this.startDate;
 	}
 	public String getEndDate() {
-		return this.EndDate;
+		return this.endDate;
 	}
 	public List <StepBean> getListStep(){
-		return this.Step;
+		return this.step;
 	}
 	public boolean getShare() {
-		return this.Share;
+		return this.share;
 	}
 
 	
-	public void setStepNumber(int Number) {
-		this.StepNumber=Number;
+	public void setStepNumber(int number) {
+		this.stepNumber=number;
 	}
-	public void setLikeNumber(int Number) {
-		this.likeNumber=Number;
+	public void setLikeNumber(int number) {
+		this.likeNumber=number;
 	}
-	public void setNameTravel(String Name) {
-		this.NameTravel=Name;
+	public void setNameTravel(String name) {
+		this.nameTravel=name;
 	}
 	public void setDescriptionTravel(String description) {
-		this.DescriptionTravel=description;
+		this.descriptionTravel=description;
 	}
-	public void setType(List<String> Type) {
-		this.Type=Type;
+	public void setType(List<String> t) {
+		this.type=t;
 	}
-	public void setPathBackground(Image Path)
+	public void setPathBackground(Image path)
 	{
-		this.PathBackground=Path;
+		this.pathBackground=path;
 	}
-	public void setCostTravel(Double Cost)
+	public void setCostTravel(Double cost)
 	{
-		this.CostTravel=Cost;
+		this.costTravel=cost;
 	}
 	public void setStartTravelDate(String start)
 	{
-		this.StartDate=start;
+		this.startDate=start;
 	}
-	public void setEndTravelDate(String End)
+	public void setEndTravelDate(String end)
 	{
-		this.EndDate=End;
+		this.endDate=end;
 	}
 	public void setListStep(List <StepBean> step) {
-		this.Step=step;
+		this.step=step;
 	}
 	public void setShare(boolean v) {
-		this.Share=v;
+		this.share=v;
 	}
 
 }

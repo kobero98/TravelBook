@@ -3,80 +3,88 @@ package main.java.travelbook.model;
 import java.util.List;
 import java.sql.Date;
 import main.java.travelbook.model.bean.MessageBean;
-import main.java.travelbook.model.bean.TravelBean;
 
 
 
 public class UserEntity{
-	private String Username,Password;
-	private String Name,Surname,Email,Description,Sex,URLphoto;
-	private Date BirthDate;
-	private int  id,NFollower,NFollowing,NTrip;
-	private String Nation;
-	private List <TravelEntity> Travel;
+	private String username;
+	private String password;
+	private String name;
+	private String surname;
+	private String email;
+	private String description;
+	private String gender;
+	private String urlPhoto;
+	private Date birthDate;
+	private int  id;
+	private int nFollower;
+	private int nFollowing;
+	private int nTrip;
+	private String nation;
+	private List <TravelEntity> travel;
 	private List <MessageBean> message;
 	
-	public UserEntity(int Id)
+	public UserEntity(int codice)
 	{
-		this.id=Id;
+		this.id=codice;
 	}
 	public UserEntity() {}
 	
 	public void setUsername(String username)
 	{
-		this.Username=username;
+		this.username=username;
 	}
 	public void setPassword(String password) {
-		this.Password=password;
+		this.password=password;
 	}
 	public void setName(String name)
 	{
-		this.Name=name;
+		this.name=name;
 	}
 	public void setEmail(String mail) {
-		this.Email=mail;
+		this.email=mail;
 	}
 	public void setSurname(String surname)
 	{
-		this.Surname=surname;
+		this.surname=surname;
 	}
-	public void setDescription(String Description)
+	public void setDescription(String description)
 	{
-		this.Description=Description;
+		this.description=description;
 	}
 	public void setUrlPhoto(String url)
 	{
-		this.URLphoto=url;
+		this.urlPhoto=url;
 	}
 	public void setGender(String gender)
 	{
-		this.Sex=gender;
+		this.gender=gender;
 	}
-	public void setFollower(int NFollower)
+	public void setFollower(int nfollower)
 	{
-		this.NFollower=NFollower;
+		this.nFollower=nfollower;
 	}
-	public void setFollowing(int NFollowing)
+	public void setFollowing(int nfollowing)
 	{
-		this.NFollowing=NFollowing;
+		this.nFollowing=nfollowing;
 	}
-	public void setNTravel(int Ntrip)
+	public void setNTravel(int ntrip)
 	{
-		this.NTrip=Ntrip;
+		this.nTrip=ntrip;
 	}
-	public void setBirthDate(Date BirthDate) {
-		this.BirthDate=BirthDate;
+	public void setBirthDate(Date birthdate) {
+		this.birthDate=birthdate;
 	}
 	public void setNation(String nation) {
-		this.Nation=nation;
+		this.nation=nation;
 	}
 	
-	public void setTravel(List <TravelEntity> T)
+	public void setTravel(List <TravelEntity> t)
 	{
-		this.Travel= T;
+		this.travel= t;
 	}
-	public void setMessagge(List <MessageBean> M) {
-		this.message=M;
+	public void setMessagge(List <MessageBean> m) {
+		this.message=m;
 	}
 	
 	public int getId()
@@ -85,54 +93,54 @@ public class UserEntity{
 	}
 	public String getUsername()
 	{
-		return this.Username;
+		return this.username;
 	}
 	public String getPassword() {
-		return this.Password;
+		return this.password;
 	}
 	public String getName()
 	{
-		return this.Name;
+		return this.name;
 	}
 	public String getSurname()
 	{
-		return this.Surname;
+		return this.surname;
 	}
 	public String getDescription()
 	{
-		return this.Description;
+		return this.description;
 	}
 	public String getUrlPhoto()
 	{
-		return this.URLphoto;
+		return this.urlPhoto;
 	}
 	public String getGender()
 	{
-		return this.Sex;
+		return this.gender;
 	}
 	public int getNFollower()
 	{
-		return this.NFollower;
+		return this.nFollower;
 	}
 	public int getNFollowing()
 	{
-		return this.NFollowing;
+		return this.nFollowing;
 	}
 	public int getNTrip()
 	{
-		return this.NTrip;
+		return this.nTrip;
 	}
 	public Date getBirthDate() {
-		return this.BirthDate;
+		return this.birthDate;
 	}
 	public String	getNation() {
-		return this.Nation;
+		return this.nation;
 	}
 	public String getEmail() {
-		return this.Email;
+		return this.email;
 	}
 	public List <TravelEntity>  getTravel() {
-		return this.Travel;
+		return this.travel;
 	}
 	public List <MessageBean> getMessage(){
 		return this.message;

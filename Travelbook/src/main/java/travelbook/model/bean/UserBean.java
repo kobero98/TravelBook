@@ -4,108 +4,113 @@ import javafx.scene.image.Image;
 import main.java.travelbook.model.UserEntity;
 
 public class UserBean{
-	private String Name,Surname,Description,Sex;
-	private Image URLphoto;
-	private String Nation;
-	private int  NFollower,NFollowing,NTrip;
-	private List <TravelBean> Travel;
+	private String name;
+	private String surname; 
+	private String description;
+	private String gender;
+	private String nation;
+	private Image urlPhoto;
+	private int  nFollower;
+	private int nFollowing;
+	private int nTrip;
+	private List <TravelBean> travel;
 	private List <MessageBean> message;
 	
 
 	public UserBean() {}
 	public UserBean(UserEntity user) {
-		this.Name=user.getName();
-		this.Surname=user.getSurname();
-		this.Description=user.getDescription();
-		this.Sex=user.getGender();
-		this.URLphoto= new Image(user.getUrlPhoto());
-		this.NFollower=user.getNFollower();
-		this.NFollowing=user.getNFollowing();
-		this.NTrip=user.getNTrip();
+		this.name=user.getName();
+		this.surname=user.getSurname();
+		this.description=user.getDescription();
+		this.gender=user.getGender();
+		this.urlPhoto= new Image(user.getUrlPhoto());
+		this.nFollower=user.getNFollower();
+		this.nFollowing=user.getNFollowing();
+		this.nTrip=user.getNTrip();
 	}
 	
 
 	public void setName(String name)
 	{
-		this.Name=name;
+		this.name=name;
 	}
 	public void setSurname(String surname)
 	{
-		this.Surname=surname;
+		this.surname=surname;
 	}
-	public void setDescription(String Description)
+	public void setDescription(String description)
 	{
-		this.Description=Description;
+		this.description=description;
 	}
 	public void setUrlPhoto(Image photo)
 	{
-		this.URLphoto=photo;
+		this.urlPhoto=photo;
 	}
 	public void setSex(String sex)
 	{
-		this.Sex=sex;
+		this.gender=sex;
 	}
-	public void setFollower(int NFollower)
+	public void setFollower(int nFollower)
 	{
-		this.NFollower=NFollower;
+		this.nFollower=nFollower;
 	}
-	public void setFollowing(int NFollowing)
+	public void setFollowing(int nFollowing)
 	{
-		this.NFollowing=NFollowing;
+		this.nFollowing=nFollowing;
 	}
-	public void setNTravel(int Ntrip)
+	public void setNTravel(int ntrip)
 	{
-		this.NTrip=Ntrip;
+		this.nTrip=ntrip;
 	}
 	public void setNation(String nation) {
-		this.Nation=nation;
+		this.nation=nation;
 	}
-	public void setTravel(List <TravelBean> T)
+	public void setTravel(List <TravelBean> t)
 	{
-		this.Travel= T;
+		this.travel= t;
 	}
-	public void setMessagge(List <MessageBean> M) {
-		this.message=M;
+	public void setMessagge(List <MessageBean> m) {
+		this.message=m;
 	}
 	
 	
 	public String getName()
 	{
-		return this.Name;
+		return this.name;
 	}
 	public String getSurname()
 	{
-		return this.Surname;
+		return this.surname;
 	}
 	public String getDescription()
 	{
-		return this.Description;
+		return this.description;
 	}
 	public Image getUrlPhoto()
 	{
-		return this.URLphoto;
+		return this.urlPhoto;
 	}
 	public String getSex()
 	{
-		return this.Sex;
+		return this.gender;
 	}
 	public String getNation() {
-		return this.Nation;
+		return this.nation;
 	}
 	public int getNFollower()
 	{
-		return this.NFollower;
+		return this.nFollower;
 	}
 	public int getNFollowing()
 	{
-		return this.NFollowing;
+		return this.nFollowing;
 	}
 	public int getNTrip()
 	{
-		return this.NTrip;
+		return this.nTrip;
 	}
 	public List <TravelBean>  getTravel() {
-		return this.Travel;
+		return this.travel;
 	}
 	public List <MessageBean> getMessage(){
 		return this.message;

@@ -1,7 +1,8 @@
 package main.java.travelbook.model.bean;
 
 public class CityBean{
-	private String nameCity,nameNation;
+	private String nameCity;
+	private String nameNation;
 
 	public String getNameCity()
 	{

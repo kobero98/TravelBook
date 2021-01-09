@@ -5,77 +5,82 @@ import java.util.List;
 
 
 public class StepEntity {
-	private int Number,IDTravel,IDCreator,GroupDay,NumberOfDay;
-	private String DescriptionStep,Place;
-	private Date Day;
-	private List <String> Photo;
+	private int number;
+	private int idTravel;
+	private int idCreator;
+	private int groupDay; 
+	private int numberOfDay;
+	private String descriptionStep;
+	private String place;
+	private Date day;
+	private List <String> photo;
 	
 	public  StepEntity(){}
-	public StepEntity(int idCreator,int Number) {
-		this.IDCreator=idCreator;
-		this.Number=Number;
+	public StepEntity(int idcreator,int number) {
+		this.idCreator=idcreator;
+		this.number=number;
 	}
-	public  StepEntity(int Number,int IDTravel,int IDCreator){
-		this.Number=Number;
-		this.IDCreator=IDCreator;
-		this.IDTravel=IDTravel;
+	public  StepEntity(int number,int idtravel,int idcreator){
+		this.number=number;
+		this.idCreator=idcreator;
+		this.idTravel=idtravel;
 	}
 	
 	public int getNumber()
 	{
-		return this.Number;
+		return this.number;
 	}
 	public int getIDTravel() {
-		return this.IDTravel;
+		return this.idTravel;
 	}
 	public int getIDCreator() {
-		return this.IDCreator;
+		return this.idCreator;
 	}
 	public int getGroupDay() {
-		return this.GroupDay;
+		return this.groupDay;
 	}
 	public String getDescriptionStep() {
-		return this.DescriptionStep;
+		return this.descriptionStep;
 	}
 	public String getPlace() {
-		return this.Place;
+		return this.place;
 	}
 	public Date getDay()
 	{
-		return this.Day;
+		return this.day;
 	}
 	public int getNumberOfDay() {
-		return this.NumberOfDay;
+		return this.numberOfDay;
 	}
 	public List<String> getListPhoto(){
-		return this.Photo;
+		return this.photo;
 	}
 	
-	public void setDescriptionStep(String Description)
+	public void setDescriptionStep(String description)
 	{
-		this.DescriptionStep=Description;
+		this.descriptionStep=description;
 	}
-	public void setPlace(String Location)
+	public void setPlace(String location)
 	{
-		this.Place=Location;
+		this.place=location;
 	}
 	public void setDay(Date day)
 	{
-		this.Day=day;
+		this.day=day;
 	}
-	public void setGroupDay(int Number) {
-		this.GroupDay=Number;
+	public void setGroupDay(int number) {
+		this.groupDay=number;
 	}
 	public void setListPhoto(List <String> photo) {
-		this.Photo=photo;
+		this.photo=photo;
 	}
 	public void setNumberOfDay(int number) {
-		this.NumberOfDay=number;
+		this.numberOfDay=number;
 	}
 	public void setTripId(int id) {
-		this.IDTravel=id;
+		this.idTravel=id;
 	}
 	public void setUserId(int id) {
-		this.IDCreator=id;
+		this.idCreator=id;
 	}
 }

@@ -51,10 +51,8 @@ public class ExemplaMainDB {
 		List<StepEntity> lista=new ArrayList<>();
 		lista.add(step1);
 		lista.add(step2);
-		System.out.println("creato il viaggio");
 		viaggio.setListStep(lista);
 		
-		domande.RequestRegistrationTrip(viaggio);
-		System.out.println("Finito");
+		domande.requestRegistrationTrip(viaggio);
 	}
 }

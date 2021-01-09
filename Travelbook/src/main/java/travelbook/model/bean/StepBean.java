@@ -5,16 +5,21 @@ import java.util.List;
 import javafx.scene.image.Image;
 import main.java.travelbook.util.PlacePrediction;
 public class StepBean {
-	private int Number,IDTravel,IDCreator,GroupDay,NumberInDay;
-	private String DescriptionStep,Place;
-	private String Day;
-	private List <Image> Photo;
+	private int number;
+	private int iDTravel;
+	private int iDCreator;
+	private int groupDay;
+	private int numberInDay;
+	private String descriptionStep;
+	private String place;
+	private String day;
+	private List <Image> photo;
 	private PlacePrediction fullPlace;
 	public  StepBean(){}
-	public  StepBean(int Number,int IDTravel,int IDCreator){
-		this.Number=Number;
-		this.IDCreator=IDCreator;
-		this.IDTravel=IDTravel;
+	public  StepBean(int number,int idtravel,int idcreator){
+		this.number=number;
+		this.iDCreator=idcreator;
+		this.iDTravel=idtravel;
 	}
 	
 	public PlacePrediction getFullPlace() {
@@ -24,55 +29,55 @@ public class StepBean {
 		this.fullPlace = fullPlace;
 	}
 	public int getNumberInDay() {
-		return NumberInDay;
+		return numberInDay;
 	}
 	public void setNumberInDay(int numberInDay) {
-		NumberInDay = numberInDay;
+		this.numberInDay = numberInDay;
 	}
 	public int getNumber()
 	{
-		return this.Number;
+		return this.number;
 	}
 	public int getIDTravel() {
-		return this.IDTravel;
+		return this.iDTravel;
 	}
 	public int getIDCreator() {
-		return this.IDCreator;
+		return this.iDCreator;
 	}
 	public int getGroupDay() {
-		return this.GroupDay;
+		return this.groupDay;
 	}
 	public String getDescriptionStep() {
-		return this.DescriptionStep;
+		return this.descriptionStep;
 	}
 	public String getPlace() {
-		return this.Place;
+		return this.place;
 	}
 	public String getDay()
 	{
-		return this.Day;
+		return this.day;
 	}
 	public List<Image> getListPhoto(){
-		return this.Photo;
+		return this.photo;
 	}
 	
-	public void setDescriptionStep(String Description)
+	public void setDescriptionStep(String description)
 	{
-		this.DescriptionStep=Description;
+		this.descriptionStep=description;
 	}
-	public void setPlace(String Location)
+	public void setPlace(String location)
 	{
-		this.Place=Location;
+		this.place=location;
 	}
 	public void setDay(String day)
 	{
-		this.Day=day;
+		this.day=day;
 	}
-	public void setGroupDay(int Number) {
-		this.GroupDay=Number;
+	public void setGroupDay(int number) {
+		this.groupDay=number;
 	}
 	public void setListPhoto(List <Image> photo) {
-		this.Photo=photo;
+		this.photo=photo;
 	}
 	
 }

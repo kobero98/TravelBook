@@ -1,40 +1,45 @@
 package main.java.travelbook.model;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
-import main.java.travelbook.model.bean.StepBean;
 
 public class TravelEntity {
 
-	private double CostTravel;
-	private int Id,CreatorId,StepNumber,likeNumber;
-	private String NameTravel,Type,PathBackground,Description;
-	private Date StartDate,EndDate;
-	private Boolean Share;
-	private List <StepEntity> Step;
-	private List <String> CityView;
+	private double costTravel;
+	private int id;
+	private int creatorId;
+	private int stepNumber;
+	private int likeNumber;
+	private String nameTravel;
+	private String type;
+	private String pathBackground; 
+	private String description;
+	private Date startDate;
+	private Date endDate;
+	private Boolean share;
+	private List <StepEntity> step;
+	private List <String> cityView;
 	
 	
 	public TravelEntity() {}
 	public TravelEntity(int idcreator) {
-		this.CreatorId=idcreator;
+		this.creatorId=idcreator;
 	}
 	public TravelEntity(int id,int idcreator) {
-		this.Id=id;
-		this.CreatorId=idcreator;
+		this.id=id;
+		this.creatorId=idcreator;
 	}
 	
 
 	public int getIdTravel() {
-		return this.Id;
+		return this.id;
 	}
 	public int getCreatorId() {
-		return this.CreatorId;
+		return this.creatorId;
 	}
 	public int getStepNumber() {
-		return this.StepNumber;
+		return this.stepNumber;
 	}
 	public int getLikeNumber()
 	{
@@ -42,82 +47,80 @@ public class TravelEntity {
 	}
 	public double getCostTravel()
 	{
-		return this.CostTravel;
+		return this.costTravel;
 	}
 	public String getNameTravel() {
-		return this.NameTravel;
+		return this.nameTravel;
 	}
 	public String getTypeTravel() {
-		return this.Type;
+		return this.type;
 	}
 	public String getPathImage() {
-		return this.PathBackground;
+		return this.pathBackground;
 	}
 	public Date getStartDate() {
-		return this.StartDate;
+		return this.startDate;
 	}
 	public Date getEndDate() {
-		return this.EndDate;
+		return this.endDate;
 	}
 	public String getDescriptionTravel() {
-		return this.Description;
+		return this.description;
 	}
 	public Boolean getShare() {
-		return this.Share;
+		return this.share;
 	}
 	public List <StepEntity> getListStep(){
-		return this.Step;
+		return this.step;
 	}
 	public List<String> getCityView(){
-		return this.CityView;
+		return this.cityView;
 	}
-	//private void setIdTravel(int Id) {
-	//	this.Id=Id;
-	//}
+	
 	public void setCreatorTravel(int id) {
-		this.CreatorId=id;
+		this.creatorId=id;
 	}
-	public void setStepNumber(int Number) {
-		this.StepNumber=Number;
+	public void setStepNumber(int number) {
+		this.stepNumber=number;
 	}
-	public void setLikeNumber(int Number) {
-		this.likeNumber=Number;
+	public void setLikeNumber(int number) {
+		this.likeNumber=number;
 	}
-	public void setNameTravel(String Name) {
-		this.NameTravel=Name;
+	public void setNameTravel(String name) {
+		this.nameTravel=name;
 	}
-	public void setType(String Type) {
-		this.Type=Type;
+	public void setType(String type) {
+		this.type=type;
 	}
-	public void setPathBackground(String Path)
+	public void setPathBackground(String path)
 	{
-		this.PathBackground=Path;
+		this.pathBackground=path;
 	}
-	public void setCostTravel(double Cost)
+	public void setCostTravel(double cost)
 	{
-		this.CostTravel=Cost;
+		this.costTravel=cost;
 	}
 	public void setStartTravelDate(Date start)
 	{
-		this.StartDate=start;
+		this.startDate=start;
 	}
-	public void setEndTravelDate(Date End)
+	public void setEndTravelDate(Date end)
 	{
-		this.EndDate=End;
+		this.endDate=end;
 	}
 	public void setDescriptionTravel(String description)
 	{
-		this.Description=description;
+		this.description=description;
 	}
 	public void setShare(Boolean v)
 	{
-		this.Share=v;
+		this.share=v;
 	}
 	public void setListStep(List <StepEntity> step) {
-		this.Step=step;
+		this.step=step;
 	}
 	public void setCityView(List <String> list) {
-		this.CityView=list;
+		this.cityView=list;
 	}
 
 }
