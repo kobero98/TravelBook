@@ -24,7 +24,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.util.Callback;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
@@ -37,10 +36,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 public class ProfileViewController {
 	private BorderPane mainPane;
-	private Object array1[]=new Object[15];
+	private Object[] array1=new Object[15];
 	private Button button;
-	private ViewTravelController controller;
-	private AnchorPane internalPane;
 	@FXML
 	private AnchorPane mainAnchor;
 	@FXML
@@ -50,9 +47,9 @@ public class ProfileViewController {
 	@FXML
 	private AnchorPane profileAnchor;
 	@FXML
-	private Pane ProfilePhoto;
+	private Pane profilePhoto;
 	@FXML
-	private Button ChoosePhoto;
+	private Button choosePhoto;
 	@FXML
 	private Text userName;
 	@FXML
@@ -60,7 +57,7 @@ public class ProfileViewController {
 	@FXML
 	private Button myDescrEdit;
 	@FXML
-	private TextArea DescrWrite;
+	private TextArea descrWrite; //resize fatta beneeeee
 	@FXML
 	private ListView<String> show;
 	@FXML
@@ -89,19 +86,12 @@ public class ProfileViewController {
 		
 		 ObservableList<String> data = FXCollections.observableArrayList("travel1lungo", "travel2", "travel3", "travel4");
 		 travels.setItems(data); 
-		 travels.setCellFactory(new Callback<ListView<String>, 
-		            ListCell<String>>() {
-	         @Override 
-	         public ListCell<String> call(ListView<String> list) {
-	             return new travelCell();
-	         }
-	     }
-		);
+		 travels.setCellFactory(list->new TravelCell());
 		followerButton.setText("Followers: "+"5");
 		followingButton.setText("Following: "+"7");
 		placeVisited.setText("You have visited " + "4" +" places");
 	}
-	class travelCell extends ListCell<String>{
+	class TravelCell extends ListCell<String>{
 		@Override
         public void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
@@ -139,9 +129,8 @@ public class ProfileViewController {
             	HBox hBox = new HBox();
             	vBox.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
             	vBox.setMaxWidth(USE_PREF_SIZE);
-            	vBox.setSpacing(mainAnchor.getPrefHeight()*(180/15)/625);
+            	vBox.setSpacing(mainAnchor.getPrefHeight()*(180.0/15)/625);
             	Label name = new Label(item);
-            	//name.setPrefSize(travel.getPrefWidth()*1/3, travel.getPrefHeight()*1/4);
             	Text descr = new Text("this is a description mooolto lunga che non è una descrizione");
             	descr.setWrappingWidth(mainAnchor.getPrefWidth()*265/1280);
             	hBox.setAlignment(Pos.BOTTOM_RIGHT);
@@ -149,8 +138,27 @@ public class ProfileViewController {
             	Button edit = new Button();
             	edit.setPrefWidth(mainAnchor.getPrefWidth()*35/1280);
             	edit.setPrefHeight(mainAnchor.getPrefHeight()*35/625);
-            	travel.setOnMouseClicked(e->travelExampleHandler());
-            	edit.setOnMouseClicked(e->editExampleHandler());
+            	travel.setOnMouseClicked(e->{
+            		FXMLLoader loader=new FXMLLoader();
+            		ViewTravelController controller;
+            		AnchorPane internalPane;
+            		loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
+            		try {
+            			internalPane=(AnchorPane)loader.load();
+            			mainPane.setCenter(internalPane);
+            			controller=loader.getController();
+            			controller.setMainPane(mainPane,2);
+            		}catch(IOException exc) {
+            			exc.printStackTrace();
+            		}
+            	});
+            	edit.setOnMouseClicked(e->{
+            		try {
+            			MenuBar.getInstance().moveToAdd(mainPane);
+            		}catch(IOException exc) {
+            			exc.printStackTrace();
+            		}
+            	});
             	hBox.getChildren().add(edit);
             	vBox.getChildren().add(name);
             	vBox.getChildren().add(descr);
@@ -178,12 +186,10 @@ public class ProfileViewController {
 	public void setMainPane(BorderPane main) {
 		this.mainPane=main;
 		
-this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->{						
-			this.mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight());									
-		});
-		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->{
-			this.mainPane.setPrefWidth(mainPane.getScene().getWindow().getWidth());
-		}); 
+this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->					
+			this.mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight()));
+		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->
+			this.mainPane.setPrefWidth(mainPane.getScene().getWindow().getWidth())); 
 		
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
 			followerButton.setPrefHeight(mainAnchor.getHeight()*57/625);
@@ -199,18 +205,18 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			placeVisited.setPrefHeight(mainAnchor.getHeight()*160/625);
 			placeVisited.setLayoutY(mainAnchor.getHeight()*419/625);
 			profileAnchor.setPrefHeight(mainAnchor.getHeight()*300/625);
-			ProfilePhoto.setPrefHeight(mainAnchor.getHeight()*200/625);
-			ProfilePhoto.setLayoutY(mainAnchor.getHeight()*45/625);
+			profilePhoto.setPrefHeight(mainAnchor.getHeight()*200/625);
+			profilePhoto.setLayoutY(mainAnchor.getHeight()*45/625);
 			userName.setLayoutY(mainAnchor.getHeight()*137/625);
 			myDescr.setLayoutY(mainAnchor.getHeight()*187/625);
 			logOutButton.setPrefHeight(mainAnchor.getHeight()*35/625);
 			logOutButton.setLayoutY(mainAnchor.getHeight()*14/625);
-			ChoosePhoto.setPrefHeight(mainAnchor.getHeight()*40/625);
-			ChoosePhoto.setLayoutY(mainAnchor.getHeight()*80/625);
+			choosePhoto.setPrefHeight(mainAnchor.getHeight()*40/625);
+			choosePhoto.setLayoutY(mainAnchor.getHeight()*80/625);
 			myDescrEdit.setPrefHeight(mainAnchor.getHeight()*35/625);
 			myDescrEdit.setLayoutY(mainAnchor.getHeight()*165/625);
-			DescrWrite.setPrefWidth(mainAnchor.getHeight()*100/625);
-			DescrWrite.setLayoutY(mainAnchor.getHeight()*150/625);
+			descrWrite.setPrefWidth(mainAnchor.getHeight()*100/625);
+			descrWrite.setLayoutY(mainAnchor.getHeight()*150/625);
 			menuBar.setPrefHeight(mainAnchor.getHeight()*85/625);
 			menuBar.setLayoutY(mainAnchor.getHeight()*300/625);
 			show.setPrefHeight(mainAnchor.getHeight()*575/625);
@@ -241,18 +247,18 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			placeVisited.setPrefWidth(mainAnchor.getWidth()*270/1280);
 			placeVisited.setLayoutX(mainAnchor.getWidth()*307/1280);
 			profileAnchor.setPrefWidth(mainAnchor.getWidth()*592/1280);
-			ProfilePhoto.setPrefWidth(mainAnchor.getWidth()*200/1280);
-			ProfilePhoto.setLayoutX(mainAnchor.getWidth()*55/1280);
+			profilePhoto.setPrefWidth(mainAnchor.getWidth()*200/1280);
+			profilePhoto.setLayoutX(mainAnchor.getWidth()*55/1280);
 			userName.setLayoutX(mainAnchor.getWidth()*238/1280);
 			myDescr.setLayoutX(mainAnchor.getWidth()*255/1280);
 			logOutButton.setPrefWidth(mainAnchor.getWidth()*35/1280);
 			logOutButton.setLayoutX(mainAnchor.getWidth()*14/1280);
-			ChoosePhoto.setPrefWidth(mainAnchor.getWidth()*50/1280);
-			ChoosePhoto.setLayoutX(mainAnchor.getWidth()*75/1280);
+			choosePhoto.setPrefWidth(mainAnchor.getWidth()*50/1280);
+			choosePhoto.setLayoutX(mainAnchor.getWidth()*75/1280);
 			myDescrEdit.setPrefWidth(mainAnchor.getWidth()*35/1280);
 			myDescrEdit.setLayoutX(mainAnchor.getWidth()*492/1280);
-			DescrWrite.setPrefWidth(mainAnchor.getWidth()*255/1280);
-			DescrWrite.setLayoutX(mainAnchor.getWidth()*296/1280);
+			descrWrite.setPrefWidth(mainAnchor.getWidth()*255/1280);
+			descrWrite.setLayoutX(mainAnchor.getWidth()*296/1280);
 			menuBar.setPrefWidth(mainAnchor.getWidth()*592/1280);
 			show.setPrefWidth(mainAnchor.getWidth()*297/1280);
 			listTitle.setPrefWidth(mainAnchor.getWidth()*297/1280);
@@ -269,25 +275,6 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 	this.mainAnchor.setPrefHeight(mainPane.getHeight()*625/720);
 	this.mainAnchor.setPrefWidth(mainPane.getWidth());
 	}
-	private void travelExampleHandler() {
-		FXMLLoader loader=new FXMLLoader();
-		loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
-		try {
-			internalPane=(AnchorPane)loader.load();
-			mainPane.setCenter(internalPane);
-			controller=loader.getController();
-			controller.setMainPane(mainPane,2);
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-	private void editExampleHandler() {
-		try {
-			MenuBar.getInstance().moveToAdd(mainPane);
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
 	@FXML
 	private void photoHandler(){
 		FileChooser dialog=new FileChooser();
@@ -298,29 +285,29 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			Image myPhoto=new Image(selectedFile.toURI().toString());
 			BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 			Background newBg = new Background(bgPhoto);
-			ProfilePhoto.setBackground(newBg);
+			profilePhoto.setBackground(newBg);
 		}
 	}
 	@FXML
-	private void DescriptionHandler() {
-		DescrWrite.setVisible(true);
-		DescrWrite.setOnKeyTyped(e->UpdateDescription(e));
+	private void descriptionHandler() {
+		descrWrite.setVisible(true);
+		descrWrite.setOnKeyTyped(this::updateDescription);
 	}
-	private void UpdateDescription(KeyEvent evt) {
+	private void updateDescription(KeyEvent evt) {
 		KeyCode ch = evt.getCode();
 		if(ch.equals(KeyCode.ENTER)|| evt.getCharacter().getBytes()[0] == '\n' || evt.getCharacter().getBytes()[0] == '\r') {
-			myDescr.setText(DescrWrite.getText());
-			DescrWrite.clear();
-			DescrWrite.setVisible(false);
+			myDescr.setText(descrWrite.getText());
+			descrWrite.clear();
+			descrWrite.setVisible(false);
 		}
 	}
 	@FXML
 	private void choosePhoto(){
-		ChoosePhoto.setVisible(true);
+		choosePhoto.setVisible(true);
 	}
 	@FXML
 	private void choosePhotoDisappear() {
-		ChoosePhoto.setVisible(false);
+		choosePhoto.setVisible(false);
 	}
 	@FXML
 	private void myDescrEdit() {

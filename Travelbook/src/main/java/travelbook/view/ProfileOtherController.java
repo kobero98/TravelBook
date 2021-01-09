@@ -1,5 +1,4 @@
 package main.java.travelbook.view;
-import java.io.File;
 
 import java.io.IOException;
 import javafx.scene.layout.AnchorPane;
@@ -23,9 +22,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.util.Callback;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -42,7 +38,7 @@ public class ProfileOtherController {
 	@FXML
 	private ListView<String> travels;
 	@FXML
-	private Pane ProfilePhoto;
+	private Pane profilePhoto;
 	@FXML
 	private Text userName;
 	@FXML
@@ -71,23 +67,17 @@ public class ProfileOtherController {
 	private ImageView map;
 	@FXML
 	private Label placeVisited;
+	private String viewTravel = "ViewTravel.fxml";
 	public void initialize() {
 		
 		 ObservableList<String> data = FXCollections.observableArrayList("travel1lungo", "travel2", "travel3", "travel4");
 		 travels.setItems(data); 
-		 travels.setCellFactory(new Callback<ListView<String>, 
-		            ListCell<String>>() {
-	         @Override 
-	         public ListCell<String> call(ListView<String> list) {
-	             return new travelCell();
-	         }
-	     }
-		);
+		 travels.setCellFactory(list -> new TravelCell());
 		followerButton.setText("Followers: "+"5");
 		followingButton.setText("Following: "+"7");
 		placeVisited.setText(userName.getText() + " has visited " + "4" +" places");
 	}
-	class travelCell extends ListCell<String>{
+	class TravelCell extends ListCell<String>{
 		@Override
         public void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
@@ -125,9 +115,8 @@ public class ProfileOtherController {
             	HBox hBox = new HBox();
             	vBox.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
             	vBox.setMaxWidth(USE_PREF_SIZE);
-            	vBox.setSpacing(mainAnchor.getPrefHeight()*(180/15)/625);
+            	vBox.setSpacing(mainAnchor.getPrefHeight()*(180.0/15)/625);
             	Label name = new Label(item);
-            	//name.setPrefSize(travel.getPrefWidth()*1/3, travel.getPrefHeight()*1/4);
             	Text descr = new Text("this is a description mooolto lunga che non è una descrizione");
             	descr.setWrappingWidth(mainAnchor.getPrefWidth()*265/1280);
             	hBox.setAlignment(Pos.BOTTOM_RIGHT);
@@ -135,8 +124,28 @@ public class ProfileOtherController {
             	Button fav = new Button();
             	fav.setPrefWidth(mainAnchor.getPrefWidth()*35/1280);
             	fav.setPrefHeight(mainAnchor.getPrefHeight()*35/625);
-            	travel.setOnMouseClicked(e->travelExampleHandler());
-            	fav.setOnMouseClicked(e->favButtonHandler());
+            	travel.setOnMouseClicked(e->{
+            		FXMLLoader loader=new FXMLLoader();
+            		loader.setLocation(ProfileViewController.class.getResource(viewTravel));
+            		try {
+            			internalPane=(AnchorPane)loader.load();
+            			mainPane.setCenter(internalPane);
+            			controller=loader.getController();
+            			controller.setMainPane(mainPane,3);
+            		}catch(IOException exc) {
+            			exc.printStackTrace();
+            		}
+            	});
+            	fav.setOnMouseClicked(e->{
+            		//dummy method
+            		String css = "fav-selected";
+            		if(favButton.getStyleClass().contains(css)) {
+            			favButton.getStyleClass().remove(css);
+            		}
+            		else {
+            			favButton.getStyleClass().add(css);
+            		}
+            	});
             	hBox.getChildren().add(fav);
             	vBox.getChildren().add(name);
             	vBox.getChildren().add(descr);
@@ -164,12 +173,10 @@ public class ProfileOtherController {
 	public void setMainPane(BorderPane main, int provenience) {
 		this.mainPane=main;
 		this.goBack=provenience;
-this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->{						
-			this.mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight());									
-		});
-		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->{
-			this.mainPane.setPrefWidth(mainPane.getScene().getWindow().getWidth());
-		}); 
+this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->					
+			this.mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight()));
+		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->
+			this.mainPane.setPrefWidth(mainPane.getScene().getWindow().getWidth())); 
 		
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
 			followerButton.setPrefHeight(mainAnchor.getHeight()*57/625);
@@ -184,8 +191,8 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			map.setLayoutY(mainAnchor.getHeight()*434/625);
 			placeVisited.setPrefHeight(mainAnchor.getHeight()*160/625);
 			placeVisited.setLayoutY(mainAnchor.getHeight()*419/625);
-			ProfilePhoto.setPrefHeight(mainAnchor.getHeight()*200/625);
-			ProfilePhoto.setLayoutY(mainAnchor.getHeight()*90/625);
+			profilePhoto.setPrefHeight(mainAnchor.getHeight()*200/625);
+			profilePhoto.setLayoutY(mainAnchor.getHeight()*90/625);
 			userName.setLayoutY(mainAnchor.getHeight()*150/625);
 			myDescr.setLayoutY(mainAnchor.getHeight()*200/625);
 			show.setPrefHeight(mainAnchor.getHeight()*575/625);
@@ -213,8 +220,8 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			map.setLayoutX(mainAnchor.getWidth()*307/1280);
 			placeVisited.setPrefWidth(mainAnchor.getWidth()*270/1280);
 			placeVisited.setLayoutX(mainAnchor.getWidth()*317/1280);
-			ProfilePhoto.setPrefWidth(mainAnchor.getWidth()*200/1280);
-			ProfilePhoto.setLayoutX(mainAnchor.getWidth()*65/1280);
+			profilePhoto.setPrefWidth(mainAnchor.getWidth()*200/1280);
+			profilePhoto.setLayoutX(mainAnchor.getWidth()*65/1280);
 			userName.setLayoutX(mainAnchor.getWidth()*269/1280);
 			userName.setWrappingWidth(mainAnchor.getWidth()*326/1280);
 			myDescr.setLayoutX(mainAnchor.getWidth()*269/1280);
@@ -230,28 +237,6 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		});	
 	this.mainAnchor.setPrefHeight(mainPane.getHeight()*625/720);
 	this.mainAnchor.setPrefWidth(mainPane.getWidth());
-	}
-	private void travelExampleHandler() {
-		FXMLLoader loader=new FXMLLoader();
-		loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
-		try {
-			internalPane=(AnchorPane)loader.load();
-			mainPane.setCenter(internalPane);
-			controller=loader.getController();
-			controller.setMainPane(mainPane,3);
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-	@FXML
-	private void favButtonHandler() {
-		//dummy method
-		if(favButton.getStyleClass().contains("fav-selected")) {
-			favButton.getStyleClass().remove("fav-selected");
-		}
-		else {
-			favButton.getStyleClass().add("fav-selected");
-		}
 	}
 
 	@FXML
@@ -289,7 +274,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		switch (goBack){
 		case 11:
 			loader=new FXMLLoader();
-			loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
+			loader.setLocation(ProfileViewController.class.getResource(viewTravel));
 			try {
 				internalPane=(AnchorPane)loader.load();
 				mainPane.setCenter(internalPane);
@@ -301,7 +286,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			break;
 		case 12:
 			loader=new FXMLLoader();
-			loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
+			loader.setLocation(ProfileViewController.class.getResource(viewTravel));
 			try {
 				internalPane=(AnchorPane)loader.load();
 				mainPane.setCenter(internalPane);
@@ -313,7 +298,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			break;
 		case 13:
 			loader=new FXMLLoader();
-			loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
+			loader.setLocation(ProfileViewController.class.getResource(viewTravel));
 			try {
 				internalPane=(AnchorPane)loader.load();
 				mainPane.setCenter(internalPane);
@@ -330,6 +315,12 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 				e.printStackTrace();
 			}
 			break;
+		default:
+			try {
+				MenuBar.getInstance().moveToExplore(mainPane);
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

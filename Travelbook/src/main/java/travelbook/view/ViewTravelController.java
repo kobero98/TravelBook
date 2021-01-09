@@ -1,7 +1,5 @@
 package main.java.travelbook.view;
 
-
-import java.io.File;
 import java.io.IOException;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -21,35 +19,25 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.util.Callback;
-import main.java.travelbook.view.ProfileViewController.travelCell;
 import main.java.travelbook.view.animation.SlideImageAnimationHL;
 import main.java.travelbook.view.animation.SlideImageAnimationHR;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 public class ViewTravelController {
-	private Object array1[]=new Object[15];
+	private Object[] array1=new Object[10];
+	private Object[] array2=new Object[10];
 	private Button button;
 	private Text text;
 	private BorderPane mainPane;
@@ -98,7 +86,8 @@ public class ViewTravelController {
 	private Button rightScroll;
 	@FXML
 	private Button leftScroll;
-	
+	private String path = "main/java/travelbook/cupola1.jpg";
+	private Button selected = null;
 	@FXML
 	private void initialize() {
     	
@@ -108,12 +97,11 @@ public class ViewTravelController {
     	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*176/625);
     	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*278.5/1280);
     	try {
-    		Image myPhoto = new Image("main/java/travelbook/cupola1.jpg");
+    		Image myPhoto = new Image(path); 
     		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
     		Background mybg1 = new Background(bgPhoto);
     		travelPic.setBackground(mybg1);
     	}catch(IllegalArgumentException e) {
-    		e.printStackTrace();
     		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), rad, in);
         	
         	Background mybg1 = new Background(bgcc1);
@@ -124,8 +112,7 @@ public class ViewTravelController {
     	VBox vBox = new VBox();
     	HBox hBox = new HBox();
     	vBox.setPrefWidth(mainAnchor.getPrefWidth()*278.5/1280);
-    	//vBox.setMaxWidth(USE_PREF_SIZE);
-    	vBox.setSpacing(mainAnchor.getPrefHeight()*(176/15)/625);
+    	vBox.setSpacing(mainAnchor.getPrefHeight()*(176.0/15)/625);
     	Label name = new Label("Travelname");
     	Text date = new Text("dd/mm/yyyy - dd/mm/yyyy");
     	date.setWrappingWidth(mainAnchor.getPrefWidth()*278.5/1280);
@@ -141,12 +128,12 @@ public class ViewTravelController {
     	descr.setText("This is our travel description");
     	//dummy
     	days.getTabs().removeAll(days.getTabs());
-    	for(int i=1; i<=12;i++) {
-    		Tab day = new Tab();
+    	days.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+    		Tab day = days.getTabs().get(days.getSelectionModel().getSelectedIndex());
+    		
     		VBox stepBox = new VBox();
     		stepBox.setFillWidth(false);
     		stepBox.setAlignment(Pos.CENTER);
-    		day.setText("day" + i);
     		HBox steps = new HBox();
     		HBox names = new HBox();
     		steps.setAlignment(Pos.BOTTOM_LEFT);
@@ -164,18 +151,13 @@ public class ViewTravelController {
     			b.setPrefHeight(mainAnchor.getPrefHeight()*40/625);
     			t.setWrappingWidth(mainAnchor.getPrefWidth()*50/1280);
     			b.setOnAction((ActionEvent e)->{
-    				setStep(1);
-    				for(int k=0;k<steps.getChildren().size();k++) {
-    					Button actual=(Button)steps.getChildren().get(k);
-    		            if(steps.getChildren().get(k)==e.getTarget()) {
-    		            	
-    		            	actual.getStyleClass().add("button-focused");
-    		            	}
-    		            else if(actual.getStyleClass().contains("button-focused")) {
-    		            	actual.getStyleClass().remove("button-focused");
-    		            }
-    		        }
-    			});
+    				setStep();
+    				String css = "button-focused";
+    				Button actual = (Button)e.getSource();
+    				actual.getStyleClass().add(css);
+    				if(selected!=null) selected.getStyleClass().remove(css);
+    				selected = actual;
+    				});
     			t.getStyleClass().add("text");
     			steps.getChildren().add(b);
     			names.getChildren().add(t);
@@ -188,8 +170,7 @@ public class ViewTravelController {
     		stepBox.getChildren().add(buttonLine);
     		stepBox.getChildren().add(names);
     		day.setContent(stepBox);
-    		days.getTabs().add(day);
-    		mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->{
+    		mainAnchor.heightProperty().addListener((observable1, oldValue1, newValue1)->{
     			buttonLine.setStartY(mainAnchor.getHeight()*50/625);
     			buttonLine.setEndY(mainAnchor.getPrefHeight()*50/625);
     			array1 = steps.getChildren().toArray();
@@ -199,27 +180,32 @@ public class ViewTravelController {
     			}
     			
     		});
-    		mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->{
+    		mainAnchor.widthProperty().addListener((observable2, oldValue2, newValue2)->{
     			
     			steps.setSpacing(mainAnchor.getPrefWidth()*steps.getSpacing()/1280);//hbox-width-10*buttonwidth/9
     			steps.setPrefWidth(mainAnchor.getPrefWidth()*500/1280);
         		names.setPrefWidth(mainAnchor.getPrefWidth()*500/1280);
         		buttonLine.setEndX(mainAnchor.getPrefWidth()*500/1280);
         		array1 = steps.getChildren().toArray();
+        		array2 = names.getChildren().toArray();
     			for(int k=0;k<array1.length;k++) {
     				button=(Button)array1[k];
     				button.setPrefWidth(mainAnchor.getWidth()*40/1280);
-    			}
-    			array1 = names.getChildren().toArray();
-    			for(int k=0;k<array1.length;k++) {
-    				text=(Text)array1[k];
+    				text=(Text)array2[k];
     				text.setWrappingWidth(mainAnchor.getWidth()*50/1280);
     			}
+    			
     		});
+            
+      });
+    	for(int i=1; i<=12;i++) {
+    		Tab day = new Tab();
+    		day.setText("day" + i);
+    		days.getTabs().add(day);
     	}
     	mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->{            		
     		travelPic.setPrefHeight(mainAnchor.getPrefHeight()*176/625);
-    		vBox.setSpacing(mainAnchor.getPrefHeight()*(176/15)/625);
+    		vBox.setSpacing(mainAnchor.getPrefHeight()*(176.0/15)/625);
     	});
     	mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->{
     		travelPic.setPrefWidth(mainAnchor.getPrefWidth()*278.5/1280);
@@ -302,12 +288,12 @@ public class ViewTravelController {
 		this.mainAnchor.setPrefWidth(mainPane.getWidth());
 	}
 	
-	private void setStep(int stepNumber) {
+	private void setStep() {
 		//dummy example
 		photoBox.getButtons().removeAll(photoBox.getButtons());
 		photoBox.setPrefWidth(0);
 		stepName.setText("Florence's Duomo");
-		ObservableList<Image> photo = FXCollections.observableArrayList( new Image("main/java/travelbook/cupola1.jpg") , new Image("main/java/travelbook/cupola1.jpg"),new Image("main/java/travelbook/cupola1.jpg") , new Image("main/java/travelbook/cupola1.jpg"), new Image("main/java/travelbook/cupola1.jpg"),new Image("main/java/travelbook/cupola1.jpg") , new Image("main/java/travelbook/cupola1.jpg"));
+		ObservableList<Image> photo = FXCollections.observableArrayList( new Image(path) , new Image(path),new Image(path) , new Image(path), new Image(path),new Image(path) , new Image(path));
 		for(int i = 0; i < photo.size(); i++) {
 			ImageView displayPhoto = new ImageView(photo.get(i));
 			displayPhoto.setFitHeight(stepPhoto.getPrefHeight()*3/4);
@@ -315,10 +301,6 @@ public class ViewTravelController {
 			photoBox.setPrefWidth(photoBox.getPrefWidth()+displayPhoto.getFitWidth()+mainAnchor.getPrefWidth()*15/1280);
 			photoBox.getButtons().add(displayPhoto);
 			stepDescr.setText("Florence’s duomo is the city most iconic landmark. How explained by our guide, it is capped by Filippo Brunelleschi’s red-tiled cupola, built between 1420 and 1436. Climbing the 463 steps inside the dome, you can view the whole city, with its red roofs and Arno river flowing through, ununfold at your feet.\n"
-					+ "For the dome, Filippo Brunelleschi took inspiration from the Pantheon in Rome and designed a distinctive octagonal form of inner and outer concentric domes that rest on the drum of the cathedral rather than the roof itself."+"Florence’s duomo is the city most iconic landmark. How explained by our guide, it is capped by Filippo Brunelleschi’s red-tiled cupola, built between 1420 and 1436. Climbing the 463 steps inside the dome, you can view the whole city, with its red roofs and Arno river flowing through, ununfold at your feet.\n"
-					+ "For the dome, Filippo Brunelleschi took inspiration from the Pantheon in Rome and designed a distinctive octagonal form of inner and outer concentric domes that rest on the drum of the cathedral rather than the roof itself."+"Florence’s duomo is the city most iconic landmark. How explained by our guide, it is capped by Filippo Brunelleschi’s red-tiled cupola, built between 1420 and 1436. Climbing the 463 steps inside the dome, you can view the whole city, with its red roofs and Arno river flowing through, ununfold at your feet.\n"
-					+ "For the dome, Filippo Brunelleschi took inspiration from the Pantheon in Rome and designed a distinctive octagonal form of inner and outer concentric domes that rest on the drum of the cathedral rather than the roof itself."+"Florence’s duomo is the city most iconic landmark. How explained by our guide, it is capped by Filippo Brunelleschi’s red-tiled cupola, built between 1420 and 1436. Climbing the 463 steps inside the dome, you can view the whole city, with its red roofs and Arno river flowing through, ununfold at your feet.\n"
-					+ "For the dome, Filippo Brunelleschi took inspiration from the Pantheon in Rome and designed a distinctive octagonal form of inner and outer concentric domes that rest on the drum of the cathedral rather than the roof itself."+"Florence’s duomo is the city most iconic landmark. How explained by our guide, it is capped by Filippo Brunelleschi’s red-tiled cupola, built between 1420 and 1436. Climbing the 463 steps inside the dome, you can view the whole city, with its red roofs and Arno river flowing through, ununfold at your feet.\n"
 					+ "For the dome, Filippo Brunelleschi took inspiration from the Pantheon in Rome and designed a distinctive octagonal form of inner and outer concentric domes that rest on the drum of the cathedral rather than the roof itself.");
 			stepInf.setText("Entrance to the Duomo is free, unless you want to skip the line, that usually take at least an hour.\n"
 					+ "To climb the dome you have to pay a small fee, 10€  (5€ for a reduced ticket).");
@@ -338,9 +320,8 @@ public class ViewTravelController {
 				}
 				stepInf.setLayoutY(stepDescr.getLayoutY()+stepDescr.maxHeight(stepDescr.getWrappingWidth())+mainAnchor.getPrefHeight()*10/1280);
 			});
-			mainAnchor.widthProperty().addListener((observable, oldVAlue, newValue)->{
-				displayPhoto.setFitWidth(mainAnchor.getPrefWidth()*displayPhoto.getFitWidth()/1280);
-			});
+			mainAnchor.widthProperty().addListener((observable, oldVAlue, newValue)->
+				displayPhoto.setFitWidth(mainAnchor.getPrefWidth()*displayPhoto.getFitWidth()/1280));
 		}
 	}
 	
@@ -348,7 +329,7 @@ public class ViewTravelController {
 	@FXML
 	private void topTenScrollRightHandler() {
     	SlideImageAnimationHR anim=new SlideImageAnimationHR();
-    	anim.setScrollAndMax(stepPhoto, stepPhoto.getHvalue()+4/photoBox.getButtons().size());
+    	anim.setScrollAndMax(stepPhoto, stepPhoto.getHvalue()+4.0/photoBox.getButtons().size());
     	anim.setSpeed(2);
     	anim.start();
 	}
@@ -366,9 +347,8 @@ public class ViewTravelController {
 		case 1:
 			try {
 				MenuBar.getInstance().moveToExplore(mainPane);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			break;
 		case 2:
@@ -382,10 +362,15 @@ public class ViewTravelController {
 			try {
 				profileButtonHandler();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
+		default:
+			try {
+				MenuBar.getInstance().moveToExplore(mainPane);
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	@FXML
@@ -407,12 +392,13 @@ public class ViewTravelController {
 	}
 	@FXML
 	private void favButtonHandler() {
+		String css = "fav-selected";
 		//dummy method
-		if(favButton.getStyleClass().contains("fav-selected")) {
-			favButton.getStyleClass().remove("fav-selected");
+		if(favButton.getStyleClass().contains(css)) {
+			favButton.getStyleClass().remove(css);
 		}
 		else {
-			favButton.getStyleClass().add("fav-selected");
+			favButton.getStyleClass().add(css);
 		}
 	}
 	@FXML

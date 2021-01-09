@@ -71,12 +71,12 @@
                </styleClass>
             </Text>
             <Button fx:id="logOutButton" layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#logOut" prefHeight="35.0" prefWidth="35.0" styleClass="menu-button" />
-            <Pane fx:id="ProfilePhoto" layoutX="55.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#choosePhoto" onMouseExited="#choosePhotoDisappear" prefHeight="200.0" prefWidth="200.0" styleClass="profile-pic">
+            <Pane fx:id="profilePhoto" layoutX="55.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#choosePhoto" onMouseExited="#choosePhotoDisappear" prefHeight="200.0" prefWidth="200.0" styleClass="profile-pic">
                <children>
-                  <Button fx:id="ChoosePhoto" alignment="CENTER" layoutX="75.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#photoHandler" prefHeight="40.0" prefWidth="50.0" styleClass="photo" visible="false" />
+                  <Button fx:id="choosePhoto" alignment="CENTER" layoutX="75.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#photoHandler" prefHeight="40.0" prefWidth="50.0" styleClass="photo" visible="false" />
                </children></Pane>
-            <Button fx:id="myDescrEdit" layoutX="492.0" layoutY="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#DescriptionHandler" onMouseEntered="#myDescrEdit" onMouseExited="#myDescrEditDisappear" prefHeight="35.0" prefWidth="35.0" styleClass="edit" visible="false" />
-            <TextArea fx:id="DescrWrite" layoutX="296.0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="255.0" visible="false" wrapText="true" />
+            <Button fx:id="myDescrEdit" layoutX="492.0" layoutY="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#descriptionHandler" onMouseEntered="#myDescrEdit" onMouseExited="#myDescrEditDisappear" prefHeight="35.0" prefWidth="35.0" styleClass="edit" visible="false" />
+            <TextArea fx:id="descrWrite" layoutX="296.0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="255.0" visible="false" wrapText="true" />
          </children>
       </AnchorPane>
       <ButtonBar fx:id="menuBar" buttonMinWidth="0.0" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="592.0">

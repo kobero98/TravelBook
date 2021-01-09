@@ -1,40 +1,24 @@
 package main.java.travelbook.view;
 
-
-
 import java.io.IOException;
 import javafx.scene.input.KeyCode;
-
-import javafx.util.Callback;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
@@ -43,12 +27,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 public class ChatViewController {
-	//private MenuBar menu=new MenuBar();
-	private Object array1[]=new Object[15];
+	private Object[] array1=new Object[15];
 	private Button button;
 	private BorderPane mainPane;
 	@FXML
@@ -118,42 +99,24 @@ public class ChatViewController {
 	            "blueviolet", "brown");
 	 sentList.setItems(data); 
 	 sentList.scrollTo(data.size());
-	 sentList.setCellFactory(new Callback<ListView<String>, 
-	            ListCell<String>>() {
-         @Override 
-         public ListCell<String> call(ListView<String> list) {
-             return new messageCell();
-         }
-     }
-	);
+	 sentList.setCellFactory(list -> new MessageCell());
 	 ObservableList<MyItem> contacts = FXCollections.observableArrayList(new MyItem("object0"), new MyItem("object1"),new MyItem("object2"),new MyItem("object3"),new MyItem("object4"));
     
 	contactList.setItems(contacts);
-	contactList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<MyItem>() {
-        public void changed(ObservableValue<? extends MyItem> observable,
-                MyItem oldValue, MyItem newValue) { 
-        		System.out.println("1");
+	contactList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> { 
               contactList.getItems().get(contactList.getSelectionModel().getSelectedIndex()).setSpecialIndicator("selected");
               contactList.setItems(null);
-              System.out.println("2");
               ObservableList<MyItem> c=contactList.getItems();
               contactList.setItems(c);
-        }
         });
-	contactList.setCellFactory(new Callback<ListView<MyItem>,
-			ListCell<MyItem>>(){
-		@Override
-		public ListCell<MyItem> call(ListView<MyItem> list){
-			return new contactCell();
-		}
-	});
+	contactList.setCellFactory(list -> new ContactCell());
 	 
 	 
 	
 	}
 	
 	
-	 class messageCell extends ListCell<String>{
+	 class MessageCell extends ListCell<String>{
 		@Override
         public void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
@@ -168,7 +131,7 @@ public class ChatViewController {
                 // Create centered Label
                 Label label = new Label(item);
                 label.setWrapText(true);
-                label.setMaxWidth((chatAnchor.getPrefWidth()-(1/5)*chatAnchor.getPrefWidth())/2);
+                label.setMaxWidth((chatAnchor.getPrefWidth()-(1.0/5)*chatAnchor.getPrefWidth())/2);
                 label.setAlignment(Pos.CENTER);
 
                 hBox.getChildren().add(label);
@@ -176,7 +139,7 @@ public class ChatViewController {
             }
         }
 	}
-	class contactCell extends ListCell<MyItem>{
+	class ContactCell extends ListCell<MyItem>{
 		@Override
 		public void updateItem(MyItem item, boolean empty) {
 			super.updateItem(item, empty);
@@ -200,9 +163,9 @@ public class ChatViewController {
 					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*70/1280);
 					hBox.setSpacing(contactList.getPrefWidth()/5);
 				});
-				mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
-					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*70/625);
-				});
+				mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->
+					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*70/625)
+				);
 				contactPic.setBackground(bg);
 				contactPic.getStyleClass().add("photo");
 				hBox.getChildren().add(contactPic);
@@ -215,23 +178,19 @@ public class ChatViewController {
 	public void setMainPane(BorderPane main) {
 		this.mainPane=main;
 		//then define the resize logic
-		this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->{
-			mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight());
-		});
-		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->{
-			mainPane.setPrefWidth(mainPane.getScene().getWindow().getWidth());
-			
-			
-		}); 
+		this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->
+			mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight()));
+		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->
+			mainPane.setPrefWidth(mainPane.getScene().getWindow().getWidth())); 
 		this.mainPane.heightProperty().addListener((observable,oldValue,newValue)->{
 			StackPane title=(StackPane)mainPane.getTop();
 			title.setPrefHeight(mainPane.getHeight()*94/720);
 			mainAnchor.setPrefHeight(mainPane.getHeight()*625/720);
 			
 		});
-		this.mainPane.widthProperty().addListener((observable,oldValue,newValue)->{
-			mainAnchor.setPrefWidth(mainPane.getWidth());
-		});
+		this.mainPane.widthProperty().addListener((observable,oldValue,newValue)->
+			mainAnchor.setPrefWidth(mainPane.getWidth())
+		);
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
 	
 			chatAnchor.setPrefHeight(mainAnchor.getPrefHeight()*588/625);
@@ -283,9 +242,10 @@ public class ChatViewController {
 		this.mainAnchor.setPrefHeight(mainPane.getHeight()*625/720);
 		this.mainAnchor.setPrefWidth(mainPane.getWidth());
 		
-		write.setOnKeyPressed(e -> keyPressed(e));
+		write.setOnKeyPressed(this::keyPressed);
 	}
 	private void keyPressed(KeyEvent evt) {
+		//per qualche motivo va anche a capo dopo aver inviato, risolvere
 		KeyCode ch = evt.getCode();
 		if(ch.equals(KeyCode.ENTER)){
 			sendHandler();
@@ -325,20 +285,11 @@ public class ChatViewController {
     @FXML
     private void searchHandler() {
     	MyItem t = new MyItem(searchField.getText());
-    	System.out.println(t.getName());
     	contactList.getItems().add(t);
     	contactList.setItems(contactList.getItems());
     	contactList.getSelectionModel().select(t);
     	contactList.scrollTo(t);
-    	//results.setItems(FXCollections.observableArrayList(t,t));
-    	/*results.setCellFactory(new Callback<ListView<MyItem>,
-    			ListCell<MyItem>>(){
-    		@Override
-    		public ListCell<MyItem> call(ListView<MyItem> list){
-    			return new contactCell();
-    		}
-    	});*/
-    	//results.setVisible(true);
+    	
     }
 
 
