@@ -59,7 +59,7 @@ public class ProfileViewController {
 	@FXML
 	private Button myDescrEdit;
 	@FXML
-	private TextArea descrWrite; //resize fatta beneeeee
+	private TextArea descrWrite; 
 	@FXML
 	private ListView<String> show;
 	@FXML
@@ -90,7 +90,11 @@ public class ProfileViewController {
 			dot.setFill(Color.DARKSALMON);
 			mainAnchor.getChildren().add(dot);
 			dot.setLayoutX(510);
-			dot.setLayoutY(325);
+			dot.setLayoutY(330);
+			mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->
+				dot.setLayoutY(mainAnchor.getHeight()*330/625));
+			mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
+				dot.setLayoutX(mainAnchor.getWidth()*510/1280));
 			}
 		
 		 ObservableList<String> data = FXCollections.observableArrayList("travel1lungo", "travel2", "travel3", "travel4");

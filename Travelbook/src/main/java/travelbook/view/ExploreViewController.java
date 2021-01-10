@@ -82,6 +82,10 @@ public class ExploreViewController {
 		mainAnchor.getChildren().add(dot);
 		dot.setLayoutX(510);
 		dot.setLayoutY(30);
+		mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->
+			dot.setLayoutY(mainAnchor.getHeight()*30/625));
+		mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
+			dot.setLayoutX(mainAnchor.getWidth()*510/1280));
 		}
 		int i=0;
 		List<TravelButton> selectionGroup;

@@ -25,7 +25,7 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <Button fx:id="turnBack" layoutX="34.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#moveToExplore" prefHeight="40.0" prefWidth="40.0" />
+      <Button fx:id="turnBack" layoutX="34.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#moveToExplore" prefHeight="40.0" prefWidth="40.0" styleClass="back-button" />
       <Label fx:id="foundLabel" layoutX="54.0" layoutY="134.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="This is what we have found" textFill="#ffa286">
          <font>
             <Font name="System Bold" size="25.0" />
@@ -71,8 +71,8 @@
                </font>
             </Label>
             <TextField fx:id="maxCost" layoutX="347.0" layoutY="78.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="96.0" text="max" />
-            <ListView fx:id="type" layoutX="469.0" layoutY="54.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="137.0" prefWidth="217.0" />
-            <ScrollPane fx:id="scrollSelezionati" hbarPolicy="NEVER" layoutX="697.0" layoutY="55.0" prefHeight="137.0" prefWidth="217.0" vbarPolicy="ALWAYS" visible="false">
+            <ListView fx:id="type" layoutX="469.0" layoutY="54.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="137.0" prefWidth="217.0" styleClass="categories-choose" />
+            <ScrollPane fx:id="scrollSelezionati" hbarPolicy="NEVER" layoutX="697.0" layoutY="55.0" prefHeight="137.0" prefWidth="217.0" styleClass="categories-show" vbarPolicy="ALWAYS" visible="false">
                <content>
                   <VBox fx:id="tipiSelezionati" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="122.0" prefWidth="215.0" />
                </content></ScrollPane>

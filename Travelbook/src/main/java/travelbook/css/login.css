@@ -55,13 +55,7 @@
 	-fx-border-color: lightGrey;
 }
 
-.radio-button{
-	-fx-text-fill: textColorD;
-}
-.radio-button .radio{
-	-fx-background-color: #FDFDFD;
-	-fx-effect: innershadow(three-pass-box, shadow, 4, 0, 0,-4);
-}
+
 /*.date-picker */
 .date-picker{
 	

@@ -61,9 +61,7 @@
 	-fx-border-color: Mcolor;
 	-fx-background-size: cover;
 }
-.list-view > .virtual-flow > .clipped-container > .sheet > .list-cell{
-	-fx-background-color: null;
-}
+
 
 .label{
 	-fx-background-color: Dcolor;

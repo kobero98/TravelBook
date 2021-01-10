@@ -25,6 +25,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -123,7 +124,7 @@ public class SearchTravelController {
 	            if (item != null) {
 	                HBox box= new HBox(2);
 	            	Label label= new Label(item.getType());
-	            	label.setStyle("-fx-font-size: 0.75em");
+	            	label.getStyleClass().add("categories-label");
 	            	label.setWrapText(true);
 	            	label.setMaxWidth(type.getHeight()-1);
 	            	Circle cerchio =new Circle(10,item.getColor());
@@ -137,9 +138,9 @@ public class SearchTravelController {
 		}
 	@FXML
 	private void initialize() {
-		ObservableList<MyTypes> information = FXCollections.observableArrayList(new MyTypes("Romantic Trip",Color.RED),new MyTypes("Family Holiday",Color.GREEN),
-				new MyTypes("On The Road",Color.PURPLE),new MyTypes("Children Friendly",Color.BLUE),new MyTypes("Travel with Friend",Color.ORANGE),
-				new MyTypes("Cultural Travel",Color.BLACK),new MyTypes("Relaxing Holiday",Color.YELLOW));
+		ObservableList<MyTypes> information = FXCollections.observableArrayList(new MyTypes("Romantic Trip",Color.DARKMAGENTA),new MyTypes("Family Holiday",Color.DARKTURQUOISE),
+				new MyTypes("On The Road",Color.LIMEGREEN),new MyTypes("Children Friendly",Color.CRIMSON),new MyTypes("Travel with Friend",Color.NAVY),
+				new MyTypes("Cultural Travel",Color.ORANGE),new MyTypes("Relaxing Holiday",Color.VIOLET));
 		
 		this.type.setItems(information);
 		this.type.setCellFactory(list-> new TipoListaGraphic());
@@ -161,7 +162,7 @@ public class SearchTravelController {
 		        		HBox box= new HBox(2);
 		            	Label label= new Label(addType.getType());
 		            	label.setTextFill(Color.WHITE);
-		            	label.setStyle("-fx-font-size: 0.75em");
+		            	label.getStyleClass().add("categories-label");
 		            	label.setWrapText(true);
 		                Button delet =new Button();
 		                
@@ -181,21 +182,29 @@ public class SearchTravelController {
 		                        		j++;
 		                        	}
 		                        tipiSelezionati.getChildren().remove(box);
-		    	            	tipiSelezionati.setPrefHeight(typeChoose.size()*45.0);
+		    	            	tipiSelezionati.setPrefHeight(typeChoose.size()*40.0);
 		    	            	if(typeChoose.isEmpty()) {
 		    		        		tipiSelezionati.getParent().getParent().getParent().setVisible(false);
 	
 		    	            	}
-		                }); 
-		                delet.setStyle("-fx-shape:\"M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\" ");
-		            	delet.setPrefSize(13, 13);
+		                });
+		            	delet.setPrefSize(15, 15);
+		            	delet.setMaxWidth(Region.USE_PREF_SIZE);
+		            	delet.setMaxHeight(Region.USE_PREF_SIZE);
+		            	delet.setMinWidth(Region.USE_PREF_SIZE);
+		            	delet.setMinHeight(Region.USE_PREF_SIZE);
+		            	box.setPrefWidth(tipiSelezionati.getPrefWidth()*0.75);
+		            	box.setMaxWidth(Region.USE_PREF_SIZE);
 		                box.getChildren().addAll(delet,label);
-		                HBox.setMargin(delet, new Insets(2));
-		            	HBox.setMargin(label, new Insets(2));
+		                HBox.setMargin(delet, new Insets(7));
+		                HBox.setMargin(label, new Insets(2));
 		            	box.setAlignment(Pos.CENTER_LEFT);
-		            	box.setBackground(new Background(new BackgroundFill(addType.getColor(),new CornerRadii(4),null)));
+		            	box.setBackground(new Background(new BackgroundFill(addType.getColor(),new CornerRadii(15), null)));
 		            	tipiSelezionati.getChildren().add(box);
-		            	tipiSelezionati.setPrefHeight(typeChoose.size()*45.0);
+		            	tipiSelezionati.setPrefHeight(typeChoose.size()*40.0);
+		            	tipiSelezionati.setAlignment(Pos.CENTER_LEFT);
+		            	tipiSelezionati.setPadding(new Insets(0, 10, 0, 10));
+		            	tipiSelezionati.setSpacing(sfondo.getHeight()*10/625);
 		        		tipiSelezionati.getParent().getParent().getParent().setVisible(true);
 				}
 			}

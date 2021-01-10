@@ -10,7 +10,6 @@
     -fx-font-family: "Arial", sans-serif;
 	-fx-font-weight: normal;
 	-fx-font-size: 20px;
-	-fx-fill: textColorD;
 }
 .title{
     -fx-background-color: Dcolor;
@@ -119,4 +118,14 @@
 }
 .menu-item .mark:focused{
 	-fx-background-color: White;
+}
+.radio-button{
+	-fx-text-fill: textColorD;
+}
+.radio-button .radio{
+	-fx-background-color: #FDFDFD;
+	-fx-effect: innershadow(three-pass-box, shadow, 4, 0, 0,-4);
+}
+.list-view > .virtual-flow > .clipped-container > .sheet > .list-cell{
+	-fx-background-color: null;
 }
