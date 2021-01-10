@@ -49,11 +49,11 @@ public class SearchTravelController {
 	@FXML
 	private RadioButton budjet4;
 	@FXML
-	private Label found;
+	private Label foundLabel;
 	@FXML
 	private Line lineaListView;
 	@FXML
-	private ListView lista;
+	private ListView <String> lista;
 	@FXML
 	private Button advanced;
 	@FXML
@@ -78,8 +78,20 @@ public class SearchTravelController {
 	private ListView <MyTypes> type;
 	@FXML
 	private VBox tipiSelezionati; 
-	
-	
+	@FXML
+	private AnchorPane consigliatiAnchor;
+	@FXML
+	private VBox consigliatiVbox;
+	@FXML
+	private Line ricercaLine;
+	@FXML 
+	private Button searchButton;
+	@FXML
+	private TextField ricercaTextField;
+	@FXML
+	private Line lineaVerticaleGrande;
+	@FXML
+	private ScrollPane scrollSelezionati;
 	private List <MyTypes> typeChoose=null;
 	class MyTypes{
 		private String tipo;
@@ -116,8 +128,8 @@ public class SearchTravelController {
 	            	label.setMaxWidth(type.getHeight()-1);
 	            	Circle cerchio =new Circle(10,item.getColor());
 	            	box.getChildren().addAll(cerchio,label);
-	            	box.setMargin(cerchio, new Insets(2));
-	            	box.setMargin(label, new Insets(2));
+	            	HBox.setMargin(cerchio, new Insets(2));
+	            	HBox.setMargin(label, new Insets(2));
 	            	box.setAlignment(Pos.CENTER_LEFT);
 	            	setGraphic(box);
 	            }
@@ -135,53 +147,57 @@ public class SearchTravelController {
 		type.getSelectionModel().selectedItemProperty().addListener((observable,oldValue,  newValue)-> 
 			{
 	        	MyTypes addType=type.getItems().get(type.getSelectionModel().getSelectedIndex());
-	        	if(typeChoose==null) {
-	        		typeChoose= new ArrayList<>();
-	        		typeChoose.add(addType);
-	        	}
-	        	else {
-	        			typeChoose.add(addType);
-	        	}
 	        	
-	        		HBox box= new HBox(2);
-	            	Label label= new Label(addType.getType());
-	            	label.setTextFill(Color.WHITE);
-	            	label.setStyle("-fx-font-size: 0.75em");
-	            	label.setWrapText(true);
-	                Button delet =new Button();
-	                
-	                // when button is pressed 
-	                delet.setOnAction(e->{ 
-	                    	Button b= (Button) e.getSource();
-	                    	HBox box1=(HBox) b.getParent();
-	                    	
-	                    	Label l =(Label) box1.getChildren().get(1);
-	                        MyTypes i=new MyTypes(l.getText(),(Color) box.getBackground().getFills().get(0).getFill());
-	                        int j=0;
-	                        while(j<typeChoose.size())
-	                        	{	if(typeChoose.get(j).getType().equals(i.getType())) {
-	                        			typeChoose.remove(j);	
-	                        			j--;
-	                        			}
-	                        		j++;
-	                        	}
-	                        tipiSelezionati.getChildren().remove(box);
-	    	            	tipiSelezionati.setPrefHeight(typeChoose.size()*45.0);
-	    	            	if(typeChoose.isEmpty()) {
-	    		        		tipiSelezionati.getParent().getParent().getParent().setVisible(false);
-
-	    	            	}
-	                }); 
-	                delet.setStyle("-fx-shape:\"M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\" ");
-	            	delet.setPrefSize(13, 13);
-	                box.getChildren().addAll(delet,label);
-	            	box.setMargin(delet, new Insets(2));
-	            	box.setMargin(label, new Insets(2));
-	            	box.setAlignment(Pos.CENTER_LEFT);
-	            	box.setBackground(new Background(new BackgroundFill(addType.getColor(),new CornerRadii(4),null)));
-	            	tipiSelezionati.getChildren().add(box);
-	            	tipiSelezionati.setPrefHeight(typeChoose.size()*45.0);
-	        		tipiSelezionati.getParent().getParent().getParent().setVisible(true);
+	        		int vialibera=0;
+		        	if(typeChoose==null) {
+		        		typeChoose= new ArrayList<>();
+		        		typeChoose.add(addType);
+		        	}
+		        	else {
+		        			if(!typeChoose.contains(addType)) typeChoose.add(addType);
+		        			else vialibera=1;
+		        	}
+		           if(vialibera==0) {
+		        		HBox box= new HBox(2);
+		            	Label label= new Label(addType.getType());
+		            	label.setTextFill(Color.WHITE);
+		            	label.setStyle("-fx-font-size: 0.75em");
+		            	label.setWrapText(true);
+		                Button delet =new Button();
+		                
+		                // when button is pressed 
+		                delet.setOnAction(e->{ 
+		                    	Button b= (Button) e.getSource();
+		                    	HBox box1=(HBox) b.getParent();
+		                    	
+		                    	Label l =(Label) box1.getChildren().get(1);
+		                        MyTypes i=new MyTypes(l.getText(),(Color) box.getBackground().getFills().get(0).getFill());
+		                        int j=0;
+		                        while(j<typeChoose.size())
+		                        	{	if(typeChoose.get(j).getType().equals(i.getType())) {
+		                        			typeChoose.remove(j);	
+		                        			j--;
+		                        			}
+		                        		j++;
+		                        	}
+		                        tipiSelezionati.getChildren().remove(box);
+		    	            	tipiSelezionati.setPrefHeight(typeChoose.size()*45.0);
+		    	            	if(typeChoose.isEmpty()) {
+		    		        		tipiSelezionati.getParent().getParent().getParent().setVisible(false);
+	
+		    	            	}
+		                }); 
+		                delet.setStyle("-fx-shape:\"M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\" ");
+		            	delet.setPrefSize(13, 13);
+		                box.getChildren().addAll(delet,label);
+		                HBox.setMargin(delet, new Insets(2));
+		            	HBox.setMargin(label, new Insets(2));
+		            	box.setAlignment(Pos.CENTER_LEFT);
+		            	box.setBackground(new Background(new BackgroundFill(addType.getColor(),new CornerRadii(4),null)));
+		            	tipiSelezionati.getChildren().add(box);
+		            	tipiSelezionati.setPrefHeight(typeChoose.size()*45.0);
+		        		tipiSelezionati.getParent().getParent().getParent().setVisible(true);
+				}
 			}
 	          );
 		
@@ -229,79 +245,159 @@ public class SearchTravelController {
 	    });
 	    //then define the resize logic
 		this.sfondo.heightProperty().addListener((observable,oldValue,newValue)->{
+			consigliati.setPrefHeight(sfondo.getHeight()*465/625);
+			consigliati.setLayoutY(sfondo.getHeight()*160/625);
 			
+			consigliatiAnchor.setPrefHeight(sfondo.getHeight()*890/625);
 			
-			scritta1.setLayoutY(sfondo.getPrefHeight()*109/625);
-			scritta2.setLayoutY(sfondo.getPrefHeight()*120/625);
+			consigliatiVbox.setPrefHeight(sfondo.getHeight()*800/625);
+			consigliatiVbox.setLayoutY(sfondo.getHeight()*6/625);
+			
+			turnBack.setPrefHeight(sfondo.getHeight()*40/625);
+			turnBack.setLayoutY(sfondo.getPrefHeight()*30/625);
+			
+			double t;
+			double y;
+			double z;
+			double w;
 			if(soprasotto==0) {
-				found.setLayoutY(sfondo.getPrefHeight()*134/625);
-				lista.setLayoutY(sfondo.getPrefHeight()*182/625);
-				lista.setPrefHeight(sfondo.getPrefHeight()*434/625);
+				t=0.6944;
+				y=0.2912;
+				z=0.2144;
+				w=0.2672;
 			}
+			
 			else {
-				found.setLayoutY(sfondo.getPrefHeight()*(134+this.advancedSearch.getHeight())/625);
-				lista.setLayoutY(sfondo.getPrefHeight()*(182+this.advancedSearch.getHeight())/625);
-				lista.setPrefHeight(sfondo.getPrefHeight()*(434-this.advancedSearch.getHeight())/625);
+				t=0.3744;
+				y=0.6112;
+				z=0.5344;
+				w=0.5872;
 			}
-			ricerca.setPrefHeight(sfondo.getPrefHeight()*45/625);
-			ricerca.setLayoutY(sfondo.getPrefHeight()*50/625);
 			
-			consigliati.setPrefHeight(sfondo.getPrefHeight()*465/625);
-			consigliati.setLayoutY(sfondo.getPrefHeight()*160/625);
+			foundLabel.setLayoutY(sfondo.getHeight()*z);
 			
-			advancedSearch.setPrefHeight(sfondo.getPrefHeight()*200/625);
-			advancedSearch.setLayoutY(sfondo.getPrefHeight()*133/625);
+			lineaListView.setLayoutY(sfondo.getHeight()*w);
 			
-			scritta3.setLayoutY(sfondo.getPrefHeight()*(7+advancedSearch.getLayoutY())/625);
+			ricerca.setPrefHeight(sfondo.getHeight()*45/625);
+			ricerca.setLayoutY(sfondo.getHeight()*50/625);
 			
-			budjet1.setLayoutY(sfondo.getPrefHeight()*(advancedSearch.getLayoutY()+55)/625);
-			budjet2.setLayoutY(sfondo.getPrefHeight()*(87+advancedSearch.getLayoutY())/625);
-			budjet3.setLayoutY(sfondo.getPrefHeight()*(119+advancedSearch.getLayoutY())/625);
-			budjet4.setLayoutY(sfondo.getPrefHeight()*(151+advancedSearch.getLayoutY())/625);
+			ricercaLine.setLayoutY(sfondo.getHeight()*8/625);
+			ricercaLine.setStartY(sfondo.getHeight()*30/625);
 			
-			type.setPrefHeight(sfondo.getPrefHeight()*137/625);
-			type.setLayoutY(sfondo.getPrefHeight()*54/625);
+			searchButton.setPrefHeight(sfondo.getHeight()*40/625);
+			searchButton.setLayoutY(sfondo.getHeight()*3/625);
 			
-			turnBack.setPrefHeight(sfondo.getPrefHeight()*30/625);
-			turnBack.setLayoutY(sfondo.getPrefHeight()*50/625);
+			ricercaTextField.setPrefHeight(sfondo.getHeight()*45/625);
 			
-		
+			lineaVerticaleGrande.setLayoutY(sfondo.getHeight()*131/625);
+			lineaVerticaleGrande.setStartY(sfondo.getHeight()*3/625);
+			lineaVerticaleGrande.setEndY(sfondo.getHeight()*484/625);
 			
+			scritta2.setLayoutY(sfondo.getHeight()*120/625);
 			
-			advanced.setPrefHeight(sfondo.getPrefHeight()*13/625);
-			advanced.setLayoutY(sfondo.getPrefHeight()*114/625);
+			advanced.setPrefHeight(sfondo.getHeight()*13/625);
+			advanced.setLayoutY(sfondo.getHeight()*114/625);
+			
+			scritta1.setLayoutY(sfondo.getHeight()*109/625);
+			
+			lista.setPrefHeight(sfondo.getHeight()*t);
+			lista.setLayoutY(sfondo.getHeight()*y);
+			
+			advancedSearch.setPrefHeight(sfondo.getHeight()*200/625);
+			advancedSearch.setLayoutY(sfondo.getHeight()*133/625);
+			
+			scritta3.setLayoutX(sfondo.getHeight()*7/625);
+			budjet1.setLayoutY(sfondo.getHeight()*55/625);
+			budjet1.setPrefHeight(sfondo.getHeight()*26.8/625);
+			budjet2.setLayoutY(sfondo.getHeight()*87/625);
+			budjet2.setPrefHeight(sfondo.getHeight()*26.8/625);
+			budjet3.setLayoutY(sfondo.getHeight()*119/625);
+			budjet3.setPrefHeight(sfondo.getHeight()*26.8/625);
+			budjet4.setLayoutY(sfondo.getHeight()*151/625);
+			budjet4.setPrefHeight(sfondo.getHeight()*26.8/625);
+			
+			scritta5.setLayoutY(sfondo.getHeight()*7/625);
+			minCost.setLayoutY(sfondo.getHeight()*78/625);
+			minCost.setPrefHeight(sfondo.getHeight()*44/625);
+			maxCost.setLayoutY(sfondo.getHeight()*78/625);
+			maxCost.setPrefHeight(sfondo.getHeight()*44/625);
+			
+			scritta4.setLayoutY(sfondo.getHeight()*7/625);
+			
+			type.setPrefHeight(sfondo.getHeight()*137/625);
+			type.setLayoutY(sfondo.getHeight()*54/625);
+			
+			tipiSelezionati.setPrefHeight(sfondo.getHeight()*tipiSelezionati.getPrefHeight()/625);
+			scrollSelezionati.setLayoutY(sfondo.getHeight()*55/625);
+			scrollSelezionati.setPrefHeight(sfondo.getHeight()*137/625);
+			
 		});
 		this.sfondo.widthProperty().addListener((observable,oldValue,newValue)->{
 			
-			found.setLayoutX(sfondo.getPrefWidth()*54/1280);
-			scritta1.setLayoutX(sfondo.getPrefWidth()*48/1280);
-			scritta2.setLayoutX(sfondo.getPrefWidth()*972/1280);
+			consigliati.setPrefWidth(sfondo.getWidth()*316/1280);
+			consigliati.setLayoutX(sfondo.getWidth()*964/1280);
 			
-			advancedSearch.setPrefWidth(sfondo.getPrefWidth()*910/1280);
-			advancedSearch.setLayoutX(sfondo.getPrefWidth()*34/1280);
+			consigliatiAnchor.setPrefWidth(sfondo.getWidth()*380/1280);
 			
-			ricerca.setPrefWidth(sfondo.getPrefWidth()*650/1280);
-			ricerca.setLayoutX(sfondo.getPrefWidth()*315/1280);
-						
-			consigliati.setPrefWidth(sfondo.getPrefWidth()*316/1280);
-			consigliati.setLayoutX(sfondo.getPrefWidth()*964/1280);
+			consigliatiVbox.setPrefWidth(sfondo.getWidth()*190/1280);
+			consigliatiVbox.setLayoutX(sfondo.getWidth()*43/1280);
 			
-			budjet1.setLayoutX(sfondo.getPrefWidth()*6/1280);
-			budjet2.setLayoutX(sfondo.getPrefWidth()*6/1280);
-			budjet3.setLayoutX(sfondo.getPrefWidth()*6/1280);
-			budjet4.setLayoutX(sfondo.getPrefWidth()*6/1280);
+			turnBack.setPrefWidth(sfondo.getWidth()*40/1280);
+			turnBack.setLayoutX(sfondo.getWidth()*34/1280);
 			
-			type.setPrefWidth(sfondo.getPrefWidth()*217/1280);
-			type.setLayoutX(sfondo.getPrefWidth()*469/1280);
+			foundLabel.setLayoutX(sfondo.getWidth()*54/1280);
 			
-			turnBack.setPrefWidth(sfondo.getPrefWidth()*30/1280);
-			turnBack.setLayoutX(sfondo.getPrefWidth()*26/1280);
+			lineaListView.setLayoutX(sfondo.getWidth()*62/1280);
+			lineaListView.setEndX(sfondo.getWidth()*800/1280);
 			
-			lista.setPrefWidth(sfondo.getPrefWidth()*885/1280);
-			lista.setLayoutX(sfondo.getPrefWidth()*61/1280);
+			ricerca.setPrefWidth(sfondo.getWidth()*650/1280);
+			ricerca.setLayoutX(sfondo.getWidth()*315/1280);
 			
-			advanced.setPrefWidth(sfondo.getPrefWidth()*15/1280);
-			advanced.setLayoutX(sfondo.getPrefWidth()*27/1280);
+			ricercaLine.setLayoutX(sfondo.getWidth()*60/1280);
+			
+			
+			searchButton.setPrefWidth(sfondo.getWidth()*40/1280);
+			searchButton.setLayoutX(sfondo.getWidth()*14/1280);
+			
+			ricercaTextField.setPrefWidth(sfondo.getWidth()*575/1280);
+			ricercaTextField.setLayoutX(sfondo.getWidth()*75/1280);
+			
+			lineaVerticaleGrande.setLayoutX(sfondo.getWidth()*953/1280);
+			
+			scritta2.setLayoutX(sfondo.getWidth()*972/1280);
+			
+			advanced.setPrefWidth(sfondo.getWidth()*15/1280);
+			advanced.setLayoutX(sfondo.getWidth()*27/1280);
+			
+			scritta1.setLayoutX(sfondo.getWidth()*48/1280);
+			
+			lista.setPrefWidth(sfondo.getWidth()*885/1280);
+			lista.setLayoutX(sfondo.getWidth()*61/1280);
+			
+			advancedSearch.setPrefWidth(sfondo.getWidth()*910/1280);
+			advancedSearch.setLayoutX(sfondo.getWidth()*34/1280);
+			
+			scritta3.setLayoutX(sfondo.getWidth()*6/1280);
+			budjet1.setLayoutX(sfondo.getWidth()*6/1280);
+			budjet2.setLayoutX(sfondo.getWidth()*6/1280);
+			budjet3.setLayoutX(sfondo.getWidth()*6/1280);
+			
+			budjet4.setLayoutX(sfondo.getWidth()*6/1280);
+			
+			scritta5.setLayoutX(sfondo.getWidth()*211/1280);
+			minCost.setLayoutX(sfondo.getWidth()*220/1280);
+			minCost.setPrefWidth(sfondo.getWidth()*96/1280);
+			maxCost.setLayoutX(sfondo.getWidth()*347/1280);
+			maxCost.setPrefWidth(sfondo.getWidth()*96/1280);
+			
+			scritta4.setLayoutX(sfondo.getWidth()*479/1280);
+			
+			type.setPrefWidth(sfondo.getWidth()*217/1280);
+			type.setLayoutX(sfondo.getWidth()*469/1280);
+			
+			tipiSelezionati.setPrefWidth(sfondo.getWidth()*215/1280);
+			scrollSelezionati.setLayoutX(sfondo.getWidth()*697/1280);
+			scrollSelezionati.setPrefWidth(sfondo.getWidth()*217/1280);
 			
 			
 		});
@@ -316,7 +412,7 @@ public class SearchTravelController {
 		if(this.soprasotto==0) {
 			this.soprasotto=1;
 			double move=this.advancedSearch.getHeight();
-			this.found.setLayoutY(this.found.getLayoutY()+move);
+			this.foundLabel.setLayoutY(this.foundLabel.getLayoutY()+move);
 			this.lineaListView.setLayoutY(this.lineaListView.getLayoutY()+move);
 			this.lista.setPrefHeight(this.lista.getHeight()-move);
 			this.lista.setLayoutY(this.lista.getLayoutY()+move);
@@ -326,7 +422,7 @@ public class SearchTravelController {
 		else {
 			this.soprasotto=0;
 			double move=this.advancedSearch.getHeight();
-			this.found.setLayoutY(this.found.getLayoutY()-move);
+			this.foundLabel.setLayoutY(this.foundLabel.getLayoutY()-move);
 			this.lineaListView.setLayoutY(this.lineaListView.getLayoutY()-move);
 			this.lista.setPrefHeight(this.lista.getPrefHeight()+move);
 			this.lista.setLayoutY(this.lista.getLayoutY()-move);
