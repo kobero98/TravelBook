@@ -1,6 +1,8 @@
 package main.java.travelbook.view;
 import java.io.IOException;
 import java.time.LocalDate;
+
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.control.Hyperlink;
 import java.util.Collections;
@@ -46,6 +48,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 public class AddViewController {
 	@FXML
 	private ButtonBar menuBar;
@@ -176,6 +179,13 @@ public class AddViewController {
 	private double stepInfoPaneHeight;
 	@FXML
 	private void initialize() {
+		if(MenuBar.getNotified()) {
+			Circle dot = new Circle(6);
+			dot.setFill(Color.DARKSALMON);
+			mainAnchor.getChildren().add(dot);
+			dot.setLayoutX(510);
+			dot.setLayoutY(30);
+			}
 		//set travel and the first day and the first step by default.
 		LocalDate dataFinale=endDate.getValue();
 		LocalDate dataIniziale=startDate.getValue();

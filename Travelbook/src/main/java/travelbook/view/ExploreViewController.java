@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javafx.scene.input.KeyEvent;
 import main.java.travelbook.view.animation.SlideImageAnimationHL;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 public class ExploreViewController {
 	private Object[] array1=new Object[15];
@@ -74,6 +76,13 @@ public class ExploreViewController {
 		//And load it into the button 
 		//The controller must return a Collection of TravelBean compilated and these travelBean must be passed in constructButton
 		//In this example use Empty image as Pane and Some strings a cazzo di cane.
+		if(MenuBar.getNotified()) {
+		Circle dot = new Circle(6);
+		dot.setFill(Color.DARKSALMON);
+		mainAnchor.getChildren().add(dot);
+		dot.setLayoutX(510);
+		dot.setLayoutY(30);
+		}
 		int i=0;
 		List<TravelButton> selectionGroup;
 		List<TravelButton> topTenGroup;

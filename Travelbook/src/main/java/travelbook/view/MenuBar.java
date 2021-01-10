@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 public class MenuBar {
 	//This class want to manage MenuBar operation. Use these methods in the button handler.
 	private FXMLLoader loader;
+	private static boolean notify = true;  //this information will be in logged user
 	private static MenuBar istance=null;
 	private MenuBar() {
 		
@@ -57,4 +58,9 @@ public class MenuBar {
 		}
 		return istance;
 	}
+	public static boolean getNotified() {
+		return notify;
+		
+	}
+
 }

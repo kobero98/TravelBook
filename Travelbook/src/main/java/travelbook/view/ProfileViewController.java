@@ -20,7 +20,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -83,6 +85,13 @@ public class ProfileViewController {
 	@FXML
 	private Button logOutButton;
 	public void initialize() {
+		if(MenuBar.getNotified()) {
+			Circle dot = new Circle(6);
+			dot.setFill(Color.DARKSALMON);
+			mainAnchor.getChildren().add(dot);
+			dot.setLayoutX(510);
+			dot.setLayoutY(325);
+			}
 		
 		 ObservableList<String> data = FXCollections.observableArrayList("travel1lungo", "travel2", "travel3", "travel4");
 		 travels.setItems(data); 
@@ -208,14 +217,14 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			profilePhoto.setPrefHeight(mainAnchor.getHeight()*200/625);
 			profilePhoto.setLayoutY(mainAnchor.getHeight()*45/625);
 			userName.setLayoutY(mainAnchor.getHeight()*137/625);
-			myDescr.setLayoutY(mainAnchor.getHeight()*187/625);
+			myDescr.setLayoutY(mainAnchor.getHeight()*150/625);
 			logOutButton.setPrefHeight(mainAnchor.getHeight()*35/625);
 			logOutButton.setLayoutY(mainAnchor.getHeight()*14/625);
 			choosePhoto.setPrefHeight(mainAnchor.getHeight()*40/625);
 			choosePhoto.setLayoutY(mainAnchor.getHeight()*80/625);
 			myDescrEdit.setPrefHeight(mainAnchor.getHeight()*35/625);
-			myDescrEdit.setLayoutY(mainAnchor.getHeight()*165/625);
-			descrWrite.setPrefWidth(mainAnchor.getHeight()*100/625);
+			myDescrEdit.setLayoutY(mainAnchor.getHeight()*155/625);
+			descrWrite.setPrefHeight(mainAnchor.getHeight()*100/625);
 			descrWrite.setLayoutY(mainAnchor.getHeight()*150/625);
 			menuBar.setPrefHeight(mainAnchor.getHeight()*85/625);
 			menuBar.setLayoutY(mainAnchor.getHeight()*300/625);
@@ -250,15 +259,16 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			profilePhoto.setPrefWidth(mainAnchor.getWidth()*200/1280);
 			profilePhoto.setLayoutX(mainAnchor.getWidth()*55/1280);
 			userName.setLayoutX(mainAnchor.getWidth()*238/1280);
-			myDescr.setLayoutX(mainAnchor.getWidth()*255/1280);
+			myDescr.setLayoutX(mainAnchor.getWidth()*280/1280);
+			myDescr.setWrappingWidth(mainAnchor.getWidth()*270/1280);
 			logOutButton.setPrefWidth(mainAnchor.getWidth()*35/1280);
 			logOutButton.setLayoutX(mainAnchor.getWidth()*14/1280);
 			choosePhoto.setPrefWidth(mainAnchor.getWidth()*50/1280);
 			choosePhoto.setLayoutX(mainAnchor.getWidth()*75/1280);
 			myDescrEdit.setPrefWidth(mainAnchor.getWidth()*35/1280);
-			myDescrEdit.setLayoutX(mainAnchor.getWidth()*492/1280);
-			descrWrite.setPrefWidth(mainAnchor.getWidth()*255/1280);
-			descrWrite.setLayoutX(mainAnchor.getWidth()*296/1280);
+			myDescrEdit.setLayoutX(mainAnchor.getWidth()*515/1280);
+			descrWrite.setPrefWidth(mainAnchor.getWidth()*270/1280);
+			descrWrite.setLayoutX(mainAnchor.getWidth()*280/1280);
 			menuBar.setPrefWidth(mainAnchor.getWidth()*592/1280);
 			show.setPrefWidth(mainAnchor.getWidth()*297/1280);
 			listTitle.setPrefWidth(mainAnchor.getWidth()*297/1280);

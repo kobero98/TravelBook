@@ -28,6 +28,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+
 public class ChatViewController {
 	private Object[] array1=new Object[15];
 	private Button button;
