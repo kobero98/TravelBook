@@ -14,10 +14,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -93,7 +96,7 @@ public class SearchTravelController {
 	private Line lineaVerticaleGrande;
 	@FXML
 	private ScrollPane scrollSelezionati;
-	private List <MyTypes> typeChoose=null;
+	private List <MyTypes> typeChoose=new ArrayList<>();
 	class MyTypes{
 		private String tipo;
 		private Color colore;
@@ -141,24 +144,16 @@ public class SearchTravelController {
 		ObservableList<MyTypes> information = FXCollections.observableArrayList(new MyTypes("Romantic Trip",Color.DARKMAGENTA),new MyTypes("Family Holiday",Color.DARKTURQUOISE),
 				new MyTypes("On The Road",Color.LIMEGREEN),new MyTypes("Children Friendly",Color.CRIMSON),new MyTypes("Travel with Friend",Color.NAVY),
 				new MyTypes("Cultural Travel",Color.ORANGE),new MyTypes("Relaxing Holiday",Color.VIOLET));
-		
+		MultipleSelectionModel<MyTypes> selectionModel = type.getSelectionModel();
+        selectionModel.setSelectionMode(SelectionMode.MULTIPLE);
 		this.type.setItems(information);
 		this.type.setCellFactory(list-> new TipoListaGraphic());
-		
-		type.getSelectionModel().selectedItemProperty().addListener((observable,oldValue,  newValue)-> 
+		selectionModel.selectedItemProperty().addListener((observable,oldValue,  newValue)-> 
 			{
-	        	MyTypes addType=type.getItems().get(type.getSelectionModel().getSelectedIndex());
-	        	
-	        		int vialibera=0;
-		        	if(typeChoose==null) {
-		        		typeChoose= new ArrayList<>();
+				MyTypes addType = selectionModel.getSelectedItem();
+				boolean bool = addType!=null && !typeChoose.contains(addType);
+		        	if(bool) {
 		        		typeChoose.add(addType);
-		        	}
-		        	else {
-		        			if(!typeChoose.contains(addType)) typeChoose.add(addType);
-		        			else vialibera=1;
-		        	}
-		           if(vialibera==0) {
 		        		HBox box= new HBox(2);
 		            	Label label= new Label(addType.getType());
 		            	label.setTextFill(Color.WHITE);
@@ -167,27 +162,7 @@ public class SearchTravelController {
 		                Button delet =new Button();
 		                
 		                // when button is pressed 
-		                delet.setOnAction(e->{ 
-		                    	Button b= (Button) e.getSource();
-		                    	HBox box1=(HBox) b.getParent();
-		                    	
-		                    	Label l =(Label) box1.getChildren().get(1);
-		                        MyTypes i=new MyTypes(l.getText(),(Color) box.getBackground().getFills().get(0).getFill());
-		                        int j=0;
-		                        while(j<typeChoose.size())
-		                        	{	if(typeChoose.get(j).getType().equals(i.getType())) {
-		                        			typeChoose.remove(j);	
-		                        			j--;
-		                        			}
-		                        		j++;
-		                        	}
-		                        tipiSelezionati.getChildren().remove(box);
-		    	            	tipiSelezionati.setPrefHeight(typeChoose.size()*40.0);
-		    	            	if(typeChoose.isEmpty()) {
-		    		        		tipiSelezionati.getParent().getParent().getParent().setVisible(false);
-	
-		    	            	}
-		                });
+		                delet.setOnMouseClicked(this::delButton);
 		            	delet.setPrefSize(15, 15);
 		            	delet.setMaxWidth(Region.USE_PREF_SIZE);
 		            	delet.setMaxHeight(Region.USE_PREF_SIZE);
@@ -207,11 +182,33 @@ public class SearchTravelController {
 		            	tipiSelezionati.setSpacing(sfondo.getHeight()*10/625);
 		        		tipiSelezionati.getParent().getParent().getParent().setVisible(true);
 				}
+			
 			}
 	          );
 		
 	}
+	private void delButton(MouseEvent e){ 
+    	Button b= (Button) e.getSource();
+    	HBox box1=(HBox) b.getParent();
+    	
+    	Label l =(Label) box1.getChildren().get(1);
+        MyTypes i=new MyTypes(l.getText(),(Color) box1.getBackground().getFills().get(0).getFill());
+        int j=0;
+        while(j<typeChoose.size())
+        	{	if(typeChoose.get(j).getType().equals(i.getType())) {
+        			typeChoose.remove(j);	
+        			j--;
+        			}
+        		j++;
+        	}
+        tipiSelezionati.getChildren().remove(box1);
+    	tipiSelezionati.setPrefHeight(typeChoose.size()*40.0);
+    	if(typeChoose.isEmpty()) {
+    		tipiSelezionati.getParent().getParent().getParent().setVisible(false);
 
+    	}
+    	type.getSelectionModel().clearSelection();
+}
 	public void setMainPane(BorderPane main)
 	{
 		this.mainPane=main;
