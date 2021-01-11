@@ -364,9 +364,12 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 	private void logOut() {
 		FXMLLoader loader=new FXMLLoader();
 		loader.setLocation(ProfileViewController.class.getResource("LoginView.fxml"));
+		LoginViewController controller = new LoginViewController();
 		try {
 			AnchorPane loginPane=(AnchorPane)loader.load();
 			mainPane.setCenter(loginPane);
+			controller=loader.getController();
+			controller.setMain(mainPane);
 		}catch(IOException e) {
 			e.printStackTrace();
 		}

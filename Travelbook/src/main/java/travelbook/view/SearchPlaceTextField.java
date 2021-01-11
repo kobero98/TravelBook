@@ -4,6 +4,8 @@ import javafx.application.Platform;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import main.java.travelbook.util.PlaceAdapter;
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
@@ -37,6 +39,11 @@ public class SearchPlaceTextField extends AutocompleteTextField<PlaceAdapter> {
 				Alert alert=new Alert(AlertType.ERROR);
 				alert.setHeaderText("Map service error");
 				alert.setContentText(e.getMessage());
+				alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
+				alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
+				Image image = new Image("main/resources/AddViewImages/error.png");
+				ImageView imageView = new ImageView(image);
+				alert.setGraphic(imageView);
 				alert.showAndWait();
 			});
 		}

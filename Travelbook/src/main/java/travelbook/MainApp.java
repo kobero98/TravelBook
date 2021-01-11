@@ -17,7 +17,7 @@ public class MainApp extends Application {
 		this.rootStage=rootStage;
 		this.rootStage.setTitle("Travelbook");
 		initRootLayout();
-		controller.setMain(this);
+		controller.setMain(rootLayout);
 	}
 	private void initRootLayout() {
 		try {

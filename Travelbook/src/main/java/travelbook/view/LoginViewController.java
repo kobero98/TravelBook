@@ -111,9 +111,9 @@ public class LoginViewController {
 				
 		});
 	}
-	public void setMain(MainApp main) {
+	public void setMain(BorderPane main) {
 
-		this.mainPane=main.getPane();
+		this.mainPane=main;
 		//then some resize logic
 
 		this.mainPane.heightProperty().addListener((observable,oldValue,newValue)->{
