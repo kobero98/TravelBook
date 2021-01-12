@@ -3,17 +3,6 @@
   <groupId>travelbook</groupId>
   <artifactId>travelbook</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <dependencyManagement>
-  <dependencies>
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>bom</artifactId>
-      <version>2.15.47</version>
-      <type>pom</type>
-      <scope>import</scope>
-    </dependency>
-  </dependencies>
-</dependencyManagement>
   <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -31,6 +20,11 @@
     <artifactId>json-simple</artifactId>
     <version>1.1.1</version>
 </dependency>
+  <dependency>
+               <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>1.6.2</version>
+    </dependency>
 <!-- https://mvnrepository.com/artifact/org.wso2.apache.httpcomponents/httpclient -->
 <dependency>
     <groupId>org.wso2.apache.httpcomponents</groupId>
@@ -52,10 +46,7 @@
   <artifactId>google-maps-services</artifactId>
   <version>0.15.0</version>
 </dependency>
-<dependency>
-  <groupId>software.amazon.awssdk</groupId>
-  <artifactId>s3</artifactId>
-</dependency>
+
 
 </dependencies>
 
