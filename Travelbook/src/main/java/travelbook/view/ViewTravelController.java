@@ -327,14 +327,14 @@ public class ViewTravelController {
 	
 	
 	@FXML
-	private void topTenScrollRightHandler() {
+	private void scrollRightHandler() {
     	SlideImageAnimationHR anim=new SlideImageAnimationHR();
     	anim.setScrollAndMax(stepPhoto, stepPhoto.getHvalue()+4.0/photoBox.getButtons().size());
     	anim.setSpeed(2);
     	anim.start();
 	}
 	@FXML
-	private void topTenScrollLeftHandler() {
+	private void scrollLeftHandler() {
     	SlideImageAnimationHL anim=new SlideImageAnimationHL();
     	anim.setScrollAndMin(stepPhoto, stepPhoto.getHvalue()-1);
     	anim.setSpeed(2);
