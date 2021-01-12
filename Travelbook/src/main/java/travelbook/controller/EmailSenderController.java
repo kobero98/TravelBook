@@ -9,7 +9,7 @@ import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Properties;
 public class EmailSenderController {
-		public void sendMessage(String dest,String mex) throws MessagingException {
+		public void sendMessage(String dest,String mex, String subj) throws MessagingException {
 		// Create a mail session
 		String mit = "travelbookispw@outlook.it";
 		Properties props=new Properties();
@@ -20,7 +20,7 @@ public class EmailSenderController {
 	    props.put("mail.smtp.port",587);
 	    Session session = Session.getDefaultInstance(props);
 	    MimeMessage message = new MimeMessage(session);
-	    message.setSubject("Casa");
+	    message.setSubject(subj);
 	    message.setText(mex);
 	    // add address of mit and dest
 	    InternetAddress fromAddress = new InternetAddress(mit);
@@ -34,13 +34,13 @@ public class EmailSenderController {
 	    transport.connect("smtp.office365.com",mit,"ProgettoISPW2021");
 	    transport.sendMessage(message, message.getAllRecipients());
 		}
-		public void sendMessage(List<String> destinatari, List<String> mexByDest) throws MessagingException{
-			if(destinatari.size()!=mexByDest.size()) {
+		public void sendMessage(List<String> destinatari, List<String> mexByDest, List<String> subj) throws MessagingException{
+			if(destinatari.size()!=mexByDest.size() || destinatari.size()!=subj.size()) {
 				//Lancia una eccezzione
 			}
 			else {
 			for (int i=0;i<destinatari.size();i++) {
-				sendMessage(destinatari.get(i),mexByDest.get(i));
+				sendMessage(destinatari.get(i),mexByDest.get(i),subj.get(i));
 			}
 			}
 		}
