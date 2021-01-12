@@ -1,26 +1,43 @@
 package main.java.travelbook.view;
 import java.io.IOException;
+import java.net.URLEncoder;
+import javafx.scene.web.WebView;
+import javafx.scene.web.WebEngine;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
 import main.java.travelbook.MainApp;
+import main.java.travelbook.controller.ControllerLogin;
 import main.java.travelbook.util.DateUtil;
 import main.java.travelbook.view.animation.OpacityAnimation;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
-
+import main.java.travelbook.model.bean.UserBean;
 public class LoginViewController {
+	private UserBean userToBeRegister;
+	private String usernameToBeRegister;
+	private String passwordToBeRegister;
+	@FXML
+	private Pane codeConfirmPane;
+	@FXML
+	private TextField codeTextField;
+	@FXML
+	private Button confirmButton;
+	@FXML
+	private Button closeConfirmationButton;
 	@FXML
 	private Button loginButton;
 	@FXML
@@ -289,6 +306,33 @@ public class LoginViewController {
 	private void goToFacebook() {
 		if(error.isVisible())
 			error.setVisible(false);
+		String redirect="https://www.facebook.com/connect/login_success.html";
+		 String  redirect_uri="";
+		try {
+			redirect_uri=URLEncoder.encode(redirect,"UTF8");
+			System.out.println(redirect_uri);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String app_id="1332279647110748";
+		String request="https://www.facebook.com/v3.2/dialog/oauth?client_id="+app_id+"&response_type=token"+"&redirect_uri="+redirect_uri+ "&state=\'{st=state123abc,ds=123456789}\'";
+		WebView view=new WebView();
+		WebEngine engine=view.getEngine();
+		engine.locationProperty().addListener((observable,oldValue,newValue)->{
+			String url=engine.getLocation();
+			System.out.println(url);
+			try {
+			if (url.startsWith(URLEncoder.encode(redirect,"UTF8"))) {
+				System.out.println("Tutto ok");
+				//Ask controller applicativo affinchè chieda a fb i dati utente
+			}
+			}catch(Exception e) {
+				
+			}
+		});
+		engine.load(request);
+		this.mainAnchor.getChildren().add(view);
 	}
 	@FXML
 	private void goToFacebookButton() {
@@ -306,6 +350,7 @@ public class LoginViewController {
 		//Esegue la registrazione effettiva
 		boolean errore=false;// per vedere se mancano dati
 		String email=email1.getText();
+		String username=this.username.getText();
 		if(email.isEmpty()) {
 			errore=true;
 		}
@@ -343,13 +388,50 @@ public class LoginViewController {
 			gender="o";
 		}
 		if(!errore && gender!=null) {
-          //Ora chiamo il controller applicativo
+          UserBean user=new UserBean();
+          user.setSurname(cognome);
+          user.setName(nome);
+          user.setSex(gender);
+          this.showConfirmCode();   
 		}
 		else {
 			//ora stampa messagggio di errore
 			// da aggiungere in base al messaggio della eccezione
 			registerError.setText("Errore nella registrazione");
 		}
+	}
+	private void saveRegistration() {
+		//Chiama il controller e passa i dati
+	}
+	private void showConfirmCode() {
+		this.codeConfirmPane.setVisible(true);
+		this.registerPane.setVisible(false);
+		//Call controller.
+	}
+	@FXML
+	private void confirmCode() {
+		String text=this.codeTextField.getText();
+		//Ask controller if the code is valid
+		//If is valid
+		saveRegistration();
+		//else show alert
+		Alert alert=new Alert(AlertType.ERROR);
+		alert.setHeaderText("Registration Error");
+		alert.setContentText("Il Codice inserito non è corretto la registrazione è stata annullata");
+		alert.showAndWait();
+		this.codeConfirmPane.setVisible(false);
+		this.closeRegisterHandler();
+	}
+	@FXML
+	private void closeConfirmPaneHandler() {
+		//Da cambiare e farlo uguale al save exit warning dell'add 
+		Alert alert=new Alert(AlertType.WARNING);
+		alert.setHeaderText("Registration Warning");
+		alert.setContentText("Attenzione se chiudi la tua registrazione sarà annullata");
+		alert.showAndWait();
+		//Se vuole uscire comunque
+		this.codeConfirmPane.setVisible(false);
+		this.closeRegisterHandler();
 	}
 
 }
