@@ -4,11 +4,13 @@ import javafx.scene.image.Image;
 import main.java.travelbook.model.UserEntity;
 
 public class UserBean{
+	
 	private String name;
 	private String surname; 
 	private String description;
 	private String gender;
 	private String nation;
+	private String birthdate;
 	private Image urlPhoto;
 	private int  nFollower;
 	private int nFollowing;
@@ -30,6 +32,9 @@ public class UserBean{
 	}
 	
 
+	public void setBirthDate(String birthdate) {
+		this.birthdate=birthdate;
+	}
 	public void setName(String name)
 	{
 		this.name=name;
@@ -104,6 +109,10 @@ public class UserBean{
 	public int getNFollowing()
 	{
 		return this.nFollowing;
+	}
+	public String getBirthDate()
+	{
+		return this.birthdate;
 	}
 	public int getNTrip()
 	{

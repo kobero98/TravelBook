@@ -12,8 +12,21 @@ import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
 
 public class AllQuery {
-	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	
+	private static AllQuery instance=null;
+	private AllQuery() {}
+	public AllQuery getInstace() {
+		if(instance==null) instance=new AllQuery();
+			return instance;
+	}
 	
+	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	
+	private Connection connection;
+	private void connect() throws SQLException{
+		if(connection==null || connection.isClosed()) {
+			connection= DriverManager.getConnection(myUrl,"root","root");
+		}
+		
+	}
 	public ResultSet requestLogin(Statement stmt,String username,String password) throws ExceptionLogin{
 		ResultSet rs=null;
 			try {
@@ -52,7 +65,6 @@ public class AllQuery {
 		}
 	
 	}
-	
 	
 	public ResultSet requestTripByUser(Statement stmt,int idCreator)
 	{	ResultSet rs=null;
