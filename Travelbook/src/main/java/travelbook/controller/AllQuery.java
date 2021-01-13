@@ -19,8 +19,6 @@ public class AllQuery {
 		
 		return instance;
 	}
-
-	
 	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	
 	private Connection connection;
 	private void connect() throws SQLException{
@@ -98,45 +96,24 @@ public class AllQuery {
 		}
 	}
 
-	public void requestRegistrationUser(UserEntity user) {
-	
-		Connection connessione = null;
-		PreparedStatement preparedStmt=null;
-		try {
-			  connessione= DriverManager.getConnection(myUrl,"root","root");
-		
-				  String query = " insert into User (Username, password,NameUser, Surname, BirthDate,Email,Gender)" + " values (?, ?, ?, ?, ?, ?, ?)";
-			      
-				  preparedStmt = connessione.prepareStatement(query);
-			      preparedStmt.setString (1, user.getUsername());
-			      preparedStmt.setString (2, user.getPassword());
-			      preparedStmt.setString (3, user.getName());
-			      preparedStmt.setString (4, user.getSurname());
-			      preparedStmt.setDate   (5,user.getBirthDate());// il data va sistemato
-			      preparedStmt.setString (6,user.getEmail());
-			      preparedStmt.setString (7,user.getGender());
-			      preparedStmt.execute();
-			      
-			
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			if(preparedStmt!=null) {
-				try {
-					preparedStmt.close();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-			if(connessione!=null) {
-				try {
-					 
-					 connessione.close();
-					} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			}
+	public void requestRegistrationUser(Connection conn,UserEntity user) throws SQLException {
+				  PreparedStatement preparedStmt =null;
+				  try{
+					  String query = " insert into User (Username, password,NameUser, Surname, BirthDate,Email,Gender)" + " values (?, ?, ?, ?, ?, ?, ?)";
+					  preparedStmt = conn.prepareStatement(query);
+					  preparedStmt.setString (1, user.getUsername());
+				      preparedStmt.setString (2, user.getPassword());
+				      preparedStmt.setString (3, user.getName());
+				      preparedStmt.setString (4, user.getSurname());
+				      preparedStmt.setDate   (5,user.getBirthDate());// il data va sistemato
+				      preparedStmt.setString (6,user.getEmail());
+				      preparedStmt.setString (7,user.getGender());
+				      preparedStmt.execute();
+				      preparedStmt.close();
+				  }finally {
+					  if(preparedStmt!=null) preparedStmt.close();
+					}
+			   
 	}
 	
 	public void requestRegistrationStep(StepEntity step) {

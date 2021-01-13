@@ -37,6 +37,12 @@ public class OtherUserDao implements PersistanceDAO<OtherUserEntity> {
 		
 	}
 
+	@Override
+	public void setMyEntity(OtherUserEntity user) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }

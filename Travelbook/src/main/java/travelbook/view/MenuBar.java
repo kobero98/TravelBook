@@ -19,6 +19,7 @@ public class MenuBar {
 	public static UserBean getLoggedUser() {
 		return loggedUser;
 	}
+	
 	AnchorPane internalPane;
 	public void moveToExplore(BorderPane mainPane)throws IOException {
 			loader=new FXMLLoader();

@@ -1,6 +1,7 @@
 package main.java.travelbook.view;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.sql.Date;
 import java.sql.SQLException;
 
 import javafx.scene.web.WebView;
@@ -28,6 +29,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
+import main.java.travelbook.model.bean.RegistrationBean;
 import main.java.travelbook.model.bean.UserBean;
 public class LoginViewController {
 	private UserBean userToBeRegister;
@@ -363,6 +365,7 @@ public class LoginViewController {
 	private void registrami() {
 		//Esegue la registrazione effettiva
 		boolean errore=false;// per vedere se mancano dati
+		
 		String email=email1.getText();
 		String username=this.username.getText();
 		if(email.isEmpty()) {
@@ -402,10 +405,14 @@ public class LoginViewController {
 			gender="o";
 		}
 		if(!errore && gender!=null) {
-          UserBean user=new UserBean();
+          RegistrationBean user=new RegistrationBean();
+          user.setUsername(username);
+          user.setEmail(email);
+          user.setPassword(pswd);
+          user.setBirtdate(new Date(1111, 11, 1));
           user.setSurname(cognome);
           user.setName(nome);
-          user.setSex(gender);
+          user.setGender(gender);
           this.showConfirmCode();   
 		}
 		else {

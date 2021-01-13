@@ -2,6 +2,7 @@ package main.java.travelbook.model.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,6 +18,7 @@ public class UserDao implements PersistanceDAO<UserEntity>, PredictableDAO<UserE
 	private UserEntity entity;
 	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	
 	private Connection connection;
+	
 	private void connect() throws SQLException{
 		if(connection==null || connection.isClosed()) {
 			connection= DriverManager.getConnection(myUrl,"root","root");
@@ -93,13 +95,32 @@ public class UserDao implements PersistanceDAO<UserEntity>, PredictableDAO<UserE
 	}
 
 	@Override
-	public void setData() {
-		
+	public void setData() throws Exception{
+		if(this.entity!=null)
+		{
+			try {
+				connect();
+				AllQuery.getInstance().requestRegistrationUser(this.connection, this.entity);
+			} catch (SQLException e) {
+				throw e;
+			}
+			
+		}
 	}
+	
+	
+	
+	@Override
+	public void setMyEntity(UserEntity user) {
+		this.entity=user;
+	}
+	
+	@Override
 	public UserEntity getMyEntity() {
 		
 		return this.entity;
 	}
+	
 	@Override
 	public void delete(UserEntity object) {
 		// TODO Auto-generated method stub
@@ -110,6 +131,8 @@ public class UserDao implements PersistanceDAO<UserEntity>, PredictableDAO<UserE
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 	@Override
 	public List<UserEntity> getPredictions(String text){
 		List<UserEntity> predictions=new ArrayList<>();

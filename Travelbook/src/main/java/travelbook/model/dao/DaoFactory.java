@@ -1,7 +1,11 @@
 package main.java.travelbook.model.dao;
 
 
+import main.java.travelbook.model.bean.RegistrationBean;
 import main.java.travelbook.model.bean.TravelBean;
+
+import java.sql.Date;
+
 import main.java.travelbook.model.*;
 import main.java.travelbook.model.bean.UserBean;
 
@@ -38,7 +42,6 @@ public class DaoFactory {
 			dao=new UserDao();
 		return dao;
 	}
-	
 
 		
 

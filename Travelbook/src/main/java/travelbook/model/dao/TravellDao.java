@@ -37,4 +37,10 @@ public class TravellDao implements PersistanceDAO<TravelEntity>{
 		
 	}
 
+	@Override
+	public void setMyEntity(TravelEntity user) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -3,6 +3,7 @@ package main.java.travelbook.model;
 import java.util.List;
 import java.sql.Date;
 import main.java.travelbook.model.bean.MessageBean;
+import main.java.travelbook.model.bean.RegistrationBean;
 
 
 
@@ -24,6 +25,15 @@ public class UserEntity{
 	private List <TravelEntity> travel;
 	private List <MessageBean> message;
 	
+	public UserEntity(RegistrationBean user) {
+		this.name=user.getName();
+		this.surname=user.getSurname();
+		this.email=user.getEmail();
+		this.username=user.getUsername();
+		this.password=user.getPassword();
+		this.birthDate=user.getBirtdate();
+		this.gender=user.getGender();
+	}
 	public UserEntity(int codice)
 	{
 		this.id=codice;
