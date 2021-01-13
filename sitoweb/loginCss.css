@@ -22,6 +22,7 @@ body{
     flex-direction: column;
     align-items: flex-start;
 	justify-content: space-evenly;
+
 }
 .anchor{
     display: flex;
@@ -167,7 +168,7 @@ a:active{
 .back-button{
 	width:2.5em;
 	height:2.5em;
-	position: relative;
-	bottom:6em;
-	right:4em;
+	position: absolute;
+	left: 2.5em;
+	top: 7.5em;
 }
