@@ -329,11 +329,27 @@ public class AllQuery {
 	}
 	public ResultSet cityAutocompleteRequest(Statement stmt, String text) {
 		ResultSet rs=null;
-		String query="SELECT NameC,State from City where NameC like '"+text+"%'";
+		String query="SELECT NameC,State from City where NameC like '"+text+"%' order by char_length(NameC),char_length(State)";
 		try {
 		 rs=stmt.executeQuery(query);
 		 
 		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	public ResultSet userAutocompleteRequest(Statement stmt, String text) {
+		String[] nameSurname=text.split(" ");
+		String name=nameSurname[0];
+		String surname="";
+		ResultSet rs=null;
+		if(nameSurname.length>1)
+			surname=nameSurname[2];
+		String query="SELECT NameUser, Surname,Username from User where NameUser like '"+name+"%' and Surname like '"+surname+"%' order by char_length(NameUser),char_length(Surname)";
+		try {
+			rs=stmt.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return rs;

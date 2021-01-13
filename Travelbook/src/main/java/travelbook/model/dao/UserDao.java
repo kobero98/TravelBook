@@ -113,6 +113,30 @@ public class UserDao implements PersistanceDAO<UserEntity>, PredictableDAO<UserE
 	@Override
 	public List<UserEntity> getPredictions(String text){
 		List<UserEntity> predictions=new ArrayList<>();
+		ResultSet rs;
+		try {
+			connect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			Statement stmt=connection.createStatement();
+			rs=AllQuery.getInstance().userAutocompleteRequest(stmt, text);
+			if(rs!=null) {
+				UserEntity localEntity;
+				while(rs.next()) {
+					localEntity=new UserEntity();
+					localEntity.setUsername(rs.getString(3));
+					localEntity.setName(rs.getString(1));
+					localEntity.setSurname(rs.getString(2));
+					predictions.add(localEntity);
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return predictions;
 	}
 
