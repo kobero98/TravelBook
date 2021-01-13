@@ -26,17 +26,17 @@
                 <version>1.6.2</version>
     </dependency>
 <!-- https://mvnrepository.com/artifact/org.wso2.apache.httpcomponents/httpclient -->
-<dependency>
-    <groupId>org.wso2.apache.httpcomponents</groupId>
-    <artifactId>httpclient</artifactId>
-    <version>4.3.1.wso2v1</version>
-</dependency>
-<dependency>
+	<dependency>
+	    <groupId>org.wso2.apache.httpcomponents</groupId>
+	    <artifactId>httpclient</artifactId>
+	    <version>4.3.1.wso2v1</version>
+	</dependency>
+	<dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
         <version>1.1.1</version>
-</dependency>
-   <dependency>
+	</dependency>
+	<dependency>
      <groupId>com.google.api-client</groupId>
      <artifactId>google-api-client</artifactId>
      <version>1.30.10</version>
@@ -45,8 +45,14 @@
   <groupId>com.google.maps</groupId>
   <artifactId>google-maps-services</artifactId>
   <version>0.15.0</version>
-</dependency>
 
+</dependency>
+	<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>8.0.22</version>
+	</dependency>
 
 </dependencies>
 
