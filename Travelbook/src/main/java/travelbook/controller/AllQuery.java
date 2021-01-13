@@ -14,10 +14,12 @@ import main.java.travelbook.model.UserEntity;
 public class AllQuery {
 	private static AllQuery instance=null;
 	private AllQuery() {}
-	public AllQuery getInstace() {
+	public static AllQuery getInstance() {
 		if(instance==null) instance=new AllQuery();
-			return instance;
+		
+		return instance;
 	}
+
 	
 	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	
 	private Connection connection;
@@ -27,24 +29,29 @@ public class AllQuery {
 		}
 		
 	}
+	
+	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumeber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalità";
+
 	public ResultSet requestLogin(Statement stmt,String username,String password) throws ExceptionLogin{
 		ResultSet rs=null;
-			try {
-				rs = stmt.executeQuery("SELECT NameUser FROM User where Username='"+username+"'");
+		
+		try {
+				rs = stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"'");
 			
 			
 			if(rs.next()) {
-				rs= stmt.executeQuery("SELECT NameUser FROM User where Username='"+username+"' and password='"+password+"'");
+				rs= stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"' and password='"+password+"'");
 				if(!rs.next()) throw new ExceptionLogin("Errore Password");	 
 			}
 			else {
-				 rs = stmt.executeQuery("SELECT NameUser FROM User where email='"+username+"'");
+				 rs = stmt.executeQuery(userAttributeQuery+" FROM User where email='"+username+"'");
 				 if(rs.next()) {
-					    rs= stmt.executeQuery("SELECT NameUser FROM User where email='"+username+"' and password='"+password+"'");
+					    rs= stmt.executeQuery(userAttributeQuery+" FROM User where email='"+username+"' and password='"+password+"'");
 						if(!rs.next()) throw new ExceptionLogin("Errore Password");	 
 					}
 				 else throw new ExceptionLogin("Errore Username o password");	 
 			}
+			
 			return rs;
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -307,5 +314,18 @@ public class AllQuery {
 		}
 	}
 	
+	public ResultSet requestUserbyID(Statement stmt,int id) {
+		ResultSet rs=null;
+		try {
+			connect();
+			stmt=this.connection.createStatement();
+			String query= userAttributeQuery+" from User where idUser="+id;
+			 rs=stmt.executeQuery(query);
+			return rs;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
 	
 }

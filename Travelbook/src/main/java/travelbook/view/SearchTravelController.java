@@ -181,7 +181,8 @@ public class SearchTravelController {
 		            	tipiSelezionati.setPadding(new Insets(0, 10, 0, 10));
 		            	tipiSelezionati.setSpacing(sfondo.getHeight()*10/625);
 		        		tipiSelezionati.getParent().getParent().getParent().setVisible(true);
-				}
+		        		
+		           }
 			
 			}
 	          );

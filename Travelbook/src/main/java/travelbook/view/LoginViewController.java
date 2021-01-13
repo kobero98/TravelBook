@@ -1,6 +1,8 @@
 package main.java.travelbook.view;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.sql.SQLException;
+
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.control.RadioButton;
@@ -8,6 +10,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
 import main.java.travelbook.MainApp;
 import main.java.travelbook.controller.ControllerLogin;
+import main.java.travelbook.controller.ExceptionLogin;
 import main.java.travelbook.util.DateUtil;
 import main.java.travelbook.view.animation.OpacityAnimation;
 import javafx.beans.binding.Bindings;
@@ -265,14 +268,27 @@ public class LoginViewController {
 	}
 	@FXML
 	private void loginButtonHandler() {
+		
 		String localUsername;
 		String pswd;
+		UserBean user = null;
 		if(error.isVisible()){
 			error.setVisible(false);
 		}
 		localUsername=emailField.getText();
 		pswd=pswdField.getText();
-		if(!localUsername.isEmpty() && !pswd.isEmpty()) {
+		
+			try {
+				user=ControllerLogin.getInstance().signIn(localUsername, pswd);
+			} catch (SQLException e1) {
+				error.setVisible(true);
+				error.setText("Errore nel LogIn");
+			} catch (ExceptionLogin e1) {
+				error.setVisible(true);
+				error.setText(e1.getMessage());
+			}
+		
+		if(user!=null) {
 
 			try {
 			        MenuBar.getInstance().moveToExplore(this.mainPane);

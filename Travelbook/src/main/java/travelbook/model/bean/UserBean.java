@@ -5,7 +5,7 @@ import main.java.travelbook.model.UserEntity;
 
 public class UserBean{
 	
-	private String name;
+	private String name="ciao";
 	private String surname; 
 	private String description;
 	private String gender;
@@ -25,7 +25,7 @@ public class UserBean{
 		this.surname=user.getSurname();
 		this.description=user.getDescription();
 		this.gender=user.getGender();
-		this.urlPhoto= new Image(user.getUrlPhoto());
+		if(user.getUrlPhoto()!=null) this.urlPhoto= new Image(user.getUrlPhoto());
 		this.nFollower=user.getNFollower();
 		this.nFollowing=user.getNFollowing();
 		this.nTrip=user.getNTrip();

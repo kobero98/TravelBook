@@ -1,14 +1,11 @@
 package main.java.travelbook.model;
 
-import java.util.List;
 import java.sql.Date;
+import java.util.List;
+
 import main.java.travelbook.model.bean.MessageBean;
 
-
-
-public class UserEntity{
-	private String username=null;
-	private String password=null;
+public class OtherUserEntity {
 	private String name=null;
 	private String surname=null;
 	private String email=null;
@@ -24,19 +21,7 @@ public class UserEntity{
 	private List <TravelEntity> travel;
 	private List <MessageBean> message;
 	
-	public UserEntity(int codice)
-	{
-		this.id=codice;
-	}
-	public UserEntity() {}
-	
-	public void setUsername(String username)
-	{
-		this.username=username;
-	}
-	public void setPassword(String password) {
-		this.password=password;
-	}
+
 	public void setName(String name)
 	{
 		this.name=name;
@@ -91,13 +76,6 @@ public class UserEntity{
 	{
 		return this.id;
 	}
-	public String getUsername()
-	{
-		return this.username;
-	}
-	public String getPassword() {
-		return this.password;
-	}
 	public String getName()
 	{
 		return this.name;
@@ -145,6 +123,4 @@ public class UserEntity{
 	public List <MessageBean> getMessage(){
 		return this.message;
 	}
-
-
 }
