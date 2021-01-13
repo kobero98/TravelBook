@@ -2,6 +2,7 @@ package main.java.travelbook.model.dao;
 
 
 import main.java.travelbook.model.bean.TravelBean;
+import main.java.travelbook.model.*;
 import main.java.travelbook.model.bean.UserBean;
 
 public class DaoFactory {
@@ -18,7 +19,7 @@ public class DaoFactory {
 	public PersistanceDAO create(DaoType tipo){
 		PersistanceDAO dao=null;
 		if(tipo.compareTo(DaoType.USER)==0)
-			dao=new UserDao();
+			dao=(PersistanceDAO<UserEntity>)new UserDao();
 		if(tipo.compareTo(DaoType.TRAVEL)==0)
 			dao=new TravellDao();
 		if(tipo.compareTo(DaoType.CITY)==0)
@@ -29,6 +30,15 @@ public class DaoFactory {
 			System.out.print("ciao1");
 		return dao;
 	}
+	public PredictableDAO createPredictable(DaoType tipo) {
+		PredictableDAO dao=null;
+		if(tipo==DaoType.CITY) 
+			dao=new CityDao();
+		if(tipo==DaoType.USER)
+			dao=new UserDao();
+		return dao;
+	}
+	
 
 		
 

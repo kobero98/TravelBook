@@ -381,6 +381,7 @@ public class ViewTravelController {
 			mainPane.setCenter(internalPane);
 			ProfileOtherController controller=loader.getController();
 			controller.setMainPane(mainPane, Integer.parseInt("1"+goBack));
+			
 	}
 	@FXML
 	private void chatButtonHandler() {

@@ -12,7 +12,7 @@ import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.controller.ExceptionLogin;
 import main.java.travelbook.model.UserEntity;
 
-public class UserDao implements PersistanceDAO<UserEntity>{
+public class UserDao implements PersistanceDAO<UserEntity>, PredictableDAO<UserEntity>{
 
 	private UserEntity entity;
 	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	
@@ -109,6 +109,11 @@ public class UserDao implements PersistanceDAO<UserEntity>{
 	public void update(UserEntity object) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public List<UserEntity> getPredictions(String text){
+		List<UserEntity> predictions=new ArrayList<>();
+		return predictions;
 	}
 
 	

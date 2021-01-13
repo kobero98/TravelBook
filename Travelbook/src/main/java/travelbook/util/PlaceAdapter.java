@@ -79,7 +79,6 @@ public class PlaceAdapter {
 	}
 	private void converti(JSONObject place) {
         	this.setPlaceName(place.get("place_name").toString());
-        	
         	JSONArray types=(JSONArray)place.get("place_type");
         	String tipo=(String)types.get(0);
         	this.setPlaceType(tipo);
@@ -104,11 +103,11 @@ public class PlaceAdapter {
         	for(int j=0;j<context.size();j++) {
         		JSONObject first=(JSONObject)context.get(j);
         		String id=first.get("id").toString();
-        		if(tipo.compareTo("poi")==0) {
-        			if(id.startsWith("postcode")) {
+        		if(tipo.compareTo("poi")==0 && id.startsWith("postcode")) {
+        			
         				this.setPostCode(first.get("text").toString());
         				
-        			}
+        			
         			
         		}
         		if(id.startsWith("region")) {

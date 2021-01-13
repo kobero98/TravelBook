@@ -323,23 +323,21 @@ public class LoginViewController {
 		if(error.isVisible())
 			error.setVisible(false);
 		String redirect="https://www.facebook.com/connect/login_success.html";
-		 String  redirect_uri="";
+		 String  redirecturi="";
 		try {
-			redirect_uri=URLEncoder.encode(redirect,"UTF8");
-			System.out.println(redirect_uri);
+			redirecturi=URLEncoder.encode(redirect,"UTF8");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String app_id="1332279647110748";
-		String request="https://www.facebook.com/v3.2/dialog/oauth?client_id="+app_id+"&response_type=token"+"&redirect_uri="+redirect_uri+ "&state=\'{st=state123abc,ds=123456789}\'";
+		String request="https://www.facebook.com/v3.2/dialog/oauth?client_id="+app_id+"&response_type=token"+"&redirect_uri="+redirecturi+ "&state=\'{st=state123abc,ds=123456789}\'";
 		WebView view=new WebView();
 		WebEngine engine=view.getEngine();
 		engine.locationProperty().addListener((observable,oldValue,newValue)->{
 			String url=engine.getLocation();
-			System.out.println(url);
 			try {
-			if (url.startsWith(URLEncoder.encode(redirect,"UTF8"))) {
+			if (url.startsWith(redirect)) {
 				System.out.println("Tutto ok");
 				//Ask controller applicativo affinchè chieda a fb i dati utente
 			}

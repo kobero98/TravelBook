@@ -327,5 +327,16 @@ public class AllQuery {
 		}
 		return rs;
 	}
+	public ResultSet cityAutocompleteRequest(Statement stmt, String text) {
+		ResultSet rs=null;
+		String query="SELECT NameC,State from City where NameC like '"+text+"%'";
+		try {
+		 rs=stmt.executeQuery(query);
+		 
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
 	
 }
