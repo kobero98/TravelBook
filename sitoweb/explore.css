@@ -3,22 +3,7 @@
     border-radius: 30px;
     padding-left:0.5em;
 }
-.panel{
-    width: 38.1875em;
-    height: 36.9375em;
-    display:flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-evenly;
-}
-.anchor{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: row;
-    padding: 1em;
 
-}
 .write{
     color: var(--Dcolor);
 	font: bold 1.5em "Arial";
