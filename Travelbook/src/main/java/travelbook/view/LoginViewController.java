@@ -16,6 +16,7 @@ import main.java.travelbook.controller.ControllerLogin;
 import main.java.travelbook.controller.ExceptionLogin;
 import main.java.travelbook.util.DateUtil;
 import main.java.travelbook.view.animation.OpacityAnimation;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -416,8 +417,13 @@ public class LoginViewController {
           user.setName(nome);
           user.setGender(gender);
           this.userToBeRegister=user;
+          new Thread(()->{
           this.codeOfreg=ControllerLogin.getInstance().CalcoloRegistration(email);
-          this.showConfirmCode();   
+          Platform.runLater(()->
+        		  this.showConfirmCode()
+        		  );
+          }).start();
+            
 		}
 		else {
 			//ora stampa messagggio di errore
@@ -427,24 +433,25 @@ public class LoginViewController {
 	}
 	private void saveRegistration() {
 		//Chiama il controller e passa i dati
+		try {
+			ControllerLogin.getInstance().signUp(this.userToBeRegister);
+			//Subito dopo esegue il login
+			ControllerLogin.getInstance().signIn(userToBeRegister.getUsername(), this.userToBeRegister.getPassword());
+			}catch(ExceptionLogin e1) {
+				error.setVisible(true);
+				error.setText(e1.getMessage());
+			}
+			catch(Exception e) {
+				Alert alert=new Alert(AlertType.ERROR);
+				alert.setHeaderText("Several System Error");
+				alert.setContentText("Something went wrong try again");
+				alert.showAndWait();
+			}
 	}
 	private void showConfirmCode() {
 		this.codeConfirmPane.setVisible(true);
 		this.registerPane.setVisible(false);
-		try {
-		ControllerLogin.getInstance().signUp(this.userToBeRegister);
-		//Subito dopo esegue il login
-		ControllerLogin.getInstance().signIn(userToBeRegister.getUsername(), this.userToBeRegister.getPassword());
-		}catch(ExceptionLogin e1) {
-			error.setVisible(true);
-			error.setText(e1.getMessage());
-		}
-		catch(Exception e) {
-			Alert alert=new Alert(AlertType.ERROR);
-			alert.setHeaderText("Several System Error");
-			alert.setContentText("Something went wrong try again");
-			alert.showAndWait();
-		}
+		
 	}
 	@FXML
 	private void confirmCode() {
