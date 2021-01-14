@@ -1,12 +1,14 @@
 package main.java.travelbook.controller;
 
 import java.sql.Connection;
-
+import java.io.File;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.TravelEntity;
@@ -117,13 +119,9 @@ public class AllQuery {
 			   
 	}
 	
-	public void requestRegistrationStep(StepEntity step) {
-		Connection connessione = null;
+	public void requestRegistrationStep(Connection connessione,StepEntity step) throws SQLException {
 		PreparedStatement preparedStmt=null;
 		try {
-			  connessione= DriverManager.getConnection(myUrl,"root","root");
-		
-			 
 				  String query = " insert into Step (groupDay,place,DescriptionStep,codiceTrip,codiceCreatore,Number) values( ?, ?, ?, ?, ?, ?) ";
 			      preparedStmt = connessione.prepareStatement(query);
 			      
@@ -135,29 +133,28 @@ public class AllQuery {
 			      preparedStmt.setInt (6, step.getNumber());
 			      preparedStmt.execute();
 			      preparedStmt.close();
-			      for(String s : step.getListPhoto()){
+			      for(File f : step.getListPhoto()){
 			    	  String queryPhoto = " insert into photostep (LinkPhoto,Step_Number,codiceViaggio,codiceCreatoreViaggio) values(?,?,?,?) ";
 				      preparedStmt = connessione.prepareStatement(queryPhoto);
-				      preparedStmt.setString (1,s);
-				      preparedStmt.setInt (2, step.getNumber());
-				      preparedStmt.setInt (3, step.getIDTravel());
-				      preparedStmt.setInt (4, step.getIDCreator());
-				      preparedStmt.execute();  
-				      preparedStmt.close();
+				      FileInputStream fis;
+					try {
+						fis = new FileInputStream(f);
+						preparedStmt.setBinaryStream(1,fis,(int)f.length());
+					      preparedStmt.setInt (2, step.getNumber());
+					      preparedStmt.setInt (3, step.getIDTravel());
+					      preparedStmt.setInt (4, step.getIDCreator());
+					      preparedStmt.execute();  
+					      preparedStmt.close();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				      
 				 
 			      }
-			      
-		}catch (SQLException e) {
-			e.printStackTrace();
+			      	
 		}finally {
-			if(connessione!=null) {
-				try {
-					connessione.close();
-				} catch (SQLException e) {
-					
-					e.printStackTrace();
-				}
-			}
+			
 			if(preparedStmt!=null) {
 					try {
 						preparedStmt.close();
@@ -201,7 +198,7 @@ public class AllQuery {
 			      {
 			 
 			    	  e.setTripId(rs.getInt(1));
-			    	  requestRegistrationStep(e);
+
 			    	  
 			      }
 			
