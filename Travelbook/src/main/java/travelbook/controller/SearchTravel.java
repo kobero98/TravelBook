@@ -15,7 +15,7 @@ public class SearchTravel {
 		return istance;
 	}
 	public List<String> getCitiesPredictions(String text) {
-		PredictableDAO<CityEntity> dao=DaoFactory.getInstance().createPredictable(DaoType.CITY);
+		PredictableDAO<CityEntity> dao=(PredictableDAO<CityEntity>) DaoFactory.getInstance().createPredictable(DaoType.CITY);
 		List<String> results=new ArrayList<>();
 		List<CityEntity> predictions=dao.getPredictions(text);
 		String singleResult;

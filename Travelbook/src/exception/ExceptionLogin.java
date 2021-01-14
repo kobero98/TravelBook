@@ -1,6 +1,6 @@
-package main.java.travelbook.controller;
+package exception;
 
-public class ExceptionLogin extends Exception {
+public class ExceptionLogin extends LoginPageException {
 
 	/**
 	 * 

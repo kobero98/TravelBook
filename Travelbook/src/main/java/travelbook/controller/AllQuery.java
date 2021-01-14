@@ -6,10 +6,16 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
+
+import exception.ExceptionLogin;
+import exception.ExceptionRegistration;
+import exception.LoginPageException;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
@@ -113,7 +119,14 @@ public class AllQuery {
 				      preparedStmt.setString (7,user.getGender());
 				      preparedStmt.execute();
 				      preparedStmt.close();
-				  }finally {
+				  }catch(SQLIntegrityConstraintViolationException e) {
+						throw new ExceptionRegistration("Errore Utente gia presente nel Database");
+					}catch(MysqlDataTruncation e){
+						throw new ExceptionRegistration("Dati non validi");
+					}catch(SQLException e){
+						throw new LoginPageException("Errore nell'accesso al database");
+					}finally {
+					
 					  if(preparedStmt!=null) preparedStmt.close();
 					}
 			   

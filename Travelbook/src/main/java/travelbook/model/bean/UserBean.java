@@ -25,7 +25,7 @@ public class UserBean{
 		this.surname=user.getSurname();
 		this.description=user.getDescription();
 		this.gender=user.getGender();
-		if(user.getUrlPhoto()!=null) this.urlPhoto= new Image(user.getUrlPhoto());
+		if(user.getPhoto()!=null) this.urlPhoto= user.getPhoto();
 		this.nFollower=user.getNFollower();
 		this.nFollowing=user.getNFollowing();
 		this.nTrip=user.getNTrip();
@@ -47,7 +47,7 @@ public class UserBean{
 	{
 		this.description=description;
 	}
-	public void setUrlPhoto(Image photo)
+	public void setPhoto(Image photo)
 	{
 		this.urlPhoto=photo;
 	}
@@ -91,7 +91,7 @@ public class UserBean{
 	{
 		return this.description;
 	}
-	public Image getUrlPhoto()
+	public Image getPhoto()
 	{
 		return this.urlPhoto;
 	}

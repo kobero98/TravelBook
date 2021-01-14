@@ -26,6 +26,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import main.java.travelbook.model.bean.UserBean;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
@@ -40,6 +41,8 @@ public class ProfileViewController {
 	private BorderPane mainPane;
 	private Object[] array1=new Object[15];
 	private Button button;
+	@FXML
+	private Pane p;
 	@FXML
 	private AnchorPane mainAnchor;
 	@FXML
@@ -85,6 +88,7 @@ public class ProfileViewController {
 	@FXML
 	private Button logOutButton;
 	public void initialize() {
+		UserBean user=MenuBar.getLoggedUser();
 		if(MenuBar.getNotified()) {
 			Circle dot = new Circle(6);
 			dot.setFill(Color.DARKSALMON);
@@ -96,12 +100,23 @@ public class ProfileViewController {
 			mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
 				dot.setLayoutX(mainAnchor.getWidth()*510/1280));
 			}
+		ObservableList<String> data = FXCollections.observableArrayList("travel1lungo", "travel2", "travel3", "travel4");
+		travels.setItems(data); 
+		travels.setCellFactory(list->new TravelCell());
 		
-		 ObservableList<String> data = FXCollections.observableArrayList("travel1lungo", "travel2", "travel3", "travel4");
-		 travels.setItems(data); 
-		 travels.setCellFactory(list->new TravelCell());
-		followerButton.setText("Followers: "+"5");
-		followingButton.setText("Following: "+"7");
+		if(user.getPhoto() !=null) {
+			BackgroundImage bgPhoto = new BackgroundImage(user.getPhoto(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+			Background newBg = new Background(bgPhoto);
+			profilePhoto.setBackground(newBg);
+			p.setBackground(newBg);
+		}
+		
+		userName.setText(user.getName()+" "+user.getSurname());
+		
+		myDescr.setText(user.getDescription());
+		
+		followerButton.setText("Followers: "+user.getNFollower());
+		followingButton.setText("Following: "+user.getNFollowing());
 		placeVisited.setText("You have visited " + "4" +" places");
 	}
 	class TravelCell extends ListCell<String>{
@@ -197,9 +212,10 @@ public class ProfileViewController {
 		}
 	}
 	public void setMainPane(BorderPane main) {
+
 		this.mainPane=main;
 		
-this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->					
+		this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->					
 			this.mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight()));
 		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->
 			this.mainPane.setPrefWidth(mainPane.getScene().getWindow().getWidth())); 

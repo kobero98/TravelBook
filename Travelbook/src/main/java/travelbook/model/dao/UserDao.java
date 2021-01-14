@@ -9,11 +9,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.ExceptionLogin;
+import exception.ExceptionRegistration;
+import exception.LoginPageException;
 import main.java.travelbook.controller.AllQuery;
-import main.java.travelbook.controller.ExceptionLogin;
+import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.UserEntity;
 
-public class UserDao implements PersistanceDAO<UserEntity>, PredictableDAO<UserEntity>{
+public class UserDao implements PersistanceDAO, PredictableDAO<UserEntity>{
 
 	private UserEntity entity;
 	private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	
@@ -38,7 +41,7 @@ public class UserDao implements PersistanceDAO<UserEntity>, PredictableDAO<UserE
 		user.setFollower(rs.getInt(7));
 		user.setFollowing(rs.getInt(8));
 		user.setNTravel(rs.getInt(9));
-		user.setUrlPhoto(rs.getString(10));
+		user.setPhoto(rs.getBinaryStream(10));
 		user.setGender(rs.getString(11));
 		user.setNation(rs.getString(12));
 		return user;
@@ -46,48 +49,40 @@ public class UserDao implements PersistanceDAO<UserEntity>, PredictableDAO<UserE
 	}
 	
 	@Override
-	public List <UserEntity> getData(UserEntity user) throws ExceptionLogin {
+	public List <Entity> getData(Entity user1) throws SQLException {
 		ResultSet rs=null;
 		Statement stmt=null;
+		UserEntity user=(UserEntity) user1;
 		AllQuery db=AllQuery.getInstance();
-		List <UserEntity> list=new ArrayList<>();
+		List <Entity> list=new ArrayList<>();
 		try {
 			connect();
 		} catch (SQLException e1) {
-			e1.printStackTrace();
+			throw new LoginPageException("errore connect");
 		}
 		try {
 			stmt=connection.createStatement();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		try {
 			if(user.getUsername()!=null && user.getPassword()!=null)
 			{
-					
-					rs=db.requestLogin(stmt,user.getUsername(), user.getPassword());
+				rs=db.requestLogin(stmt,user.getUsername(), user.getPassword());
 					do
 					{
 						UserEntity utente=castRStoUser(rs);
-						list.add(utente);
+						list.add((Entity) utente);
 					}while(rs.next());
 			}
-			else {
-				if(user.getId() != 0)
-				{
-					rs=db.requestUserbyID(stmt,user.getId());
-					while(rs.next())
-					{
-						UserEntity utente=castRStoUser(rs);
-						list.add(utente);
-					}
-				}
-			}
-			
-			
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new ExceptionLogin("errore SQL durante la Dao");
+		}finally {
+			if(stmt!=null)
+			{
+				try {
+					stmt.close();
+				}catch(SQLException e) {
+					e.getStackTrace();
+				}
+				
+			}
 		}
  		
 		
@@ -95,14 +90,14 @@ public class UserDao implements PersistanceDAO<UserEntity>, PredictableDAO<UserE
 	}
 
 	@Override
-	public void setData() throws Exception{
+	public void setData() throws SQLException{
 		if(this.entity!=null)
 		{
 			try {
 				connect();
 				AllQuery.getInstance().requestRegistrationUser(this.connection, this.entity);
 			} catch (SQLException e) {
-				throw e;
+				throw new ExceptionRegistration("Errore registrazione");
 			}
 			
 		}
@@ -111,8 +106,8 @@ public class UserDao implements PersistanceDAO<UserEntity>, PredictableDAO<UserE
 	
 	
 	@Override
-	public void setMyEntity(UserEntity user) {
-		this.entity=user;
+	public void setMyEntity(Entity user) {
+		this.entity=(UserEntity) user;
 	}
 	
 	@Override
@@ -122,12 +117,12 @@ public class UserDao implements PersistanceDAO<UserEntity>, PredictableDAO<UserE
 	}
 	
 	@Override
-	public void delete(UserEntity object) {
+	public void delete(Entity object) {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void update(UserEntity object) {
+	public void update(Entity object) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -140,7 +135,6 @@ public class UserDao implements PersistanceDAO<UserEntity>, PredictableDAO<UserE
 		try {
 			connect();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {

@@ -1,13 +1,17 @@
 package main.java.travelbook.model;
 
 import java.util.List;
+
+import javafx.scene.image.Image;
+
+import java.io.InputStream;
 import java.sql.Date;
 import main.java.travelbook.model.bean.MessageBean;
 import main.java.travelbook.model.bean.RegistrationBean;
 
 
 
-public class UserEntity{
+public class UserEntity implements Entity{
 	private String username=null;
 	private String password=null;
 	private String name=null;
@@ -15,7 +19,7 @@ public class UserEntity{
 	private String email=null;
 	private String description=null;
 	private String gender=null;
-	private String urlPhoto=null;
+	private Image urlPhoto=null;
 	private Date birthDate=null;
 	private int  id=0;
 	private int nFollower;
@@ -62,9 +66,14 @@ public class UserEntity{
 	{
 		this.description=description;
 	}
-	public void setUrlPhoto(String url)
+	public void setPhoto(Image photo)
 	{
-		this.urlPhoto=url;
+		this.urlPhoto=photo;
+	}
+	public void setPhoto(InputStream photo)
+	{
+		if(photo!=null) this.urlPhoto=new Image(photo);
+		else this.urlPhoto=null;
 	}
 	public void setGender(String gender)
 	{
@@ -120,7 +129,7 @@ public class UserEntity{
 	{
 		return this.description;
 	}
-	public String getUrlPhoto()
+	public Image getPhoto()
 	{
 		return this.urlPhoto;
 	}
@@ -156,5 +165,6 @@ public class UserEntity{
 		return this.message;
 	}
 
-
+	
 }
+

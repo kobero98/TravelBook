@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Optional;
+
+import exception.ExceptionLogin;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.control.RadioButton;
@@ -15,7 +17,6 @@ import javafx.scene.control.ChoiceBox;
 import java.util.Locale;
 import main.java.travelbook.MainApp;
 import main.java.travelbook.controller.ControllerLogin;
-import main.java.travelbook.controller.ExceptionLogin;
 import main.java.travelbook.util.DateUtil;
 import main.java.travelbook.view.animation.OpacityAnimation;
 import javafx.application.Platform;
@@ -38,6 +39,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
 import main.java.travelbook.model.bean.RegistrationBean;
 import main.java.travelbook.model.bean.UserBean;
+
 public class LoginViewController {
 	private RegistrationBean userToBeRegister;
 	private String codeOfreg;
@@ -122,6 +124,7 @@ public class LoginViewController {
 			this.nations.getItems().add(obj.getDisplayCountry());
 		}
 		//Add some listener for focused property
+		
 		name.focusedProperty().addListener((observable,oldValue,newValue)->{
 			//se lasci o entri nel text field il primo carattere va in maiuscolo
 			String value=name.getText();
@@ -295,17 +298,18 @@ public class LoginViewController {
 		
 			try {
 				user=ControllerLogin.getInstance().signIn(localUsername, pswd);
+			}catch (ExceptionLogin e1) {
+				error.setVisible(true);
+				error.setText(e1.getMessage());
 			} catch (SQLException e1) {
 				error.setVisible(true);
 				error.setText("Errore nel LogIn");
-			} catch (ExceptionLogin e1) {
-				error.setVisible(true);
-				error.setText(e1.getMessage());
-			}
+			} 
 		
 		if(user!=null) {
 
 			try {
+					MenuBar.setUser(user);
 			        MenuBar.getInstance().moveToExplore(this.mainPane);
 
 			}catch(IOException e) {
@@ -427,7 +431,7 @@ public class LoginViewController {
           user.setGender(gender);
           this.userToBeRegister=user;
           new Thread(()->{
-          this.codeOfreg=ControllerLogin.getInstance().CalcoloRegistration(email);
+          this.codeOfreg=ControllerLogin.getInstance().calcoloRegistration(email);
           Platform.runLater(()->this.showConfirmCode()); }).start();
             
 		}

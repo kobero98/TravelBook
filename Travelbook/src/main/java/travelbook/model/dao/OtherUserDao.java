@@ -1,20 +1,22 @@
 package main.java.travelbook.model.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
-import main.java.travelbook.controller.ExceptionLogin;
+import exception.ExceptionLogin;
+import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.OtherUserEntity;
 
-public class OtherUserDao implements PersistanceDAO<OtherUserEntity> {
+public class OtherUserDao implements PersistanceDAO {
 
 	@Override
-	public List<OtherUserEntity> getData(OtherUserEntity object) throws ExceptionLogin {
+	public List<Entity> getData(Entity object) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setData() {
+	public void setData() throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -26,19 +28,19 @@ public class OtherUserDao implements PersistanceDAO<OtherUserEntity> {
 	}
 
 	@Override
-	public void delete(OtherUserEntity object) {
+	public void delete(Entity object) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void update(OtherUserEntity object) {
+	public void update(Entity object) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setMyEntity(OtherUserEntity user) {
+	public void setMyEntity(Entity user) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}

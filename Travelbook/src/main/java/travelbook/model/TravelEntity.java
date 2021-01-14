@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 
-public class TravelEntity {
+public class TravelEntity implements Entity {
 
 	private double costTravel;
 	private int id;
