@@ -1,9 +1,11 @@
 package main.java.travelbook.view;
 import java.io.IOException;
+import javafx.scene.control.ButtonType;
 import java.net.URLEncoder;
+import java.time.LocalDate;
 import java.sql.Date;
 import java.sql.SQLException;
-
+import java.util.Optional;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.control.RadioButton;
@@ -20,11 +22,13 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
@@ -32,9 +36,8 @@ import javafx.scene.control.Label;
 import main.java.travelbook.model.bean.RegistrationBean;
 import main.java.travelbook.model.bean.UserBean;
 public class LoginViewController {
-	private UserBean userToBeRegister;
-	private String usernameToBeRegister;
-	private String passwordToBeRegister;
+	private RegistrationBean userToBeRegister;
+	private String codeOfreg;
 	@FXML
 	private Pane codeConfirmPane;
 	@FXML
@@ -387,10 +390,9 @@ public class LoginViewController {
 		if(ripetiPswd.isEmpty() || !(ripetiPswd.equals(pswd))) {
 			errore=true;
 		}
-		if(date.getValue()!=null) {
-		DateUtil converter=new DateUtil();
-		String data=converter.toString(date.getValue());
-		}
+		LocalDate data=null;
+		if(date.getValue()!=null) 
+			data=date.getValue();
 		else {
 			errore=true;
 		}
@@ -409,10 +411,12 @@ public class LoginViewController {
           user.setUsername(username);
           user.setEmail(email);
           user.setPassword(pswd);
-          user.setBirtdate(new Date(1111, 11, 1));
+          user.setBirtdate(Date.valueOf(data));
           user.setSurname(cognome);
           user.setName(nome);
           user.setGender(gender);
+          this.userToBeRegister=user;
+          this.codeOfreg=ControllerLogin.getInstance().CalcoloRegistration(email);
           this.showConfirmCode();   
 		}
 		else {
@@ -427,32 +431,55 @@ public class LoginViewController {
 	private void showConfirmCode() {
 		this.codeConfirmPane.setVisible(true);
 		this.registerPane.setVisible(false);
-		//Call controller.
+		try {
+		ControllerLogin.getInstance().signUp(this.userToBeRegister);
+		//Subito dopo esegue il login
+		ControllerLogin.getInstance().signIn(userToBeRegister.getUsername(), this.userToBeRegister.getPassword());
+		}catch(ExceptionLogin e1) {
+			error.setVisible(true);
+			error.setText(e1.getMessage());
+		}
+		catch(Exception e) {
+			Alert alert=new Alert(AlertType.ERROR);
+			alert.setHeaderText("Several System Error");
+			alert.setContentText("Something went wrong try again");
+			alert.showAndWait();
+		}
 	}
 	@FXML
 	private void confirmCode() {
 		String text=this.codeTextField.getText();
-		//Ask controller if the code is valid
-		//If is valid
-		saveRegistration();
-		//else show alert
+		if(text.equals(codeOfreg)) {
+			saveRegistration();
+		}
+		else {
 		Alert alert=new Alert(AlertType.ERROR);
 		alert.setHeaderText("Registration Error");
 		alert.setContentText("Il Codice inserito non è corretto la registrazione è stata annullata");
 		alert.showAndWait();
 		this.codeConfirmPane.setVisible(false);
 		this.closeRegisterHandler();
+		}
 	}
 	@FXML
 	private void closeConfirmPaneHandler() {
 		//Da cambiare e farlo uguale al save exit warning dell'add 
-		Alert alert=new Alert(AlertType.WARNING);
-		alert.setHeaderText("Registration Warning");
-		alert.setContentText("Attenzione se chiudi la tua registrazione sarà annullata");
-		alert.showAndWait();
-		//Se vuole uscire comunque
-		this.codeConfirmPane.setVisible(false);
-		this.closeRegisterHandler();
+		Alert saveAlert=new Alert(AlertType.CONFIRMATION);
+		 saveAlert.setTitle("Incomplete registration");
+		 saveAlert.setHeaderText("You don't confirm your registration");
+		 saveAlert.setContentText("Se esci perderai tutte le informazioni inserite" );
+		 ButtonType exit=new ButtonType("Exit");
+		 ButtonType notExit=new ButtonType("Don't exit");
+		 saveAlert.getButtonTypes().clear();
+		 saveAlert.getButtonTypes().addAll(exit,notExit);
+		 Optional<ButtonType> results=saveAlert.showAndWait();
+		 if(results.isPresent()) {
+			 if(results.get()==exit) {
+				 this.codeConfirmPane.setVisible(false);
+				 this.closeRegisterHandler();
+			 }
+		 }
+		 
 	}
 
 }

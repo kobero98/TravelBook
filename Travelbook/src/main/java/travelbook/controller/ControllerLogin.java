@@ -77,10 +77,7 @@ public class ControllerLogin {
 		
 		
 	}
-	public static void main(String []args) {
-			String s=ControllerLogin.getInstance().CalcoloRegistration("matteo.fede@live.it");
-			System.out.println(s);
-		}
+
 
 	
 
