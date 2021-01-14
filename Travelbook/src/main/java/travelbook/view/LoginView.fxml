@@ -3,6 +3,7 @@
 <?import java.net.URL?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -104,6 +105,7 @@
                   <Font size="20.0" />
                </font>
             </TextField>
+            <TextField fx:id="username" layoutX="25.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="61.0" prefWidth="584.0" promptText="Username" />
             <PasswordField fx:id="pswd1" layoutX="26.0" layoutY="274.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="61.0" prefWidth="584.0" promptText="Password">
                <font>
                   <Font size="20.0" />
@@ -140,13 +142,10 @@
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
             <Label fx:id="registerError" layoutX="191.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="197.0" text="Error message" visible="false" />
-            <TextField fx:id="username" layoutX="26.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="61.0" prefWidth="584.0" promptText="Username">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </TextField>
+            <ChoiceBox fx:id="nations" layoutX="30.0" layoutY="500.0" prefWidth="150.0" />
          </children>
       </Pane>
+      <Pane prefHeight="200.0" prefWidth="200.0" />
       <Pane fx:id="codeConfirmPane" layoutX="325.0" layoutY="75.0" prefHeight="500.0" prefWidth="500.0" visible="false">
          <children>
             <TextField fx:id="codeTextField" layoutX="40.0" layoutY="200.0" />

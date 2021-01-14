@@ -11,6 +11,8 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.control.ChoiceBox;
+import java.util.Locale;
 import main.java.travelbook.MainApp;
 import main.java.travelbook.controller.ControllerLogin;
 import main.java.travelbook.controller.ExceptionLogin;
@@ -109,9 +111,16 @@ public class LoginViewController {
 	@FXML
 	private TextField username;
 	@FXML
+	private ChoiceBox<String> nations;
+	@FXML
 	private Label registerError;
 	@FXML
 	private void initialize() {
+		String[] countryCodes=Locale.getISOCountries();
+		for(String cc: countryCodes) {
+			Locale obj = new Locale("", cc);
+			this.nations.getItems().add(obj.getDisplayCountry());
+		}
 		//Add some listener for focused property
 		name.focusedProperty().addListener((observable,oldValue,newValue)->{
 			//se lasci o entri nel text field il primo carattere va in maiuscolo
