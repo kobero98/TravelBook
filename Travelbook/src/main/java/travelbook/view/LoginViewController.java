@@ -419,10 +419,7 @@ public class LoginViewController {
           this.userToBeRegister=user;
           new Thread(()->{
           this.codeOfreg=ControllerLogin.getInstance().CalcoloRegistration(email);
-          Platform.runLater(()->
-        		  this.showConfirmCode()
-        		  );
-          }).start();
+          Platform.runLater(()->this.showConfirmCode()); }).start();
             
 		}
 		else {
@@ -436,10 +433,16 @@ public class LoginViewController {
 		try {
 			ControllerLogin.getInstance().signUp(this.userToBeRegister);
 			//Subito dopo esegue il login
-			ControllerLogin.getInstance().signIn(userToBeRegister.getUsername(), this.userToBeRegister.getPassword());
-			}catch(ExceptionLogin e1) {
+			
+			emailField.setText(userToBeRegister.getUsername());
+			pswdField.setText(userToBeRegister.getPassword());
+			loginButtonHandler();
+			
+		}catch(ExceptionLogin e1) {
 				error.setVisible(true);
 				error.setText(e1.getMessage());
+			}catch(SQLException e1) {
+				e1.getStackTrace();
 			}
 			catch(Exception e) {
 				Alert alert=new Alert(AlertType.ERROR);

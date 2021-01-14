@@ -11,7 +11,6 @@ public class OpacityAnimation extends AnimationTimer{
 		back.setOpacity(back.getOpacity()-0.02);
 		top.setOpacity(top.getOpacity()+0.02);
 		if(back.getOpacity()<=low && top.getOpacity()>=high) {
-			
 		    this.stop();
 		}
 	}
