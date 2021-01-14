@@ -4,10 +4,7 @@
     padding-left:0.5em;
 }
 
-.write{
-    color: var(--Dcolor);
-	font: bold 1.5em "Arial";
-}
+
 
 .scroll{
     display: flex;
