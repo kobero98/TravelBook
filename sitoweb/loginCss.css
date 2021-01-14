@@ -172,3 +172,7 @@ a:active{
 	left: 2.5em;
 	top: 7.5em;
 }
+.write{
+    color: var(--Dcolor);
+	font: bold 1.5em "Arial";
+}
