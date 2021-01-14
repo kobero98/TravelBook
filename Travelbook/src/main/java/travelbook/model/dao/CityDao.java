@@ -5,7 +5,7 @@ import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.CityEntity;
 import java.sql.*;
 public class CityDao implements PredictableDAO<CityEntity> {
-	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	
+	private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private Connection connection;
 	private void connect() throws SQLException{
 		if(connection==null || connection.isClosed()) {
