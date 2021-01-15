@@ -1,5 +1,8 @@
 package main.java.travelbook.model.bean;
 
+import java.io.IOException;
+import java.io.File;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 import javafx.scene.image.Image;
@@ -15,6 +18,14 @@ public class StepBean {
 	private String day;
 	private List <Image> photo;
 	private PlaceAdapter fullPlace;
+	private String precisionInformation;
+	private List<File> imageFile;
+	public String getPrecisionInformation() {
+		return precisionInformation;
+	}
+	public void setPrecisionInformation(String precisionInformation) {
+		this.precisionInformation = precisionInformation;
+	}
 	public  StepBean(){}
 	public  StepBean(int number,int idtravel,int idcreator){
 		this.number=number;
@@ -76,8 +87,9 @@ public class StepBean {
 	public void setGroupDay(int number) {
 		this.groupDay=number;
 	}
-	public void setListPhoto(List <Image> photo) {
-		this.photo=photo;
+	public void setListPhoto(List <String> path) {
+		for(String string: path) {
+			this.imageFile.add(new File(string));
+		}
 	}
-	
 }

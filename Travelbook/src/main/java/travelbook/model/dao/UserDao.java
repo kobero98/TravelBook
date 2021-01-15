@@ -16,7 +16,7 @@ import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.UserEntity;
 
-public class UserDao implements PersistanceDAO, PredictableDAO<UserEntity>{
+public class UserDao implements PersistanceDAO, PredictableDAO{
 
 	private UserEntity entity;
 	private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	
@@ -129,8 +129,8 @@ public class UserDao implements PersistanceDAO, PredictableDAO<UserEntity>{
 	
 	
 	@Override
-	public List<UserEntity> getPredictions(String text){
-		List<UserEntity> predictions=new ArrayList<>();
+	public List<Entity> getPredictions(String text){
+		List<Entity> predictions=new ArrayList<>();
 		ResultSet rs;
 		try {
 			connect();

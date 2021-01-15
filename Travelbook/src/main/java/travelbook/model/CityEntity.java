@@ -1,6 +1,6 @@
 package main.java.travelbook.model;
 
-public class CityEntity {
+public class CityEntity implements Entity {
 	private String nameC;
 	private String state;
 	public String getNameC() {

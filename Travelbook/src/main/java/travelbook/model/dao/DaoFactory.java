@@ -25,8 +25,8 @@ public class DaoFactory {
 		return null;
 		
 	}
-	public Object createPredictable(DaoType tipo) {
-		PredictableDAO<?> dao=null;
+	public PredictableDAO createPredictable(DaoType tipo) {
+		PredictableDAO dao=null;
 		if(tipo==DaoType.CITY) 
 			dao=new CityDao();
 		if(tipo==DaoType.USER)

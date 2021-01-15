@@ -2,9 +2,11 @@ package main.java.travelbook.model;
 
 import java.sql.Date;
 import java.util.List;
+import java.io.File;
 
 
-public class StepEntity {
+
+public class StepEntity implements Entity {
 	private int number;
 	private int idTravel;
 	private int idCreator;
@@ -13,8 +15,8 @@ public class StepEntity {
 	private String descriptionStep;
 	private String place;
 	private Date day;
-	private List <String> photo;
-	
+	private List <File> photo;
+	private String precisionInformation;
 	public  StepEntity(){}
 	public StepEntity(int idcreator,int number) {
 		this.idCreator=idcreator;
@@ -26,6 +28,12 @@ public class StepEntity {
 		this.idTravel=idtravel;
 	}
 	
+	public String getPrecisionInformation() {
+		return precisionInformation;
+	}
+	public void setPrecisionInformation(String precisionInformation) {
+		this.precisionInformation = precisionInformation;
+	}
 	public int getNumber()
 	{
 		return this.number;
@@ -52,7 +60,7 @@ public class StepEntity {
 	public int getNumberOfDay() {
 		return this.numberOfDay;
 	}
-	public List<String> getListPhoto(){
+	public List<File> getListPhoto(){
 		return this.photo;
 	}
 	
@@ -71,8 +79,8 @@ public class StepEntity {
 	public void setGroupDay(int number) {
 		this.groupDay=number;
 	}
-	public void setListPhoto(List <String> photo) {
-		this.photo=photo;
+	public void setListPhoto(List <File> photoFile) {
+		this.photo=photoFile;
 	}
 	public void setNumberOfDay(int number) {
 		this.numberOfDay=number;
