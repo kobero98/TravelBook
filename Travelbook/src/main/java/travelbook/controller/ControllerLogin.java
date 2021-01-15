@@ -74,7 +74,7 @@ public class ControllerLogin {
 		if(code.length()<6)
 			{
 				int j=6-code.length();
-				for(int i=0;i<j;i++) code="0"+code;
+				for(int i=0;i<j;i++) code="0".concat(code);
 			}
 		try {
 			s.sendMessage(email,code, "Codice Registrazione TravelBoook");

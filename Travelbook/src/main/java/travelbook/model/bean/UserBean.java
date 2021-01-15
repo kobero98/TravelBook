@@ -5,6 +5,7 @@ import main.java.travelbook.model.UserEntity;
 
 public class UserBean{
 	
+	private int id;
 	private String name="ciao";
 	private String surname; 
 	private String description;
@@ -15,12 +16,14 @@ public class UserBean{
 	private int  nFollower;
 	private int nFollowing;
 	private int nTrip;
-	private List <TravelBean> travel;
-	private List <MessageBean> message;
+	private List <Integer> travel;
+	private List <Integer> message;
+	private List<Integer> follower;
 	
 
 	public UserBean() {}
 	public UserBean(UserEntity user) {
+		this.id=user.getId();
 		this.name=user.getName();
 		this.surname=user.getSurname();
 		this.description=user.getDescription();
@@ -31,7 +34,9 @@ public class UserBean{
 		this.nTrip=user.getNTrip();
 	}
 	
-
+	public int getId() {
+		return this.id;
+	}
 	public void setBirthDate(String birthdate) {
 		this.birthdate=birthdate;
 	}
@@ -70,11 +75,11 @@ public class UserBean{
 	public void setNation(String nation) {
 		this.nation=nation;
 	}
-	public void setTravel(List <TravelBean> t)
+	public void setTravel(List <Integer> t)
 	{
 		this.travel= t;
 	}
-	public void setMessagge(List <MessageBean> m) {
+	public void setMessagge(List <Integer> m) {
 		this.message=m;
 	}
 	
@@ -118,10 +123,10 @@ public class UserBean{
 	{
 		return this.nTrip;
 	}
-	public List <TravelBean>  getTravel() {
+	public List <Integer>  getTravel() {
 		return this.travel;
 	}
-	public List <MessageBean> getMessage(){
+	public List <Integer> getMessage(){
 		return this.message;
 	}
 

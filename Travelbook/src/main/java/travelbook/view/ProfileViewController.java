@@ -1,6 +1,8 @@
 package main.java.travelbook.view;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -26,8 +28,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import main.java.travelbook.controller.ProfileController;
 import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.bean.UserBean;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
@@ -86,8 +91,10 @@ public class ProfileViewController {
 	private Label placeVisited;
 	@FXML
 	private Button logOutButton;
+	private static final String ALERTCSS="main/java/travelbook/css/alert.css";
+	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
+	UserBean user=MenuBar.getLoggedUser();
 	public void initialize() {
-		UserBean user=MenuBar.getLoggedUser();
 		if(MenuBar.getNotified()) {
 			Circle dot = new Circle(6);
 			dot.setFill(Color.DARKSALMON);
@@ -99,9 +106,13 @@ public class ProfileViewController {
 			mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
 				dot.setLayoutX(mainAnchor.getWidth()*510/1280));
 			}
-		ObservableList<TravelBean> data = (ObservableList<TravelBean>) user.getTravel();
-		travels.setItems(data); 
-		travels.setCellFactory(list->new TravelCell());
+		
+		new Thread(()->{
+			ObservableList<TravelBean> data = ProfileController.getInstance().getTravel(user.getTravel());
+			travels.setItems(data); 
+			travels.setCellFactory(list->new TravelCell());
+		}).start();
+
 		
 		if(user.getPhoto() !=null) {
 			BackgroundImage bgPhoto = new BackgroundImage(user.getPhoto(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
@@ -327,6 +338,21 @@ public class ProfileViewController {
 			BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 			Background newBg = new Background(bgPhoto);
 			profilePhoto.setBackground(newBg);
+			user.setPhoto(myPhoto);
+			try {
+				ProfileController.getInstance().updatePhoto(user);
+			} catch (SQLException e) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Update failed");
+	    		alert.setHeaderText("Something went wrong!");
+	    		alert.setContentText("we couldn't update your information, try again");
+	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
+	   		 	Image image = new Image("main/resources/AddViewImages/warning.png");
+	   		 	ImageView imageView = new ImageView(image);
+	   		 	alert.setGraphic(imageView);
+	   		 	alert.showAndWait();
+			}
 		}
 	}
 	@FXML
@@ -337,7 +363,24 @@ public class ProfileViewController {
 	private void updateDescription(KeyEvent evt) {
 		KeyCode ch = evt.getCode();
 		if(ch.equals(KeyCode.ENTER)|| evt.getCharacter().getBytes()[0] == '\n' || evt.getCharacter().getBytes()[0] == '\r') {
-			myDescr.setText(descrWrite.getText());
+			String newDescr = descrWrite.getText();
+			myDescr.setText(newDescr);
+			user.setDescription(newDescr);
+			try {
+				ProfileController.getInstance().updateDescr(user);
+			} catch (SQLException e) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Update failed");
+	    		alert.setHeaderText("Something went wrong!");
+	    		alert.setContentText("we couldn't update your information, try again");
+	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
+	   		 	Image image = new Image("main/resources/AddViewImages/warning.png");
+	   		 	ImageView imageView = new ImageView(image);
+	   		 	alert.setGraphic(imageView);
+	   		 	alert.showAndWait();
+			}
+			//TODO invia update a controller applicativo
 			descrWrite.clear();
 			descrWrite.setVisible(false);
 		}

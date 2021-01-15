@@ -301,12 +301,10 @@ public class LoginViewController {
 		
 			try {
 				user=ControllerLogin.getInstance().signIn(localUsername, pswd);
-			}catch (ExceptionLogin e1) {
-				error.setVisible(true);
-				error.setText(e1.getMessage());
+			
 			} catch (SQLException e1) {
 				error.setVisible(true);
-				error.setText("Login error");
+				error.setText(e1.getMessage());
 			} 
 		
 		if(user!=null) {
