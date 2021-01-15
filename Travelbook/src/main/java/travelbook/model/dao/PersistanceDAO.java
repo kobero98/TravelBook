@@ -8,7 +8,7 @@ public interface PersistanceDAO{
 
 	public List<Entity>  getData(Entity object) throws SQLException;
 	public void setData() throws SQLException;
-	public Object getMyEntity();
+	public Entity getMyEntity();
 	public void delete(Entity object);
 	public void update(Entity object);
 	void setMyEntity(Entity user)throws SQLException;
