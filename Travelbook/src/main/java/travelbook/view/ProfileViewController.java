@@ -26,6 +26,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.bean.UserBean;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -42,13 +43,11 @@ public class ProfileViewController {
 	private Object[] array1=new Object[15];
 	private Button button;
 	@FXML
-	private Pane p;
-	@FXML
 	private AnchorPane mainAnchor;
 	@FXML
 	private ButtonBar menuBar;
 	@FXML
-	private ListView<String> travels;
+	private ListView<TravelBean> travels;
 	@FXML
 	private AnchorPane profileAnchor;
 	@FXML
@@ -100,7 +99,7 @@ public class ProfileViewController {
 			mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
 				dot.setLayoutX(mainAnchor.getWidth()*510/1280));
 			}
-		ObservableList<String> data = FXCollections.observableArrayList("travel1lungo", "travel2", "travel3", "travel4");
+		ObservableList<TravelBean> data = (ObservableList<TravelBean>) user.getTravel();
 		travels.setItems(data); 
 		travels.setCellFactory(list->new TravelCell());
 		
@@ -108,7 +107,19 @@ public class ProfileViewController {
 			BackgroundImage bgPhoto = new BackgroundImage(user.getPhoto(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 			Background newBg = new Background(bgPhoto);
 			profilePhoto.setBackground(newBg);
-			p.setBackground(newBg);
+		}
+		else {
+			try {
+				Image myPhoto = new Image("main/resources/ProfilePageImages/travelers.png");
+				BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+				Background newBg = new Background(bgPhoto);
+				profilePhoto.setBackground(newBg);
+			}catch(IllegalArgumentException e) {
+        		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), null, null);
+            	
+            	Background mybg1 = new Background(bgcc1);
+            	profilePhoto.setBackground(mybg1);
+			}
 		}
 		
 		userName.setText(user.getName()+" "+user.getSurname());
@@ -117,11 +128,11 @@ public class ProfileViewController {
 		
 		followerButton.setText("Followers: "+user.getNFollower());
 		followingButton.setText("Following: "+user.getNFollowing());
-		placeVisited.setText("You have visited " + "4" +" places");
+		placeVisited.setText("You have visited " + user.getNTrip()+" places");
 	}
-	class TravelCell extends ListCell<String>{
+	class TravelCell extends ListCell<TravelBean>{
 		@Override
-        public void updateItem(String item, boolean empty) {
+        public void updateItem(TravelBean item, boolean empty) {
             super.updateItem(item, empty);
             if(!empty) {
             	HBox travel = new HBox();
@@ -140,7 +151,7 @@ public class ProfileViewController {
             	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
             	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
             	try {
-            		Image myPhoto = new Image("main/java/travelbook/cupola1.jpg");
+            		Image myPhoto = item.getPathImage();
             		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
             		Background mybg1 = new Background(bgPhoto);
             		travelPic.setBackground(mybg1);
@@ -158,8 +169,8 @@ public class ProfileViewController {
             	vBox.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
             	vBox.setMaxWidth(USE_PREF_SIZE);
             	vBox.setSpacing(mainAnchor.getPrefHeight()*(180.0/15)/625);
-            	Label name = new Label(item);
-            	Text descr = new Text("this is a description mooolto lunga che non è una descrizione");
+            	Label name = new Label(item.getNameTravel());
+            	Text descr = new Text(item.getDescriptionTravel());
             	descr.setWrappingWidth(mainAnchor.getPrefWidth()*265/1280);
             	hBox.setAlignment(Pos.BOTTOM_RIGHT);
  

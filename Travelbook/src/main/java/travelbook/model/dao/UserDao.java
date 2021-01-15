@@ -71,8 +71,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 						list.add((Entity) utente);
 					}while(rs.next());
 			}
-		} catch (SQLException e) {
-			throw new ExceptionLogin("errore SQL durante la Dao");
+			
 		}finally {
 			if(stmt!=null)
 			{

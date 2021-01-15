@@ -37,7 +37,7 @@ public class AllQuery {
 		
 	}
 	
-	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumeber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalit‡";
+	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumeber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalit√†";
 
 	public ResultSet requestLogin(Statement stmt,String username,String password) throws ExceptionLogin{
 		ResultSet rs=null;

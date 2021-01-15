@@ -156,7 +156,6 @@
          </children>
       </StackPane>
       <Label fx:id="placeVisited" alignment="CENTER" layoutX="307.0" layoutY="419.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="270.0" text="Label" wrapText="true" />
-      <Pane fx:id="p" layoutX="514.0" layoutY="200.0" prefHeight="200.0" prefWidth="200.0" />
    </children>
    <stylesheets>
       <URL value="@../css/project.css" />

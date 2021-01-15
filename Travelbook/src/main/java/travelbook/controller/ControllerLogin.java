@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
 import javax.mail.MessagingException;
-import main.java.travelbook.MyIdentity;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.RegistrationBean;
@@ -27,7 +26,7 @@ public class ControllerLogin {
 	}
 
 	public UserBean signIn(String username,String password) throws SQLException{
-		UserBean user;
+		UserBean user=null;
 		PersistanceDAO userDao=DaoFactory.getInstance().create(DaoType.USER);
 		UserEntity userE=new UserEntity();
 		userE.setUsername(username);

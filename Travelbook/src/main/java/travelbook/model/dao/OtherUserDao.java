@@ -22,7 +22,7 @@ public class OtherUserDao implements PersistanceDAO {
 	}
 
 	@Override
-	public Object getMyEntity() {
+	public Entity getMyEntity() {
 		// TODO Auto-generated method stub
 		return null;
 	}

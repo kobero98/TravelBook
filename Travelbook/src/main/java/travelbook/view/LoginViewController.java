@@ -35,6 +35,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
 import main.java.travelbook.model.bean.RegistrationBean;
@@ -43,6 +44,8 @@ import main.java.travelbook.model.bean.UserBean;
 public class LoginViewController {
 	private RegistrationBean userToBeRegister;
 	private String codeOfreg;
+	private static final String ALERTCSS="main/java/travelbook/css/alert.css";
+	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
 	@FXML
 	private Pane codeConfirmPane;
 	@FXML
@@ -235,8 +238,8 @@ public class LoginViewController {
 			image.setLayoutX(625*width/1280);
 			forgotEP.setPrefWidth(365.6*width/1280);
 			forgotEP.setLayoutX(200*width/1280);
-			error.setPrefWidth(width*197/1280);
-			error.setLayoutX(160*width/1280);
+			error.setPrefWidth(width*450/1280);
+			error.setLayoutX(50*width/1280);
 			emailField.setPrefWidth(448*width/1280);
 			emailField.setLayoutX(50*width/1280);
 			pswdField.setPrefWidth(448*width/1280);
@@ -303,7 +306,7 @@ public class LoginViewController {
 				error.setText(e1.getMessage());
 			} catch (SQLException e1) {
 				error.setVisible(true);
-				error.setText("Errore nel LogIn");
+				error.setText("Login error");
 			} 
 		
 		if(user!=null) {
@@ -358,7 +361,7 @@ public class LoginViewController {
 			try {
 			if (url.startsWith(redirect)) {
 				System.out.println("Tutto ok");
-				//Ask controller applicativo affinchè chieda a fb i dati utente
+				//Ask controller applicativo affinchï¿½ chieda a fb i dati utente
 			}
 			}catch(Exception e) {
 				
@@ -461,6 +464,11 @@ public class LoginViewController {
 				Alert alert=new Alert(AlertType.ERROR);
 				alert.setHeaderText("Several System Error");
 				alert.setContentText("Something went wrong try again");
+				alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+				alert.getDialogPane().getStylesheets().add(ALERTCSS);
+				Image alertImg = new Image("main/resources/AddViewImages/error.png");
+				ImageView imageView = new ImageView(alertImg);
+				alert.setGraphic(imageView);
 				alert.showAndWait();
 			}
 	}
@@ -478,7 +486,12 @@ public class LoginViewController {
 		else {
 		Alert alert=new Alert(AlertType.ERROR);
 		alert.setHeaderText("Registration Error");
-		alert.setContentText("Il Codice inserito non è corretto la registrazione è stata annullata");
+		alert.setContentText("Wrong code, your registration has failed");
+		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+		alert.getDialogPane().getStylesheets().add(ALERTCSS);
+		Image alertImg = new Image("main/resources/AddViewImages/error.png");
+		ImageView imageView = new ImageView(alertImg);
+		alert.setGraphic(imageView);
 		alert.showAndWait();
 		this.codeConfirmPane.setVisible(false);
 		this.closeRegisterHandler();
@@ -489,12 +502,17 @@ public class LoginViewController {
 		//Da cambiare e farlo uguale al save exit warning dell'add 
 		Alert saveAlert=new Alert(AlertType.CONFIRMATION);
 		 saveAlert.setTitle("Incomplete registration");
-		 saveAlert.setHeaderText("You don't confirm your registration");
-		 saveAlert.setContentText("Se esci perderai tutte le informazioni inserite" );
+		 saveAlert.setHeaderText("You haven't confirmed your registration");
+		 saveAlert.setContentText("You'll lose given information upon exit" );
 		 ButtonType exit=new ButtonType("Exit");
 		 ButtonType notExit=new ButtonType("Don't exit");
 		 saveAlert.getButtonTypes().clear();
 		 saveAlert.getButtonTypes().addAll(exit,notExit);
+		 saveAlert.getDialogPane().getStylesheets().add(PROJECTCSS);
+		 saveAlert.getDialogPane().getStylesheets().add(ALERTCSS);
+		 Image alertImg = new Image("main/resources/AddViewImages/error.png");
+		 ImageView imageView = new ImageView(alertImg);
+		 saveAlert.setGraphic(imageView);
 		 Optional<ButtonType> results=saveAlert.showAndWait();
 		 if(results.isPresent()) {
 			 if(results.get()==exit) {
