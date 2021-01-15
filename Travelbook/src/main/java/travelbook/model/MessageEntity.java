@@ -6,10 +6,16 @@ public class MessageEntity {
 	private int idMessaggio;
 	private int idDestinatario;
 	private int idMittente;
-	private int type;
+	private String type;
 	private String text;
 	private Date dataTime;
-	
+	private boolean soloNuovi;
+	public boolean getSoloNuovi() {
+		return this.soloNuovi;
+	}
+	public void setSoloNuovi(boolean val) {
+		this.soloNuovi=val;
+	}
 	public int getIdMessaggio()
 	{
 		return this.idMessaggio;
@@ -20,7 +26,7 @@ public class MessageEntity {
 	public int getIdMittente(){
 		return this.idMittente;
 	}
-	public int getType(){
+	public String getType(){
 		return this.type;
 	}
 	public String getText(){
@@ -36,7 +42,12 @@ public class MessageEntity {
 	public void setTime(Date time) {
 		this.dataTime=time;
 	}
-	public void setType(int tipo) {
+	public void setType(String tipo) {
 		this.type=tipo;
 	}
+	public MessageEntity(int mit,int dest) {
+		this.idMittente=mit;
+		this.idDestinatario=dest;
+	}
+	
 }
