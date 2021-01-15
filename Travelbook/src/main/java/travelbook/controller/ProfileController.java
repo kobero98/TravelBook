@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 import main.java.travelbook.model.UserEntity;
+import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.model.dao.DaoFactory;
@@ -25,8 +26,8 @@ public class ProfileController{
 		return instance;
 	}
 	
-	public ObservableList<TravelBean> getTravel(List<Integer> l){
-		ObservableList<TravelBean> ol = null;
+	public List<MiniTravelBean> getTravel(List<Integer> l){
+		List<MiniTravelBean> ol = null;
 		//TODO query al database
 		return ol;
 	}
@@ -45,5 +46,18 @@ public class ProfileController{
 		userE.setPhoto(user.getPhoto());
 		userDao.setMyEntity(userE);
 		userDao.setData();//TODO update con la dao
+	}
+	
+	public List<String> getFollower(List<Integer> l){
+		List<String> f = null;
+		return f;
+	}
+	public List<String> getFollowing(List<Integer> l){
+		List<String> f = null;
+		return f;
+	}
+	public List<String> getFav(List<Integer> l){
+		List<String> f = null;
+		return f;
 	}
 }

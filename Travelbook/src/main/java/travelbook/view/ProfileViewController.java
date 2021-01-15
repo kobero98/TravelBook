@@ -10,7 +10,6 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +28,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import main.java.travelbook.controller.ProfileController;
-import main.java.travelbook.model.bean.TravelBean;
+import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.UserBean;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -52,7 +51,7 @@ public class ProfileViewController {
 	@FXML
 	private ButtonBar menuBar;
 	@FXML
-	private ListView<TravelBean> travels;
+	private ListView<MiniTravelBean> travels;
 	@FXML
 	private AnchorPane profileAnchor;
 	@FXML
@@ -108,7 +107,7 @@ public class ProfileViewController {
 			}
 		
 		new Thread(()->{
-			ObservableList<TravelBean> data = ProfileController.getInstance().getTravel(user.getTravel());
+			ObservableList<MiniTravelBean> data = (ObservableList<MiniTravelBean>)ProfileController.getInstance().getTravel(user.getTravel());
 			travels.setItems(data); 
 			travels.setCellFactory(list->new TravelCell());
 		}).start();
@@ -141,9 +140,9 @@ public class ProfileViewController {
 		followingButton.setText("Following: "+user.getNFollowing());
 		placeVisited.setText("You have visited " + user.getNTrip()+" places");
 	}
-	class TravelCell extends ListCell<TravelBean>{
+	class TravelCell extends ListCell<MiniTravelBean>{
 		@Override
-        public void updateItem(TravelBean item, boolean empty) {
+        public void updateItem(MiniTravelBean item, boolean empty) {
             super.updateItem(item, empty);
             if(!empty) {
             	HBox travel = new HBox();
@@ -380,7 +379,6 @@ public class ProfileViewController {
 	   		 	alert.setGraphic(imageView);
 	   		 	alert.showAndWait();
 			}
-			//TODO invia update a controller applicativo
 			descrWrite.clear();
 			descrWrite.setVisible(false);
 		}
@@ -406,7 +404,7 @@ public class ProfileViewController {
 		show.setVisible(true);
 		listTitle.setVisible(true);
 		listText.setText("Your favourite travels");
-		ObservableList<String> fav = FXCollections.observableArrayList("travel1", "travel2", "travel3");
+		ObservableList<String> fav = (ObservableList<String>)ProfileController.getInstance().getFav(user.getFav());
 		show.setItems(fav);
 	}
 	@FXML
@@ -414,7 +412,7 @@ public class ProfileViewController {
 		show.setVisible(true);
 		listTitle.setVisible(true);
 		listText.setText("Your followers");
-		ObservableList<String> fav = FXCollections.observableArrayList("follower1", "follower2", "follower3");
+		ObservableList<String> fav = (ObservableList<String>)ProfileController.getInstance().getFollower(user.getFollower());
 		show.setItems(fav);
 	}
 	@FXML
@@ -422,7 +420,7 @@ public class ProfileViewController {
 		show.setVisible(true);
 		listTitle.setVisible(true);
 		listText.setText("Your interesting people");
-		ObservableList<String> fav = FXCollections.observableArrayList("following1", "following2", "following3");
+		ObservableList<String> fav = (ObservableList<String>)ProfileController.getInstance().getFollowing(user.getFollowing());
 		show.setItems(fav);
 	}
 	@FXML

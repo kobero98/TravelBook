@@ -16,10 +16,11 @@ public class UserBean{
 	private int  nFollower;
 	private int nFollowing;
 	private int nTrip;
-	private List <Integer> travel;
-	private List <Integer> message;
-	private List<Integer> follower;
-	
+	private List <Integer> travel = null;
+	private List <Integer> message = null;
+	private List<Integer> follower = null;
+	private List<Integer> following = null;
+	private List<Integer> fav = null;	
 
 	public UserBean() {}
 	public UserBean(UserEntity user) {
@@ -82,6 +83,15 @@ public class UserBean{
 	public void setMessagge(List <Integer> m) {
 		this.message=m;
 	}
+	public void setFollowing(List<Integer> f) {
+		this.following=f;
+	}
+	public void setFollower(List<Integer> f) {
+		this.follower=f;
+	}
+	public void setFav(List<Integer> f) {
+		this.fav=f;
+	}
 	
 	
 	public String getName()
@@ -129,5 +139,15 @@ public class UserBean{
 	public List <Integer> getMessage(){
 		return this.message;
 	}
+	public List<Integer> getFollower(){
+		return this.follower;
+	}
+	public List<Integer> getFollowing(){
+		return this.following;
+	}
+	public List<Integer> getFav(){
+		return this.fav;
+	}
+
 
 }
