@@ -1,5 +1,6 @@
 package main.java.travelbook.view;
 import main.java.travelbook.view.animation.SlideImageAnimationHR;
+import main.java.travelbook.model.bean.TravelBean;
 import javafx.scene.input.KeyCode;
 import java.util.List;
 import java.util.ArrayList;
@@ -95,43 +96,32 @@ public class ExploreViewController {
 		selectionGroup=new ArrayList<>(15);
 		//Now create some buttons 10 for tt and 15 for travelSelection.
 		while(i<10) {
-			istance=new TravelButton(136,190.4,i);
+			TravelBean travel=new TravelBean();
+			istance=new TravelButton(136,190.4,i,travel);
 			istance.getStack().getStyleClass().add("tile");
 			istance.getPane().getStyleClass().add("pane");
 			istance.getTitle().getStyleClass().add("my-text");
 			istance.getSubtitle().getStyleClass().addAll("my-text", "subtitle");
 			topTenGroup.add(istance);
 			topTenBar.getButtons().add(istance.getStack());
-			istance.getStack().setOnMouseClicked(e->travelExampleHandler());
+			
 			i++;
 		}
 		i=0;
 		while(i<15) {
-			istance=new TravelButton(136,190.4,i);
+			TravelBean travel=new TravelBean();
+			istance=new TravelButton(136,190.4,i,travel);
 			istance.getStack().getStyleClass().add("tile");
 			istance.getPane().getStyleClass().add("pane");
 			istance.getTitle().getStyleClass().add("my-text");
 			istance.getSubtitle().getStyleClass().addAll("my-text", "subtitle");
 			selectionGroup.add(istance);
 			selectionBar.getButtons().add(istance.getStack());
-			istance.getStack().setOnMouseClicked(e->travelExampleHandler());
+
 			i++;
 		}
 	}
-	private void travelExampleHandler() {
-		FXMLLoader loader=new FXMLLoader();
-		loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
-		try {
-			ViewTravelController controller;
-			AnchorPane internalPane;
-			internalPane=(AnchorPane)loader.load();
-			mainPane.setCenter(internalPane);
-			controller=loader.getController();
-			controller.setMainPane(mainPane,1);
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
+
 	public void setMainPane(BorderPane main) {
 		this.mainPane=main;
 		//then define the resize logic

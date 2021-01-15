@@ -1,6 +1,7 @@
 package main.java.travelbook.view;
 
 import java.io.IOException;
+import main.java.travelbook.model.bean.TravelBean;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -36,6 +37,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ViewTravelController {
+	private TravelBean myTravel;
 	private Object[] array1=new Object[10];
 	private Object[] array2=new Object[10];
 	private Button button;
@@ -406,5 +408,8 @@ public class ViewTravelController {
 	private void shareButtonHandler() {
 		//dummy method
 		System.out.println("shared!");
+	}
+	public void setTravel(TravelBean travel) {
+		this.myTravel=travel;
 	}
 }

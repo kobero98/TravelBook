@@ -1,9 +1,10 @@
 package main.java.travelbook.model.bean;
 
 import java.util.List;
+import main.java.travelbook.util.Observable;
 import javafx.scene.image.Image;
 import main.java.travelbook.model.TravelEntity;
-public class TravelBean {
+public class TravelBean extends Observable {
 
 	private Double costTravel;
 	private int stepNumber;
