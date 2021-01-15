@@ -52,8 +52,8 @@
                               <ButtonBar fx:id="photoBox" buttonMinWidth="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="169.0" prefWidth="0.0" styleClass="photo-bar" />
                            </content>
                         </ScrollPane>
-                        <Button fx:id="rightScroll" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#topTenScrollRightHandler" prefHeight="20.0" prefWidth="15.0" styleClass="right-button" StackPane.alignment="CENTER_RIGHT" />
-                        <Button fx:id="leftScroll" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#topTenScrollLeftHandler" prefHeight="20.0" prefWidth="15.0" styleClass="left-button" StackPane.alignment="CENTER_LEFT" />
+                        <Button fx:id="rightScroll" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#scrollRightHandler" prefHeight="20.0" prefWidth="15.0" styleClass="right-button" StackPane.alignment="CENTER_RIGHT" />
+                        <Button fx:id="leftScroll" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#scrollLeftHandler" prefHeight="20.0" prefWidth="15.0" styleClass="left-button" StackPane.alignment="CENTER_LEFT" />
                      </children>
                   </StackPane>
                </children>

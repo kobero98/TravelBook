@@ -40,9 +40,9 @@
             <Text fx:id="advanceSearch" layoutX="60.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Looking for something more specific? Try our research tool, narrowing your desires with a lot of different options" wrappingWidth="270.0" />
          </children>
       </AnchorPane>
-      <ButtonBar fx:id="menuBar" buttonMinWidth="135.2" layoutX="47.0" layoutY="17.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="592.0" style="-fx-background-color: fdfdfd; -fx-effect: dropshadow(three-pass-box,rgba(0,0,0,0.25),10,0,0,4); -fx-border-radius: 25;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ButtonBar fx:id="menuBar" buttonMinWidth="135.2" layoutX="47.0" layoutY="17.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="592.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
         <buttons>
-          <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#profileHandler" prefHeight="56.35" prefWidth="147.37" text="PROFILE">
+          <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#profileHandler" prefHeight="56.35" prefWidth="147.37" text="PROFILE">
                <font>
                   <Font size="17.0" />
                </font>

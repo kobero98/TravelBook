@@ -6,11 +6,11 @@ import java.util.List;
 
 public class TravelEntity implements Entity {
 
-	private double costTravel;
-	private int id;
-	private int creatorId;
-	private int stepNumber;
-	private int likeNumber;
+	private double costTravel=0;
+	private int id=0;
+	private int creatorId=0;
+	private int stepNumber=0;
+	private int likeNumber=0;
 	private String nameTravel;
 	private String type;
 	private String pathBackground; 
