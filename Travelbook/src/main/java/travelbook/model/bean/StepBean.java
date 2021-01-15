@@ -20,6 +20,12 @@ public class StepBean {
 	private PlaceAdapter fullPlace;
 	private String precisionInformation;
 	private List<File> imageFile;
+	public List<File> getImageFile() {
+		return imageFile;
+	}
+	public void setImageFile(List<File> imageFile) {
+		this.imageFile = imageFile;
+	}
 	public String getPrecisionInformation() {
 		return precisionInformation;
 	}

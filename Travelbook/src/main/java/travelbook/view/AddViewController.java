@@ -50,6 +50,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 public class AddViewController {
+	private List<File> totalFile=new ArrayList<>();
 	@FXML
 	private ButtonBar menuBar;
 	@FXML
@@ -309,6 +310,7 @@ public class AddViewController {
 		//GridPane with a matrix that show if an entry (row,col) is empty or not. 
 		//If is empty positions[row][col]==1
 		private List<List<Integer>> positions=new ArrayList<>();
+		private List<List<File>> files=new ArrayList<>();
 		private GridPane gridPane;
 		public ImageGridPane() {
 			gridPane=new GridPane();
@@ -334,6 +336,7 @@ public class AddViewController {
     		row1.setPrefHeight(standardImageHeight);
     		this.gridPane.getRowConstraints().add(row1);
 			positions.add(new ArrayList<>());
+			files.add(new ArrayList<>());
 			for(int i=0;i<5;i++) {
 				positions.get(0).add(1);
 			}
@@ -372,6 +375,9 @@ public class AddViewController {
 		}
 		public GridPane getGridPane() {
 			return this.gridPane;
+		}
+		public List<List<File>> getFiles(){
+			return files;
 		}
 	}
 	public void setMain(BorderPane main) {
@@ -833,8 +839,10 @@ public class AddViewController {
 	    		for(int stepN=0;stepN<steps.size();stepN++) {
 	    			//for each step
 	    			StepBean step=steps.get(stepN);
-	    			if(step.getPlace()!=null && step.getDescriptionStep()!=null&&!step.getPlace().isEmpty() && !step.getDescriptionStep().isEmpty()) {
+	    			if(step.getPlace()!=null &&!step.getPlace().isEmpty()) {
 	    				step.setListPhoto(new ArrayList<>());
+	    				for(int i=0;i<dayImagePane.get(day).get(stepN).getFiles().size();i++)
+	    					step.getImageFile().addAll(dayImagePane.get(day).get(stepN).getFiles().get(i));
 	    				List<Node> pics=dayImagePane.get(day).get(stepN).getGridPane().getChildren();
 	    				for(int picN=0;picN<pics.size();picN++) {
 	    					ImageView foto= (ImageView)pics.get(picN);
@@ -847,7 +855,6 @@ public class AddViewController {
 	    				
 	    			}
 	    		
-	  
 	    		}
 	    		
 	    	}
@@ -893,15 +900,7 @@ public class AddViewController {
 	    		}
 	    	}
 	    	travel.setType(filtri);
-	    	List<StepBean> steps;
-	    	travel.setListStep(new ArrayList<>());
-	    	for(int day=0;day<stepByDay.size();day++) {
-	    		steps=this.stepByDay.get(day);
-	    		for(int step=0;step<steps.size();step++) {
-	    			//modify number of day
-	    			travel.getListStep().add(steps.get(step));
-	    		}
-	    	}
+	    	this.setTravelSteps(travel, new ArrayList<>());
 	    	//then call the controller and send data
 	    	saved=true;
 	    }
@@ -921,11 +920,12 @@ public class AddViewController {
 	    private void multipleChoosHandler() {
 	    	if(dayNumber>=0) {
 	    	FileChooser dialog=new FileChooser();
-	    	//Visto che place dovrebbe essere una stringa lunga forse meglio solo la citt�
+	    	//Visto che place dovrebbe essere una stringa lunga forse meglio solo la citt 
 	    	dialog.setTitle("Choose some photos for this step" + stepByDay.get(dayNumber).get(stepNumber).getPlace());
 	    	dialog.getExtensionFilters().add(new ExtensionFilter("Image","*.png","*.jpg"));
 	    	List<File> files = dialog.showOpenMultipleDialog(mainPane.getScene().getWindow());
 	    	if(files!=null) {
+
 	    	Image im;
 	    	ImageView view;
 	    	double percentuale=(double)1/(double)files.size();
@@ -955,6 +955,8 @@ public class AddViewController {
 	    				nextRow++;
 	    			}
 	    		}
+	    		//Aggiungi il file nella stessa posizione in cui trovi il file Image 
+	    		imageGridPane.getFiles().get(nextRow).add(files.get(i));
 	    		imageGridPane.add(view, nextCol, nextRow);
 	    		updateGridIndex();
 	    		progressIndicator.setProgress(progressIndicator.getProgress()+percentuale);
@@ -1108,6 +1110,9 @@ public class AddViewController {
 	    			if(imageGridPane.getGridPane().getChildren().get(i*col +j)==actualImage) {
 	    				imageGridPane.getGridPane().getChildren().remove(i*col+j);
 	    				imageGridPane.remove(i, j);
+	    				imageGridPane.getFiles().get(i).remove(j);
+	    				if(imageGridPane.getFiles().get(i).isEmpty())
+	    					imageGridPane.getFiles().remove(i);
 	    				nextCol=j;
 	    				nextRow=i;
 	    				break;
@@ -1253,7 +1258,7 @@ public class AddViewController {
 	    	for(List<StepBean> stepInDay: this.stepByDay) {
 	    		for(StepBean step: stepInDay) {
 	    			if(step.getPlace()!=null && !step.getPlace().isEmpty()) {
-	    				//Aggiunge solo gli step di cui � noto almeno il posto
+	    				//Aggiunge solo gli step di cui   noto almeno il posto
 	    				stepNow.add(step);
 	    			}
 	    		}

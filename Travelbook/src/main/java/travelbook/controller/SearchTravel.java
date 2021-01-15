@@ -1,5 +1,6 @@
 package main.java.travelbook.controller;
 import main.java.travelbook.model.CityEntity;
+import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.dao.CityDao;
 import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
@@ -15,11 +16,12 @@ public class SearchTravel {
 		return istance;
 	}
 	public List<String> getCitiesPredictions(String text) {
-		PredictableDAO<CityEntity> dao=(PredictableDAO<CityEntity>) DaoFactory.getInstance().createPredictable(DaoType.CITY);
+		PredictableDAO dao= DaoFactory.getInstance().createPredictable(DaoType.CITY);
 		List<String> results=new ArrayList<>();
-		List<CityEntity> predictions=dao.getPredictions(text);
+		List<Entity> predictions=dao.getPredictions(text);
 		String singleResult;
-		for(CityEntity entity: predictions) {
+		for(Entity city: predictions) {
+			CityEntity entity=(CityEntity) city;
 			singleResult=entity.getNameC()+","+entity.getState();
 			results.add(singleResult);
 		}

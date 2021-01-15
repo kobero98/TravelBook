@@ -3,6 +3,7 @@ package main.java.travelbook.controller;
 
 
 import java.sql.SQLException;
+import java.security.MessageDigest;
 import java.util.List;
 import java.util.Random;
 import javax.mail.MessagingException;
@@ -24,13 +25,33 @@ public class ControllerLogin {
 			instance = new ControllerLogin();
 		return instance;
 	}
-
+	private String passwordHash(String pswd)throws Exception {
+		MessageDigest hasher=MessageDigest.getInstance("SHA-1");
+		hasher.update(pswd.getBytes("UTF-8"));
+		return toHex(hasher.digest());
+	}
+	private static String toHex(byte[] data)  {
+		StringBuilder sb = new StringBuilder();
+		for (byte b : data) {
+			String digit = Integer.toString(b & 0xFF, 16);
+ 
+			if (digit.length() == 1) {
+				sb.append("0");
+			}
+			sb.append(digit);
+		}
+		return sb.toString();
+	}
 	public UserBean signIn(String username,String password) throws SQLException{
 		UserBean user=null;
 		PersistanceDAO userDao=DaoFactory.getInstance().create(DaoType.USER);
 		UserEntity userE=new UserEntity();
 		userE.setUsername(username);
-		userE.setPassword(password);
+		try {
+		userE.setPassword(this.passwordHash(password));
+		}catch(Exception e) {
+			throw new SQLException(e.getMessage());
+		}
 		List<Entity> list = userDao.getData(userE);
 		MyIdentity.getInstance().setMyEntity((UserEntity) list.get(0));
 		user=new UserBean(MyIdentity.getInstance().getMyEntity());
@@ -66,6 +87,11 @@ public class ControllerLogin {
 	public void signUp(RegistrationBean user) throws SQLException{
 		PersistanceDAO userDao= DaoFactory.getInstance().create(DaoType.USER);
 		UserEntity newUser= new UserEntity(user);
+		try {
+		newUser.setPassword(this.passwordHash(user.getPassword()));
+		}catch(Exception e) {
+			throw new SQLException(e.getMessage());
+		}
 		userDao.setMyEntity(newUser);
 		userDao.setData();
 	}
