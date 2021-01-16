@@ -107,8 +107,15 @@ public class ProfileViewController {
 			}
 		
 		new Thread(()->{
-			ObservableList<MiniTravelBean> data = (ObservableList<MiniTravelBean>)ProfileController.getInstance().getTravel(user.getTravel());
-			travels.setItems(data); 
+			ObservableList<MiniTravelBean> data;
+			try {
+				data = (ObservableList<MiniTravelBean>)ProfileController.getInstance().getTravel(user.getTravel());
+				travels.setItems(data); 
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			travels.setCellFactory(list->new TravelCell());
 		}).start();
 
@@ -196,14 +203,14 @@ public class ProfileViewController {
             			internalPane=(AnchorPane)loader.load();
             			mainPane.setCenter(internalPane);
             			controller=loader.getController();
-            			controller.setMainPane(mainPane,2);
+            			controller.setMainPane(mainPane,2,item.getId());
             		}catch(IOException exc) {
             			exc.printStackTrace();
             		}
             	});
             	edit.setOnMouseClicked(e->{
             		try {
-            			MenuBar.getInstance().moveToAdd(mainPane);
+            			MenuBar.getInstance().moveToAdd(mainPane); //aggiungere id viaggio dopo aver sistemato add
             		}catch(IOException exc) {
             			exc.printStackTrace();
             		}
@@ -400,7 +407,7 @@ public class ProfileViewController {
 		myDescrEdit.setVisible(false);
 	}
 	@FXML
-	private void favouriteList(){
+	private void favouriteList() throws SQLException{
 		show.setVisible(true);
 		listTitle.setVisible(true);
 		listText.setText("Your favourite travels");
@@ -408,19 +415,19 @@ public class ProfileViewController {
 		show.setItems(fav);
 	}
 	@FXML
-	private void followerList() {
+	private void followerList() throws SQLException {
 		show.setVisible(true);
 		listTitle.setVisible(true);
 		listText.setText("Your followers");
-		ObservableList<String> fav = (ObservableList<String>)ProfileController.getInstance().getFollower(user.getFollower());
+		ObservableList<String> fav = (ObservableList<String>)ProfileController.getInstance().getFollow(user.getFollower());
 		show.setItems(fav);
 	}
 	@FXML
-	private void followingList() {
+	private void followingList() throws SQLException {
 		show.setVisible(true);
 		listTitle.setVisible(true);
 		listText.setText("Your interesting people");
-		ObservableList<String> fav = (ObservableList<String>)ProfileController.getInstance().getFollowing(user.getFollowing());
+		ObservableList<String> fav = (ObservableList<String>)ProfileController.getInstance().getFollow(user.getFollowing());
 		show.setItems(fav);
 	}
 	@FXML

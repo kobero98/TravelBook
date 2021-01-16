@@ -6,5 +6,7 @@ public enum DaoType {
 	 TRAVEL,
 	 STEP,
 	 CITY,
-	 MESSAGE
+	 MESSAGE,
+	 S_TRAVEL,
+	 S_USER
 }

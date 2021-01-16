@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import main.java.travelbook.model.TravelEntity;
 
 public class MiniTravelBean{
+	private Integer id;
 	private String nameTravel;
 	private String descriptionTravel;
 	private Image pathBackground;
@@ -25,7 +26,9 @@ public class MiniTravelBean{
 	public String getNameTravel() {
 		return this.nameTravel;
 	}
-	
+	public Integer getId() {
+		return this.id;
+	}
 	public Image getPathImage() {
 		return this.pathBackground;
 	}

@@ -317,6 +317,19 @@ public class AllQuery {
 		}
 		return rs;
 	}
+	public ResultSet shortUserByID(Statement stmt, int id) {
+		ResultSet rs=null;
+		try {
+			connect();
+			stmt=this.connection.createStatement();
+			String query = "Select idUser,NameUser,Surname from User where idUser_"+id;
+			rs=stmt.executeQuery(query);
+			return rs;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
 	public ResultSet cityAutocompleteRequest(Statement stmt, String text) {
 		ResultSet rs=null;
 		String query="SELECT NameC,State from City where NameC like '"+text+"%' order by char_length(NameC),char_length(State)";

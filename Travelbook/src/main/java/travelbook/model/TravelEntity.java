@@ -35,6 +35,9 @@ public class TravelEntity implements Entity {
 	public int getIdTravel() {
 		return this.id;
 	}
+	public void setIdTravel(int id) {
+		this.id=id;
+	}
 	public int getCreatorId() {
 		return this.creatorId;
 	}

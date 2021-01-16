@@ -37,7 +37,7 @@ public class TravellDao implements PersistanceDAO{
 		if(rs!=null)
 		{
 			while(rs.next()) {
-				TravelEntity e = convertRStoTravel(rs);
+				e = convertRStoTravel(rs);
 				list.add((Entity) e);
 			}
 		}

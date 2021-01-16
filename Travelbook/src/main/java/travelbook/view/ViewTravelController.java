@@ -216,7 +216,7 @@ public class ViewTravelController {
     	});
 	}
 	
-	public void setMainPane(BorderPane main, int provenience) {
+	public void setMainPane(BorderPane main, int provenience, int travelId) {
 		this.mainPane=main;
 		this.goBack=provenience;
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
