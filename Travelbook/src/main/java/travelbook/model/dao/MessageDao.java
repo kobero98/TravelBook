@@ -20,41 +20,45 @@ public class MessageDao implements PersistanceDAO {
 		}
 	}
 	@Override
-	public List<Entity> getData(Entity message){
+	public List<Entity> getData(Entity message)throws SQLException{
 		MessageEntity messaggio=(MessageEntity) message;
 		List<Entity> results=new ArrayList<>();
-		try {
+		
 			connect();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		try {
+		
+		
 			Statement stmt=connection.createStatement();
 			ResultSet rs=AllQuery.getInstance().getMessage(stmt, messaggio);
 			while(rs.next()) {
 				MessageEntity newM=new MessageEntity(rs.getInt("Mittente"),rs.getInt("Destinatario"));
 				newM.setText(rs.getString("Testo"));
-				newM.setTime(rs.getDate("data"));
+				newM.setTime(rs.getTimestamp("data").toInstant());
 				newM.setType(rs.getString("NomeViaggio"));
 				results.add((Entity)newM);
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		return results;
 	}
 	@Override
-	public void setData() {
-		
+	public void setData() throws SQLException {
+		if(this.myEntity!=null) {
+			connect();
+			AllQuery.getInstance().sendMessage(this.connection, this.myEntity);
+		}
 	}
 	@Override
 	public void delete(Entity obj) {
 		
 	}
 	@Override
-	public void update(Entity obj) {
-		
+	public void update(Entity obj)  {
+		MessageEntity entityToBeUpdated=(MessageEntity) obj;
+		try {
+		connect();
+		AllQuery.getInstance().setReadMex(this.connection.createStatement(), entityToBeUpdated);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public Entity getMyEntity() {

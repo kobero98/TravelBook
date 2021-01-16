@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -16,6 +18,8 @@ import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import exception.ExceptionLogin;
 import exception.ExceptionRegistration;
 import exception.LoginPageException;
+import main.java.travelbook.model.CityEntity;
+import main.java.travelbook.model.MessageEntity;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
@@ -356,6 +360,105 @@ public class AllQuery {
 			e.printStackTrace();
 		}
 		return rs;
+	}
+	public ResultSet getCityByName(Statement stmt, CityEntity entity) {
+		String query="SELECT NameC,State from City where NameC='"+entity.getNameC()+"' and State='"+entity.getState()+"'";
+		ResultSet rs=null;
+		try {
+			 rs=stmt.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	public void setCity(Connection connect, CityEntity entity) {
+		String query="INSERT into City(NameC,State) values (?,?)";
+		PreparedStatement stmt=null;
+		try {
+			 stmt=connect.prepareStatement(query);
+			stmt.setString(1, entity.getNameC());
+			stmt.setString(2, entity.getState());
+			stmt.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(stmt!=null)
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	}
+	public void deleteCity(Connection connect,CityEntity entity) {
+		String query="DELETE from City where NameC=? and State=?";
+		try {
+			PreparedStatement prp=connect.prepareStatement(query);
+			prp.setString(1, entity.getNameC());
+			prp.setString(2, entity.getState());
+			prp.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	public ResultSet getMessage(Statement stmt, MessageEntity message) {
+		ResultSet rs=null;
+		String query;
+		if(message.getIdMittente()!=0) {
+			if(message.getSoloNuovi()) {
+				query="SELECT * FROM messaggio where Destinatario="+message.getIdDestinatario()+" and letto="+0;
+			}
+			else {
+			query="SELECT * FROM messaggio where Destinatario="+message.getIdDestinatario();
+			}
+			
+			
+		}
+		else {
+			if(message.getSoloNuovi()) {
+				query="SELECT * FROM messaggio where Destinatario="+message.getIdDestinatario()+"and Mittente="+message.getIdMittente()+" and letto="+0;
+			}
+			else {
+				query="SELECT * FROM messaggio where Destinatario="+message.getIdDestinatario()+" and Mittente="+message.getIdMittente();
+			}
+		}
+		try {
+			rs=stmt.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	public void sendMessage(Connection connect, MessageEntity message)throws SQLException {
+		ResultSet rs=null;
+		String query="INSERT INTO messaggio(Destinatario,Mittente,Testo,data) values (?,?,?,?)";
+		PreparedStatement insertMex=connect.prepareStatement(query);
+        insertMex.setInt(1, message.getIdDestinatario());
+        insertMex.setInt(2, message.getIdMittente());
+        insertMex.setString(3, message.getText());
+        insertMex.setTimestamp(4, Timestamp.from(Instant.now()));
+        //Mi pare che letto è a 0 di default
+        insertMex.execute();
+	}
+	public void setReadMex(Statement stmt, MessageEntity message)throws SQLException{
+		String query="UPDATE messaggio SET letto=1 where idMessaggio="+message.getIdMessaggio();
+		stmt.execute(query);
+	}
+	public void deleteMex(Statement stmt, MessageEntity message)throws SQLException{
+		String query;
+		if(message.getIdMessaggio()!=0) {
+			query="DELETE FROM messaggio where idMessaggio="+message.getIdMessaggio();
+		}
+		else {
+			query="DELETE FROM messaggio where Destinatario="+message.getIdDestinatario()+" and Mittente="+message.getIdMittente();
+		}
+		stmt.execute(query);
 	}
 	
 }

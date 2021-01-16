@@ -1,14 +1,14 @@
 package main.java.travelbook.model;
 
 import java.util.Date;
-
+import java.time.Instant;
 public class MessageEntity {
 	private int idMessaggio;
 	private int idDestinatario;
 	private int idMittente;
 	private String type;
 	private String text;
-	private Date dataTime;
+	private Instant dataTime;
 	private boolean soloNuovi;
 	public boolean getSoloNuovi() {
 		return this.soloNuovi;
@@ -32,14 +32,14 @@ public class MessageEntity {
 	public String getText(){
 		return this.text;
 	}
-	public Date getTime() {
+	public Instant getTime() {
 		return this.dataTime;
 	}
 
 	public void setText(String testo) {
 		this.text=testo;
 	}
-	public void setTime(Date time) {
+	public void setTime(Instant time) {
 		this.dataTime=time;
 	}
 	public void setType(String tipo) {
