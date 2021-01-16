@@ -7,16 +7,17 @@ import java.io.File;
 
 
 public class StepEntity implements Entity {
-	private int number;
-	private int idTravel;
-	private int idCreator;
-	private int groupDay; 
-	private int numberOfDay;
-	private String descriptionStep;
-	private String place;
-	private Date day;
-	private List <File> photo;
-	private String precisionInformation;
+	private int number=0;
+	private int idTravel=0;
+	private int idCreator=0;
+	private int groupDay=0; 
+	private int numberOfDay=0;
+	private String descriptionStep=null;
+	private String place=null;
+	private Date day=null;
+	private List <File> photo=null;
+	private String precisionInformation=null;
+	
 	public  StepEntity(){}
 	public StepEntity(int idcreator,int number) {
 		this.idCreator=idcreator;
@@ -64,6 +65,9 @@ public class StepEntity implements Entity {
 		return this.photo;
 	}
 	
+	public void setNumber(int num) {
+		this.number=num;
+	}
 	public void setDescriptionStep(String description)
 	{
 		this.descriptionStep=description;

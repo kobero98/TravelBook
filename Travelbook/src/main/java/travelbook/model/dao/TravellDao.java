@@ -14,16 +14,25 @@ import main.java.travelbook.model.TravelEntity;
 
 public class TravellDao implements PersistanceDAO{
 
-	private TravelEntity convertRStoTravel(ResultSet rs) {
-		TravelEntity e;
-		
-		return null;
+	private TravelEntity convertRStoTravel(ResultSet rs) throws SQLException {
+		TravelEntity e=new TravelEntity(rs.getInt(1),rs.getInt(11));
+		e.setNameTravel(rs.getString(2));
+		e.setCostTravel(rs.getDouble(3));
+		e.setType(rs.getString(4));
+		e.setLikeNumber(5);
+		e.setStartTravelDate(rs.getDate(6));
+		e.setEndTravelDate(rs.getDate(7));
+		e.setStepNumber(rs.getInt(8));
+		e.setBackground(rs.getBinaryStream(9));
+		e.setDescriptionTravel(rs.getString(10));
+		e.setShare( rs.getBoolean(12));
+		return e;
 	}
 	private TravelEntity entity;
 	@Override
 	public List<Entity> getData(Entity object) throws SQLException {
 		TravelEntity e=(TravelEntity) object;
-		List <Entity> list=new ArrayList<Entity>();
+		List <Entity> list=new ArrayList<>();
 		ResultSet rs=null;
 		Statement stmt=null;
 		connect();
@@ -32,16 +41,19 @@ public class TravellDao implements PersistanceDAO{
 			rs=AllQuery.getInstance().requestTripByUser(stmt, e.getCreatorId());	
 		}
 		else {
-			rs=AllQuery.getInstance().requestTripById(stmt, e.getIdTravel());
+			if(e.getIdTravel()!=0)
+					rs=AllQuery.getInstance().requestTripById(stmt, e.getIdTravel());
 		}
 		if(rs!=null)
 		{
 			while(rs.next()) {
-				e = convertRStoTravel(rs);
-				list.add((Entity) e);
+				TravelEntity ent = convertRStoTravel(rs);
+				list.add((Entity) ent);
 			}
 		}
-		return null;
+		else list=null;
+		stmt.close();
+		return list;
 	}
 	private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	
 	private Connection connection;

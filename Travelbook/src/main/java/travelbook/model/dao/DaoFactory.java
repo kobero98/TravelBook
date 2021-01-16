@@ -17,11 +17,11 @@ public class DaoFactory {
 		if(tipo.compareTo(DaoType.TRAVEL)==0) 
 			return new TravellDao();
 		if(tipo.compareTo(DaoType.CITY)==0)
-			System.out.print("ciao1");
+			return new CityDao();
 		if(tipo.compareTo(DaoType.MESSAGE)==0)
-			System.out.print("ciao1");
+			return new MessageDao();
 		if(tipo.compareTo(DaoType.STEP)==0)
-			System.out.print("ciao1");
+			return new StepDao();
 		if(tipo.compareTo(DaoType.S_TRAVEL)==0) {
 			System.out.print("ciao1");
 		}

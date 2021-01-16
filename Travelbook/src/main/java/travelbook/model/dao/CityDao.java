@@ -45,8 +45,8 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 
 	}
 	@Override
-	public List<Entity> getData(Entity città){
-		CityEntity city=(CityEntity) città;
+	public List<Entity> getData(Entity citta){
+		CityEntity city=(CityEntity) citta;
 		List<Entity> results=new ArrayList<>();
 		try {
 			connect();

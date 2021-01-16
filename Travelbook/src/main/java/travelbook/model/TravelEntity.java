@@ -1,5 +1,6 @@
 package main.java.travelbook.model;
 
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.List;
 
@@ -11,16 +12,15 @@ public class TravelEntity implements Entity {
 	private int creatorId=0;
 	private int stepNumber=0;
 	private int likeNumber=0;
-	private String nameTravel;
-	private String type;
-	private String pathBackground; 
-	private String description;
-	private Date startDate;
-	private Date endDate;
-	private Boolean share;
-	private List <StepEntity> step;
-	private List <String> cityView;
-	
+	private String nameTravel=null;
+	private String type=null;
+	private InputStream background=null; 
+	private String description=null;
+	private Date startDate=null;
+	private Date endDate=null;
+	private int share=0;
+	private List <StepEntity> step=null;
+	private List <CityEntity> cityView=null;
 	
 	public TravelEntity() {}
 	public TravelEntity(int idcreator) {
@@ -31,13 +31,10 @@ public class TravelEntity implements Entity {
 		this.creatorId=idcreator;
 	}
 	
-
 	public int getIdTravel() {
 		return this.id;
 	}
-	public void setIdTravel(int id) {
-		this.id=id;
-	}
+	
 	public int getCreatorId() {
 		return this.creatorId;
 	}
@@ -58,8 +55,8 @@ public class TravelEntity implements Entity {
 	public String getTypeTravel() {
 		return this.type;
 	}
-	public String getPathImage() {
-		return this.pathBackground;
+	public InputStream getImage() {
+		return this.background;
 	}
 	public Date getStartDate() {
 		return this.startDate;
@@ -70,16 +67,19 @@ public class TravelEntity implements Entity {
 	public String getDescriptionTravel() {
 		return this.description;
 	}
-	public Boolean getShare() {
+	public int getShare() {
 		return this.share;
 	}
 	public List <StepEntity> getListStep(){
 		return this.step;
 	}
-	public List<String> getCityView(){
+	public List<CityEntity> getCityView(){
 		return this.cityView;
 	}
 	
+	public void setIdTravel(int id) {
+		this.id=id;
+	}
 	public void setCreatorTravel(int id) {
 		this.creatorId=id;
 	}
@@ -95,9 +95,9 @@ public class TravelEntity implements Entity {
 	public void setType(String type) {
 		this.type=type;
 	}
-	public void setPathBackground(String path)
+	public void setBackground(InputStream inputStream)
 	{
-		this.pathBackground=path;
+		this.background=inputStream;
 	}
 	public void setCostTravel(double cost)
 	{
@@ -115,14 +115,14 @@ public class TravelEntity implements Entity {
 	{
 		this.description=description;
 	}
-	public void setShare(Boolean v)
+	public void setShare(int v)
 	{
 		this.share=v;
 	}
 	public void setListStep(List <StepEntity> step) {
 		this.step=step;
 	}
-	public void setCityView(List <String> list) {
+	public void setCityView(List <CityEntity> list) {
 		this.cityView=list;
 	}
 
