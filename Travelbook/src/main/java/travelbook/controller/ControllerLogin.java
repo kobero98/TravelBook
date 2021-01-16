@@ -90,7 +90,7 @@ public class ControllerLogin {
 		try {
 		newUser.setPassword(this.passwordHash(user.getPassword()));
 		}catch(Exception e) {
-			throw new SQLException(e.getMessage());
+			e.getStackTrace();
 		}
 		userDao.setMyEntity(newUser);
 		userDao.setData();

@@ -70,6 +70,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 						UserEntity utente=castRStoUser(rs);
 						list.add((Entity) utente);
 					}while(rs.next());
+					System.out.println("finisco il get della Dao");
 			}
 			
 		}finally {
@@ -93,8 +94,11 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		if(this.entity!=null)
 		{
 			try {
+
+				System.out.println("inizio il set della Dao");
 				connect();
 				AllQuery.getInstance().requestRegistrationUser(this.connection, this.entity);
+				System.out.println("finisco il get della Dao");
 			} catch (SQLException e) {
 				throw new ExceptionRegistration("Errore registrazione");
 			}

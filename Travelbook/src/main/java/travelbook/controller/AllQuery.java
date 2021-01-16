@@ -36,7 +36,7 @@ public class AllQuery {
 		}
 		
 	}
-	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumeber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalità";
+	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalita";
 	public ResultSet requestLogin(Statement stmt,String username,String password) throws ExceptionLogin{
 		ResultSet rs=null;
 		
@@ -105,9 +105,12 @@ public class AllQuery {
 
 	public void requestRegistrationUser(Connection conn,UserEntity user) throws SQLException {
 				  PreparedStatement preparedStmt =null;
-				  try{
+				
 					  String query = " insert into User (Username, password,NameUser, Surname, BirthDate,Email,Gender)" + " values (?, ?, ?, ?, ?, ?, ?)";
-					  preparedStmt = conn.prepareStatement(query);
+					  try {
+						preparedStmt = conn.prepareStatement(query);
+					
+				      System.out.println("ciao");
 					  preparedStmt.setString (1, user.getUsername());
 				      preparedStmt.setString (2, user.getPassword());
 				      preparedStmt.setString (3, user.getName());
@@ -117,17 +120,18 @@ public class AllQuery {
 				      preparedStmt.setString (7,user.getGender());
 				      preparedStmt.execute();
 				      preparedStmt.close();
-				  }catch(SQLIntegrityConstraintViolationException e) {
+				     }catch(SQLIntegrityConstraintViolationException e) {
 						throw new ExceptionRegistration("Errore Utente gia presente nel Database");
 					}catch(MysqlDataTruncation e){
 						throw new ExceptionRegistration("Dati non validi");
 					}catch(SQLException e){
 						throw new LoginPageException("Errore nell'accesso al database");
 					}finally {
-					
-					  if(preparedStmt!=null) preparedStmt.close();
+						if(preparedStmt!=null) preparedStmt.close();
+							
 					}
 			   
+				  
 	}
 	
 	public void requestRegistrationStep(Connection connessione,StepEntity step) throws SQLException {
