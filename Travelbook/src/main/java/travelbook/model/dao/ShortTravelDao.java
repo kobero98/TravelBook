@@ -32,6 +32,7 @@ public class ShortTravelDao implements PersistanceDAO {
 	}
 	
 	private TravelEntity entity;
+
 	@Override
 	public List<Entity> getData(Entity object) throws SQLException {
 		this.entity=(TravelEntity) object;
@@ -76,5 +77,6 @@ public class ShortTravelDao implements PersistanceDAO {
 		this.entity=(TravelEntity) user;
 		
 	}
+
 
 }
