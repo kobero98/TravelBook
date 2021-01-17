@@ -1,9 +1,11 @@
 package main.java.travelbook.model.dao;
 import main.java.travelbook.model.StepEntity;
+import java.io.InputStream;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.io.File;
 import java.sql.Connection;
 import java.util.List;
 
@@ -55,6 +57,16 @@ public class StepDao implements PersistanceDAO {
 				newStep.setNumberOfDay(rs.getInt("NumberDay"));
 				newStep.setPrecisionInformation(rs.getString("PrecisionInformation"));
 				stepFound.add((Entity)newStep);
+			}
+			for(Entity entit: stepFound) {
+				StepEntity localStep=(StepEntity)entit;
+				Statement stmt1=connection.createStatement();
+				ResultSet rs1=AllQuery.getInstance().requestPhotoByStep(stmt1, localStep.getNumber());
+				List<InputStream> images=new ArrayList<>();
+				while(rs1.next()) {
+					images.add(rs1.getBinaryStream(1));
+				}
+				localStep.setStreamFoto(images);
 			}
 		}catch(SQLException e1) {
 			e1.printStackTrace();

@@ -106,6 +106,12 @@ public class AllQuery {
 			return rs;
 		}
 	}
+	public ResultSet requestPhotoByStep(Statement stmt,int idStep) throws SQLException {
+		ResultSet rs=null;
+		String query="SELECT LinkPhoto from PhotoStep where Step_Number="+idStep;
+		rs=stmt.executeQuery(query);
+		return rs;
+	}
 
 	public void requestRegistrationUser(Connection conn,UserEntity user) throws SQLException {
 				  PreparedStatement preparedStmt =null;

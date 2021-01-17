@@ -3,7 +3,7 @@ package main.java.travelbook.model;
 import java.sql.Date;
 import java.util.List;
 import java.io.File;
-
+import java.io.InputStream;
 
 
 public class StepEntity implements Entity {
@@ -15,6 +15,13 @@ public class StepEntity implements Entity {
 	private String descriptionStep=null;
 	private String place=null;
 	private Date day=null;
+	private List<InputStream> streamFoto=null;
+	public List<InputStream> getStreamFoto() {
+		return streamFoto;
+	}
+	public void setStreamFoto(List<InputStream> streamFoto) {
+		this.streamFoto = streamFoto;
+	}
 	private List <File> photo=null;
 	private String precisionInformation=null;
 	
