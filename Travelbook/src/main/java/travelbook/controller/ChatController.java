@@ -1,5 +1,6 @@
 package main.java.travelbook.controller;
 import java.util.List;
+import java.time.Instant;
 import java.util.ArrayList;
 
 import main.java.travelbook.model.dao.DaoFactory;
@@ -19,9 +20,11 @@ public class ChatController {
 		}
 		return istance;
 	}
-	public List<MessageEntity> getNewMessage( int idUser) throws Exception {
+	public List<MessageEntity> getNewMessage( int idUser, Instant time) throws Exception {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);
 		MessageEntity nuovaEntity=new MessageEntity(0,idUser);
+		if(time!=null)
+			nuovaEntity.setLastTimeStamp(time);
 		nuovaEntity.setSoloNuovi(true);
 		List<Entity> entities=dao.getData(nuovaEntity);
 		List<MessageEntity> messaggi=new ArrayList<>();

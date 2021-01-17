@@ -10,6 +10,13 @@ public class MessageEntity implements Entity {
 	private String text;
 	private Instant dataTime;
 	private boolean soloNuovi;
+	private Instant lastTimeStamp;
+	public Instant getLastTimeStamp() {
+		return lastTimeStamp;
+	}
+	public void setLastTimeStamp(Instant lastTimeStamp) {
+		this.lastTimeStamp = lastTimeStamp;
+	}
 	public boolean getSoloNuovi() {
 		return this.soloNuovi;
 	}

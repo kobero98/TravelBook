@@ -20,9 +20,10 @@ public class MenuBar extends Observable implements Observer{
 	}
 	@Override
 	public void update(Observable chat) {
+		Chat val=(Chat)chat;
 		notify=true;
 		istance.setChanged();
-		System.out.println("Nuova chat arrivata");
+		System.out.println("Nuova chat arrivata: "+val.getIdUser()+" testo: "+val.getReceive().get(val.getReceive().size()-1).getText());
 	}
 	@Override
 	public void update(Observable chat, Object arg) {
