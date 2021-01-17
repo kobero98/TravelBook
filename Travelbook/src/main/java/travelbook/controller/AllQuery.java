@@ -33,8 +33,6 @@ public class AllQuery {
 		
 		return instance;
 	}
-	
-	
 	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalita";
 	
 	public ResultSet requestLogin(Statement stmt,String username,String password) throws ExceptionLogin{
@@ -218,6 +216,11 @@ public class AllQuery {
 		
 	}	
 	
+	public ResultSet requestShortTravel(Statement stmt,int idUser)throws SQLException{
+		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip where CreatorTrip="+idUser;
+		return stmt.executeQuery(query);
+	}
+
 	public void setCityToTravel(Connection connessione,int idTravel,int idCrator,CityEntity entity) throws SQLException {
 		PreparedStatement preparedStmt=null;
 		  try{
@@ -376,16 +379,12 @@ public class AllQuery {
 		}
 		return rs;
 	}
-	public ResultSet shortUserByID(Statement stmt, int id) {
+	public ResultSet shortUserByID(Statement stmt, int id) throws SQLException {
 		ResultSet rs=null;
-		try {
-				String query = "Select idUser,NameUser,Surname from User where idUser_"+id;
-				rs=stmt.executeQuery(query);
-				return rs;
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
+		String query = "Select idUser,NameUser,Surname from User where idUser_"+id;
+		rs=stmt.executeQuery(query);
 		return rs;
+	
 	}
 	public ResultSet cityAutocompleteRequest(Statement stmt, String text) {
 		ResultSet rs=null;
@@ -516,5 +515,8 @@ public class AllQuery {
 		}
 		stmt.execute(query);
 	}
+	
+	
+	
 	
 }
