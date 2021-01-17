@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import main.java.travelbook.model.UserEntity;
 
@@ -16,7 +17,7 @@ public class UserBean{
 	private String gender;
 	private String nation;
 	private String birthdate;
-	private File photo;
+	private File photo=new File(".test");
 	private int  nFollower;
 	private int nFollowing;
 	private int nTrip;
@@ -28,28 +29,20 @@ public class UserBean{
 
 	
 	private void convertInputStramToFile(InputStream s)throws IOException{
-		OutputStream outStream = null;
-		  try {
-			
-			  byte[] buffer = new byte[s.available()];
-			  int i=s.read(buffer);
-			  if(i>0) {  
-				 
-				  outStream = new FileOutputStream(this.photo);
-				  outStream.write(buffer); 
-				  System.out.print("ciao\n");
-			  }
-		 } catch (IOException e) {
-			if(outStream!=null){
-					try {
-				
-					outStream.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				e.printStackTrace();
-				}
-		 }
+		
+				OutputStream outStream = null;
+	    	   try {
+	    		    outStream = new FileOutputStream(this.photo);
+	    		    byte[] buffer = new byte[8 * 1024];
+	    		    int bytesRead;
+	    		    while ((bytesRead = s.read(buffer)) != -1) {
+	    		    	outStream.write(buffer, 0, bytesRead);
+	    		    }
+	    		    
+	    	    }finally {
+	    	    	if(outStream!= null) outStream.close();
+	    	    }
+	
 			
 	}
 	
