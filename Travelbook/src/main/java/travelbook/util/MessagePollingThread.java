@@ -18,10 +18,10 @@ public class MessagePollingThread extends Thread {
 		try {
 			//Non c'e' bisogno di sincronizzarsi sulla chat perche' il thread che scrive e' uno solo
 			lastLocalTime=lastTime;
-			lastTime=Instant.now();
-			
 		List<MessageEntity> messages=ChatController.getIstance().getNewMessage( MenuBar.getLoggedUser().getId(),lastLocalTime);
 		List<Chat> chats=MenuBar.getMyChat();
+		if(!messages.isEmpty())
+			lastTime=Instant.now();
 		for(MessageEntity message: messages) {
 			found=false;
 			for(int i=0;i<chats.size();i++) {
