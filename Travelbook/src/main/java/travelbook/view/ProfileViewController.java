@@ -115,8 +115,7 @@ public class ProfileViewController implements Observer{
 
 		
 		if(user.getPhoto() !=null) {
-			Image myPhoto=new Image(user.getPhoto().toURI().toString());
-			BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+			BackgroundImage bgPhoto = new BackgroundImage(user.getPhoto(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 			Background newBg = new Background(bgPhoto);
 			profilePhoto.setBackground(newBg);
 		}

@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+
+import javafx.scene.image.Image;
 import main.java.travelbook.model.UserEntity;
 
 public class UserBean{
@@ -17,7 +19,7 @@ public class UserBean{
 	private String gender;
 	private String nation;
 	private String birthdate;
-	private File photo=new File(".test");
+	private Image photo=null;
 	private int  nFollower;
 	private int nFollowing;
 	private int nTrip;
@@ -28,23 +30,6 @@ public class UserBean{
 	private List<Integer> fav = null;	
 
 	
-	private void convertInputStramToFile(InputStream s)throws IOException{
-		
-				OutputStream outStream = null;
-	    	   try {
-	    		    outStream = new FileOutputStream(this.photo);
-	    		    byte[] buffer = new byte[8 * 1024];
-	    		    int bytesRead;
-	    		    while ((bytesRead = s.read(buffer)) != -1) {
-	    		    	outStream.write(buffer, 0, bytesRead);
-	    		    }
-	    		    
-	    	    }finally {
-	    	    	if(outStream!= null) outStream.close();
-	    	    }
-	
-			
-	}
 	
 	
 	public UserBean() {}
@@ -57,13 +42,7 @@ public class UserBean{
 		this.surname=user.getSurname();
 		this.description=user.getDescription();
 		this.gender=user.getGender();
-		if(user.getPhoto()!=null)
-			try {
-				convertInputStramToFile(user.getPhoto());
-				System.out.print("ciao2\n");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		if(user.getPhoto()!=null)		this.photo=new Image(user.getPhoto());
 		this.nFollower=user.getNFollower();
 		this.nFollowing=user.getNFollowing();
 		this.nTrip=user.getNTrip();
@@ -87,9 +66,13 @@ public class UserBean{
 	{
 		this.description=description;
 	}
-	public void setPhoto(File photo)
+	public void setPhoto(Image photo)
 	{
 		this.photo=photo;
+	}
+	public void setPhoto(InputStream photo)
+	{
+		this.photo=new Image(photo);
 	}
 	public void setSex(String sex)
 	{
@@ -140,7 +123,7 @@ public class UserBean{
 	{
 		return this.description;
 	}
-	public File getPhoto()
+	public Image getPhoto()
 	{
 		return this.photo;
 	}
