@@ -115,7 +115,8 @@ public class ProfileViewController implements Observer{
 
 		
 		if(user.getPhoto() !=null) {
-			BackgroundImage bgPhoto = new BackgroundImage(user.getPhoto(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+			Image myPhoto=new Image(user.getPhoto().toURI().toString());
+			BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 			Background newBg = new Background(bgPhoto);
 			profilePhoto.setBackground(newBg);
 		}
@@ -360,9 +361,9 @@ public class ProfileViewController implements Observer{
 			BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 			Background newBg = new Background(bgPhoto);
 			profilePhoto.setBackground(newBg);
-			user.setPhoto(myPhoto);
 			try {
-				ProfileController.getInstance().updatePhoto(user);
+				ProfileController.getInstance().updatePhoto(user.getId(),selectedFile);
+				
 			} catch (SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Update failed");
@@ -388,8 +389,10 @@ public class ProfileViewController implements Observer{
 			String newDescr = descrWrite.getText();
 			myDescr.setText(newDescr);
 			user.setDescription(newDescr);
+			descrWrite.clear();
+			descrWrite.setVisible(false);
 			try {
-				ProfileController.getInstance().updateDescr(user);
+				ProfileController.getInstance().updateDescr(user.getId(),newDescr);
 			} catch (SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Update failed");
@@ -402,8 +405,7 @@ public class ProfileViewController implements Observer{
 	   		 	alert.setGraphic(imageView);
 	   		 	alert.showAndWait();
 			}
-			descrWrite.clear();
-			descrWrite.setVisible(false);
+			
 		}
 	}
 	@FXML

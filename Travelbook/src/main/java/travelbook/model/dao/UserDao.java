@@ -125,9 +125,24 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		
 	}
 	@Override
-	public void update(Entity object) {
-		// TODO Auto-generated method stub
-		
+	public void update(Entity object)throws SQLException {
+		this.entity= (UserEntity) object;
+		connect();
+		if(this.entity.getDescription()!=null)
+			AllQuery.getInstance().updateDescriptionUser(connection, this.entity.getId(), this.entity.getDescription());
+		if(this.entity.getPhoto()!=null)
+			AllQuery.getInstance().updatePhotoProfile(connection, this.entity.getId(), this.entity.getPhoto());
+		if(this.entity.getBirthDate()!=null)
+			System.out.println("ciao1");
+
+		if(this.entity.getName()!=null)
+			System.out.println("ciao1");
+
+		if(this.entity.getSurname()!=null)
+			System.out.println("ciao1");
+
+		if(this.entity.getPassword()!=null)
+			System.out.println("ciao1");
 	}
 	
 	

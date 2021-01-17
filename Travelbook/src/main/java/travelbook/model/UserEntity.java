@@ -4,6 +4,9 @@ import java.util.List;
 
 import javafx.scene.image.Image;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Date;
 import main.java.travelbook.model.bean.MessageBean;
@@ -19,7 +22,7 @@ public class UserEntity implements Entity{
 	private String email=null;
 	private String description=null;
 	private String gender=null;
-	private Image urlPhoto=null;
+	private InputStream photo=null;
 	private Date birthDate=null;
 	private int  id=0;
 	private int nFollower;
@@ -66,14 +69,20 @@ public class UserEntity implements Entity{
 	{
 		this.description=description;
 	}
-	public void setPhoto(Image photo)
-	{
-		this.urlPhoto=photo;
-	}
 	public void setPhoto(InputStream photo)
 	{
-		if(photo!=null) this.urlPhoto=new Image(photo);
-		else this.urlPhoto=null;
+		this.photo=photo;
+	}
+	public void setPhoto(File photo)
+	{
+		if(photo!=null)
+			try {
+				this.photo=new FileInputStream(photo);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else this.photo=null;
 	}
 	public void setGender(String gender)
 	{
@@ -129,9 +138,9 @@ public class UserEntity implements Entity{
 	{
 		return this.description;
 	}
-	public Image getPhoto()
+	public InputStream getPhoto()
 	{
-		return this.urlPhoto;
+		return this.photo;
 	}
 	public String getGender()
 	{

@@ -1,5 +1,6 @@
 package main.java.travelbook.controller;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,20 +51,20 @@ public class ProfileController{
 		return ol;
 	}
 	
-	public void updateDescr(UserBean user) throws SQLException {
+	public void updateDescr(int id,String descr) throws SQLException {
 		PersistanceDAO userDao= DaoFactory.getInstance().create(DaoType.USER);
-		UserEntity userE = new UserEntity();
-		userE.setDescription(user.getDescription());
-		userDao.setMyEntity(userE);
-		userDao.setData();//TODO update con la dao		
+		UserEntity userE = new UserEntity(id);
+		userE.setDescription(descr);
+		System.out.println("metto la descrizione");
+		userDao.update(userE);
 	}
 	
-	public void updatePhoto(UserBean user) throws SQLException {
+	public void updatePhoto(int id,File foto) throws SQLException {
 		PersistanceDAO userDao= DaoFactory.getInstance().create(DaoType.USER);
-		UserEntity userE = new UserEntity();
-		userE.setPhoto(user.getPhoto());
-		userDao.setMyEntity(userE);
-		userDao.setData();//TODO update con la dao
+		UserEntity userE = new UserEntity(id);
+		System.out.print("metto la foto");
+		userE.setPhoto(foto);
+		userDao.update(userE);
 	}
 	
 	public List<String> getFollow(List<Integer> l) throws SQLException{

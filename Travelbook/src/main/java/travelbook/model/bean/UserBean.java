@@ -1,6 +1,10 @@
 package main.java.travelbook.model.bean;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
-import javafx.scene.image.Image;
 import main.java.travelbook.model.UserEntity;
 
 public class UserBean{
@@ -12,7 +16,7 @@ public class UserBean{
 	private String gender;
 	private String nation;
 	private String birthdate;
-	private Image urlPhoto;
+	private File photo;
 	private int  nFollower;
 	private int nFollowing;
 	private int nTrip;
@@ -22,14 +26,51 @@ public class UserBean{
 	private List<Integer> following = null;
 	private List<Integer> fav = null;	
 
+	
+	private void convertInputStramToFile(InputStream s)throws IOException{
+		OutputStream outStream = null;
+		  try {
+			
+			  byte[] buffer = new byte[s.available()];
+			  int i=s.read(buffer);
+			  if(i>0) {  
+				 
+				  outStream = new FileOutputStream(this.photo);
+				  outStream.write(buffer); 
+				  System.out.print("ciao\n");
+			  }
+		 } catch (IOException e) {
+			if(outStream!=null){
+					try {
+				
+					outStream.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+				}
+		 }
+			
+	}
+	
+	
 	public UserBean() {}
+	
+	
+	
 	public UserBean(UserEntity user) {
 		this.id=user.getId();
 		this.name=user.getName();
 		this.surname=user.getSurname();
 		this.description=user.getDescription();
 		this.gender=user.getGender();
-		if(user.getPhoto()!=null) this.urlPhoto= user.getPhoto();
+		if(user.getPhoto()!=null)
+			try {
+				convertInputStramToFile(user.getPhoto());
+				System.out.print("ciao2\n");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		this.nFollower=user.getNFollower();
 		this.nFollowing=user.getNFollowing();
 		this.nTrip=user.getNTrip();
@@ -53,9 +94,9 @@ public class UserBean{
 	{
 		this.description=description;
 	}
-	public void setPhoto(Image photo)
+	public void setPhoto(File photo)
 	{
-		this.urlPhoto=photo;
+		this.photo=photo;
 	}
 	public void setSex(String sex)
 	{
@@ -106,9 +147,9 @@ public class UserBean{
 	{
 		return this.description;
 	}
-	public Image getPhoto()
+	public File getPhoto()
 	{
-		return this.urlPhoto;
+		return this.photo;
 	}
 	public String getSex()
 	{

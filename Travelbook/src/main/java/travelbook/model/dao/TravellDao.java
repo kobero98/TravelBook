@@ -32,6 +32,7 @@ public class TravellDao implements PersistanceDAO{
 		return e;
 	}
 	private TravelEntity entity;
+	
 	@Override
 	public List<Entity> getData(Entity object) throws SQLException {
 		TravelEntity e=(TravelEntity) object;
@@ -92,8 +93,9 @@ public class TravellDao implements PersistanceDAO{
 				dao.setMyEntity(citta);
 				dao.setData();
 			}
-		AllQuery.getInstance().setCityToTravel(connection, idTravel, this.entity.getCreatorId(), citta);
+			AllQuery.getInstance().setCityToTravel(connection, idTravel, this.entity.getCreatorId(), citta);
 		}
+		
 		
 	}
 
@@ -104,7 +106,7 @@ public class TravellDao implements PersistanceDAO{
 
 	@Override
 	public void delete(Entity object) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -120,85 +122,5 @@ public class TravellDao implements PersistanceDAO{
 		
 	}
 
-	public static void main(String [] args) {
-		TravelEntity e=new TravelEntity();
-		e.setNameTravel("odio questa materia");
-		e.setCreatorTravel(1);
-		e.setCostTravel(400);
-		e.setStartTravelDate(new Date(1999-1-1));
-		e.setEndTravelDate(new Date(1999-1-3));
-		e.setShare(0);
-		e.setDescriptionTravel("descrizione viaggio");
-		e.setType("#romanticTrip");
-		List<CityEntity> l=new ArrayList<>();
-		List<StepEntity> l1=new ArrayList<>();
-		
-		CityEntity citta= new CityEntity();
-		citta.setNameC("Roma");
-		citta.setState("Italia");
-		l.add(citta);
-		citta= new CityEntity();
-		citta.setNameC("Frosinone");
-		citta.setState("Italia");
-		l.add(citta);
-		e.setCityView(l);
-		
-		StepEntity step=new StepEntity();
-		step.setUserId(1);
-		step.setDay(new Date(1999-1-1));
-		step.setDescriptionStep("schifo");
-		step.setGroupDay(1);
-		step.setNumber(1);
-		step.setNumberOfDay(1);
-		step.setPlace("Colosseo");
-		step.setPrecisionInformation("odio questo progetto");
-		l1.add(step);
-		
-		step=new StepEntity();
-		step.setUserId(1);
-		step.setDay(new Date(1999-1-1));
-		step.setDescriptionStep("schifo parte due");
-		step.setGroupDay(1);
-		step.setNumber(2);
-		step.setNumberOfDay(2);
-		step.setPlace("Fori Imperiali");
-		step.setPrecisionInformation("é la seconda volta che riscrivo lo stesso codice e sono le 2 di notte");
-		l1.add(step);
-		
-		step=new StepEntity();
-		step.setUserId(1);
-		step.setDay(new Date(1999-1-2));
-		step.setDescriptionStep("schifo parte tre");
-		step.setGroupDay(2);
-		step.setNumber(3);
-		step.setNumberOfDay(1);
-		step.setPlace("Via del Corso");
-		step.setPrecisionInformation("Però E da dire che le stringhe dei place le metto sempre bene u.u");
-		l1.add(step);	
-		
-		step=new StepEntity();
-		step.setUserId(1);
-		step.setDay(new Date(1999-1-2));
-		step.setDescriptionStep("schifo parte quatro");
-		step.setGroupDay(2);
-		step.setNumber(4);
-		step.setNumberOfDay(2);
-		step.setPlace("Fori Imperiali");
-		step.setPrecisionInformation("Mi fermo al quarto step che sono cotto");
-		l1.add(step);
-		
-		e.setStepNumber(4);
-		e.setListStep(l1);
-		
-		PersistanceDAO dao =DaoFactory.getInstance().create(DaoType.TRAVEL);
-		try {
-			dao.setMyEntity(e);
-			dao.setData();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		
-	}
+
 }

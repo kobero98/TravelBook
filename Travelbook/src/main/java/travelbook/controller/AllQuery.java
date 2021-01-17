@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 
@@ -32,15 +33,10 @@ public class AllQuery {
 		
 		return instance;
 	}
-	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	
-	private Connection connection;
-	private void connect() throws SQLException{
-		if(connection==null || connection.isClosed()) {
-			connection= DriverManager.getConnection(myUrl,"root","root");
-		}
-		
-	}
+	
+	
 	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalita";
+	
 	public ResultSet requestLogin(Statement stmt,String username,String password) throws ExceptionLogin{
 		ResultSet rs=null;
 		
@@ -86,7 +82,7 @@ public class AllQuery {
 	{	ResultSet rs=null;
 		try {
 			
-			rs = stmt.executeQuery("SELECT idTrip,nome,costo,tipo,like,StartDate,EndDate,StepNumber,PhotoBackground,DescriptionTravel,CreatprTrip,Condiviso FROM Trip WHERE idCreator="+idCreator);
+			rs = stmt.executeQuery("SELECT idTrip, nome, costo, tipo, Nlike , StartDate, EndDate, StepNumber, PhotoBackground, DescriptionTravel, CreatorTrip, Condiviso FROM Trip WHERE CreatorTrip="+idCreator);
 			return rs;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -221,6 +217,7 @@ public class AllQuery {
 			
 		
 	}	
+	
 	public void setCityToTravel(Connection connessione,int idTravel,int idCrator,CityEntity entity) throws SQLException {
 		PreparedStatement preparedStmt=null;
 		  try{
@@ -236,28 +233,98 @@ public class AllQuery {
 			   if(preparedStmt!=null)preparedStmt.close();
 		  }
 	}
-	public void deleteTravel(int idtrip)
+	
+	public void updateTravelNumberForUser(Connection connessione,int idUser) {
+		PreparedStatement stmt=null;
+		String query="update User set TripNumber= ? where idUser=?";
+		Statement stmt1=null;
+		try {
+			stmt1=connessione.createStatement();
+			ResultSet rs=stmt1.executeQuery("Select tripNumber from user where idUser="+idUser);
+			rs.next();
+			stmt=connessione.prepareStatement(query);
+			stmt.setInt(1, rs.getInt(1));
+			stmt.setInt(2, idUser);
+			stmt.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(stmt!=null )
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			if(stmt1!=null )
+				try {
+					stmt1.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	}
+	
+	public void updateDescriptionUser(Connection connessione,int iduser,String description) {
+		PreparedStatement stmt=null;
+		String query="update User set DescriptionProfile= ? where idUser=?";
+		try {
+			stmt=connessione.prepareStatement(query);
+			stmt.setString(1, description);
+			stmt.setInt(2, iduser);
+			stmt.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.print("ciao");
+			e.printStackTrace();
+		}finally {
+			if(stmt!=null)
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	}
+	
+	public void updatePhotoProfile(Connection connessione,int idUser,InputStream image) {
+		PreparedStatement stmt=null;
+		System.out.println("sto n in ALLQuery");
+		String query="update User set ProfileImage= ? where idUser=?";
+		try {
+			stmt=connessione.prepareStatement(query);
+			stmt.setBlob(1, image);
+			stmt.setInt(2, idUser);
+			stmt.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(stmt!=null)
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	}
+
+	public void deleteTravel(Connection connessione,int idtrip)
 	{
-		Connection connessione = null;
 		PreparedStatement preparedStmt=null;
 		try {
-			  connessione= DriverManager.getConnection(myUrl,"root","root");
-				  String query = "Delete from Trip where idTrip=? ";
-			      preparedStmt = connessione.prepareStatement(query);
-			      preparedStmt.setInt (1,idtrip);
-			      preparedStmt.execute();
-			      preparedStmt.close();
+				String query = "Delete from Trip where idTrip=? ";
+			    preparedStmt = connessione.prepareStatement(query);
+			    preparedStmt.setInt (1,idtrip);
+			    preparedStmt.execute();
+			    preparedStmt.close();
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(connessione!=null) {
-				try {
-					connessione.close();
-				} catch (SQLException e) {
-					
-					e.printStackTrace();
-				}
-			}
 			if(preparedStmt!=null) {
 					try {
 						preparedStmt.close();
@@ -267,13 +334,10 @@ public class AllQuery {
 			}
 		}
 	}
-	
-	public void deleteAccount(int iduser)
+	public void deleteAccount(Connection connessione,int iduser)
 	{ 	
-		Connection connessione = null;
 		PreparedStatement preparedStmt=null;
 		try {
-			  connessione= DriverManager.getConnection(myUrl,"root","root");
 		
 				  String query = "Delete from User where idUser=? ";
 			      preparedStmt = connessione.prepareStatement(query);
@@ -301,13 +365,10 @@ public class AllQuery {
 			}
 		}
 	}
-	
 	public ResultSet requestUserbyID(Statement stmt,int id) {
 		ResultSet rs=null;
 		try {
-			connect();
-			stmt=this.connection.createStatement();
-			String query= userAttributeQuery+" from User where idUser="+id;
+			 String query= userAttributeQuery+" from User where idUser="+id;
 			 rs=stmt.executeQuery(query);
 			return rs;
 		} catch (SQLException e) {
@@ -318,11 +379,9 @@ public class AllQuery {
 	public ResultSet shortUserByID(Statement stmt, int id) {
 		ResultSet rs=null;
 		try {
-			connect();
-			stmt=this.connection.createStatement();
-			String query = "Select idUser,NameUser,Surname from User where idUser_"+id;
-			rs=stmt.executeQuery(query);
-			return rs;
+				String query = "Select idUser,NameUser,Surname from User where idUser_"+id;
+				rs=stmt.executeQuery(query);
+				return rs;
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
