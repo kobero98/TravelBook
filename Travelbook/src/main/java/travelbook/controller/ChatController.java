@@ -1,5 +1,6 @@
 package main.java.travelbook.controller;
 import java.util.List;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -36,6 +37,11 @@ public class ChatController {
 	}
 	public void setReadMex(MessageEntity mex) {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);
-		dao.update(mex);
+		try {
+			dao.update(mex);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
