@@ -99,7 +99,7 @@ public class ViewTravelController {
     	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*176/625);
     	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*278.5/1280);
     	try {
-    		Image myPhoto = new Image(path); 
+    		Image myPhoto = myTravel.getPathImage(); 
     		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
     		Background mybg1 = new Background(bgPhoto);
     		travelPic.setBackground(mybg1);
@@ -115,8 +115,8 @@ public class ViewTravelController {
     	HBox hBox = new HBox();
     	vBox.setPrefWidth(mainAnchor.getPrefWidth()*278.5/1280);
     	vBox.setSpacing(mainAnchor.getPrefHeight()*(176.0/15)/625);
-    	Label name = new Label("Travelname");
-    	Text date = new Text("dd/mm/yyyy - dd/mm/yyyy");
+    	Label name = new Label(myTravel.getNameTravel());
+    	Text date = new Text(myTravel.getStartDate()+"\n"+myTravel.getEndDate());
     	date.setWrappingWidth(mainAnchor.getPrefWidth()*278.5/1280);
     	hBox.setAlignment(Pos.BOTTOM_RIGHT);
     	vBox.getChildren().add(name);
@@ -127,7 +127,7 @@ public class ViewTravelController {
     	travel.getChildren().add(vBox);
     	
     	
-    	descr.setText("This is our travel description");
+    	descr.setText(myTravel.getDescriptionTravel());
     	//dummy
     	days.getTabs().removeAll(days.getTabs());
     	days.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -148,12 +148,12 @@ public class ViewTravelController {
     		buttonLine.getStyleClass().add("itinerary-line");
     		for(int j=0; j<10; j++) {
     			Button b = new Button();
-    			Text t = new Text("this step");
+    			Text t = new Text(myTravel.getListStep().get(j).getPlace());
     			b.setPrefWidth(mainAnchor.getPrefWidth()*40/1280);
     			b.setPrefHeight(mainAnchor.getPrefHeight()*40/625);
     			t.setWrappingWidth(mainAnchor.getPrefWidth()*50/1280);
     			b.setOnAction((ActionEvent e)->{
-    				setStep();
+    				setStep(myTravel.getListStep().get(j));
     				String css = "button-focused";
     				Button actual = (Button)e.getSource();
     				actual.getStyleClass().add(css);
@@ -200,7 +200,7 @@ public class ViewTravelController {
     		});
             
       });
-    	for(int i=1; i<=12;i++) {
+    	for(int i=1; i<=myTravel.getDayNum();i++) {
     		Tab day = new Tab();
     		day.setText("day" + i);
     		days.getTabs().add(day);

@@ -1,6 +1,8 @@
 package main.java.travelbook.view;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -22,6 +24,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import main.java.travelbook.controller.ControllerProfileOther;
+import main.java.travelbook.controller.ProfileController;
+import main.java.travelbook.model.bean.MiniTravelBean;
+import main.java.travelbook.model.bean.UserBean;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -31,12 +37,15 @@ import javafx.scene.image.ImageView;
 public class ProfileOtherController {
 	private BorderPane mainPane;
 	private int goBack;
+	private int id;
+	private int travelId;
 	private ViewTravelController controller;
 	private AnchorPane internalPane;
+	private UserBean user;
 	@FXML
 	private AnchorPane mainAnchor;
 	@FXML
-	private ListView<String> travels;
+	private ListView<MiniTravelBean> travels;
 	@FXML
 	private Pane profilePhoto;
 	@FXML
@@ -67,19 +76,36 @@ public class ProfileOtherController {
 	private ImageView map;
 	@FXML
 	private Label placeVisited;
+	@FXML
+	private Button follow;
 	private String viewTravel = "ViewTravel.fxml";
+	
 	public void initialize() {
-		
-		 ObservableList<String> data = FXCollections.observableArrayList("travel1lungo", "travel2", "travel3", "travel4");
-		 travels.setItems(data); 
-		 travels.setCellFactory(list -> new TravelCell());
-		followerButton.setText("Followers: "+"5");
-		followingButton.setText("Following: "+"7");
-		placeVisited.setText(userName.getText() + " has visited " + "4" +" places");
+		try {
+			this.user = ControllerProfileOther.getInstance().getUser(id);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		new Thread(()->{
+			ObservableList<MiniTravelBean> data;
+			try {
+				data = (ObservableList<MiniTravelBean>)ProfileController.getInstance().getTravel(user.getTravel());
+				travels.setItems(data); 
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			travels.setCellFactory(list->new TravelCell());
+		}).start();
+		followerButton.setText("Followers: "+user.getNFollower());
+		followingButton.setText("Following: "+user.getNFollowing());
+		placeVisited.setText(user.getName() + " has visited " + user.getNTrip() +" places");
 	}
-	class TravelCell extends ListCell<String>{
+	class TravelCell extends ListCell<MiniTravelBean>{
 		@Override
-        public void updateItem(String item, boolean empty) {
+        public void updateItem(MiniTravelBean item, boolean empty) {
             super.updateItem(item, empty);
             if(!empty) {
             	HBox travel = new HBox();
@@ -98,7 +124,7 @@ public class ProfileOtherController {
             	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
             	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
             	try {
-            		Image myPhoto = new Image("main/java/travelbook/cupola1.jpg");
+            		Image myPhoto = item.getPathImage();
             		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
             		Background mybg1 = new Background(bgPhoto);
             		travelPic.setBackground(mybg1);
@@ -116,8 +142,8 @@ public class ProfileOtherController {
             	vBox.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
             	vBox.setMaxWidth(USE_PREF_SIZE);
             	vBox.setSpacing(mainAnchor.getPrefHeight()*(180.0/15)/625);
-            	Label name = new Label(item);
-            	Text descr = new Text("this is a description mooolto lunga che non è una descrizione");
+            	Label name = new Label(item.getNameTravel());
+            	Text descr = new Text(item.getDescriptionTravel());
             	descr.setWrappingWidth(mainAnchor.getPrefWidth()*265/1280);
             	hBox.setAlignment(Pos.BOTTOM_RIGHT);
  
@@ -131,7 +157,7 @@ public class ProfileOtherController {
             			internalPane=(AnchorPane)loader.load();
             			mainPane.setCenter(internalPane);
             			controller=loader.getController();
-            			controller.setMainPane(mainPane,3);
+            			controller.setMainPane(mainPane,3,item.getId());
             		}catch(IOException exc) {
             			exc.printStackTrace();
             		}
@@ -145,6 +171,7 @@ public class ProfileOtherController {
             		else {
             			favButton.getStyleClass().add(css);
             		}
+            		user.getFav().add(item.getId());
             	});
             	hBox.getChildren().add(fav);
             	vBox.getChildren().add(name);
@@ -170,9 +197,11 @@ public class ProfileOtherController {
             }
 		}
 	}
-	public void setMainPane(BorderPane main, int provenience) {
+	public void setMainPane(BorderPane main, int provenience, int id, int travelId) {
+		this.id=id;
 		this.mainPane=main;
 		this.goBack=provenience;
+		this.travelId = travelId;
 this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->					
 			this.mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight()));
 		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->
@@ -204,6 +233,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			listText.setPrefHeight(mainAnchor.getHeight()*30/625);
 			travels.setPrefHeight(mainAnchor.getHeight()*591/625);
 			travels.setLayoutY(mainAnchor.getHeight()*14/625);
+			follow.setPrefHeight(mainAnchor.getHeight()*30/625);
 		});	
 		
 		this.mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
@@ -234,6 +264,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			listText.setPrefWidth(mainAnchor.getWidth()*200/1280);
 			travels.setPrefWidth(mainAnchor.getWidth()*606/1280);
 			travels.setLayoutX(mainAnchor.getWidth()*631/1280);
+			follow.setPrefWidth(mainAnchor.getWidth()*30/1280);
 		});	
 	this.mainAnchor.setPrefHeight(mainPane.getHeight()*625/720);
 	this.mainAnchor.setPrefWidth(mainPane.getWidth());
@@ -243,25 +274,62 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 	private void favouriteList(){
 		show.setVisible(true);
 		listTitle.setVisible(true);
-		listText.setText(userName.getText() + " favourite travels");
-		ObservableList<String> fav = FXCollections.observableArrayList("travel1", "travel2", "travel3");
-		show.setItems(fav);
+		listText.setText(user.getName() + " favourite travels");
+		ObservableList<String> fav;
+		try {
+			fav = (ObservableList<String>)ProfileController.getInstance().getFav(user.getFav());
+			show.setItems(fav);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	@FXML
-	private void followerList() {
+	private void followerList(){
 		show.setVisible(true);
 		listTitle.setVisible(true);
-		listText.setText(userName.getText() + " followers");
-		ObservableList<String> fav = FXCollections.observableArrayList("follower1", "follower2", "follower3");
-		show.setItems(fav);
+		listText.setText(user.getName() + " followers");
+		ObservableList<String> fav;
+		try {
+			fav = (ObservableList<String>)ProfileController.getInstance().getFollow(user.getFollower());
+			show.setItems(fav);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	@FXML
 	private void followingList() {
 		show.setVisible(true);
 		listTitle.setVisible(true);
-		listText.setText(userName.getText() + " interesting people");
-		ObservableList<String> fav = FXCollections.observableArrayList("following1", "following2", "following3");
-		show.setItems(fav);
+		listText.setText(user.getName() + " interesting people");
+		ObservableList<String> fav;
+		try {
+			fav = (ObservableList<String>)ProfileController.getInstance().getFollow(user.getFollowing());
+			show.setItems(fav);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@FXML
+	private void follow() {
+		String css = "fav-selected";
+		UserBean me= MenuBar.getLoggedUser();
+		if(follow.getStyleClass().contains(css)) {
+			follow.getStyleClass().remove(css);
+			user.getFollower().remove(me.getId());
+			me.getFollowing().remove(user.getId());
+		}
+		else {
+			follow.getStyleClass().add(css);
+			me.getFollowing().add(user.getId());
+			user.getFollower().add(me.getId());
+		}
+		
 	}
 	@FXML
 	private void showBack() {
@@ -279,31 +347,19 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 				internalPane=(AnchorPane)loader.load();
 				mainPane.setCenter(internalPane);
 				controller=loader.getController();
-				controller.setMainPane(mainPane,1); //da risolvere
+				controller.setMainPane(mainPane,1,travelId); 
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
 			break;
-		case 12:
+		case 14:
 			loader=new FXMLLoader();
 			loader.setLocation(ProfileViewController.class.getResource(viewTravel));
 			try {
 				internalPane=(AnchorPane)loader.load();
 				mainPane.setCenter(internalPane);
 				controller=loader.getController();
-				controller.setMainPane(mainPane,2); //da risolvere
-			}catch(IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		case 13:
-			loader=new FXMLLoader();
-			loader.setLocation(ProfileViewController.class.getResource(viewTravel));
-			try {
-				internalPane=(AnchorPane)loader.load();
-				mainPane.setCenter(internalPane);
-				controller=loader.getController();
-				controller.setMainPane(mainPane,3); //da risolvere
+				controller.setMainPane(mainPane,4,travelId); 
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
