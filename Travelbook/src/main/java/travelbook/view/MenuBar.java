@@ -1,20 +1,58 @@
 package main.java.travelbook.view;
 import javafx.fxml.FXMLLoader;
+import main.java.travelbook.util.Chat;
+import java.util.List;
 import main.java.travelbook.model.bean.UserBean;
 import java.io.IOException;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.AnchorPane;
-public class MenuBar {
+import main.java.travelbook.util.MessagePollingThread;
+import main.java.travelbook.util.Observable;
+import main.java.travelbook.util.Observer;
+import java.util.ArrayList;
+public class MenuBar extends Observable implements Observer{
 	//This class want to manage MenuBar operation. Use these methods in the button handler.
 	private FXMLLoader loader;
-	private static boolean notify = true;  //this information will be in logged user
+	private  boolean notify = false;  //this information will be in logged user
 	private static MenuBar istance=null;
 	private MenuBar() {
 		
 	}
+	@Override
+	public void update(Observable chat) {
+		notify=true;
+		istance.setChanged();
+		System.out.println("Nuova chat arrivata");
+	}
+	@Override
+	public void update(Observable chat, Object arg) {
+		istance.update(chat);
+	}
+	public static void newChat(Chat chat) {
+		myChat.add(chat);
+		chat.addObserver(istance);
+	}
+	private static MessagePollingThread myThread;
+	private static List<Chat> myChat=new ArrayList<>();
+	public static List<Chat> getMyChat() {
+		return myChat;
+	}
+	
 	private static UserBean loggedUser;
 	public static void  setUser(UserBean user) {
 		loggedUser=user;
+		myThread=new MessagePollingThread();
+		myThread.start();
+	}
+	public static MessagePollingThread getMyThread() {
+		//Tutte le classi devono poter uccidere il thread se necessario
+		return myThread;
+	}
+	public static void setNewThread() {
+		if(myThread==null) {
+			myThread=new MessagePollingThread();
+			myThread.start();
+		}
 	}
 	public static UserBean getLoggedUser() {
 		return loggedUser;
@@ -59,9 +97,12 @@ public class MenuBar {
 		}
 		return istance;
 	}
-	public static boolean getNotified() {
+	public  boolean getNotified() {
 		return notify;
 		
+	}
+	public void setNotified() {
+		this.notify=false;
 	}
 
 }

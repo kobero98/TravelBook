@@ -1,5 +1,6 @@
 package main.java.travelbook.view;
 import java.io.File;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -10,6 +11,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,7 +44,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-public class ProfileViewController {
+import main.java.travelbook.util.Observable;
+import main.java.travelbook.util.Observer;
+public class ProfileViewController implements Observer{
 	private BorderPane mainPane;
 	private Object[] array1=new Object[15];
 	private Button button;
@@ -94,18 +98,8 @@ public class ProfileViewController {
 	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
 	UserBean user=MenuBar.getLoggedUser();
 	public void initialize() {
-		if(MenuBar.getNotified()) {
-			Circle dot = new Circle(6);
-			dot.setFill(Color.DARKSALMON);
-			mainAnchor.getChildren().add(dot);
-			dot.setLayoutX(510);
-			dot.setLayoutY(330);
-			mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->
-				dot.setLayoutY(mainAnchor.getHeight()*330/625));
-			mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
-				dot.setLayoutX(mainAnchor.getWidth()*510/1280));
-			}
-		
+		MenuBar.setNewThread();
+		MenuBar.getInstance().addObserver(this);
 		new Thread(()->{
 			ObservableList<MiniTravelBean> data;
 			try {
@@ -332,6 +326,28 @@ public class ProfileViewController {
 		});	
 	this.mainAnchor.setPrefHeight(mainPane.getHeight()*625/720);
 	this.mainAnchor.setPrefWidth(mainPane.getWidth());
+	}
+	@Override
+	public void update(Observable bar, Object notify) {
+		boolean value=(Boolean)notify;
+		if(value) {
+			Platform.runLater(()->{
+				Circle dot = new Circle(6);
+				dot.setFill(Color.DARKSALMON);
+				mainAnchor.getChildren().add(dot);
+				dot.setLayoutX(510);
+				dot.setLayoutY(30);
+				mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->
+					dot.setLayoutY(mainAnchor.getHeight()*30/625));
+				mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
+					dot.setLayoutX(mainAnchor.getWidth()*510/1280));
+			});
+			
+		}
+	}
+	@Override
+	public void update(Observable bar) {
+		this.update(bar,true);
 	}
 	@FXML
 	private void photoHandler(){

@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonBar;
@@ -21,7 +22,9 @@ import javafx.scene.text.Text;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-public class ExploreViewController {
+import main.java.travelbook.util.Observer;
+import main.java.travelbook.util.Observable;
+public class ExploreViewController implements Observer{
 	private Object[] array1=new Object[15];
 	private BorderPane mainPane;
 	private Button button;
@@ -72,22 +75,14 @@ public class ExploreViewController {
 	@FXML
 	private Line ttLine;
 	@FXML
-	private void initialize() {
+	private void initialize()  {
 		//Ask to controller to obtain information about selection travel and top ten travel
 		//And load it into the button 
 		//The controller must return a Collection of TravelBean compilated and these travelBean must be passed in constructButton
 		//In this example use Empty image as Pane and Some strings a cazzo di cane.
-		if(MenuBar.getNotified()) {
-		Circle dot = new Circle(6);
-		dot.setFill(Color.DARKSALMON);
-		mainAnchor.getChildren().add(dot);
-		dot.setLayoutX(510);
-		dot.setLayoutY(30);
-		mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->
-			dot.setLayoutY(mainAnchor.getHeight()*30/625));
-		mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
-			dot.setLayoutX(mainAnchor.getWidth()*510/1280));
-		}
+		MenuBar.setNewThread();
+		MenuBar.getInstance().addObserver(this);
+		
 		int i=0;
 		List<TravelButton> selectionGroup;
 		List<TravelButton> topTenGroup;
@@ -204,6 +199,28 @@ public class ExploreViewController {
 	this.mainAnchor.setPrefHeight(mainPane.getHeight()*625/720);
 	this.mainAnchor.setPrefWidth(mainPane.getWidth());
 		}
+	@Override
+	public void update(Observable bar, Object notify) {
+		boolean value=(Boolean)notify;
+		if(value) {
+			Platform.runLater(()->{
+				Circle dot = new Circle(6);
+				dot.setFill(Color.DARKSALMON);
+				mainAnchor.getChildren().add(dot);
+				dot.setLayoutX(510);
+				dot.setLayoutY(30);
+				mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->
+					dot.setLayoutY(mainAnchor.getHeight()*30/625));
+				mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
+					dot.setLayoutX(mainAnchor.getWidth()*510/1280));
+			});
+			
+		}
+	}
+	@Override
+	public void update(Observable bar) {
+		this.update(bar,true);
+	}
 	@FXML
 	private void topTenScrollRightHandler() {
 

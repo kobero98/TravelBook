@@ -26,7 +26,7 @@ public class TravelBean extends Observable {
 		this.stepNumber=travel.getStepNumber();
 		this.likeNumber=travel.getLikeNumber();
 		this.nameTravel=travel.getNameTravel();
-		this.pathBackground=new Image(travel.getPathImage());
+		this.pathBackground=new Image(travel.getImage());
 		
 	}
 	public int getStepNumber() {

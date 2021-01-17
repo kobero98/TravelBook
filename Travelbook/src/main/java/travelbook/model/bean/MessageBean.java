@@ -1,5 +1,7 @@
 package main.java.travelbook.model.bean;
 
+import main.java.travelbook.model.MessageEntity;
+
 public class MessageBean {
 
 	
@@ -19,7 +21,13 @@ public class MessageBean {
 		this.idMittente=idmittente;
 		this.idMessaggio=idmessaggio;
 	}
-	
+	public MessageBean(MessageEntity mex) {
+		this.idDestinatario=mex.getIdDestinatario();
+		this.idMessaggio=mex.getIdMessaggio();
+		this.idMittente=mex.getIdMittente();
+		this.text=mex.getText();
+		this.dataTime=mex.getTime().toString();
+	}
 	public int getIdMessaggio()
 	{
 		return this.idMessaggio;

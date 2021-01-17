@@ -397,7 +397,7 @@ public class AllQuery {
 	public ResultSet getMessage(Statement stmt, MessageEntity message) {
 		ResultSet rs=null;
 		String query;
-		if(message.getIdMittente()!=0) {
+		if(message.getIdMittente()==0) {
 			if(message.getSoloNuovi()) {
 				query="SELECT * FROM messaggio where Destinatario="+message.getIdDestinatario()+" and letto="+0;
 			}
@@ -408,12 +408,10 @@ public class AllQuery {
 			
 		}
 		else {
-			if(message.getSoloNuovi()) {
-				query="SELECT * FROM messaggio where Destinatario="+message.getIdDestinatario()+"and Mittente="+message.getIdMittente()+" and letto="+0;
-			}
-			else {
-				query="SELECT * FROM messaggio where Destinatario="+message.getIdDestinatario()+" and Mittente="+message.getIdMittente();
-			}
+			//Legge solo i messaggi inviati!!
+			
+				query="SELECT * FROM messaggio where  Mittente="+message.getIdMittente();
+			
 		}
 		try {
 			rs=stmt.executeQuery(query);

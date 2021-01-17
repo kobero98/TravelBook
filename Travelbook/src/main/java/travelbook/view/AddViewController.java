@@ -1,5 +1,6 @@
 package main.java.travelbook.view;
 import java.io.IOException;
+import main.java.travelbook.util.Observer;
 import java.time.LocalDate;
 
 import javafx.scene.shape.Circle;
@@ -7,6 +8,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.control.Hyperlink;
 import java.util.Collections;
 import main.java.travelbook.util.NumberInDayComparator;
+import main.java.travelbook.util.Observable;
 import javafx.scene.control.ScrollPane;
 import java.util.Optional;
 import javafx.scene.control.CheckBox;
@@ -49,7 +51,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-public class AddViewController {
+public class AddViewController implements Observer{
 	private List<File> totalFile=new ArrayList<>();
 	@FXML
 	private ButtonBar menuBar;
@@ -180,17 +182,8 @@ public class AddViewController {
 	private double stepInfoPaneHeight;
 	@FXML
 	private void initialize() {
-		if(MenuBar.getNotified()) {
-			Circle dot = new Circle(6);
-			dot.setFill(Color.DARKSALMON);
-			mainAnchor.getChildren().add(dot);
-			dot.setLayoutX(510);
-			dot.setLayoutY(30);
-			mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->
-				dot.setLayoutY(mainAnchor.getHeight()*30/625));
-			mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
-				dot.setLayoutX(mainAnchor.getWidth()*510/1280));
-			}
+		MenuBar.setNewThread();
+		MenuBar.getInstance().addObserver(this);
 		//set travel and the first day and the first step by default.
 		LocalDate dataFinale=endDate.getValue();
 		LocalDate dataIniziale=startDate.getValue();
@@ -305,6 +298,28 @@ public class AddViewController {
 			saved=false;
 			this.costField.setStyle("");
 		});
+	}
+	@Override
+	public void update(Observable bar, Object notify) {
+		boolean value=(Boolean)notify;
+		if(value) {
+			Platform.runLater(()->{
+				Circle dot = new Circle(6);
+				dot.setFill(Color.DARKSALMON);
+				mainAnchor.getChildren().add(dot);
+				dot.setLayoutX(510);
+				dot.setLayoutY(30);
+				mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->
+					dot.setLayoutY(mainAnchor.getHeight()*30/625));
+				mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
+					dot.setLayoutX(mainAnchor.getWidth()*510/1280));
+			});
+			
+		}
+	}
+	@Override
+	public void update(Observable bar) {
+		this.update(bar,true);
 	}
 	public class ImageGridPane{
 		//GridPane with a matrix that show if an entry (row,col) is empty or not. 
