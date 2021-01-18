@@ -318,7 +318,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 	@FXML
 	private void follow() {
 		String css = "fav-selected";
-		UserBean me= MenuBar.getLoggedUser();
+		UserBean me= MenuBar.getInstance().getLoggedUser();
 		if(follow.getStyleClass().contains(css)) {
 			follow.getStyleClass().remove(css);
 			user.getFollower().remove(me.getId());

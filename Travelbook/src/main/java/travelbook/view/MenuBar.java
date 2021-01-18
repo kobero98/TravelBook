@@ -20,42 +20,40 @@ public class MenuBar extends Observable implements Observer{
 	}
 	@Override
 	public void update(Observable chat) {
-		Chat val=(Chat)chat;
 		notify=true;
 		istance.setChanged();
-		System.out.println("Nuova chat arrivata: "+val.getIdUser()+" testo: "+val.getReceive().get(val.getReceive().size()-1).getText());
 	}
 	@Override
 	public void update(Observable chat, Object arg) {
 		istance.update(chat);
 	}
-	public static void newChat(Chat chat) {
+	public  void newChat(Chat chat) {
 		myChat.add(chat);
 		chat.addObserver(istance);
 	}
 	private static MessagePollingThread myThread;
-	private static List<Chat> myChat=new ArrayList<>();
-	public static List<Chat> getMyChat() {
+	private  List<Chat> myChat=new ArrayList<>();
+	public  List<Chat> getMyChat() {
 		return myChat;
 	}
 	
-	private static UserBean loggedUser;
-	public static void  setUser(UserBean user) {
+	private  UserBean loggedUser;
+	public  void  setUser(UserBean user) {
 		loggedUser=user;
 		myThread=new MessagePollingThread();
 		myThread.start();
 	}
-	public static MessagePollingThread getMyThread() {
+	public  MessagePollingThread getMyThread() {
 		//Tutte le classi devono poter uccidere il thread se necessario
 		return myThread;
 	}
-	public static void setNewThread() {
+	public  void setNewThread() {
 		if(myThread==null) {
 			myThread=new MessagePollingThread();
 			myThread.start();
 		}
 	}
-	public static UserBean getLoggedUser() {
+	public  UserBean getLoggedUser() {
 		return loggedUser;
 	}
 	

@@ -396,11 +396,11 @@ public class ViewTravelController {
 		String css = "fav-selected";
 		if(favButton.getStyleClass().contains(css)) {
 			favButton.getStyleClass().remove(css);
-			MenuBar.getLoggedUser().getFav().remove(myTravel.getId());
+			MenuBar.getInstance().getLoggedUser().getFav().remove(myTravel.getId());
 		}
 		else {
 			favButton.getStyleClass().add(css);
-			MenuBar.getLoggedUser().getFav().remove(myTravel.getId());
+			MenuBar.getInstance().getLoggedUser().getFav().remove(myTravel.getId());
 		}
 	}
 	@FXML

@@ -183,7 +183,7 @@ public class AddViewController implements Observer{
 	private double stepInfoPaneHeight;
 	@FXML
 	private void initialize() {
-		MenuBar.setNewThread();
+		MenuBar.getInstance().setNewThread();
 		MenuBar.getInstance().addObserver(this);
 		//set travel and the first day and the first step by default.
 		LocalDate dataFinale=endDate.getValue();

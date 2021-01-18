@@ -31,7 +31,7 @@ public class AddTravel {
 		myTravel.setDescriptionTravel(travel.getDescriptionTravel());
 		myTravel.setBackground(new FileInputStream(travel.getPathFile()));
 		myTravel.setCostTravel(travel.getCostTravel());
-		myTravel.setCreatorTravel(MenuBar.getLoggedUser().getId());
+		myTravel.setCreatorTravel(MenuBar.getInstance().getLoggedUser().getId());
 		DateUtil util=new DateUtil();
 		myTravel.setEndTravelDate(Date.valueOf(util.toLocalDate(travel.getEndDate())));
 		myTravel.setStartTravelDate(Date.valueOf(util.toLocalDate(travel.getStartDate())));
@@ -56,7 +56,7 @@ public class AddTravel {
 			stepE.setGroupDay(step.getGroupDay());
 			stepE.setNumberOfDay(step.getNumberInDay());
 			stepE.setPlace(step.getPlace());
-			stepE.setUserId(MenuBar.getLoggedUser().getId());
+			stepE.setUserId(MenuBar.getInstance().getLoggedUser().getId());
 			stepE.setListPhoto(step.getImageFile());
 			stepE.setNumber(i);
 			CityEntity city=null;

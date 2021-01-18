@@ -159,8 +159,8 @@ public class LoginViewController {
 			alert.setContentText("Are you sure you want to quit?");
 			alert.showAndWait();
 			ButtonType result=alert.getResult();
-			if(result.getButtonData()==ButtonData.OK_DONE && MenuBar.getMyThread()!=null) {
-					MenuBar.getMyThread().kill();
+			if(result.getButtonData()==ButtonData.OK_DONE && MenuBar.getInstance().getMyThread()!=null) {
+					MenuBar.getInstance().getMyThread().kill();
 			}
 		});
 	}
@@ -322,7 +322,7 @@ public class LoginViewController {
 		if(user!=null) {
 
 			try {
-					MenuBar.setUser(user);
+					MenuBar.getInstance().setUser(user);
 			        MenuBar.getInstance().moveToExplore(this.mainPane);
 
 			}catch(IOException e) {

@@ -96,9 +96,9 @@ public class ProfileViewController implements Observer{
 	private Button logOutButton;
 	private static final String ALERTCSS="main/java/travelbook/css/alert.css";
 	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
-	UserBean user=MenuBar.getLoggedUser();
+	UserBean user=MenuBar.getInstance().getLoggedUser();
 	public void initialize() {
-		MenuBar.setNewThread();
+		MenuBar.getInstance().setNewThread();
 		MenuBar.getInstance().addObserver(this);
 		new Thread(()->{
 			ObservableList<MiniTravelBean> data;
