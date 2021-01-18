@@ -9,6 +9,7 @@ import main.java.travelbook.util.Observable;
 import javafx.scene.image.Image;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.TravelEntity;
+import java.io.File;
 public class TravelBean extends Observable {
 
 	private Double costTravel;
@@ -16,7 +17,14 @@ public class TravelBean extends Observable {
 	private int likeNumber;
 	private String nameTravel;
 	private String descriptionTravel;
-	
+	private File pathFile;
+	public File getPathFile() {
+		return pathFile;
+	}
+	public void setPathFile(File pathFile) {
+		this.pathFile = pathFile;
+	}
+
 	private Image pathBackground;
 	private boolean share;
 	private List<String> type;

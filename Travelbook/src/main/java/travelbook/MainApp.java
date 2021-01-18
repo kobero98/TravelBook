@@ -1,9 +1,15 @@
 package main.java.travelbook;
 import java.io.IOException;
+import java.util.Optional;
+import javafx.scene.control.ButtonType;
 import main.java.travelbook.view.LoginViewController;
+import main.java.travelbook.view.MenuBar;
 import javafx.fxml.FXMLLoader;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.AnchorPane;
@@ -16,8 +22,10 @@ public class MainApp extends Application {
 	public void start(Stage rootStage) {
 		this.rootStage=rootStage;
 		this.rootStage.setTitle("Travelbook");
+		
 		initRootLayout();
 		controller.setMain(rootLayout);
+		
 	}
 	private void initRootLayout() {
 		try {

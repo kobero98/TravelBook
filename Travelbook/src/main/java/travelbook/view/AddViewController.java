@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 import javafx.application.Platform;
 import main.java.travelbook.model.bean.TravelBean;
 import javafx.scene.input.MouseEvent;
+import main.java.travelbook.controller.AddTravel;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.util.DateUtil;
 import main.java.travelbook.util.PlaceAdapter;
@@ -52,7 +53,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 public class AddViewController implements Observer{
-	private List<File> totalFile=new ArrayList<>();
+	private File travelFileFoto;
 	@FXML
 	private ButtonBar menuBar;
 	@FXML
@@ -713,6 +714,7 @@ public class AddViewController implements Observer{
 	    	File selectedFile=dialog.showOpenDialog(mainPane.getScene().getWindow());
 	    	Image presentationImage;
 	    	if(selectedFile!=null) {
+	    		this.travelFileFoto=selectedFile;
 	    		presentationImage=new Image(selectedFile.toURI().toString());
 	    		viewPresentation.setImage(presentationImage);
 	    	}
@@ -737,7 +739,7 @@ public class AddViewController implements Observer{
 	    		listOfErrors.add(travelName);
 	    	}
 	    	if(!travelDescription.getText().isEmpty()) {
-	    		//manca l'attributo nel travel bean
+	    		travel.setDescriptionTravel(travelDescription.getText());
 	    		incrementProgress();
 	    	}
 	    	else {
@@ -745,6 +747,7 @@ public class AddViewController implements Observer{
 	    	}
 	    	if(viewPresentation.getImage()!=null) {
 	    		travel.setPathBackground(viewPresentation.getImage());
+	    		travel.setPathFile(this.travelFileFoto);
 	    		incrementProgress();
 	    	}
 	    	else {
@@ -752,7 +755,7 @@ public class AddViewController implements Observer{
 	    		viewPresentation.setStyle("-fx-border-color: #FF0000");
 	    	}
 	    	this.addFiltersAndDate(listOfErrors, travel);
-	    	
+	    	System.out.println(travel.getEndDate()+" "+travel.getStartDate());
 	    	if(this.costField.getText()!=null && !this.costField.getText().isEmpty()) {
 	    		try{
 	    			travel.setCostTravel(Double.parseDouble(this.costField.getText()));
@@ -802,7 +805,11 @@ public class AddViewController implements Observer{
 	    				progressBar.setProgress(indeterminate);
 	    				});
 	    			//Call the controller applicativo
-	    			
+	    			try {
+	    			AddTravel.getIstance().saveTravel(travel);
+	    			}catch(Exception e) {
+	    				e.printStackTrace();
+	    			}
 	    			Platform.runLater(()->{
 	    				progressBar.setProgress(1);
 	    				//when done activate the close button
@@ -828,7 +835,7 @@ public class AddViewController implements Observer{
 	    			filtri.add(element.getText());
 	    		}
 	    	}
-	    	if(filtri.isEmpty()) {
+	    	if(!filtri.isEmpty()) {
 	    		travel.setType(filtri);
 	    		incrementProgress();
 	    	}
@@ -842,6 +849,7 @@ public class AddViewController implements Observer{
 	    		listOfErrors.add(startDate);
 	    	}
 	    	if(this.endDate.getValue()!=null && !util.isFuture(this.endDate.getValue())) {
+	    		System.out.println(this.endDate.getValue()==null);
 	    		travel.setEndTravelDate(util.toString(this.endDate.getValue()));
 	    	}
 	    	else {
@@ -856,13 +864,9 @@ public class AddViewController implements Observer{
 	    			StepBean step=steps.get(stepN);
 	    			if(step.getPlace()!=null &&!step.getPlace().isEmpty()) {
 	    				step.setListPhoto(new ArrayList<>());
-	    				for(int i=0;i<dayImagePane.get(day).get(stepN).getFiles().size();i++)
+	    				for(int i=0;i<dayImagePane.get(day).get(stepN).getFiles().size()-1;i++)
 	    					step.getImageFile().addAll(dayImagePane.get(day).get(stepN).getFiles().get(i));
-	    				List<Node> pics=dayImagePane.get(day).get(stepN).getGridPane().getChildren();
-	    				for(int picN=0;picN<pics.size();picN++) {
-	    					ImageView foto= (ImageView)pics.get(picN);
-	    					step.getListPhoto().add(foto.getImage());
-	    				}
+	    				
 	    				travel.getListStep().add(step);
 	    			}
 	    			else {

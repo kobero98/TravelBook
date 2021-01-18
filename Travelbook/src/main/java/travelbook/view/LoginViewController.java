@@ -152,11 +152,23 @@ public class LoginViewController {
 				
 		});
 	}
+	private void setAlert() {
+		this.mainPane.getScene().getWindow().setOnCloseRequest((e)->{
+			Alert alert=new Alert(AlertType.CONFIRMATION) ;
+			alert.setHeaderText("Exit request");
+			alert.setContentText("Are you sure you want to quit?");
+			alert.showAndWait();
+			ButtonType result=alert.getResult();
+			if(result.getButtonData()==ButtonData.OK_DONE && MenuBar.getMyThread()!=null) {
+					MenuBar.getMyThread().kill();
+			}
+		});
+	}
 	public void setMain(BorderPane main) {
 
 		this.mainPane=main;
 		//then some resize logic
-
+		setAlert();
 		this.mainPane.heightProperty().addListener((observable,oldValue,newValue)->{
 			AnchorPane anchor=(AnchorPane)mainPane.getCenter();
 			DoubleProperty fontSize = new SimpleDoubleProperty(this.mainPane.getHeight()*20/720); // font size in pt

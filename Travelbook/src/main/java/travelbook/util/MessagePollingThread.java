@@ -8,13 +8,16 @@ import main.java.travelbook.model.bean.MessageBean;
 import java.util.ArrayList;
 public class MessagePollingThread extends Thread {
 	private Instant lastTime=null;
-	
+	private boolean goOn=true;
+	public void kill() {
+		this.goOn=false;
+	}
 	@Override
 	public void run() {
 		Instant lastLocalTime;
 		boolean found=false;
 		System.out.println("Run");
-		while(true) {
+		while(goOn) {
 		try {
 			//Non c'e' bisogno di sincronizzarsi sulla chat perche' il thread che scrive e' uno solo
 			lastLocalTime=lastTime;

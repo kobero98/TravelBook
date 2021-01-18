@@ -141,7 +141,7 @@ public class AllQuery {
 	public void requestRegistrationStep(Connection connessione,StepEntity step) throws SQLException {
 		PreparedStatement preparedStmt=null;
 		try {
-				  String query = " insert into Step (groupDay,place,DescriptionStep,codiceTrip,codiceCreatore,NumberDay,Number) values( ?, ?, ?, ?, ?, ?, ?) ";
+				  String query = " insert into Step (groupDay,place,DescriptionStep,codiceTrip,codiceCreatore,NumberDay,Number) values( ?, ?, ?, ?, ?, ?,?) ";
 			      preparedStmt = connessione.prepareStatement(query);
 			      
 			      preparedStmt.setInt (1, step.getGroupDay());
@@ -150,9 +150,12 @@ public class AllQuery {
 			      preparedStmt.setInt (4, step.getIDTravel());
 			      preparedStmt.setInt (5, step.getIDCreator());
 			      preparedStmt.setInt (6, step.getNumberOfDay());
-			      preparedStmt.setInt (7, step.getNumber());
+			      preparedStmt.setInt(7, step.getNumber());
 			      preparedStmt.execute();
 			      preparedStmt.close();
+			      
+			    
+			      
 			      if(step.getListPhoto()!=null) {
 				      for(File f : step.getListPhoto()){
 				    	  String queryPhoto = " insert into photostep (LinkPhoto,Step_Number,codiceViaggio,codiceCreatoreViaggio) values(?,?,?,?) ";
@@ -182,6 +185,7 @@ public class AllQuery {
 						e.printStackTrace();
 					}
 			}
+			
 		}
 	}
 	

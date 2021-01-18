@@ -24,7 +24,7 @@ import org.json.simple.parser.JSONParser;
 import java.util.ArrayList;
 public class PredictionController {
 	
-	private static final String TOKEN="INSERT_YOUR_TOKEN_HERE";
+	private static final String TOKEN="pk.eyJ1IjoiZGVtYWdvZ28iLCJhIjoiY2tqMWJybjZtMGpjbzMwbWh6bWt1MHcycyJ9.f9zugEhda3-7YFxBwutEnA";
 	
 	public List<JSONObject> getPredictions(String text) throws MapboxException {
 		return mapboxQuery(text,true,10);
