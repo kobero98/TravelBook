@@ -12,20 +12,14 @@ import main.java.travelbook.model.dao.PersistanceDAO;
 import main.java.travelbook.model.MessageEntity;
 public class MessageDao implements PersistanceDAO {
 	private MessageEntity myEntity;
-	//private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private Connection connection;
-	private void connect() throws SQLException{
-		if(connection==null || connection.isClosed()) {
-			connection= DriverManager.getConnection(myUrl,"root","root");
-		}
-	}
+
 	@Override
 	public List<Entity> getData(Entity message)throws SQLException{
 		MessageEntity messaggio=(MessageEntity) message;
 		List<Entity> results=new ArrayList<>();
 		
-			connect();
+		this.connection = AllQuery.getInstance().getConnection();
 		
 		
 			Statement stmt=connection.createStatement();
@@ -43,7 +37,7 @@ public class MessageDao implements PersistanceDAO {
 	@Override
 	public void setData() throws SQLException {
 		if(this.myEntity!=null) {
-			connect();
+			this.connection = AllQuery.getInstance().getConnection();
 			AllQuery.getInstance().sendMessage(this.connection, this.myEntity);
 		}
 	}
@@ -55,7 +49,7 @@ public class MessageDao implements PersistanceDAO {
 	public void update(Entity obj)  {
 		MessageEntity entityToBeUpdated=(MessageEntity) obj;
 		try {
-		connect();
+			this.connection = AllQuery.getInstance().getConnection();
 		AllQuery.getInstance().setReadMex(this.connection.createStatement(), entityToBeUpdated);
 		}catch(SQLException e) {
 			e.printStackTrace();

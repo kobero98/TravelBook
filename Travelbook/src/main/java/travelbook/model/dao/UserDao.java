@@ -18,17 +18,9 @@ import main.java.travelbook.model.UserEntity;
 
 public class UserDao implements PersistanceDAO, PredictableDAO{
 
-	private UserEntity entity;
-	//private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private UserEntity entity;	
 	private Connection connection;
 	
-	private void connect() throws SQLException{
-		if(connection==null || connection.isClosed()) {
-			connection= DriverManager.getConnection(myUrl,"root","root");
-		}
-		
-	}
 	private UserEntity castRStoUser(ResultSet rs) throws SQLException
 	{
 		
@@ -58,7 +50,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		AllQuery db=AllQuery.getInstance();
 		List <Entity> list=new ArrayList<>();
 		try {
-			connect();
+			this.connection = AllQuery.getInstance().getConnection();
 		} catch (SQLException e1) {
 			throw new LoginPageException("errore connect");
 		}
@@ -66,12 +58,12 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			stmt=connection.createStatement();
 			if(user.getUsername()!=null && user.getPassword()!=null)
 			{
-				rs=db.requestLogin(stmt,user.getUsername(), user.getPassword());
-				stmt.close();
-				connect();
-				stmt=this.connection.createStatement();
+				rs=db.requestLogin(stmt,user.getUsername(), user.getPassword());				
 				UserEntity utente=castRStoUser(rs);
 				list.add((Entity) utente);
+				stmt.close();
+				this.connection = AllQuery.getInstance().getConnection();
+				stmt=this.connection.createStatement();
 				AllQuery.getInstance().requestListIDFavoriteTrip(stmt,utente.getId());	
 					
 			}
@@ -99,7 +91,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			try {
 
 				System.out.println("inizio il set della Dao");
-				connect();
+				this.connection = AllQuery.getInstance().getConnection();
 				AllQuery.getInstance().requestRegistrationUser(this.connection, this.entity);
 				System.out.println("finisco il get della Dao");
 			} catch (SQLException e) {
@@ -130,7 +122,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 	@Override
 	public void update(Entity object)throws SQLException {
 		this.entity= (UserEntity) object;
-		connect();
+		this.connection = AllQuery.getInstance().getConnection();
 		if(this.entity.getDescription()!=null)
 			AllQuery.getInstance().updateDescriptionUser(connection, this.entity.getId(), this.entity.getDescription());
 		if(this.entity.getPhoto()!=null)
@@ -154,7 +146,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		List<Entity> predictions=new ArrayList<>();
 		ResultSet rs;
 		try {
-			connect();
+			this.connection = AllQuery.getInstance().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

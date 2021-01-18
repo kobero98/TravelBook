@@ -14,17 +14,8 @@ import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.UserEntity;
 
 public class ShortUserDao implements PersistanceDAO {
-	private UserEntity entity;
-	//private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private UserEntity entity;	
 	private Connection connection;
-	
-	private void connect() throws SQLException{
-		if(connection==null || connection.isClosed()) {
-			connection= DriverManager.getConnection(myUrl,"root","root");
-		}
-		
-	}
 	private UserEntity castRStoUser(ResultSet rs) throws SQLException
 	{
 		
@@ -44,7 +35,7 @@ public class ShortUserDao implements PersistanceDAO {
 		AllQuery db=AllQuery.getInstance();
 		List <Entity> list=new ArrayList<>();
 		try {
-			connect();
+			this.connection = AllQuery.getInstance().getConnection();
 		} catch (SQLException e1) {
 			throw new LoginPageException("errore connect");
 		}

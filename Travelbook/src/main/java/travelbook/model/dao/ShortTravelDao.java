@@ -13,17 +13,9 @@ import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.TravelEntity;
 
 public class ShortTravelDao implements PersistanceDAO {
-
 	
-	//private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private Connection connection;
 	
-	private void connect() throws SQLException{
-		if(connection==null || connection.isClosed()) {
-			connection= DriverManager.getConnection(myUrl,"root","root");
-		}
-	}
 	private TravelEntity convertRsToShortTravelEntity(ResultSet rs) throws SQLException {
 		TravelEntity e=new TravelEntity(rs.getInt(1));
 		e.setNameTravel(rs.getString(2));
@@ -38,7 +30,7 @@ public class ShortTravelDao implements PersistanceDAO {
 	public List<Entity> getData(Entity object) throws SQLException {
 		this.entity=(TravelEntity) object;
 		List<Entity> l=new ArrayList<>();
-		connect();
+		this.connection = AllQuery.getInstance().getConnection();
 		Statement stmt=this.connection.createStatement();
 		ResultSet rs=AllQuery.getInstance().requestShortTravel(stmt, this.entity.getIdTravel());
 		while(rs.next())

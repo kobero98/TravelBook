@@ -6,22 +6,14 @@ import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.CityEntity;
 import java.sql.*;
 public class CityDao implements PredictableDAO,PersistanceDAO{
-	//private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	
 	private Connection connection;
 	private CityEntity myEntity;
-	private void connect() throws SQLException{
-		if(connection==null || connection.isClosed()) {
-			connection= DriverManager.getConnection(myUrl,"root","root");
-		}
-	}
 	@Override
 	public List<Entity> getPredictions(String text){
 
 		List<Entity> predictions=new ArrayList<>();
 		try {
-			connect();
+			this.connection = AllQuery.getInstance().getConnection();
 		}catch(SQLException e4) {
 			e4.printStackTrace();
 		}
@@ -51,7 +43,7 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 		CityEntity city=(CityEntity) citta;
 		List<Entity> results=new ArrayList<>();
 		try {
-			connect();
+			this.connection = AllQuery.getInstance().getConnection();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,7 +65,7 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 	@Override
 	public void setData() {
 		try {
-			connect();
+			this.connection = AllQuery.getInstance().getConnection();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
