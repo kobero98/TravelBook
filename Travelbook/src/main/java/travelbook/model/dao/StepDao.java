@@ -13,14 +13,8 @@ import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import java.util.ArrayList;
 public class StepDao implements PersistanceDAO {
-	private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	
 	private Connection connection;
 	
-	private void connect() throws SQLException{
-		if(connection==null || connection.isClosed()) {
-			connection= DriverManager.getConnection(myUrl,"root","root");
-		}
-	}
 	private StepEntity myEntity;
 	@Override
 	public void update(Entity step) {
@@ -32,7 +26,7 @@ public class StepDao implements PersistanceDAO {
 	}
 	@Override
 	public void setData() throws SQLException{
-		connect();
+		this.connection=AllQuery.getInstance().getConnection();
 		AllQuery.getInstance().requestRegistrationStep(connection,myEntity);
 	}
 	@Override
@@ -40,7 +34,7 @@ public class StepDao implements PersistanceDAO {
 		StepEntity entity=(StepEntity) step;
 		List<Entity> stepFound=new ArrayList<>();
 		try{
-			connect();
+			this.connection=AllQuery.getInstance().getConnection();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -75,7 +69,7 @@ public class StepDao implements PersistanceDAO {
 	}
 	@Override
 	public Entity getMyEntity() {
-		return (Entity)this.myEntity;
+		return this.myEntity;
 	}
 	@Override
 	public void setMyEntity(Entity stepEntity) {

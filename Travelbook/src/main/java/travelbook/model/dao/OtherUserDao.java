@@ -9,6 +9,9 @@ import main.java.travelbook.model.OtherUserEntity;
 
 public class OtherUserDao implements PersistanceDAO {
 
+	//private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		
 	@Override
 	public List<Entity> getData(Entity object) throws SQLException {
 		// TODO Auto-generated method stub

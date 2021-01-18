@@ -39,7 +39,7 @@ public class TravellDao implements PersistanceDAO{
 		List <Entity> list=new ArrayList<>();
 		ResultSet rs=null;
 		Statement stmt=null;
-		connect();
+		this.connection=AllQuery.getInstance().getConnection();
 		stmt=this.connection.createStatement();
 		if(e.getCreatorId()!=0) {
 			rs=AllQuery.getInstance().requestTripByUser(stmt, e.getCreatorId());	
@@ -60,19 +60,12 @@ public class TravellDao implements PersistanceDAO{
 		stmt.close();
 		return list;
 	}
-	private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";	
 	private Connection connection;
-	
-	private void connect() throws SQLException{
-		if(connection==null || connection.isClosed()) {
-			connection= DriverManager.getConnection(myUrl,"root","root");
-		}
-	}
 	
 	@Override
 	public void setData() throws SQLException {
 		
-		connect();
+		this.connection=AllQuery.getInstance().getConnection();
 		int idTravel=AllQuery.getInstance().requestRegistrationTrip(this.connection,entity);
 		int i;
 		for(i=0;i<entity.getListStep().size();i++)
