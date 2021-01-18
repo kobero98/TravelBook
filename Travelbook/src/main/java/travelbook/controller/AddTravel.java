@@ -29,8 +29,10 @@ public class AddTravel {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity myTravel=new TravelEntity();
 		myTravel.setDescriptionTravel(travel.getDescriptionTravel());
-		myTravel.setBackground(new FileInputStream(travel.getPathFile()));
-		myTravel.setCostTravel(travel.getCostTravel());
+		if(travel.getPathFile()!=null)
+			myTravel.setBackground(new FileInputStream(travel.getPathFile()));
+		if(travel.getCostTravel()!=null)
+			myTravel.setCostTravel(travel.getCostTravel());
 		myTravel.setCreatorTravel(MenuBar.getInstance().getLoggedUser().getId());
 		DateUtil util=new DateUtil();
 		myTravel.setEndTravelDate(Date.valueOf(util.toLocalDate(travel.getEndDate())));

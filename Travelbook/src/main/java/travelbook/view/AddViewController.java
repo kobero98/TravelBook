@@ -807,14 +807,16 @@ public class AddViewController implements Observer{
 	    			//Call the controller applicativo
 	    			try {
 	    			AddTravel.getIstance().saveTravel(travel);
-	    			}catch(Exception e) {
-	    				e.printStackTrace();
-	    			}
+	    			saved=true;
 	    			Platform.runLater(()->{
 	    				progressBar.setProgress(1);
 	    				//when done activate the close button
 	    		    	closeProgressBar.setVisible(true);
 	    			});
+	    			}catch(Exception e) {
+	    				e.printStackTrace();
+	    			}
+	    			
 	    		}).start();
 	    		
 	    	}	
@@ -884,6 +886,7 @@ public class AddViewController implements Observer{
 	    	travel=new TravelBean();
 	    	travel.setNameTravel(travelName.getText());
 	    	travel.setDescriptionTravel(this.travelDescription.getText());
+	    	travel.setShare(false);
 	    	String startDateString=util.toString(this.startDate.getValue());
 	    	String endDateString=util.toString(this.endDate.getValue());
 	    	try {
@@ -919,9 +922,32 @@ public class AddViewController implements Observer{
 	    		}
 	    	}
 	    	travel.setType(filtri);
+	    	travel.setListStep(new ArrayList<>());
 	    	this.setTravelSteps(travel, new ArrayList<>());
 	    	//then call the controller and send data
-	    	saved=true;
+	    	progressPane.setOpacity(1);
+	    	internalPane.setOpacity(0);
+	    	new Thread(()->{
+    			
+    			Platform.runLater(()->{
+    				double indeterminate=ProgressIndicator.INDETERMINATE_PROGRESS;
+    				progressBar.setProgress(indeterminate);
+    				});
+    			//Call the controller applicativo
+    			try {
+    			AddTravel.getIstance().saveTravel(travel);
+    			saved=true;
+    			Platform.runLater(()->{
+    				progressBar.setProgress(1);
+    				//when done activate the close button
+    		    	closeProgressBar.setVisible(true);
+    			});
+    			}catch(Exception e) {
+    				e.printStackTrace();
+    			}
+    			
+    		}).start();
+	    	
 	    }
 	    private void incrementProgress() {
 	    	this.progressBar.setProgress(this.progressBar.getProgress()+ 0.001);

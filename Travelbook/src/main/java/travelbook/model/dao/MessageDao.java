@@ -20,8 +20,6 @@ public class MessageDao implements PersistanceDAO {
 		List<Entity> results=new ArrayList<>();
 		
 		this.connection = AllQuery.getInstance().getConnection();
-		
-		
 			Statement stmt=connection.createStatement();
 			ResultSet rs=AllQuery.getInstance().getMessage(stmt, messaggio);
 			while(rs.next()) {

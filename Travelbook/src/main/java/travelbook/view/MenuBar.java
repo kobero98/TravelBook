@@ -31,7 +31,7 @@ public class MenuBar extends Observable implements Observer{
 		myChat.add(chat);
 		chat.addObserver(istance);
 	}
-	private static MessagePollingThread myThread;
+	private  MessagePollingThread myThread;
 	private  List<Chat> myChat=new ArrayList<>();
 	public  List<Chat> getMyChat() {
 		return myChat;
