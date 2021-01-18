@@ -1,9 +1,7 @@
 package main.java.travelbook.view;
 import java.io.File;
-
 import java.io.IOException;
 import java.sql.SQLException;
-
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -12,6 +10,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -94,8 +93,12 @@ public class ProfileViewController implements Observer{
 	private Label placeVisited;
 	@FXML
 	private Button logOutButton;
+	@FXML
+	private Label errorMsg;
 	private static final String ALERTCSS="main/java/travelbook/css/alert.css";
 	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
+	private static final String HEADER_MSG ="Something went wrong!";
+	private static final String WARN_IMG = "main/resources/AddViewImages/warning.png";
 	UserBean user=MenuBar.getInstance().getLoggedUser();
 	public void initialize() {
 		MenuBar.getInstance().setNewThread();
@@ -103,11 +106,21 @@ public class ProfileViewController implements Observer{
 		new Thread(()->{
 			ObservableList<MiniTravelBean> data;
 			try {
-				data = (ObservableList<MiniTravelBean>)ProfileController.getInstance().getTravel(user.getTravel());
-				travels.setItems(data); 
+				if(user.getTravel()!=null) {
+					data = FXCollections.observableList(ProfileController.getInstance().getTravel(user.getTravel()));
+					travels.setItems(data); 
+				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Travels unreacheable");
+	    		alert.setHeaderText(HEADER_MSG);
+	    		alert.setContentText("we couldn't reach your travels, try again");
+	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
+	   		 	Image image = new Image(WARN_IMG);
+	   		 	ImageView imageView = new ImageView(image);
+	   		 	alert.setGraphic(imageView);
+	   		 	alert.showAndWait();
 			}
 			
 			travels.setCellFactory(list->new TravelCell());
@@ -166,14 +179,12 @@ public class ProfileViewController implements Observer{
             		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
             		Background mybg1 = new Background(bgPhoto);
             		travelPic.setBackground(mybg1);
-            	}catch(IllegalArgumentException e) {
-            		e.printStackTrace();
+            	}catch(IllegalArgumentException | NullPointerException e) {
             		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), rad, in);
                 	
                 	Background mybg1 = new Background(bgcc1);
                 	travelPic.setBackground(mybg1);
             	}
-            	
             	travelPic.setStyle("-fx-shape: \"M 350 900 L 350 795 C 350 780 360 770 375 770 L 438 770 C 453 770 463 780 463 795 L 463 900 Z\"");
             	VBox vBox = new VBox();
             	HBox hBox = new HBox();
@@ -275,6 +286,8 @@ public class ProfileViewController implements Observer{
 			listTitle.setPrefHeight(mainAnchor.getHeight()*50/625);
 			backButton.setPrefHeight(mainAnchor.getHeight()*40/625);
 			listText.setPrefHeight(mainAnchor.getHeight()*30/625);
+			errorMsg.setPrefHeight(mainAnchor.getHeight()*70/625);
+			errorMsg.setLayoutY(mainAnchor.getHeight()*300/625);
 			array1=menuBar.getButtons().toArray();
 			for(int i=0;i<4;i++) {
 				button=(Button)array1[i];
@@ -316,6 +329,8 @@ public class ProfileViewController implements Observer{
 			listTitle.setPrefWidth(mainAnchor.getWidth()*297/1280);
 			backButton.setPrefWidth(mainAnchor.getWidth()*40/1280);
 			listText.setPrefWidth(mainAnchor.getWidth()*200/1280);
+			errorMsg.setPrefWidth(mainAnchor.getWidth()*260/1280);
+			errorMsg.setLayoutX(mainAnchor.getWidth()*10/1280);
 			array1=menuBar.getButtons().toArray();
 			for(int i=0;i<4;i++) {
 				button=(Button)array1[i];
@@ -366,11 +381,11 @@ public class ProfileViewController implements Observer{
 			} catch (SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Update failed");
-	    		alert.setHeaderText("Something went wrong!");
+	    		alert.setHeaderText(HEADER_MSG);
 	    		alert.setContentText("we couldn't update your information, try again");
 	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
 	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
-	   		 	Image image = new Image("main/resources/AddViewImages/warning.png");
+	   		 	Image image = new Image(WARN_IMG);
 	   		 	ImageView imageView = new ImageView(image);
 	   		 	alert.setGraphic(imageView);
 	   		 	alert.showAndWait();
@@ -395,11 +410,11 @@ public class ProfileViewController implements Observer{
 			} catch (SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Update failed");
-	    		alert.setHeaderText("Something went wrong!");
+	    		alert.setHeaderText(HEADER_MSG);
 	    		alert.setContentText("we couldn't update your information, try again");
 	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
 	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
-	   		 	Image image = new Image("main/resources/AddViewImages/warning.png");
+	   		 	Image image = new Image(WARN_IMG);
 	   		 	ImageView imageView = new ImageView(image);
 	   		 	alert.setGraphic(imageView);
 	   		 	alert.showAndWait();
@@ -424,33 +439,60 @@ public class ProfileViewController implements Observer{
 		myDescrEdit.setVisible(false);
 	}
 	@FXML
-	private void favouriteList() throws SQLException{
+	private void favouriteList(){
 		show.setVisible(true);
+		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText("Your favourite travels");
-		ObservableList<String> fav = (ObservableList<String>)ProfileController.getInstance().getFav(user.getFav());
-		show.setItems(fav);
+		if(user.getFav()!=null) {
+			ObservableList<String> fav;
+			try {
+				fav = FXCollections.observableList(ProfileController.getInstance().getFav(user.getFav()));
+				show.setItems(fav);
+			} catch (SQLException e) {
+				errorMsg.setVisible(true);
+			}
+		}
 	}
 	@FXML
-	private void followerList() throws SQLException {
+	private void followerList() {
 		show.setVisible(true);
+		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText("Your followers");
-		ObservableList<String> fav = (ObservableList<String>)ProfileController.getInstance().getFollow(user.getFollower());
-		show.setItems(fav);
+		if(user.getFollower()!= null) {
+			ObservableList<String> fav;
+			try {
+				fav = FXCollections.observableList(ProfileController.getInstance().getFollow(user.getFollower()));
+				show.setItems(fav);
+			} catch (SQLException e) {
+				errorMsg.setVisible(true);
+			}
+			
+		}
 	}
 	@FXML
-	private void followingList() throws SQLException {
+	private void followingList() {
 		show.setVisible(true);
+		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText("Your interesting people");
-		ObservableList<String> fav = (ObservableList<String>)ProfileController.getInstance().getFollow(user.getFollowing());
-		show.setItems(fav);
+		if(user.getFollowing()!=null) {
+			ObservableList<String> fav;
+			try {
+				fav = FXCollections.observableList(ProfileController.getInstance().getFollow(user.getFollowing()));
+			show.setItems(fav);
+			} catch (SQLException e) {
+				errorMsg.setVisible(true);
+			}
+			
+		}
 	}
 	@FXML
 	private void back() {
 		show.setVisible(false);
 		listTitle.setVisible(false);
+		errorMsg.setVisible(false);
 	}
 	@FXML
 	private void logOut() {

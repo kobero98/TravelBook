@@ -46,11 +46,11 @@ public class UserBean{
 		this.nFollower=user.getNFollower();
 		this.nFollowing=user.getNFollowing();
 		this.nTrip=user.getNTrip();
-		//this.travel = user.getTravel();
+		this.travel = user.getTravel();
 		//this.message = user.getMessage();
-		//this.follower =user.get;
-		//private List<Integer> following = null;
-		//private List<Integer> fav = null;
+		this.follower =user.getListFollower();
+		this.following = user.getListFollowing();
+		this.fav = user.getFavoriteList();
 	}
 	
 	public int getId() {

@@ -26,11 +26,11 @@ public class UserEntity implements Entity{
 	private int nFollowing;
 	private int nTrip;
 	private String nation;
-	private List<Integer> favorite;
-	private List<Integer> follower;
-	private List<Integer> following;
- 	private List <TravelEntity> travel;
-	private List <MessageBean> message;
+	private List<Integer> favorite = null;
+	private List<Integer> follower = null;
+	private List<Integer> following = null;
+ 	private List <Integer> travel = null;
+	private List <MessageBean> message = null;
 	
 	public UserEntity(RegistrationBean user) {
 		this.name=user.getName();
@@ -106,16 +106,16 @@ public class UserEntity implements Entity{
 		this.nation=nation;
 	}
 	
-	public void setTravel(List <TravelEntity> t)
+	public void setTravel(List <Integer> t)
 	{
-		this.travel= t;
+		if(!t.isEmpty())this.travel= t;
 	}
 	public void setMessagge(List <MessageBean> m) {
 		this.message=m;
 	}
 	public void setFavoriteList(List<Integer> list)
 	{
-		this.favorite=list;
+		if(!list.isEmpty())this.favorite=list;
 	}
 	public int getId()
 	{
@@ -169,7 +169,7 @@ public class UserEntity implements Entity{
 	public String getEmail() {
 		return this.email;
 	}
-	public List <TravelEntity>  getTravel() {
+	public List <Integer>  getTravel() {
 		return this.travel;
 	}
 	public List <MessageBean> getMessage(){
@@ -184,14 +184,14 @@ public class UserEntity implements Entity{
 		return follower;
 	}
 	public void setListFollower(List<Integer> follower) {
-		this.follower = follower;
+		if(!follower.isEmpty())this.follower = follower;
 	}
 	
 	public List<Integer> getListFollowing() {
 		return following;
 	}
 	public void setListFollowing(List<Integer> following) {
-		this.following = following;
+		if(!following.isEmpty())this.following = following;
 	}
 
 	

@@ -30,18 +30,15 @@ public class ProfileController{
 	}
 	
 	public List<MiniTravelBean> getTravel(List<Integer> l) throws SQLException{
-		System.out.println("1");
 		List<MiniTravelBean> ol = null;
-		PersistanceDAO miniTravelDao = DaoFactory.getInstance().create(DaoType.S_TRAVEL);//createmi la mini traveldao che voglio vedere se funziona!!!!!!!!
+		PersistanceDAO miniTravelDao = DaoFactory.getInstance().create(DaoType.S_TRAVEL);
 		if (l != null) {
-			System.out.println("2");
 			for(int i=0; i<l.size(); i++) {
 				TravelEntity travelE = new TravelEntity();
 			
 				travelE.setIdTravel(l.get(i));
 				List<Entity> rs= miniTravelDao.getData(travelE);
 				travelE = (TravelEntity)rs.get(0);
-				System.out.println(travelE.getNameTravel());
 				MiniTravelBean bean = new MiniTravelBean(travelE);
 				if(ol==null) {
 					ol = new ArrayList<>();
@@ -73,37 +70,41 @@ public class ProfileController{
 	
 	public List<String> getFollow(List<Integer> l) throws SQLException{
 		List<String> f = null;
-		PersistanceDAO shortUserDao = DaoFactory.getInstance().create(DaoType.S_USER);//createmi la mini traveldao che voglio vedere se funziona!!!!!!!!
-		for(int i=0; i<l.size(); i++) {
-			UserEntity userE = new UserEntity(l.get(i));
-			List<Entity> rs= shortUserDao.getData(userE);
-			userE = (UserEntity)rs.get(0);
-			if(f==null) {
-				f = new ArrayList<>();
-				f.add(userE.getName()+" "+userE.getSurname());
-			}
-			else {
-				f.add(userE.getName()+" "+userE.getSurname());
-			}
-		}		
+		PersistanceDAO shortUserDao = DaoFactory.getInstance().create(DaoType.S_USER);
+		if(l != null) {
+			for(int i=0; i<l.size(); i++) {
+				UserEntity userE = new UserEntity(l.get(i));
+				List<Entity> rs= shortUserDao.getData(userE);
+				userE = (UserEntity)rs.get(0);
+				if(f==null) {
+					f = new ArrayList<>();
+					f.add(userE.getName()+" "+userE.getSurname());
+				}
+				else {
+					f.add(userE.getName()+" "+userE.getSurname());
+				}
+			}	
+		}
 		return f;
 	}
 	public List<String> getFav(List<Integer> l) throws SQLException{
 		List<String> f = null;
-		PersistanceDAO miniTravelDao = DaoFactory.getInstance().create(DaoType.TRAVEL);//createmi la mini traveldao che voglio vedere se funziona!!!!!!!!
+		PersistanceDAO miniTravelDao = DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity travelE = new TravelEntity();
-		for(int i=0; i<l.size(); i++) {
-			travelE.setIdTravel(l.get(i));
-			List<Entity> rs= miniTravelDao.getData(travelE);
-			travelE = (TravelEntity)rs.get(0);
-			if(f==null) {
-				f = new ArrayList<>();
-				f.add(travelE.getNameTravel());
+		if(l != null) {
+			for(int i=0; i<l.size(); i++) {
+				travelE.setIdTravel(l.get(i));
+				List<Entity> rs= miniTravelDao.getData(travelE);
+				travelE = (TravelEntity)rs.get(0);
+				if(f==null) {
+					f = new ArrayList<>();
+					f.add(travelE.getNameTravel());
+				}
+				else {
+					f.add(travelE.getNameTravel());
+				}
 			}
-			else {
-				f.add(travelE.getNameTravel());
-			}
-		}		
+		}
 		return f;
 	}
 }

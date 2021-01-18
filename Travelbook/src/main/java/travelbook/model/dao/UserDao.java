@@ -44,7 +44,6 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 	@Override
 	public List <Entity> getData(Entity user1) throws SQLException {
 		ResultSet rs=null;
-		ResultSet favorite=null;
 		Statement stmt=null;
 		UserEntity user=(UserEntity) user1;
 		AllQuery db=AllQuery.getInstance();
@@ -52,7 +51,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
 		} catch (SQLException e1) {
-			throw new LoginPageException("errore connect");
+			throw new LoginPageException("we couldn't reach our servers");
 		}
 		try {
 			stmt=connection.createStatement();
@@ -62,8 +61,8 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 				UserEntity utente=castRStoUser(rs);
 				
 				stmt.close();
-				this.connection = AllQuery.getInstance().getConnection();
-				stmt=this.connection.createStatement();
+				//this.connection = AllQuery.getInstance().getConnection();
+				/*stmt=this.connection.createStatement();
 				rs=AllQuery.getInstance().requestListIDFavoriteTrip(stmt,utente.getId());	
 				List <Integer> fav=new ArrayList<>();
 				while(rs.next())
@@ -71,7 +70,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 					fav.add(rs.getInt(1));
 				}
 				utente.setFavoriteList(fav);
-				
+				stmt.close();*/
 				stmt=this.connection.createStatement();
 				rs=AllQuery.getInstance().requestListFollowerUser(stmt,utente.getId());	
 				List <Integer> follower=new ArrayList<>();
@@ -80,7 +79,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 					follower.add(rs.getInt(1));
 				}
 				utente.setListFollower(follower);
-				
+				stmt.close();
 				stmt=this.connection.createStatement();
 				rs=AllQuery.getInstance().requestListFollowingUser(stmt,utente.getId());	
 				List <Integer> following=new ArrayList<>();
@@ -89,7 +88,17 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 					follower.add(rs.getInt(1));
 				}
 				utente.setListFollowing(following);
+				stmt.close();
 				
+				stmt=this.connection.createStatement();
+				rs=AllQuery.getInstance().requestTripByUser(stmt, utente.getId());	
+				List <Integer> travel=new ArrayList<>();
+				while(rs.next())
+				{
+					travel.add(rs.getInt(1));
+				}
+				utente.setTravel(travel);
+				stmt.close();
 				list.add((Entity) utente);
 			}
 			

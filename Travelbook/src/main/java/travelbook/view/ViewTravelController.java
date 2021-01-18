@@ -103,7 +103,7 @@ public class ViewTravelController {
     		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
     		Background mybg1 = new Background(bgPhoto);
     		travelPic.setBackground(mybg1);
-    	}catch(IllegalArgumentException e) {
+    	}catch(IllegalArgumentException e ) {
     		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), rad, in);
         	
         	Background mybg1 = new Background(bgcc1);
@@ -220,6 +220,7 @@ public class ViewTravelController {
 	public void setMainPane(BorderPane main, int provenience, int travelId) {
 		this.mainPane=main;
 		this.goBack=provenience;
+		this.myTravel = travelId;
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
 			backButton.setPrefHeight(mainAnchor.getHeight()*34/625);
 			backButton.setLayoutY(mainAnchor.getHeight()*10/625);

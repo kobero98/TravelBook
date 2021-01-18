@@ -23,7 +23,7 @@ public class DaoFactory {
 		if(tipo.compareTo(DaoType.STEP)==0)
 			return new StepDao();
 		if(tipo.compareTo(DaoType.S_TRAVEL)==0) {
-			System.out.print("ciao1");
+			return new ShortTravelDao();
 		}
 		if(tipo.compareTo(DaoType.S_USER)==0){
 			return new ShortUserDao();
