@@ -17,7 +17,7 @@ public class ShortTravelDao implements PersistanceDAO {
 	private Connection connection;
 	
 	private TravelEntity convertRsToShortTravelEntity(ResultSet rs) throws SQLException {
-		TravelEntity e=new TravelEntity(rs.getInt(1));
+		TravelEntity e=new TravelEntity();
 		e.setNameTravel(rs.getString(2));
 		e.setDescriptionTravel(rs.getString(3));
 		e.setBackground(rs.getBinaryStream(4));
@@ -36,6 +36,7 @@ public class ShortTravelDao implements PersistanceDAO {
 		while(rs.next())
 		{
 			TravelEntity e=convertRsToShortTravelEntity(rs);
+			e.setIdTravel(this.entity.getIdTravel());
 			l.add(e);	
 		}
 		return l;

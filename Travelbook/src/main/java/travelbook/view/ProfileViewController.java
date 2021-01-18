@@ -203,13 +203,15 @@ public class ProfileViewController implements Observer{
             		FXMLLoader loader=new FXMLLoader();
             		ViewTravelController controller;
             		AnchorPane internalPane;
-            		loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
             		try {
+            			MenuBar.getInstance().setIdTravel(item.getId());
+            			System.out.println("Profile: "+item.getId());
+            			loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
             			internalPane=(AnchorPane)loader.load();
             			mainPane.setCenter(internalPane);
             			controller=loader.getController();
-            			controller.setMainPane(mainPane,2,item.getId());
-            		}catch(IOException exc) {
+            			controller.setMainPane(mainPane,2);
+            		}catch(IOException | SQLException exc) {
             			exc.printStackTrace();
             		}
             	});

@@ -2,6 +2,7 @@ package main.java.travelbook.model;
 
 import java.io.InputStream;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -121,11 +122,16 @@ public class TravelEntity implements Entity {
 	}
 	public void setListStep(List <Entity> step) {
 		
-		for(int i=0;i<step.size();i++) this.step.add((StepEntity) step.get(i));
+		if(!step.isEmpty()) {
+			this.step = new ArrayList<>();
+			for(int i=0;i<step.size();i++) {
+				this.step.add((StepEntity) step.get(i));
+			}
+		}
 	}
 
 	public void setCityView(List <CityEntity> list) {
-		this.cityView=list;
+		if(!list.isEmpty())this.cityView=list;
 	}
 
 }

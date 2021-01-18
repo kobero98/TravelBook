@@ -72,7 +72,7 @@ public class AllQuery {
 	{	ResultSet rs=null;
 		try {
 			String id=String.valueOf(idTrip);
-			rs = stmt.executeQuery("SELECT idTrip,nome,costo,tipo,like,StartDate,EndDate,StepNumber,PhotoBackground,DescriptionTravel,CreatprTrip,Condiviso FROM Trip where idTrip="+id);
+			rs = stmt.executeQuery("SELECT idTrip,nome,costo,tipo,Nlike,StartDate,EndDate,StepNumber,PhotoBackground,DescriptionTravel,CreatorTrip,Condiviso FROM Trip where idTrip="+id);
 			return rs;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -98,7 +98,7 @@ public class AllQuery {
 	{
 		ResultSet rs=null;
 		try {
-			rs = stmt.executeQuery("SELECT * FROM Trip WHERE CodiceTrip="+idTrip);
+			rs = stmt.executeQuery("SELECT * FROM Step WHERE CodiceTrip="+idTrip);
 			return rs;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -118,8 +118,6 @@ public class AllQuery {
 					  String query = " insert into User (Username, password,NameUser, Surname, BirthDate,Email,Gender)" + " values (?, ?, ?, ?, ?, ?, ?)";
 					  try {
 						preparedStmt = conn.prepareStatement(query);
-					
-				      System.out.println("ciao");
 					  preparedStmt.setString (1, user.getUsername());
 				      preparedStmt.setString (2, user.getPassword());
 				      preparedStmt.setString (3, user.getName());
@@ -307,7 +305,6 @@ public class AllQuery {
 			stmt.execute();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.print("ciao");
 			e.printStackTrace();
 		}finally {
 			if(stmt!=null)
@@ -322,7 +319,6 @@ public class AllQuery {
 	
 	public void updatePhotoProfile(Connection connessione,int idUser,InputStream image) {
 		PreparedStatement stmt=null;
-		System.out.println("sto n in ALLQuery");
 		String query="update User set ProfileImage= ? where idUser=?";
 		try {
 			stmt=connessione.prepareStatement(query);

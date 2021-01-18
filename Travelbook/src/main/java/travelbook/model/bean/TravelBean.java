@@ -44,12 +44,12 @@ public class TravelBean extends Observable {
 		this.stepNumber=travel.getStepNumber();
 		this.likeNumber=travel.getLikeNumber();
 		this.nameTravel=travel.getNameTravel();
-		this.pathBackground=new Image(travel.getImage());
+		if (travel.getImage()!= null)this.pathBackground=new Image(travel.getImage());
 		this.share = (travel.getShare()==1);
-		this.type = stringParser(travel.getTypeTravel());
+		if (travel.getTypeTravel() != null )this.type = stringParser(travel.getTypeTravel());
 		this.startDate = travel.getStartDate().toLocalDate().toString();
 		this.endDate = travel.getEndDate().toLocalDate().toString();
-		this.step = stepConvert(travel.getListStep());
+//		this.step = stepConvert(travel.getListStep());
 		this.dayNum = dayCalculator(travel.getStartDate(), travel.getEndDate());
 		
 	}

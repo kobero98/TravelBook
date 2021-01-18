@@ -45,8 +45,10 @@ public class TravellDao implements PersistanceDAO{
 			rs=AllQuery.getInstance().requestTripByUser(stmt, this.entity.getCreatorId());	
 		}
 		else {
-			if(this.entity.getIdTravel()!=0)
+			if(this.entity.getIdTravel()!=0) {
+				System.out.println(this.entity.getIdTravel());
 					rs=AllQuery.getInstance().requestTripById(stmt, this.entity.getIdTravel());
+			}
 		}
 		if(rs!=null)
 		{
@@ -78,6 +80,7 @@ public class TravellDao implements PersistanceDAO{
 		}
 		else list=null;
 		stmt.close();
+		System.out.println(list==null);
 		return list;
 	}
 	private Connection connection;
@@ -134,18 +137,5 @@ public class TravellDao implements PersistanceDAO{
 		this.entity=(TravelEntity) travel;
 		
 	}
-public static void main(String [] args)
-{
-	PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
-	TravelEntity t=new TravelEntity(51,1);
-	try {
-		List <Entity>l=dao.getData(t);
-		t=(TravelEntity) l.get(0);
-		System.out.print(t.getNameTravel()+ " Step number="+t.getListStep().size()+" CityVisited="+t.getCityView().size() );
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-}
 
 }

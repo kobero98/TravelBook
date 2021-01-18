@@ -13,6 +13,7 @@ public class MiniTravelBean{
 	
 	public MiniTravelBean(TravelEntity travel) //creare modo per prendere dal database sta mini travel bean
 	{
+		this.id = travel.getIdTravel();
 		this.nameTravel=travel.getNameTravel();
 		if (travel.getImage() != null)this.pathBackground=new Image(travel.getImage());
 		this.descriptionTravel=travel.getDescriptionTravel();

@@ -1,7 +1,9 @@
 package main.java.travelbook.view;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
+import main.java.travelbook.controller.TravelController;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.model.bean.TravelBean;
 import javafx.scene.layout.AnchorPane;
@@ -92,13 +94,18 @@ public class ViewTravelController {
 	private Button selected = null;
 	@FXML
 	private void initialize() {
-    	
+		try {
+			myTravel = TravelController.getInstance().getTravel(MenuBar.getInstance().getTravelId());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     	CornerRadii rad = new CornerRadii(0);
     	Insets in = new Insets(0);
     	Pane travelPic = new Pane();
     	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*176/625);
     	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*278.5/1280);
-    	try {
+    	/*try {
     		Image myPhoto = myTravel.getPathImage(); 
     		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
     		Background mybg1 = new Background(bgPhoto);
@@ -108,7 +115,7 @@ public class ViewTravelController {
         	
         	Background mybg1 = new Background(bgcc1);
         	travelPic.setBackground(mybg1);
-    	}
+    	}*/
     	
     	travelPic.setStyle("-fx-shape: \"M 350 900 L 350 795 C 350 780 360 770 375 770 L 438 770 C 453 770 463 780 463 795 L 463 900 Z\"");
     	VBox vBox = new VBox();
@@ -217,10 +224,9 @@ public class ViewTravelController {
     	});
 	}
 	
-	public void setMainPane(BorderPane main, int provenience, int travelId) {
+	public void setMainPane(BorderPane main, int provenience) throws SQLException {
 		this.mainPane=main;
 		this.goBack=provenience;
-		this.myTravel = travelId;
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
 			backButton.setPrefHeight(mainAnchor.getHeight()*34/625);
 			backButton.setLayoutY(mainAnchor.getHeight()*10/625);
