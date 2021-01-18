@@ -1,9 +1,6 @@
 package main.java.travelbook.model;
 
 import java.util.List;
-
-import javafx.scene.image.Image;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,7 +26,10 @@ public class UserEntity implements Entity{
 	private int nFollowing;
 	private int nTrip;
 	private String nation;
-	private List <TravelEntity> travel;
+	private List<Integer> favorite;
+	private List<Integer> follower;
+	private List<Integer> following;
+ 	private List <TravelEntity> travel;
 	private List <MessageBean> message;
 	
 	public UserEntity(RegistrationBean user) {
@@ -79,7 +79,6 @@ public class UserEntity implements Entity{
 			try {
 				this.photo=new FileInputStream(photo);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		else this.photo=null;
@@ -114,7 +113,10 @@ public class UserEntity implements Entity{
 	public void setMessagge(List <MessageBean> m) {
 		this.message=m;
 	}
-	
+	public void setFavoriteList(List<Integer> list)
+	{
+		this.favorite=list;
+	}
 	public int getId()
 	{
 		return this.id;
@@ -172,6 +174,24 @@ public class UserEntity implements Entity{
 	}
 	public List <MessageBean> getMessage(){
 		return this.message;
+	}
+	public List<Integer> getFavoriteList()
+	{
+		return this.favorite;
+	}
+	
+	public List<Integer> getListFollower() {
+		return follower;
+	}
+	public void setListFollower(List<Integer> follower) {
+		this.follower = follower;
+	}
+	
+	public List<Integer> getListFollowing() {
+		return following;
+	}
+	public void setListFollowing(List<Integer> following) {
+		this.following = following;
 	}
 
 	

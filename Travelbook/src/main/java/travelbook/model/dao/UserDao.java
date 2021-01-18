@@ -60,12 +60,37 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			{
 				rs=db.requestLogin(stmt,user.getUsername(), user.getPassword());				
 				UserEntity utente=castRStoUser(rs);
-				list.add((Entity) utente);
+				
 				stmt.close();
 				this.connection = AllQuery.getInstance().getConnection();
 				stmt=this.connection.createStatement();
-				AllQuery.getInstance().requestListIDFavoriteTrip(stmt,utente.getId());	
-					
+				rs=AllQuery.getInstance().requestListIDFavoriteTrip(stmt,utente.getId());	
+				List <Integer> fav=new ArrayList<>();
+				while(rs.next())
+				{
+					fav.add(rs.getInt(1));
+				}
+				utente.setFavoriteList(fav);
+				
+				stmt=this.connection.createStatement();
+				rs=AllQuery.getInstance().requestListFollowerUser(stmt,utente.getId());	
+				List <Integer> follower=new ArrayList<>();
+				while(rs.next())
+				{
+					follower.add(rs.getInt(1));
+				}
+				utente.setListFollower(follower);
+				
+				stmt=this.connection.createStatement();
+				rs=AllQuery.getInstance().requestListFollowingUser(stmt,utente.getId());	
+				List <Integer> following=new ArrayList<>();
+				while(rs.next())
+				{
+					follower.add(rs.getInt(1));
+				}
+				utente.setListFollowing(following);
+				
+				list.add((Entity) utente);
 			}
 			
 		}finally {
@@ -90,10 +115,8 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		{
 			try {
 
-				System.out.println("inizio il set della Dao");
 				this.connection = AllQuery.getInstance().getConnection();
 				AllQuery.getInstance().requestRegistrationUser(this.connection, this.entity);
-				System.out.println("finisco il get della Dao");
 			} catch (SQLException e) {
 				throw new ExceptionRegistration("Errore registrazione");
 			}
