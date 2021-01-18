@@ -1,6 +1,8 @@
 package main.java.travelbook.view;
 
 import java.io.IOException;
+
+import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.model.bean.TravelBean;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -9,7 +11,6 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -88,7 +89,6 @@ public class ViewTravelController {
 	private Button rightScroll;
 	@FXML
 	private Button leftScroll;
-	private String path = "main/java/travelbook/cupola1.jpg";
 	private Button selected = null;
 	@FXML
 	private void initialize() {
@@ -152,8 +152,9 @@ public class ViewTravelController {
     			b.setPrefWidth(mainAnchor.getPrefWidth()*40/1280);
     			b.setPrefHeight(mainAnchor.getPrefHeight()*40/625);
     			t.setWrappingWidth(mainAnchor.getPrefWidth()*50/1280);
+    			int myIndex = j;
     			b.setOnAction((ActionEvent e)->{
-    				setStep(myTravel.getListStep().get(j));
+    				setStep(myTravel.getListStep().get(myIndex));
     				String css = "button-focused";
     				Button actual = (Button)e.getSource();
     				actual.getStyleClass().add(css);
@@ -290,22 +291,19 @@ public class ViewTravelController {
 		this.mainAnchor.setPrefWidth(mainPane.getWidth());
 	}
 	
-	private void setStep() {
-		//dummy example
+	private void setStep(StepBean s) {
 		photoBox.getButtons().removeAll(photoBox.getButtons());
 		photoBox.setPrefWidth(0);
-		stepName.setText("Florence's Duomo");
-		ObservableList<Image> photo = FXCollections.observableArrayList( new Image(path) , new Image(path),new Image(path) , new Image(path), new Image(path),new Image(path) , new Image(path));
+		stepName.setText(s.getPlace());
+		ObservableList<Image> photo = (ObservableList<Image>)s.getListPhoto();
 		for(int i = 0; i < photo.size(); i++) {
 			ImageView displayPhoto = new ImageView(photo.get(i));
 			displayPhoto.setFitHeight(stepPhoto.getPrefHeight()*3/4);
 			displayPhoto.setFitWidth(stepPhoto.getPrefHeight());
 			photoBox.setPrefWidth(photoBox.getPrefWidth()+displayPhoto.getFitWidth()+mainAnchor.getPrefWidth()*15/1280);
 			photoBox.getButtons().add(displayPhoto);
-			stepDescr.setText("Florence’s duomo is the city most iconic landmark. How explained by our guide, it is capped by Filippo Brunelleschi’s red-tiled cupola, built between 1420 and 1436. Climbing the 463 steps inside the dome, you can view the whole city, with its red roofs and Arno river flowing through, ununfold at your feet.\n"
-					+ "For the dome, Filippo Brunelleschi took inspiration from the Pantheon in Rome and designed a distinctive octagonal form of inner and outer concentric domes that rest on the drum of the cathedral rather than the roof itself.");
-			stepInf.setText("Entrance to the Duomo is free, unless you want to skip the line, that usually take at least an hour.\n"
-					+ "To climb the dome you have to pay a small fee, 10€  (5€ for a reduced ticket).");
+			stepDescr.setText(s.getDescriptionStep());
+			stepInf.setText(s.getPrecisionInformation());
 			Double newHeight = stepDescr.maxHeight(stepDescr.getWrappingWidth()) + stepInf.maxHeight(Double.MAX_VALUE) + 
 					photoBox.getPrefHeight() + stepName.getPrefHeight() + mainAnchor.getPrefHeight()*101/625;
 			if(newHeight > step.getPrefHeight()) {
@@ -382,7 +380,7 @@ public class ViewTravelController {
 			AnchorPane internalPane=(AnchorPane)loader.load();
 			mainPane.setCenter(internalPane);
 			ProfileOtherController controller=loader.getController();
-			controller.setMainPane(mainPane, Integer.parseInt("1"+goBack));
+			controller.setMainPane(mainPane, Integer.parseInt("1"+goBack), myTravel.getIdCreator(), myTravel.getId());
 			
 	}
 	@FXML
@@ -396,12 +394,13 @@ public class ViewTravelController {
 	@FXML
 	private void favButtonHandler() {
 		String css = "fav-selected";
-		//dummy method
 		if(favButton.getStyleClass().contains(css)) {
 			favButton.getStyleClass().remove(css);
+			MenuBar.getLoggedUser().getFav().remove(myTravel.getId());
 		}
 		else {
 			favButton.getStyleClass().add(css);
+			MenuBar.getLoggedUser().getFav().remove(myTravel.getId());
 		}
 	}
 	@FXML

@@ -39,11 +39,10 @@ public class ShortTravelDao implements PersistanceDAO {
 		List<Entity> l=new ArrayList<>();
 		connect();
 		Statement stmt=this.connection.createStatement();
-		ResultSet rs=AllQuery.getInstance().requestShortTravel(stmt, this.entity.getCreatorId());
+		ResultSet rs=AllQuery.getInstance().requestShortTravel(stmt, this.entity.getIdTravel());
 		while(rs.next())
 		{
 			TravelEntity e=convertRsToShortTravelEntity(rs);
-			e.setCreatorTravel(entity.getCreatorId());
 			l.add(e);	
 		}
 		return l;

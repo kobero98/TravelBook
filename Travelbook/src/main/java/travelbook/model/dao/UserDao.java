@@ -51,6 +51,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 	@Override
 	public List <Entity> getData(Entity user1) throws SQLException {
 		ResultSet rs=null;
+		ResultSet favorite=null;
 		Statement stmt=null;
 		UserEntity user=(UserEntity) user1;
 		AllQuery db=AllQuery.getInstance();
@@ -65,12 +66,13 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			if(user.getUsername()!=null && user.getPassword()!=null)
 			{
 				rs=db.requestLogin(stmt,user.getUsername(), user.getPassword());
-					do
-					{
-						UserEntity utente=castRStoUser(rs);
-						list.add((Entity) utente);
-					}while(rs.next());
-					System.out.println("finisco il get della Dao");
+				stmt.close();
+				connect();
+				stmt=this.connection.createStatement();
+				UserEntity utente=castRStoUser(rs);
+				list.add((Entity) utente);
+				AllQuery.getInstance().requestListIDFavoriteTrip(stmt,utente.getId());	
+					
 			}
 			
 		}finally {

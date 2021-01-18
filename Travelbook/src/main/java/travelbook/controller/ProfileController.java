@@ -30,22 +30,26 @@ public class ProfileController{
 	}
 	
 	public List<MiniTravelBean> getTravel(List<Integer> l) throws SQLException{
+		System.out.println("1");
 		List<MiniTravelBean> ol = null;
 		PersistanceDAO miniTravelDao = DaoFactory.getInstance().create(DaoType.S_TRAVEL);//createmi la mini traveldao che voglio vedere se funziona!!!!!!!!
-		
-		for(int i=0; i<l.size(); i++) {
-			TravelEntity travelE = new TravelEntity();
+		if (l != null) {
+			System.out.println("2");
+			for(int i=0; i<l.size(); i++) {
+				TravelEntity travelE = new TravelEntity();
 			
-			travelE.setIdTravel(l.get(i));
-			List<Entity> rs= miniTravelDao.getData(travelE);
-			travelE = (TravelEntity)rs.get(0);
-			MiniTravelBean bean = new MiniTravelBean(travelE);
-			if(ol==null) {
-				ol = new ArrayList<>();
-				ol.add(bean);
-			}
-			else {
-				ol.add(bean);
+				travelE.setIdTravel(l.get(i));
+				List<Entity> rs= miniTravelDao.getData(travelE);
+				travelE = (TravelEntity)rs.get(0);
+				System.out.println(travelE.getNameTravel());
+				MiniTravelBean bean = new MiniTravelBean(travelE);
+				if(ol==null) {
+					ol = new ArrayList<>();
+					ol.add(bean);
+				}
+				else {
+					ol.add(bean);
+				}
 			}
 		}
 		return ol;

@@ -12,7 +12,9 @@ import main.java.travelbook.model.TravelEntity;
 import java.io.File;
 public class TravelBean extends Observable {
 
+	private int id;
 	private Double costTravel;
+	private int idCreator;
 	private int stepNumber;
 	private int likeNumber;
 	private String nameTravel;
@@ -36,6 +38,8 @@ public class TravelBean extends Observable {
 	public TravelBean() {}
 	public TravelBean(TravelEntity travel)
 	{
+		this.id = travel.getIdTravel();
+		this.idCreator = travel.getCreatorId();
 		this.costTravel=travel.getCostTravel();
 		this.stepNumber=travel.getStepNumber();
 		this.likeNumber=travel.getLikeNumber();
@@ -77,7 +81,7 @@ public class TravelBean extends Observable {
 		return b;	
 	}
 	
-	public int dayCalculator(Date start, Date end) {
+	private int dayCalculator(Date start, Date end) {
 		int n = 0;
 		if(start.toLocalDate().getYear()==end.toLocalDate().getYear()) n=helpCalculator(start.toLocalDate(), end.toLocalDate());
 		else {
@@ -105,6 +109,13 @@ public class TravelBean extends Observable {
 			n = n + end.getDayOfMonth();
 		}
 		return n;
+	}
+	
+	public int getId() {
+		return this.id;
+	}
+	public int getIdCreator() {
+		return this.idCreator;
 	}
 	public int getStepNumber() {
 		return this.stepNumber;

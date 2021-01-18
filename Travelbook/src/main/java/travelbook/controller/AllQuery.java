@@ -220,8 +220,11 @@ public class AllQuery {
 		
 	}	
 	
-	public ResultSet requestShortTravel(Statement stmt,int idUser)throws SQLException{
-		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip where CreatorTrip="+idUser;
+	public ResultSet requestListIDFavoriteTrip(Statement stmt,int idUser) {
+		return null;
+	}
+	public ResultSet requestShortTravel(Statement stmt,int idTrip)throws SQLException{
+		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip where idTrip="+idTrip;
 		return stmt.executeQuery(query);
 	}
 
@@ -502,7 +505,7 @@ public class AllQuery {
         insertMex.setInt(2, message.getIdMittente());
         insertMex.setString(3, message.getText());
         insertMex.setTimestamp(4, Timestamp.from(Instant.now()));
-        //Mi pare che letto è a 0 di default
+        //Mi pare che letto ï¿½ a 0 di default
         insertMex.execute();
 	}
 	public void setReadMex(Statement stmt, MessageEntity message)throws SQLException{
