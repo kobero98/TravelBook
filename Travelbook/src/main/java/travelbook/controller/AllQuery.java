@@ -33,8 +33,8 @@ public class AllQuery {
 		
 		return instance;
 	}
-	private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	//private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	//private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(myUrl,"root","root");
 	}
@@ -225,8 +225,18 @@ public class AllQuery {
 		
 	}	
 	
-	public ResultSet requestListIDFavoriteTrip(Statement stmt,int idUser) {
-		return null;
+	public ResultSet requestListIDFavoriteTrip(Statement stmt,int idUser) throws SQLException {
+		String query="Select CodiceTravel from Favorite where codiceUser="+idUser;
+		return stmt.executeQuery(query);	 
+	}
+	
+	public ResultSet requestListFollowerUser(Statement stmt,int idUser) throws SQLException {
+		String query="Select Follower from Favorite where Following="+idUser;
+		return stmt.executeQuery(query);	 
+	}
+	public ResultSet requestListFollowingUser(Statement stmt,int idUser) throws SQLException {
+		String query="Select Following from Favorite where Follower="+idUser;
+		return stmt.executeQuery(query);	 
 	}
 	public ResultSet requestShortTravel(Statement stmt,int idTrip)throws SQLException{
 		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip where idTrip="+idTrip;
