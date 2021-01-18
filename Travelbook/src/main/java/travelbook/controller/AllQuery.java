@@ -242,7 +242,12 @@ public class AllQuery {
 		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip where idTrip="+idTrip;
 		return stmt.executeQuery(query);
 	}
-
+	public ResultSet requestCityByTravelId(Statement stmt,int idTravel) throws SQLException
+	{
+		String query="Select City.NameC, City.State from Trip_has_City join City on NameC=City_NameC and City_State=State where CodiceViaggi="+idTravel;
+		return stmt.executeQuery(query);
+		
+	}
 	public void setCityToTravel(Connection connessione,int idTravel,int idCrator,CityEntity entity) throws SQLException {
 		PreparedStatement preparedStmt=null;
 		  try{

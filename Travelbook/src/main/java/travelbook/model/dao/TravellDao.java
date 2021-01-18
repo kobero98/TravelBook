@@ -35,25 +35,45 @@ public class TravellDao implements PersistanceDAO{
 	
 	@Override
 	public List<Entity> getData(Entity object) throws SQLException {
-		TravelEntity e=(TravelEntity) object;
+		this.entity=(TravelEntity) object;
 		List <Entity> list=new ArrayList<>();
 		ResultSet rs=null;
 		Statement stmt=null;
 		this.connection=AllQuery.getInstance().getConnection();
 		stmt=this.connection.createStatement();
-		if(e.getCreatorId()!=0) {
-			rs=AllQuery.getInstance().requestTripByUser(stmt, e.getCreatorId());	
+		if(this.entity.getCreatorId()!=0) {
+			rs=AllQuery.getInstance().requestTripByUser(stmt, this.entity.getCreatorId());	
 		}
 		else {
-			if(e.getIdTravel()!=0)
-					rs=AllQuery.getInstance().requestTripById(stmt, e.getIdTravel());
+			if(this.entity.getIdTravel()!=0)
+					rs=AllQuery.getInstance().requestTripById(stmt, this.entity.getIdTravel());
 		}
 		if(rs!=null)
 		{
 			while(rs.next()) {
 				TravelEntity ent = convertRStoTravel(rs);
-				list.add((Entity) ent);
 				
+				
+				PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.STEP);
+				StepEntity step=new StepEntity();
+				step.setTripId(ent.getIdTravel());
+				List<Entity> s=dao.getData(step);
+				ent.setListStep(s);
+				
+				ResultSet rs1=null;
+				Connection con2=AllQuery.getInstance().getConnection();
+				Statement stmt1=con2.createStatement();
+				rs1=AllQuery.getInstance().requestCityByTravelId(stmt1, ent.getIdTravel());
+				List <CityEntity> l=new ArrayList<>();
+				while(rs1.next())
+				{
+					CityEntity c=new CityEntity();
+					c.setNameC(rs1.getString(1));
+					c.setState(rs1.getString(2));
+					l.add(c);
+				}
+				ent.setCityView(l);
+				list.add((Entity) ent);
 			}
 		}
 		else list=null;
@@ -114,6 +134,18 @@ public class TravellDao implements PersistanceDAO{
 		this.entity=(TravelEntity) travel;
 		
 	}
-
+public static void main(String [] args)
+{
+	PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
+	TravelEntity t=new TravelEntity(51,1);
+	try {
+		List <Entity>l=dao.getData(t);
+		t=(TravelEntity) l.get(0);
+		System.out.print(t.getNameTravel()+ " Step number="+t.getListStep().size()+" CityVisited="+t.getCityView().size() );
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
 
 }

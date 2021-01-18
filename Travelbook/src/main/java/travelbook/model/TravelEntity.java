@@ -119,9 +119,11 @@ public class TravelEntity implements Entity {
 	{
 		this.share=v;
 	}
-	public void setListStep(List <StepEntity> step) {
-		this.step=step;
+	public void setListStep(List <Entity> step) {
+		
+		for(int i=0;i<step.size();i++) this.step.add((StepEntity) step.get(i));
 	}
+
 	public void setCityView(List <CityEntity> list) {
 		this.cityView=list;
 	}
