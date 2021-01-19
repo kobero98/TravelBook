@@ -1,6 +1,6 @@
 package main.java.travelbook.view;
 import javafx.scene.control.TextField;
-import main.java.travelbook.controller.SearchTravel;
+import main.java.travelbook.controller.ControllerSearch;
 import java.util.List;
 public class SearchCityTextField extends AutocompleteTextField<String> {
 	public SearchCityTextField() {
@@ -11,7 +11,7 @@ public class SearchCityTextField extends AutocompleteTextField<String> {
 	}
 	@Override
 	public List<String> getPredictions(String text){
-		List<String> results=SearchTravel.getIstance().getCitiesPredictions(text);
-		return results;
+		return ControllerSearch.getInstance().getCitiesPredictions(text);
+		
 	}
 }

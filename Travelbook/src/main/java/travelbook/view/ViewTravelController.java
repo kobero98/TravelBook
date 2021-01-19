@@ -407,7 +407,7 @@ public class ViewTravelController {
 		}
 		else {
 			favButton.getStyleClass().add(css);
-			MenuBar.getInstance().getLoggedUser().getFav().remove(myTravel.getId());
+			MenuBar.getInstance().getLoggedUser().getFav().add(myTravel.getId());
 		}
 	}
 	@FXML

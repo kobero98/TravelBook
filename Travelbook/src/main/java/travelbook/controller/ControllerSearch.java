@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.travelbook.model.CityEntity;
+import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.SearchEntity;
 import main.java.travelbook.model.bean.*;
+import main.java.travelbook.model.dao.DaoFactory;
+import main.java.travelbook.model.dao.DaoType;
+import main.java.travelbook.model.dao.PredictableDAO;
 
 public class ControllerSearch {
 	private static ControllerSearch instance=null;
@@ -80,5 +84,17 @@ public class ControllerSearch {
 		else search.setMaxCost(null);
 		
 		return null;
+	}
+	public List<String> getCitiesPredictions(String text) {
+		PredictableDAO dao= DaoFactory.getInstance().createPredictable(DaoType.CITY);
+		List<String> results=new ArrayList<>();
+		List<Entity> predictions=dao.getPredictions(text);
+		String singleResult;
+		for(Entity city: predictions) {
+			CityEntity entity=(CityEntity) city;
+			singleResult=entity.getNameC()+","+entity.getState();
+			results.add(singleResult);
+		}
+		return results;
 	}
 }

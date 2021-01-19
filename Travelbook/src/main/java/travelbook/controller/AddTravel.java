@@ -49,7 +49,7 @@ public class AddTravel {
 			string.append(type);
 			string.append("#");
 		}
-		List<StepEntity> steps=new ArrayList<>();
+		List<Entity> steps=new ArrayList<>();
 		List<CityEntity> cities=new ArrayList<>();
 		int i=1;
 		for(StepBean step: travel.getListStep()) {
