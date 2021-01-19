@@ -217,7 +217,8 @@ public class ProfileViewController implements Observer{
             	});
             	edit.setOnMouseClicked(e->{
             		try {
-            			MenuBar.getInstance().moveToAdd(mainPane); //aggiungere id viaggio dopo aver sistemato add
+            			MenuBar.getInstance().setIdTravel(item.getId());
+            			MenuBar.getInstance().moveToAddTravel(mainPane); //aggiungere id viaggio dopo aver sistemato add
             		}catch(IOException exc) {
             			exc.printStackTrace();
             		}

@@ -77,4 +77,11 @@ public class AddTravel {
 		dao.setMyEntity((Entity)myTravel);
 		dao.setData();
 	}
+	public TravelBean getTravelById(Integer id) throws Exception {
+		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
+		TravelEntity myTravel=new TravelEntity();
+		myTravel.setIdTravel(id);
+		List<Entity> entities=dao.getData(myTravel);
+		return new TravelBean((TravelEntity)entities.get(0));
+	}
 }

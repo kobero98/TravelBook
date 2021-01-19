@@ -1213,8 +1213,9 @@ public class AddViewController implements Observer{
     			//then run a thread that wait for seconds and later remove the error message.
     		}
 	    }
-	    public void modfiyTravelMode(TravelBean travel) {
-	    	this.travel=travel;
+	    public void modfiyTravelMode(Integer travelId) {
+	    	try {
+	    	this.travel=AddTravel.getIstance().getTravelById(travelId);
 	    	if(travel.getNameTravel()!=null) {
 	    	travelName.setText(travel.getNameTravel());
 	    	}
@@ -1249,6 +1250,9 @@ public class AddViewController implements Observer{
 	    		}
 	    		this.stepByDay=stepInDay;
 	    		this.setImageForSteps();
+	    	}
+	    	}catch(Exception e) {
+	    		e.printStackTrace();
 	    	}
 	    	
 	    }

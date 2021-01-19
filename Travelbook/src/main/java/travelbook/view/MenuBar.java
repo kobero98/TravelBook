@@ -98,6 +98,15 @@ public class MenuBar extends Observable implements Observer{
 		AddViewController controller=loader.getController();
 		controller.setMain(mainPane);
 	}
+	public void moveToAddTravel(BorderPane mainPane) throws IOException{
+		loader=new FXMLLoader();
+		loader.setLocation(MenuBar.class.getResource("AddView.fxml"));
+		internalPane=(AnchorPane)loader.load();
+		mainPane.setCenter(internalPane);
+		AddViewController controller=loader.getController();
+		controller.setMain(mainPane);
+		controller.modfiyTravelMode(travelId);
+	}
 	public static MenuBar getInstance() {
 		if(istance==null) {
 			istance=new MenuBar();
