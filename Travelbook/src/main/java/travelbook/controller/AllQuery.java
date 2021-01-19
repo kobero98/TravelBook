@@ -80,7 +80,13 @@ public class AllQuery {
 		}
 	
 	}
-	
+	public int getPlaceVisited(Statement stmt, int id) throws SQLException
+	{
+		String query="Select count(*) as name from (SELECT Distinct city.NameC FROM trip_has_city join city  on City_NameC=NameC and city_State=State where codiceCreatore="+id+") as Place";
+		ResultSet rs= stmt.executeQuery(query);
+		rs.next();
+		return rs.getInt(1);
+	}
 	public ResultSet requestTripByUser(Statement stmt,int idCreator)
 	{	ResultSet rs=null;
 		try {

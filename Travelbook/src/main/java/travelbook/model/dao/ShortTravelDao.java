@@ -1,7 +1,6 @@
 package main.java.travelbook.model.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,7 +13,7 @@ import main.java.travelbook.model.TravelEntity;
 
 public class ShortTravelDao implements VisualDAO{
 	
-	private Connection connection;
+	
 	
 	private TravelEntity convertRsToShortTravelEntity(ResultSet rs) throws SQLException {
 		TravelEntity e=new TravelEntity();
@@ -24,21 +23,22 @@ public class ShortTravelDao implements VisualDAO{
 		return e;
 	}
 	
-	private TravelEntity entity;
+	
 
 	@Override
 	public List<Entity> getData(Entity object) throws SQLException {
-		this.entity=(TravelEntity) object;
+		TravelEntity entity=(TravelEntity) object;
 		List<Entity> l=new ArrayList<>();
-		this.connection = AllQuery.getInstance().getConnection();
-		Statement stmt=this.connection.createStatement();
-		ResultSet rs=AllQuery.getInstance().requestShortTravel(stmt, this.entity.getIdTravel());
+		Connection connection = AllQuery.getInstance().getConnection();
+		Statement stmt=connection.createStatement();
+		ResultSet rs=AllQuery.getInstance().requestShortTravel(stmt, entity.getIdTravel());
 		while(rs.next())
 		{
 			TravelEntity e=convertRsToShortTravelEntity(rs);
-			e.setIdTravel(this.entity.getIdTravel());
+			e.setIdTravel(entity.getIdTravel());
 			l.add(e);	
 		}
+		connection.close();
 		return l;
 	}
 

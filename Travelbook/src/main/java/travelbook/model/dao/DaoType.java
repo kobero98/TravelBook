@@ -8,5 +8,6 @@ public enum DaoType {
 	 CITY,
 	 MESSAGE,
 	 S_TRAVEL,
-	 S_USER
+	 S_USER,
+	 SEARCH_TRAVEL
 }

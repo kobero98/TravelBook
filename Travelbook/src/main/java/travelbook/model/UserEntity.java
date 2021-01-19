@@ -22,9 +22,10 @@ public class UserEntity implements Entity{
 	private InputStream photo=null;
 	private Date birthDate=null;
 	private int  id=0;
-	private int nFollower;
-	private int nFollowing;
-	private int nTrip;
+	private int nFollower=0;
+	private int nFollowing=0;
+	private int nTrip=0;
+	private int nPlace=0;
 	private String nation;
 	private List<Integer> favorite = null;
 	private List<Integer> follower = null;
@@ -192,6 +193,12 @@ public class UserEntity implements Entity{
 	}
 	public void setListFollowing(List<Integer> following) {
 		if(!following.isEmpty())this.following = following;
+	}
+	public int getnPlace() {
+		return nPlace;
+	}
+	public void setnPlace(int nPlace) {
+		this.nPlace = nPlace;
 	}
 
 	

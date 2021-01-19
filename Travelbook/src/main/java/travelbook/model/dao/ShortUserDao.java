@@ -1,7 +1,6 @@
 package main.java.travelbook.model.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,9 +12,7 @@ import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.UserEntity;
 
-public class ShortUserDao implements PersistanceDAO {
-	private UserEntity entity;	
-	private Connection connection;
+public class ShortUserDao implements VisualDAO {
 	private UserEntity castRStoUser(ResultSet rs) throws SQLException
 	{
 		
@@ -31,11 +28,12 @@ public class ShortUserDao implements PersistanceDAO {
 	public List<Entity> getData(Entity user1) throws SQLException {
 		ResultSet rs=null;
 		Statement stmt=null;
+		Connection connection=null;
 		UserEntity user=(UserEntity) user1;
 		AllQuery db=AllQuery.getInstance();
 		List <Entity> list=new ArrayList<>();
 		try {
-			this.connection = AllQuery.getInstance().getConnection();
+			connection = AllQuery.getInstance().getConnection();
 		} catch (SQLException e1) {
 			throw new LoginPageException("errore connect");
 		}
@@ -49,7 +47,6 @@ public class ShortUserDao implements PersistanceDAO {
 						UserEntity utente=castRStoUser(rs);
 						list.add((Entity) utente);
 					}while(rs.next());
-					System.out.println("finisco il get della Dao");
 			}
 			
 		}finally {
@@ -63,39 +60,7 @@ public class ShortUserDao implements PersistanceDAO {
 				
 			}
 		}
- 		
-		
 		return list;
-	}
-
-	@Override
-	public void setData() throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Entity getMyEntity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void delete(Entity object) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(Entity object) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setMyEntity(Entity user) throws SQLException {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }

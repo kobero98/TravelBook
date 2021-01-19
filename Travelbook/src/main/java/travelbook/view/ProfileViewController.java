@@ -154,7 +154,7 @@ public class ProfileViewController implements Observer{
 		
 		followerButton.setText("Followers: "+user.getNFollower());
 		followingButton.setText("Following: "+user.getNFollowing());
-		placeVisited.setText("You have visited " + user.getNTrip()+" places");
+		placeVisited.setText("You have visited " + user.getnPlace()+" places");
 	}
 	class TravelCell extends ListCell<MiniTravelBean>{
 		@Override

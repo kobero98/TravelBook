@@ -1,10 +1,5 @@
 package main.java.travelbook.model.bean;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javafx.scene.image.Image;
@@ -23,6 +18,7 @@ public class UserBean{
 	private int  nFollower;
 	private int nFollowing;
 	private int nTrip;
+	private int nPlace;
 	private List <Integer> travel = null;
 	private List <Integer> message = null;
 	private List<Integer> follower = null;
@@ -47,7 +43,8 @@ public class UserBean{
 		this.nFollowing=user.getNFollowing();
 		this.nTrip=user.getNTrip();
 		this.travel = user.getTravel();
-		//this.message = user.getMessage();
+		this.nPlace = user.getnPlace();
+ 		//this.message = user.getMessage();
 		this.follower =user.getListFollower();
 		this.following = user.getListFollowing();
 		this.fav = user.getFavoriteList();
@@ -169,6 +166,12 @@ public class UserBean{
 	}
 	public List<Integer> getFav(){
 		return this.fav;
+	}
+	public int getnPlace() {
+		return nPlace;
+	}
+	public void setnPlace(int nPlace) {
+		this.nPlace = nPlace;
 	}
 
 

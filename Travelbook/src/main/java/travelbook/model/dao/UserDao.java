@@ -1,15 +1,12 @@
 package main.java.travelbook.model.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import exception.ExceptionLogin;
 import exception.ExceptionRegistration;
 import exception.LoginPageException;
 import main.java.travelbook.controller.AllQuery;
@@ -61,8 +58,9 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 				UserEntity utente=castRStoUser(rs);
 				
 				stmt.close();
+				
 				//this.connection = AllQuery.getInstance().getConnection();
-				/*stmt=this.connection.createStatement();
+				stmt=this.connection.createStatement();
 				rs=AllQuery.getInstance().requestListIDFavoriteTrip(stmt,utente.getId());	
 				List <Integer> fav=new ArrayList<>();
 				while(rs.next())
@@ -70,7 +68,8 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 					fav.add(rs.getInt(1));
 				}
 				utente.setFavoriteList(fav);
-				stmt.close();*/
+				stmt.close();
+				
 				stmt=this.connection.createStatement();
 				rs=AllQuery.getInstance().requestListFollowerUser(stmt,utente.getId());	
 				List <Integer> follower=new ArrayList<>();
@@ -80,6 +79,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 				}
 				utente.setListFollower(follower);
 				stmt.close();
+				
 				stmt=this.connection.createStatement();
 				rs=AllQuery.getInstance().requestListFollowingUser(stmt,utente.getId());	
 				List <Integer> following=new ArrayList<>();
@@ -98,6 +98,11 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 					travel.add(rs.getInt(1));
 				}
 				utente.setTravel(travel);
+				stmt.close();
+				
+				stmt=this.connection.createStatement();
+				utente.setnPlace(AllQuery.getInstance().getPlaceVisited(stmt,utente.getId()));
+				
 				stmt.close();
 				list.add((Entity) utente);
 			}
