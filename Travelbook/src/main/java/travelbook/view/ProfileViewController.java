@@ -28,6 +28,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import main.java.travelbook.controller.MyProfileController;
 import main.java.travelbook.controller.ProfileController;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.UserBean;
@@ -100,6 +101,7 @@ public class ProfileViewController implements Observer{
 	private static final String HEADER_MSG ="Something went wrong!";
 	private static final String WARN_IMG = "main/resources/AddViewImages/warning.png";
 	UserBean user=MenuBar.getInstance().getLoggedUser();
+	MyProfileController myController = new MyProfileController();
 	public void initialize() {
 		MenuBar.getInstance().setNewThread();
 		MenuBar.getInstance().addObserver(this);
@@ -107,7 +109,7 @@ public class ProfileViewController implements Observer{
 			ObservableList<MiniTravelBean> data;
 			try {
 				if(user.getTravel()!=null) {
-					data = FXCollections.observableList(ProfileController.getInstance().getTravel(user.getTravel()));
+					data = FXCollections.observableList(myController.getTravel(user.getTravel()));
 					travels.setItems(data); 
 				}
 			} catch (SQLException e) {
@@ -205,7 +207,6 @@ public class ProfileViewController implements Observer{
             		AnchorPane internalPane;
             		try {
             			MenuBar.getInstance().setIdTravel(item.getId());
-            			System.out.println("Profile: "+item.getId());
             			loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
             			internalPane=(AnchorPane)loader.load();
             			mainPane.setCenter(internalPane);
@@ -378,8 +379,9 @@ public class ProfileViewController implements Observer{
 			BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 			Background newBg = new Background(bgPhoto);
 			profilePhoto.setBackground(newBg);
+			user.setPhoto(myPhoto);
 			try {
-				ProfileController.getInstance().updatePhoto(user.getId(),selectedFile);
+				myController.updatePhoto(user.getId(),selectedFile);
 				
 			} catch (SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
@@ -409,7 +411,7 @@ public class ProfileViewController implements Observer{
 			descrWrite.clear();
 			descrWrite.setVisible(false);
 			try {
-				ProfileController.getInstance().updateDescr(user.getId(),newDescr);
+				myController.updateDescr(user.getId(),newDescr);
 			} catch (SQLException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Update failed");
@@ -450,7 +452,7 @@ public class ProfileViewController implements Observer{
 		if(user.getFav()!=null) {
 			ObservableList<String> fav;
 			try {
-				fav = FXCollections.observableList(ProfileController.getInstance().getFav(user.getFav()));
+				fav = FXCollections.observableList(myController.getFav(user.getFav()));
 				show.setItems(fav);
 			} catch (SQLException e) {
 				errorMsg.setVisible(true);
@@ -466,7 +468,7 @@ public class ProfileViewController implements Observer{
 		if(user.getFollower()!= null) {
 			ObservableList<String> fav;
 			try {
-				fav = FXCollections.observableList(ProfileController.getInstance().getFollow(user.getFollower()));
+				fav = FXCollections.observableList(myController.getFollow(user.getFollower()));
 				show.setItems(fav);
 			} catch (SQLException e) {
 				errorMsg.setVisible(true);
@@ -483,7 +485,7 @@ public class ProfileViewController implements Observer{
 		if(user.getFollowing()!=null) {
 			ObservableList<String> fav;
 			try {
-				fav = FXCollections.observableList(ProfileController.getInstance().getFollow(user.getFollowing()));
+				fav = FXCollections.observableList(myController.getFollow(user.getFollowing()));
 			show.setItems(fav);
 			} catch (SQLException e) {
 				errorMsg.setVisible(true);

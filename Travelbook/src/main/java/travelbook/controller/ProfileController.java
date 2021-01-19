@@ -19,17 +19,6 @@ import main.java.travelbook.model.dao.VisualDAO;
 public class ProfileController{
 	private static ProfileController instance = null;
 	
-	private ProfileController() {
-		
-	}
-	
-	public static ProfileController getInstance() {
-		if(instance == null) {
-			instance = new ProfileController();
-		}
-		return instance;
-	}
-	
 	public List<MiniTravelBean> getTravel(List<Integer> l) throws SQLException{
 		List<MiniTravelBean> ol = null;
 		VisualDAO miniTravelDao = DaoFactory.getInstance().createVisual(DaoType.S_TRAVEL);
@@ -53,21 +42,6 @@ public class ProfileController{
 		return ol;
 	}
 	
-	public void updateDescr(int id,String descr) throws SQLException {
-		PersistanceDAO userDao= DaoFactory.getInstance().create(DaoType.USER);
-		UserEntity userE = new UserEntity(id);
-		userE.setDescription(descr);
-		System.out.println("metto la descrizione");
-		userDao.update(userE);
-	}
-	
-	public void updatePhoto(int id,File foto) throws SQLException {
-		PersistanceDAO userDao= DaoFactory.getInstance().create(DaoType.USER);
-		UserEntity userE = new UserEntity(id);
-		System.out.print("metto la foto");
-		userE.setPhoto(foto);
-		userDao.update(userE);
-	}
 	
 	public List<String> getFollow(List<Integer> l) throws SQLException{
 		List<String> f = null;
