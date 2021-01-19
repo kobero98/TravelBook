@@ -6,9 +6,10 @@ import java.util.List;
 
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.TravelEntity;
-import main.java.travelbook.model.bean.MiniTravelBean;
+import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.model.bean.TravelBean;
+import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
 import main.java.travelbook.model.dao.PersistanceDAO;
@@ -47,7 +48,14 @@ public class TravelController{
 		return l;
 	}
 	
-	public void sortStepinDay(List<StepBean> s) {
+	private void sortStepinDay(List<StepBean> s) {
 		s.sort(new NumberInDayComparator());
 	}
-}
+	
+	public void updateFav(UserBean u) throws SQLException{
+		PersistanceDAO userDao = DaoFactory.getInstance().create(DaoType.USER);
+		UserEntity userE = new UserEntity(u.getId());
+		userE.setFavoriteList(u.getFav());
+		userDao.update(userE);
+		}
+	}

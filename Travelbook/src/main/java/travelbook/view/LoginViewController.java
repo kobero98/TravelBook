@@ -15,9 +15,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.ChoiceBox;
 import java.util.Locale;
-import main.java.travelbook.MainApp;
 import main.java.travelbook.controller.ControllerLogin;
-import main.java.travelbook.util.DateUtil;
 import main.java.travelbook.view.animation.OpacityAnimation;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -26,7 +24,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -46,6 +43,7 @@ public class LoginViewController {
 	private String codeOfreg;
 	private static final String ALERTCSS="main/java/travelbook/css/alert.css";
 	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
+	private static final String ERROR_IMG="main/resources/AddViewImages/error.png";
 	@FXML
 	private Pane codeConfirmPane;
 	@FXML
@@ -153,7 +151,7 @@ public class LoginViewController {
 		});
 	}
 	private void setAlert() {
-		this.mainPane.getScene().getWindow().setOnCloseRequest((e)->{
+		this.mainPane.getScene().getWindow().setOnCloseRequest(e->{
 			Alert alert=new Alert(AlertType.CONFIRMATION) ;
 			alert.setHeaderText("Exit request");
 			alert.setContentText("Are you sure you want to quit?");
@@ -362,8 +360,8 @@ public class LoginViewController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String app_id="1332279647110748";
-		String request="https://www.facebook.com/v3.2/dialog/oauth?client_id="+app_id+"&response_type=token"+"&redirect_uri="+redirecturi+ "&state=\'{st=state123abc,ds=123456789}\'";
+		String appId="1332279647110748";
+		String request="https://www.facebook.com/v3.2/dialog/oauth?client_id="+appId+"&response_type=token"+"&redirect_uri="+redirecturi+ "&state=\'{st=state123abc,ds=123456789}\'";
 		WebView view=new WebView();
 		WebEngine engine=view.getEngine();
 		engine.locationProperty().addListener((observable,oldValue,newValue)->{
@@ -374,7 +372,7 @@ public class LoginViewController {
 				//Ask controller applicativo affinch� chieda a fb i dati utente
 			}
 			}catch(Exception e) {
-				
+				//TODO
 			}
 		});
 		engine.load(request);
@@ -397,7 +395,7 @@ public class LoginViewController {
 		boolean errore=false;// per vedere se mancano dati
 		
 		String email=email1.getText();
-		String username=this.username.getText();
+		String myUsername=this.username.getText();
 		if(email.isEmpty()) {
 			errore=true;
 		}
@@ -435,7 +433,7 @@ public class LoginViewController {
 		}
 		if(!errore && gender!=null) {
           RegistrationBean user=new RegistrationBean();
-          user.setUsername(username);
+          user.setUsername(myUsername);
           user.setEmail(email);
           user.setPassword(pswd);
           user.setBirtdate(Date.valueOf(data));
@@ -476,7 +474,7 @@ public class LoginViewController {
 				alert.setContentText("Something went wrong try again");
 				alert.getDialogPane().getStylesheets().add(PROJECTCSS);
 				alert.getDialogPane().getStylesheets().add(ALERTCSS);
-				Image alertImg = new Image("main/resources/AddViewImages/error.png");
+				Image alertImg = new Image(ERROR_IMG);
 				ImageView imageView = new ImageView(alertImg);
 				alert.setGraphic(imageView);
 				alert.showAndWait();
@@ -499,7 +497,7 @@ public class LoginViewController {
 		alert.setContentText("Wrong code, your registration has failed");
 		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
 		alert.getDialogPane().getStylesheets().add(ALERTCSS);
-		Image alertImg = new Image("main/resources/AddViewImages/error.png");
+		Image alertImg = new Image(ERROR_IMG);
 		ImageView imageView = new ImageView(alertImg);
 		alert.setGraphic(imageView);
 		alert.showAndWait();
@@ -520,15 +518,13 @@ public class LoginViewController {
 		 saveAlert.getButtonTypes().addAll(exit,notExit);
 		 saveAlert.getDialogPane().getStylesheets().add(PROJECTCSS);
 		 saveAlert.getDialogPane().getStylesheets().add(ALERTCSS);
-		 Image alertImg = new Image("main/resources/AddViewImages/error.png");
+		 Image alertImg = new Image(ERROR_IMG);
 		 ImageView imageView = new ImageView(alertImg);
 		 saveAlert.setGraphic(imageView);
 		 Optional<ButtonType> results=saveAlert.showAndWait();
-		 if(results.isPresent()) {
-			 if(results.get()==exit) {
-				 this.codeConfirmPane.setVisible(false);
-				 this.closeRegisterHandler();
-			 }
+		 if(results.isPresent() && results.get()==exit) {
+			this.codeConfirmPane.setVisible(false);
+			this.closeRegisterHandler();
 		 }
 		 
 	}

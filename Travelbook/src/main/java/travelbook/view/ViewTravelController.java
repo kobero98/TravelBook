@@ -33,12 +33,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import main.java.travelbook.view.animation.SlideImageAnimationHL;
 import main.java.travelbook.view.animation.SlideImageAnimationHR;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -95,6 +97,10 @@ public class ViewTravelController {
 	@FXML
 	private Button leftScroll;
 	private Button selected = null;
+	private static final String ALERTCSS="main/java/travelbook/css/alert.css";
+	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
+	private static final String HEADER_MSG ="Something went wrong!";
+	private static final String WARN_IMG = "main/resources/AddViewImages/warning.png";
 	@FXML
 	private void initialize() {
 		try {
@@ -424,10 +430,21 @@ public class ViewTravelController {
 			if(f==null)  f=new ArrayList<>();
 			f.add(myTravel.getId());
 			MenuBar.getInstance().getLoggedUser().setFav(f);
-			
-			
 		}
-		System.out.println(f);
+		try {
+			TravelController.getInstance().updateFav(MenuBar.getInstance().getLoggedUser());
+		} catch (SQLException e) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Update failed");
+    		alert.setHeaderText(HEADER_MSG);
+    		alert.setContentText("we couldn't update your information, try again");
+    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
+   		 	Image image = new Image(WARN_IMG);
+   		 	ImageView imageView = new ImageView(image);
+   		 	alert.setGraphic(imageView);
+   		 	alert.showAndWait();
+		}
 	}
 	@FXML
 	private void shareButtonHandler() {
