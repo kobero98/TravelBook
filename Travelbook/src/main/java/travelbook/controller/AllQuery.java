@@ -67,7 +67,7 @@ public class AllQuery {
 	}
 	public ResultSet requestLogin(Statement stmt,String username,String password) throws ExceptionLogin{
 		ResultSet rs=null;
-		
+		System.out.println(password);
 		try {
 				rs = stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"'");
 			

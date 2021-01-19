@@ -1,5 +1,7 @@
 package main.java.travelbook.model.dao;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -33,7 +35,15 @@ public class TravellDao implements PersistanceDAO{
 		return e;
 	}
 	private TravelEntity entity;
-	
+	private List<CityEntity> reduceCity(List <CityEntity> c)
+	{
+		List<CityEntity> newList=new ArrayList<>();
+		for(CityEntity a:c)
+		{
+			if(!newList.contains(a)) newList.add(a);
+		}
+		return newList;
+	}
 	@Override
 	public List<Entity> getData(Entity object) throws SQLException {
 		this.entity=(TravelEntity) object;
@@ -47,7 +57,7 @@ public class TravellDao implements PersistanceDAO{
 		}
 		else {
 			if(this.entity.getIdTravel()!=0) {
-				System.out.println(this.entity.getIdTravel());
+				
 					rs=AllQuery.getInstance().requestTripById(stmt, this.entity.getIdTravel());
 			}
 		}
@@ -81,14 +91,11 @@ public class TravellDao implements PersistanceDAO{
 		}
 		else list=null;
 		stmt.close();
-		System.out.println(list==null);
 		return list;
 	}
 	private Connection connection;
-	
 	@Override
 	public void setData() throws SQLException {
-		
 		this.connection=AllQuery.getInstance().getConnection();
 		int idTravel=AllQuery.getInstance().requestRegistrationTrip(this.connection,entity);
 		int i;
@@ -99,8 +106,8 @@ public class TravellDao implements PersistanceDAO{
 			ent.setTripId(idTravel);
 			dao.setMyEntity(ent);
 			dao.setData();
-			
 		}
+		entity.setCityView(reduceCity(entity.getCityView()));
 		for(i=0;i<entity.getCityView().size();i++)
 		{
 			PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.CITY);
@@ -114,7 +121,6 @@ public class TravellDao implements PersistanceDAO{
 		}
 		AllQuery.getInstance().updateTravelNumberForUser(connection, this.entity.getCreatorId());
 	}
-
 	@Override
 	public Entity getMyEntity() {
 		return this.entity;
