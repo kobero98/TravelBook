@@ -12,7 +12,7 @@ import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.TravelEntity;
 
-public class ShortTravelDao implements PersistanceDAO {
+public class ShortTravelDao implements VisualDAO{
 	
 	private Connection connection;
 	
@@ -42,34 +42,7 @@ public class ShortTravelDao implements PersistanceDAO {
 		return l;
 	}
 
-	@Override
-	public void setData() throws SQLException {
-		// Do nothing because of X and Y.
-	}
 
-	@Override
-	public Entity getMyEntity() {
-		
-		return  this.entity;
-	}
-
-	@Override
-	public void delete(Entity object) throws SQLException {
-		// Do nothing because of X and Y.
-
-	}
-
-	@Override
-	public void update(Entity object) throws SQLException {
-		// Do nothing because of X and Y.
-		
-	}
-
-	@Override
-	public void setMyEntity(Entity user) throws SQLException {
-		this.entity=(TravelEntity) user;
-		
-	}
 
 
 }

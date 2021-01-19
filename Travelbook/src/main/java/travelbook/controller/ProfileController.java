@@ -14,6 +14,7 @@ import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
 import main.java.travelbook.model.dao.PersistanceDAO;
 import main.java.travelbook.model.dao.ShortUserDao;
+import main.java.travelbook.model.dao.VisualDAO;
 
 public class ProfileController{
 	private static ProfileController instance = null;
@@ -31,7 +32,7 @@ public class ProfileController{
 	
 	public List<MiniTravelBean> getTravel(List<Integer> l) throws SQLException{
 		List<MiniTravelBean> ol = null;
-		PersistanceDAO miniTravelDao = DaoFactory.getInstance().create(DaoType.S_TRAVEL);
+		VisualDAO miniTravelDao = DaoFactory.getInstance().createVisual(DaoType.S_TRAVEL);
 		if (l != null) {
 			for(int i=0; i<l.size(); i++) {
 				TravelEntity travelE = new TravelEntity();

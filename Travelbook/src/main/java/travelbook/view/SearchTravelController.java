@@ -196,7 +196,6 @@ public class SearchTravelController {
 	private void delButton(MouseEvent e){ 
     	Button b= (Button) e.getSource();
     	HBox box1=(HBox) b.getParent();
-    	
     	Label l =(Label) box1.getChildren().get(1);
         MyTypes i=new MyTypes(l.getText(),(Color) box1.getBackground().getFills().get(0).getFill());
         int j=0;

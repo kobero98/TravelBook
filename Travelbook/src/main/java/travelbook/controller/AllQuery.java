@@ -268,7 +268,7 @@ public class AllQuery {
 		Statement stmt1=null;
 		try {
 			stmt1=connessione.createStatement();
-			ResultSet rs=stmt1.executeQuery("Select tripNumber from user where idUser="+idUser);
+			ResultSet rs=stmt1.executeQuery("Select Count(idTrip) as tripNumber from trip where CreatorTrip="+idUser);
 			rs.next();
 			stmt=connessione.prepareStatement(query);
 			stmt.setInt(1, rs.getInt(1));
@@ -538,8 +538,6 @@ public class AllQuery {
 		}
 		stmt.execute(query);
 	}
-	
-	
-	
+
 	
 }

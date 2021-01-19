@@ -14,6 +14,7 @@ import main.java.travelbook.model.CityEntity;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.TravelEntity;
+import main.java.travelbook.model.UserEntity;
 
 public class TravellDao implements PersistanceDAO{
 
@@ -111,8 +112,7 @@ public class TravellDao implements PersistanceDAO{
 			}
 			AllQuery.getInstance().setCityToTravel(connection, idTravel, this.entity.getCreatorId(), citta);
 		}
-		
-		
+		AllQuery.getInstance().updateTravelNumberForUser(connection, this.entity.getCreatorId());
 	}
 
 	@Override
