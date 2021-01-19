@@ -1,15 +1,18 @@
 package main.java.travelbook.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.bean.MiniTravelBean;
+import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
 import main.java.travelbook.model.dao.PersistanceDAO;
+import main.java.travelbook.util.NumberInDayComparator;
 
 public class TravelController{
 	
@@ -30,12 +33,21 @@ public class TravelController{
 		PersistanceDAO travelDao = DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity travelE = new TravelEntity();
 		travelE.setIdTravel(id);
-		System.out.println("Questo è il mio id: "+ id);
 		List<Entity> rs= travelDao.getData(travelE);
-		System.out.println("1 " +rs.size());
 		if(!rs.isEmpty())travelE = (TravelEntity)rs.get(0);
-		else System.out.println("empty");
-		TravelBean bean = new TravelBean(travelE);
-		return bean;
+		return new TravelBean(travelE);
+	}
+	
+	public List<StepBean> stepInDay(List<StepBean> s, Integer n){
+		List<StepBean> l = new ArrayList<>();
+		for(int i=0; i<s.size(); i++) {
+			if(s.get(i).getGroupDay() == n) l.add(s.get(i));
+		}
+		sortStepinDay(l);
+		return l;
+	}
+	
+	public void sortStepinDay(List<StepBean> s) {
+		s.sort(new NumberInDayComparator());
 	}
 }

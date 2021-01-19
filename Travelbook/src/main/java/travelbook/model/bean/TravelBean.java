@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+
+import main.java.travelbook.util.DateUtil;
 import main.java.travelbook.util.Observable;
 import javafx.scene.image.Image;
 import main.java.travelbook.model.StepEntity;
@@ -49,8 +51,8 @@ public class TravelBean extends Observable {
 		if (travel.getTypeTravel() != null )this.type = stringParser(travel.getTypeTravel());
 		this.startDate = travel.getStartDate().toLocalDate().toString();
 		this.endDate = travel.getEndDate().toLocalDate().toString();
-//		this.step = stepConvert(travel.getListStep());
-		this.dayNum = dayCalculator(travel.getStartDate(), travel.getEndDate());
+		if (travel.getListStep()!=null)this.step = stepConvert(travel.getListStep());
+		this.dayNum = (int)new DateUtil().numOfDaysBetween(travel.getStartDate().toLocalDate(), travel.getEndDate().toLocalDate()) +1;
 		
 	}
 	
@@ -79,36 +81,6 @@ public class TravelBean extends Observable {
 			b.add(s);
 		}
 		return b;	
-	}
-	
-	private int dayCalculator(Date start, Date end) {
-		int n = 0;
-		if(start.toLocalDate().getYear()==end.toLocalDate().getYear()) n=helpCalculator(start.toLocalDate(), end.toLocalDate());
-		else {
-			n= n+helpCalculator(start.toLocalDate(), LocalDate.of(start.toLocalDate().getYear(), 12, 31));
-			for(int i=1; i<end.toLocalDate().getYear()-start.toLocalDate().getYear(); i++) {
-				int y=start.toLocalDate().getYear()+i;
-				if(y%4 ==0) n=n+366;
-				else n=n+365;
-			}
-			n = n+helpCalculator(LocalDate.of(end.toLocalDate().getYear(), 1, 1), end.toLocalDate())+1;
-		}
-		return n;
-	}
-	
-	private int helpCalculator(LocalDate start, LocalDate end) {
-		int n=0;
-		if(start.getMonth()==end.getMonth()) {
-			n = end.getDayOfMonth()-start.getDayOfMonth();
-		}
-		else {
-			n=n + start.getMonth().length(start.isLeapYear()) - start.getDayOfMonth();
-			for(int i=1; i< end.getMonthValue()-start.getMonthValue();i++) {
-				n = n + Month.of(start.getMonthValue()+i).length(start.isLeapYear());
-			}
-			n = n + end.getDayOfMonth();
-		}
-		return n;
 	}
 	
 	public int getId() {

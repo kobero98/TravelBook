@@ -48,11 +48,13 @@ public class StepBean {
 		this.numberInDay = s.getNumberOfDay();
 		this.descriptionStep = s.getDescriptionStep();
 		this.place = s.getPlace();
-		this.day = s.getDay().toLocalDate().toString();
-		this.photo = photoConvert(s.getListPhoto());
+		//this.day = s.getDay().toLocalDate().toString();
+		if (s.getListPhoto() != null) {
+			this.photo = photoConvert(s.getListPhoto());
+			this.imageFile = s.getListPhoto();
+		}
 		//full place non è sulla entity, non lo posso settare per ora
 		this.precisionInformation = s.getPrecisionInformation();
-		this.imageFile = s.getListPhoto();
 	}
 	
 	private List<Image> photoConvert(List<File> f){

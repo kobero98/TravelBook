@@ -2,6 +2,8 @@ package main.java.travelbook.view;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import main.java.travelbook.controller.TravelController;
 import main.java.travelbook.model.bean.StepBean;
@@ -27,6 +29,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import main.java.travelbook.view.animation.SlideImageAnimationHL;
 import main.java.travelbook.view.animation.SlideImageAnimationHR;
@@ -100,23 +103,25 @@ public class ViewTravelController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		if(MenuBar.getInstance().getLoggedUser().getFav()!=null &&
+			MenuBar.getInstance().getLoggedUser().getFav().contains(myTravel.getId()))
+				favButton.getStyleClass().add("fav-selected");
     	CornerRadii rad = new CornerRadii(0);
     	Insets in = new Insets(0);
     	Pane travelPic = new Pane();
     	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*176/625);
     	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*278.5/1280);
-    	/*try {
+    	try {
     		Image myPhoto = myTravel.getPathImage(); 
     		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
     		Background mybg1 = new Background(bgPhoto);
     		travelPic.setBackground(mybg1);
-    	}catch(IllegalArgumentException e ) {
+    	}catch(IllegalArgumentException | NullPointerException e ) {
     		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), rad, in);
         	
         	Background mybg1 = new Background(bgcc1);
         	travelPic.setBackground(mybg1);
-    	}*/
-    	
+    	}
     	travelPic.setStyle("-fx-shape: \"M 350 900 L 350 795 C 350 780 360 770 375 770 L 438 770 C 453 770 463 780 463 795 L 463 900 Z\"");
     	VBox vBox = new VBox();
     	HBox hBox = new HBox();
@@ -135,11 +140,9 @@ public class ViewTravelController {
     	
     	
     	descr.setText(myTravel.getDescriptionTravel());
-    	//dummy
     	days.getTabs().removeAll(days.getTabs());
     	days.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
     		Tab day = days.getTabs().get(days.getSelectionModel().getSelectedIndex());
-    		
     		VBox stepBox = new VBox();
     		stepBox.setFillWidth(false);
     		stepBox.setAlignment(Pos.CENTER);
@@ -149,25 +152,28 @@ public class ViewTravelController {
     		names.setAlignment(Pos.TOP_LEFT);
     		steps.setPrefWidth(mainAnchor.getPrefWidth()*500/1280);
     		names.setPrefWidth(mainAnchor.getPrefWidth()*500/1280);
-    		steps.setSpacing((steps.getPrefWidth()-(10*mainAnchor.getPrefWidth()*40/1280))/9);//hbox-width-10*buttonwidth/9
+    		steps.setSpacing((steps.getPrefWidth()-(10*mainAnchor.getPrefWidth()*40/1280))/9);
     		steps.getStyleClass().add("itinerary");
     		Line buttonLine = new Line();
     		buttonLine.getStyleClass().add("itinerary-line");
-    		for(int j=0; j<10; j++) {
+    		List<StepBean> todayStep = TravelController.getInstance().stepInDay(myTravel.getListStep(), Integer.parseInt(day.getId()));
+    		for(int j=0; j<todayStep.size(); j++) {
     			Button b = new Button();
-    			Text t = new Text(myTravel.getListStep().get(j).getPlace());
+    			Text t = new Text(todayStep.get(j).getPlace());
     			b.setPrefWidth(mainAnchor.getPrefWidth()*40/1280);
     			b.setPrefHeight(mainAnchor.getPrefHeight()*40/625);
     			t.setWrappingWidth(mainAnchor.getPrefWidth()*50/1280);
+    			t.setFont(new Font(5.0));
     			int myIndex = j;
     			b.setOnAction((ActionEvent e)->{
-    				setStep(myTravel.getListStep().get(myIndex));
+    				setStep(todayStep.get(myIndex));
     				String css = "button-focused";
     				Button actual = (Button)e.getSource();
     				actual.getStyleClass().add(css);
     				if(selected!=null) selected.getStyleClass().remove(css);
     				selected = actual;
     				});
+    			if(j==0) b.fire();
     			t.getStyleClass().add("text");
     			steps.getChildren().add(b);
     			names.getChildren().add(t);
@@ -180,36 +186,12 @@ public class ViewTravelController {
     		stepBox.getChildren().add(buttonLine);
     		stepBox.getChildren().add(names);
     		day.setContent(stepBox);
-    		mainAnchor.heightProperty().addListener((observable1, oldValue1, newValue1)->{
-    			buttonLine.setStartY(mainAnchor.getHeight()*50/625);
-    			buttonLine.setEndY(mainAnchor.getPrefHeight()*50/625);
-    			array1 = steps.getChildren().toArray();
-    			for(int k=0;k<array1.length;k++) {
-    				button=(Button)array1[k];
-    				button.setPrefHeight(mainAnchor.getHeight()*40/625);
-    			}
-    			
-    		});
-    		mainAnchor.widthProperty().addListener((observable2, oldValue2, newValue2)->{
-    			
-    			steps.setSpacing(mainAnchor.getPrefWidth()*steps.getSpacing()/1280);//hbox-width-10*buttonwidth/9
-    			steps.setPrefWidth(mainAnchor.getPrefWidth()*500/1280);
-        		names.setPrefWidth(mainAnchor.getPrefWidth()*500/1280);
-        		buttonLine.setEndX(mainAnchor.getPrefWidth()*500/1280);
-        		array1 = steps.getChildren().toArray();
-        		array2 = names.getChildren().toArray();
-    			for(int k=0;k<array1.length;k++) {
-    				button=(Button)array1[k];
-    				button.setPrefWidth(mainAnchor.getWidth()*40/1280);
-    				text=(Text)array2[k];
-    				text.setWrappingWidth(mainAnchor.getWidth()*50/1280);
-    			}
-    			
-    		});
+    		resize(steps, names, buttonLine);
             
       });
-    	for(int i=1; i<=myTravel.getDayNum();i++) {
+    	for(Integer i=1; i<=myTravel.getDayNum();i++) {
     		Tab day = new Tab();
+    		day.setId(i.toString());
     		day.setText("day" + i);
     		days.getTabs().add(day);
     	}
@@ -224,9 +206,38 @@ public class ViewTravelController {
     	});
 	}
 	
+	private void resize(HBox steps, HBox names, Line buttonLine) {
+		mainAnchor.heightProperty().addListener((observable1, oldValue1, newValue1)->{
+			buttonLine.setStartY(mainAnchor.getHeight()*50/625);
+			buttonLine.setEndY(mainAnchor.getPrefHeight()*50/625);
+			array1 = steps.getChildren().toArray();
+			for(int k=0;k<array1.length;k++) {
+				button=(Button)array1[k];
+				button.setPrefHeight(mainAnchor.getHeight()*40/625);
+			}
+			
+		});
+		mainAnchor.widthProperty().addListener((observable2, oldValue2, newValue2)->{
+			
+			steps.setSpacing(mainAnchor.getPrefWidth()*steps.getSpacing()/1280);
+			steps.setPrefWidth(mainAnchor.getPrefWidth()*500/1280);
+    		names.setPrefWidth(mainAnchor.getPrefWidth()*500/1280);
+    		buttonLine.setEndX(mainAnchor.getPrefWidth()*500/1280);
+    		array1 = steps.getChildren().toArray();
+    		array2 = names.getChildren().toArray();
+			for(int k=0;k<array1.length;k++) {
+				button=(Button)array1[k];
+				button.setPrefWidth(mainAnchor.getWidth()*40/1280);
+				text=(Text)array2[k];
+				text.setWrappingWidth(mainAnchor.getWidth()*50/1280);
+			}
+		});
+	}
+	
 	public void setMainPane(BorderPane main, int provenience) throws SQLException {
 		this.mainPane=main;
 		this.goBack=provenience;
+		if(provenience == 2 || provenience == 3) bb.getButtons().get(0).setVisible(false);
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
 			backButton.setPrefHeight(mainAnchor.getHeight()*34/625);
 			backButton.setLayoutY(mainAnchor.getHeight()*10/625);
@@ -302,34 +313,36 @@ public class ViewTravelController {
 		photoBox.getButtons().removeAll(photoBox.getButtons());
 		photoBox.setPrefWidth(0);
 		stepName.setText(s.getPlace());
-		ObservableList<Image> photo = (ObservableList<Image>)s.getListPhoto();
-		for(int i = 0; i < photo.size(); i++) {
-			ImageView displayPhoto = new ImageView(photo.get(i));
-			displayPhoto.setFitHeight(stepPhoto.getPrefHeight()*3/4);
-			displayPhoto.setFitWidth(stepPhoto.getPrefHeight());
-			photoBox.setPrefWidth(photoBox.getPrefWidth()+displayPhoto.getFitWidth()+mainAnchor.getPrefWidth()*15/1280);
-			photoBox.getButtons().add(displayPhoto);
-			stepDescr.setText(s.getDescriptionStep());
-			stepInf.setText(s.getPrecisionInformation());
-			Double newHeight = stepDescr.maxHeight(stepDescr.getWrappingWidth()) + stepInf.maxHeight(Double.MAX_VALUE) + 
-					photoBox.getPrefHeight() + stepName.getPrefHeight() + mainAnchor.getPrefHeight()*101/625;
-			if(newHeight > step.getPrefHeight()) {
-				stepAnchor.setPrefHeight(newHeight);
+		if(s.getListPhoto()!=null) {
+			ObservableList<Image> photo = (ObservableList<Image>)s.getListPhoto();
+			for(int i = 0; i < photo.size(); i++) {
+				ImageView displayPhoto = new ImageView(photo.get(i));
+				displayPhoto.setFitHeight(stepPhoto.getPrefHeight()*3/4);
+				displayPhoto.setFitWidth(stepPhoto.getPrefHeight());
+				photoBox.setPrefWidth(photoBox.getPrefWidth()+displayPhoto.getFitWidth()+mainAnchor.getPrefWidth()*15/1280);
+				photoBox.getButtons().add(displayPhoto);
+				mainAnchor.heightProperty().addListener((observable,oldValue, newValue)->
+					displayPhoto.setFitHeight(mainAnchor.getPrefHeight()*displayPhoto.getFitHeight()/625));
+				mainAnchor.widthProperty().addListener((observable, oldVAlue, newValue)->
+				displayPhoto.setFitWidth(mainAnchor.getPrefWidth()*displayPhoto.getFitWidth()/1280));
+			}
+		}
+		stepDescr.setText(s.getDescriptionStep());
+		stepInf.setText(s.getPrecisionInformation());
+		Double newHeight = stepDescr.maxHeight(stepDescr.getWrappingWidth()) + stepInf.maxHeight(Double.MAX_VALUE) + 
+				photoBox.getPrefHeight() + stepName.getPrefHeight() + mainAnchor.getPrefHeight()*101/625;
+		if(newHeight > step.getPrefHeight()) {
+			stepAnchor.setPrefHeight(newHeight);
+		}
+		stepInf.setLayoutY(stepDescr.getLayoutY()+stepDescr.maxHeight(stepDescr.getWrappingWidth())+mainAnchor.getPrefHeight()*10/1280);
+		mainAnchor.heightProperty().addListener((observable,oldValue, newValue)->{
+			Double newChangeHeight = stepDescr.maxHeight(stepDescr.getWrappingWidth()) + stepInf.maxHeight(Double.MAX_VALUE) + 
+				photoBox.getPrefHeight() + stepName.getPrefHeight() + mainAnchor.getPrefHeight()*101/625;
+			if(newChangeHeight > step.getPrefHeight()) {
+				stepAnchor.setPrefHeight(newChangeHeight);
 			}
 			stepInf.setLayoutY(stepDescr.getLayoutY()+stepDescr.maxHeight(stepDescr.getWrappingWidth())+mainAnchor.getPrefHeight()*10/1280);
-			mainAnchor.heightProperty().addListener((observable,oldValue, newValue)->{
-				
-				displayPhoto.setFitHeight(mainAnchor.getPrefHeight()*displayPhoto.getFitHeight()/625);
-				Double newChangeHeight = stepDescr.maxHeight(stepDescr.getWrappingWidth()) + stepInf.maxHeight(Double.MAX_VALUE) + 
-					photoBox.getPrefHeight() + stepName.getPrefHeight() + mainAnchor.getPrefHeight()*101/625;
-				if(newChangeHeight > step.getPrefHeight()) {
-					stepAnchor.setPrefHeight(newChangeHeight);
-				}
-				stepInf.setLayoutY(stepDescr.getLayoutY()+stepDescr.maxHeight(stepDescr.getWrappingWidth())+mainAnchor.getPrefHeight()*10/1280);
-			});
-			mainAnchor.widthProperty().addListener((observable, oldVAlue, newValue)->
-				displayPhoto.setFitWidth(mainAnchor.getPrefWidth()*displayPhoto.getFitWidth()/1280));
-		}
+		});
 	}
 	
 	
@@ -401,21 +414,24 @@ public class ViewTravelController {
 	@FXML
 	private void favButtonHandler() {
 		String css = "fav-selected";
+		List<Integer> f= MenuBar.getInstance().getLoggedUser().getFav();
 		if(favButton.getStyleClass().contains(css)) {
 			favButton.getStyleClass().remove(css);
-			MenuBar.getInstance().getLoggedUser().getFav().remove(myTravel.getId());
+			f.remove(myTravel.getId());
 		}
 		else {
 			favButton.getStyleClass().add(css);
-			MenuBar.getInstance().getLoggedUser().getFav().add(myTravel.getId());
+			if(f==null)  f=new ArrayList<>();
+			f.add(myTravel.getId());
+			MenuBar.getInstance().getLoggedUser().setFav(f);
+			
+			
 		}
+		System.out.println(f);
 	}
 	@FXML
 	private void shareButtonHandler() {
 		//dummy method
 		System.out.println("shared!");
-	}
-	public void setTravel(TravelBean travel) {
-		this.myTravel=travel;
 	}
 }
