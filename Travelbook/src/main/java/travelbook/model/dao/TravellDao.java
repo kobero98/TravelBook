@@ -1,10 +1,7 @@
 package main.java.travelbook.model.dao;
 
-import static org.junit.Assert.assertArrayEquals;
 
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,7 +13,6 @@ import main.java.travelbook.model.CityEntity;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.TravelEntity;
-import main.java.travelbook.model.UserEntity;
 
 public class TravellDao implements PersistanceDAO{
 
@@ -39,8 +35,10 @@ public class TravellDao implements PersistanceDAO{
 	{
 		List<CityEntity> newList=new ArrayList<>();
 		for(CityEntity a:c)
-		{
-			if(!newList.contains(a)) newList.add(a);
+		{	int i=0;
+			for(CityEntity b:newList)
+				if(b.getNameC().equals(a.getNameC()) && b.getState().equals(a.getState())) i++;
+			if(i==0) newList.add(a);
 		}
 		return newList;
 	}

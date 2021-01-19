@@ -453,7 +453,6 @@ public class SearchTravelController {
 
 	@FXML
 	public void handlerReserch() {
-		System.out.println("ciao");
 		String r=ricercaTextField.getText();
 		if(r.isEmpty()) return;
 		SearchTrip trip=new SearchTrip();

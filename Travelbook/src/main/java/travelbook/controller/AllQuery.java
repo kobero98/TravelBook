@@ -42,7 +42,7 @@ public class AllQuery {
 	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalita";
 	public ResultSet searchTrip(Statement stmt,SearchEntity entity) throws SQLException
 	{
-		System.out.print(entity.getMaxCost());
+		
 		if(entity.getMaxCost()==0) {
 			Connection conn=getConnection();
 			Statement stmt1=conn.createStatement();
@@ -67,7 +67,6 @@ public class AllQuery {
 	}
 	public ResultSet requestLogin(Statement stmt,String username,String password) throws ExceptionLogin{
 		ResultSet rs=null;
-		System.out.println(password);
 		try {
 				rs = stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"'");
 			
@@ -306,7 +305,6 @@ public class AllQuery {
 				stmt=connessione.createStatement();
 				rs=stmt.executeQuery("select * from favorite where CodiceUser="+idUser+" and CodiceTravel="+idTravel);
 				if(!rs.next()) {
-					System.out.print("entro per inserire");
 					String query="insert into favorite (CodiceUser,codiceTravel,codiceCreatore) values( ?,?,?)";
 					PreparedStatement stmt1=connessione.prepareStatement(query);
 					stmt1.setInt(1,idUser );
