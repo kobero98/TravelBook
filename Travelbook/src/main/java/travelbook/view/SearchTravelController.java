@@ -19,6 +19,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -33,6 +34,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import main.java.travelbook.controller.ControllerSearch;
+import main.java.travelbook.model.bean.SearchTrip;
 
 public class SearchTravelController {
 	private BorderPane mainPane;
@@ -96,6 +99,7 @@ public class SearchTravelController {
 	private Line lineaVerticaleGrande;
 	@FXML
 	private ScrollPane scrollSelezionati;
+	private ToggleGroup group;
 	private List <MyTypes> typeChoose=new ArrayList<>();
 	class MyTypes{
 		private String tipo;
@@ -215,7 +219,7 @@ public class SearchTravelController {
 	{
 		this.mainPane=main;
 		
-		ToggleGroup group = new ToggleGroup();
+		this.group = new ToggleGroup();
 	    budjet1.setToggleGroup(group);
 	    budjet2.setToggleGroup(group);
 	    budjet3.setToggleGroup(group);
@@ -447,7 +451,43 @@ public class SearchTravelController {
 		controller.setMainPane(this.mainPane);
 	} 
 
+	@FXML
 	public void handlerReserch() {
-		//TODO Riempire sto metodo
+		String r=ricercaTextField.getText();
+		if(!r.isEmpty()) return;
+		SearchTrip trip=new SearchTrip();
+		if(!minCost.getText().isEmpty() && !minCost.getText().equals("min"))
+		{
+			int i=Integer.parseInt(minCost.getText());
+			trip.setDurationMin(i);
+		}
+		else trip.setDurationMin(0);
+		if(!maxCost.getText().isEmpty() && !maxCost.getText().equals("max"))
+		{
+			int i=Integer.parseInt(minCost.getText());
+			trip.setDurationMax(i);
+		}
+		else trip.setDurationMax(0);
+		if(trip.getDurationMin()>trip.getDurationMax()) return;
+		trip.setCostoMax(0);
+		trip.setCostoMin(0);
+		if(budjet1.isSelected()) trip.setCostoMax(300);
+		if(budjet2.isSelected()) {
+				trip.setCostoMax(1000);
+				trip.setCostoMin(300);
+		}
+		if(budjet1.isSelected()) {
+				trip.setCostoMax(2000);
+				trip.setCostoMin(1000);
+		}
+		if(budjet1.isSelected()) {
+				trip.setCostoMin(2000);
+		}
+		List <String> s=new ArrayList<>();
+		for(int i=0;i<typeChoose.size();i++) s.add(typeChoose.get(i).getType());
+		if(s.isEmpty()) s=null;
+		trip.setType(s);
+		trip.setCity(r);
+		ControllerSearch.getInstance().search(trip);
 	}
 }
