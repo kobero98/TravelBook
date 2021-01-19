@@ -90,9 +90,10 @@ public class TravelButton implements Observer {
 				internalPane=(AnchorPane)loader.load();
 				mainPane.setCenter(internalPane);
 				controller=loader.getController();
-				//controller.setMainPane(mainPane,1);
-				controller.setTravel(this.myTravel);
-			}catch(IOException e1) {
+				MenuBar.getInstance().setIdTravel(this.myTravel.getId());
+				controller.setMainPane(mainPane, 1);
+				
+			}catch(Exception e1) {
 				e1.printStackTrace();
 			}
 		});
