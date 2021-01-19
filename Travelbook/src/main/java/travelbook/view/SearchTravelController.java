@@ -35,6 +35,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import main.java.travelbook.controller.ControllerSearch;
+import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.SearchTrip;
 
 public class SearchTravelController {
@@ -452,8 +453,9 @@ public class SearchTravelController {
 
 	@FXML
 	public void handlerReserch() {
+		System.out.println("ciao");
 		String r=ricercaTextField.getText();
-		if(!r.isEmpty()) return;
+		if(r.isEmpty()) return;
 		SearchTrip trip=new SearchTrip();
 		if(!minCost.getText().isEmpty() && !minCost.getText().equals("min"))
 		{
@@ -467,7 +469,9 @@ public class SearchTravelController {
 			trip.setDurationMax(i);
 		}
 		else trip.setDurationMax(0);
+		System.out.println("min: "+trip.getDurationMin()+" max: "+trip.getDurationMax());
 		if(trip.getDurationMin()>trip.getDurationMax()) return;
+		
 		trip.setCostoMax(0);
 		trip.setCostoMin(0);
 		if(budjet1.isSelected()) trip.setCostoMax(300);
@@ -487,6 +491,8 @@ public class SearchTravelController {
 		if(s.isEmpty()) s=null;
 		trip.setType(s);
 		trip.setCity(r);
-		ControllerSearch.getInstance().search(trip);
+		List<MiniTravelBean> l=ControllerSearch.getInstance().search(trip);
+		if(l!=null) for(int i=0;i<l.size();i++) System.out.println(l.get(i).getNameTravel());
+		else System.out.print("erroe");
 	}
 }

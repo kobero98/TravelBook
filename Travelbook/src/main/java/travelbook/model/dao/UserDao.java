@@ -165,11 +165,10 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		if(this.entity.getPhoto()!=null)
 			AllQuery.getInstance().updatePhotoProfile(connection, this.entity.getId(), this.entity.getPhoto());
 		if(this.entity.getBirthDate()!=null)
-			System.out.println("ciao1");
+			AllQuery.getInstance().updateListFavoritTravel(connection,this.entity.getId(),this.entity.getFavoriteList().get(-1));
 
-		if(this.entity.getName()!=null)
-			System.out.println("ciao1");
-
+		if(this.entity.getFavoriteList()!=null)
+			
 		if(this.entity.getSurname()!=null)
 			System.out.println("ciao1");
 

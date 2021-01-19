@@ -1,5 +1,6 @@
 package main.java.travelbook.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import main.java.travelbook.model.bean.*;
 import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
 import main.java.travelbook.model.dao.PredictableDAO;
+import main.java.travelbook.model.dao.VisualDAO;
 
 public class ControllerSearch {
 	private static ControllerSearch instance=null;
@@ -82,6 +84,20 @@ public class ControllerSearch {
 		search.setMinCost(trip.getCostoMin());
 		if(trip.getCostoMax()!=0)search.setMaxCost(trip.getCostoMax());
 		else search.setMaxCost(null);
+		VisualDAO dao=DaoFactory.getInstance().createVisual(DaoType.SEARCH_TRAVEL);
+		try {
+			System.out.println("prima di entrare nella Dao");
+			List<Entity> l=dao.getData(search);
+			List<MiniTravelBean> list=new ArrayList<>();
+			for(int i=0;i<l.size();i++)
+				list.add((MiniTravelBean) l.get(i));
+			System.out.println("Dopo essere entrato nella Dao");
+			
+			return list;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return null;
 	}

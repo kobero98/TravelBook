@@ -21,6 +21,7 @@ import exception.ExceptionRegistration;
 import exception.LoginPageException;
 import main.java.travelbook.model.CityEntity;
 import main.java.travelbook.model.MessageEntity;
+import main.java.travelbook.model.SearchEntity;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
@@ -39,7 +40,31 @@ public class AllQuery {
 		return DriverManager.getConnection(myUrl,"root","root");
 	}
 	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalita";
-	
+	public ResultSet searchTrip(Statement stmt,SearchEntity entity) throws SQLException
+	{
+		System.out.print(entity.getMaxCost());
+		if(entity.getMaxCost()==0) {
+			Connection conn=getConnection();
+			Statement stmt1=conn.createStatement();
+			ResultSet rs1=stmt1.executeQuery("Select Max(costo) from trip");
+			rs1.next();
+			entity.setMaxCost(rs1.getInt(1));
+			conn.close();
+		}
+		if(entity.getMaxDay()==0)
+		{
+			Connection conn=getConnection();
+			Statement stmt1=conn.createStatement();
+			ResultSet rs1=stmt1.executeQuery("Select Max( DATEDIFF(EndDate,StartDate)) from trip");
+			rs1.next();
+			conn.close();
+			
+		}
+		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip join trip_has_city on idTrip=CodiceViaggi and CreatorTrip=CodiceCreatore where City_NameC="+entity.getCity().getNameC() +" and City_State="+entity.getCity().getState() +"and Condiviso=0 andcosto=>"+entity.getMinCost()+"and costo=<"+entity.getMaxCost()+"and tipo like %"+entity.getType()+"% and DATEDIFF(EndDate,StartDate)>="+(entity.getMinDay()-1)+" and DATEDIFF(EndDate,StartDate)<="+(entity.getMaxDay()-1);
+		return stmt.executeQuery(query);
+		
+		
+	}
 	public ResultSet requestLogin(Statement stmt,String username,String password) throws ExceptionLogin{
 		ResultSet rs=null;
 		
@@ -266,6 +291,57 @@ public class AllQuery {
 		   }finally {
 			   if(preparedStmt!=null)preparedStmt.close();
 		  }
+	}
+	public void updateListFavoritTravel(Connection connessione,int idUser,int idTravel) throws SQLException
+	{
+		
+		Statement stmt=null;
+		try {
+				stmt=connessione.createStatement();
+				ResultSet rs=stmt.executeQuery("select CreatorId from trip where idTrip="+idTravel);
+				rs.next();
+				int cretorTrip=rs.getInt(1);
+				stmt.close();
+				
+				stmt=connessione.createStatement();
+				rs=stmt.executeQuery("select * from favorite where CodiceUser="+idUser+" and CodiceTravel="+idTravel);
+				if(!rs.next()) {
+					System.out.print("entro per inserire");
+					String query="insert into favorite (CodiceUser,codiceTravel,codiceCreatore) values( ?,?,?)";
+					PreparedStatement stmt1=connessione.prepareStatement(query);
+					stmt1.setInt(1,idUser );
+					stmt1.setInt(2, idTravel);
+					stmt1.setInt(3, cretorTrip);
+					stmt1.execute();
+					stmt=connessione.createStatement();
+					stmt.executeQuery("Select Nlike from trip where idTrip="+idTravel);
+					rs.next();
+					int i=rs.getInt(1)+1;
+					stmt.close();
+					stmt=connessione.createStatement();
+					stmt.executeQuery("update Trip set Nlike"+i+"where idTrip="+idTravel);
+					stmt.close();
+				}
+				else {
+					System.out.print("entro per Deletare");
+					stmt=connessione.createStatement();
+					stmt.executeQuery("delete from Favorite where CodiceUser=\"+idUser+\" and CodiceTravel=\"+idTravel ");
+					stmt.close();
+					stmt=connessione.createStatement();
+					stmt.executeQuery("Select Nlike from trip where idTrip="+idTravel);
+					rs.next();
+					int i=rs.getInt(1)-1;
+					stmt.close();
+					stmt=connessione.createStatement();
+					stmt.executeQuery("update Trip set Nlike"+i+"where idTrip="+idTravel);
+					stmt.close();
+					
+				}
+		}finally {
+			if(stmt!=null) stmt.close();
+		}
+		
+		
 	}
 	
 	public void updateTravelNumberForUser(Connection connessione,int idUser) {
