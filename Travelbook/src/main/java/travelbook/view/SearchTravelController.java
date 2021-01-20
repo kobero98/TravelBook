@@ -470,7 +470,6 @@ public class SearchTravelController {
 		else trip.setDurationMax(0);
 		System.out.println("min: "+trip.getDurationMin()+" max: "+trip.getDurationMax());
 		if(trip.getDurationMin()>trip.getDurationMax()) return;
-		
 		trip.setCostoMax(0);
 		trip.setCostoMin(0);
 		if(budjet1.isSelected()) trip.setCostoMax(300);

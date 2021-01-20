@@ -42,8 +42,7 @@ public class AllQuery {
 	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalita";
 	public ResultSet searchTrip(Statement stmt,SearchEntity entity) throws SQLException
 	{
-		
-		if(entity.getMaxCost()==0) {
+		if(entity.getMaxCost()==null) {
 			Connection conn=getConnection();
 			Statement stmt1=conn.createStatement();
 			ResultSet rs1=stmt1.executeQuery("Select Max(costo) from trip");
@@ -51,19 +50,19 @@ public class AllQuery {
 			entity.setMaxCost(rs1.getInt(1));
 			conn.close();
 		}
-		if(entity.getMaxDay()==0)
+		if(entity.getMaxDay()==null)
 		{
 			Connection conn=getConnection();
 			Statement stmt1=conn.createStatement();
 			ResultSet rs1=stmt1.executeQuery("Select Max( DATEDIFF(EndDate,StartDate)) from trip");
 			rs1.next();
+			entity.setMaxDay(rs1.getInt(1));
 			conn.close();
-			
 		}
-		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip join trip_has_city on idTrip=CodiceViaggi and CreatorTrip=CodiceCreatore where City_NameC="+entity.getCity().getNameC() +" and City_State="+entity.getCity().getState() +"and Condiviso=0 andcosto=>"+entity.getMinCost()+"and costo=<"+entity.getMaxCost()+"and tipo like %"+entity.getType()+"% and DATEDIFF(EndDate,StartDate)>="+(entity.getMinDay()-1)+" and DATEDIFF(EndDate,StartDate)<="+(entity.getMaxDay()-1);
+		
+		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip join trip_has_city on idTrip=CodiceViaggi and CreatorTrip=CodiceCreatore where City_NameC like'"+entity.getCity().getNameC() +"' and City_State like '"+entity.getCity().getState() +"' and Condiviso=0 and costo>="+entity.getMinCost()+" and costo<="+entity.getMaxCost()+" and tipo like '%"+entity.getType()+"%' and DATEDIFF(EndDate,StartDate)>="+(entity.getMinDay()-1)+" and DATEDIFF(EndDate,StartDate)<="+(entity.getMaxDay()-1);
+		System.out.println(query);
 		return stmt.executeQuery(query);
-		
-		
 	}
 	public ResultSet requestLogin(Statement stmt,String username,String password) throws ExceptionLogin{
 		ResultSet rs=null;
@@ -305,7 +304,6 @@ public class AllQuery {
 				stmt=connessione.createStatement();
 				rs=stmt.executeQuery("select * from favorite where CodiceUser="+idUser+" and CodiceTravel="+idTravel);
 				if(!rs.next()) {
-					System.out.print("entro per aggiungere");
 					String query="insert into favorite (CodiceUser,codiceTravel,codiceCreatore) values( ?,?,?)";
 					stmt1=connessione.prepareStatement(query);
 					stmt1.setInt(1,idUser );
@@ -325,7 +323,6 @@ public class AllQuery {
 					stmt1.close();
 				}
 				else {
-					System.out.print(idUser);
 					stmt=connessione.createStatement();
 					String s="delete from Favorite where CodiceUser=? and CodiceTravel=? ";
 					stmt1=connessione.prepareStatement(s);
@@ -628,7 +625,30 @@ public class AllQuery {
 			query="DELETE FROM messaggio where Destinatario="+message.getIdDestinatario()+" and Mittente="+message.getIdMittente();
 		}
 		stmt.execute(query);
+	}	
+
+	public static void main(String [] args)
+	{
+		try {
+			Connection connessione=AllQuery.getInstance().getConnection();
+			Statement stmt=connessione.createStatement();
+			SearchEntity search=new SearchEntity();
+			CityEntity citta=new CityEntity();
+			citta.setNameC("Rome");
+			citta.setState("Italy");
+			search.setCity(citta);
+			search.setMaxCost(2000);
+			search.setMaxDay(10);
+			search.setMinCost(0);
+			search.setMinDay(0);
+			search.setType("#");
+			ResultSet rs=AllQuery.getInstance().searchTrip(stmt, search);
+			rs.next();
+			System.out.println(rs.getInt(1));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	
 }

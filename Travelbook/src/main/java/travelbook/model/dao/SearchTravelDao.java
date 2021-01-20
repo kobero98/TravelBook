@@ -30,7 +30,6 @@ public class SearchTravelDao implements VisualDAO {
 		Connection connessione=AllQuery.getInstance().getConnection();
 		Statement stmt=connessione.createStatement();
 		System.out.println("prima di entrare nella Search");
-		
 		ResultSet rs=AllQuery.getInstance().searchTrip(stmt,travel);
 		List<Entity> l=new ArrayList<>();
 		while(rs.next())

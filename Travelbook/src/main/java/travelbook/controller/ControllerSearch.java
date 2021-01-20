@@ -7,6 +7,7 @@ import java.util.List;
 import main.java.travelbook.model.CityEntity;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.SearchEntity;
+import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.bean.*;
 import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
@@ -70,7 +71,7 @@ public class ControllerSearch {
 		String state="";
 		int i=s.indexOf(",");
 		citta.setNameC(s.substring(0, i));
-		citta.setState(s.substring(i));
+		citta.setState(s.substring(i+1));
 		return citta;
 		
 	}
@@ -86,13 +87,11 @@ public class ControllerSearch {
 		else search.setMaxCost(null);
 		VisualDAO dao=DaoFactory.getInstance().createVisual(DaoType.SEARCH_TRAVEL);
 		try {
-			System.out.println("prima di entrare nella Dao");
 			List<Entity> l=dao.getData(search);
 			List<MiniTravelBean> list=new ArrayList<>();
-			for(int i=0;i<l.size();i++)
-				list.add((MiniTravelBean) l.get(i));
-			System.out.println("Dopo essere entrato nella Dao");
-			
+			for(int i=0;i<l.size();i++) {
+				list.add( new MiniTravelBean( (TravelEntity)  l.get(i) ));
+			}
 			return list;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
