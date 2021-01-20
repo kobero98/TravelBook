@@ -25,6 +25,7 @@ import main.java.travelbook.model.SearchEntity;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
+import main.java.travelbook.util.HashUtil;
 
 public class AllQuery {
 	private static AllQuery instance=null;
@@ -39,7 +40,7 @@ public class AllQuery {
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(myUrl,"root","Sara.d-19");
 	}
-	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalita";
+	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalita,password";
 	public ResultSet searchTrip(Statement stmt,SearchEntity entity) throws SQLException
 	{
 		if(entity.getMaxCost()==null) {
@@ -71,15 +72,15 @@ public class AllQuery {
 			
 			
 			if(rs.next()) {
-				rs= stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"' and password='"+password+"'");
-				if(!rs.next()) throw new ExceptionLogin("Errore Password");	 
+				String passwordHash = rs.getString("password");
+				if (!HashUtil.validatePassword(password, passwordHash)) throw new ExceptionLogin("Errore Password");	 
 			}
 			else {
 				 rs = stmt.executeQuery(userAttributeQuery+" FROM User where email='"+username+"'");
 				 if(rs.next()) {
-					    rs= stmt.executeQuery(userAttributeQuery+" FROM User where email='"+username+"' and password='"+password+"'");
-						if(!rs.next()) throw new ExceptionLogin("Errore Password");	 
-					}
+					 String passwordHash = rs.getString("password");	 
+					 if (!HashUtil.validatePassword(password, passwordHash))  throw new ExceptionLogin("Errore Password");	 
+				 }
 				 else throw new ExceptionLogin("Errore Username o password");	 
 			}
 			
@@ -148,7 +149,7 @@ public class AllQuery {
 					  try {
 						preparedStmt = conn.prepareStatement(query);
 					  preparedStmt.setString (1, user.getUsername());
-				      preparedStmt.setString (2, user.getPassword());
+				      preparedStmt.setString (2, HashUtil.getPasswordHash(user.getPassword()));
 				      preparedStmt.setString (3, user.getName());
 				      preparedStmt.setString (4, user.getSurname());
 				      preparedStmt.setDate   (5,user.getBirthDate());// il data va sistemato
