@@ -30,7 +30,9 @@ public class UserBean{
 	
 	public UserBean() {}
 	
-	
+	public UserBean(int id) {
+		this.id=id;
+	}
 	
 	public UserBean(UserEntity user) {
 		this.id=user.getId();

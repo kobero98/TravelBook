@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.travelbook.controller.TravelController;
+import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.model.bean.TravelBean;
+import main.java.travelbook.model.bean.UserBean;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -421,19 +423,25 @@ public class ViewTravelController {
 	private void favButtonHandler() {
 		String css = "fav-selected";
 		List<Integer> f= MenuBar.getInstance().getLoggedUser().getFav();
-		if(favButton.getStyleClass().contains(css)) {
-			favButton.getStyleClass().remove(css);
-			f.remove(myTravel.getId());
-		}
-		else {
-			favButton.getStyleClass().add(css);
-			if(f==null)  f=new ArrayList<>();
-			f.add(myTravel.getId());
-			MenuBar.getInstance().getLoggedUser().setFav(f);
-		}
 		try {
-			TravelController.getInstance().updateFav(MenuBar.getInstance().getLoggedUser());
+			UserBean user= new UserBean(MenuBar.getInstance().getLoggedUser().getId());
+			List<Integer> s=new ArrayList<>();
+			s.add((Integer) myTravel.getId());
+			user.setFav(s);
+			if(favButton.getStyleClass().contains(css)) {
+			favButton.getStyleClass().remove(css);
+			TravelController.getInstance().updateFav(user);
+			f.remove((Integer) myTravel.getId());
+			}
+			else {
+				favButton.getStyleClass().add(css);
+				if(f==null)  f=new ArrayList<>();
+				f.add(myTravel.getId());
+				MenuBar.getInstance().getLoggedUser().setFav(f);
+				TravelController.getInstance().updateFav(MenuBar.getInstance().getLoggedUser());
+			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Update failed");
     		alert.setHeaderText(HEADER_MSG);

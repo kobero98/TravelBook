@@ -56,6 +56,7 @@ public class TravelController{
 		PersistanceDAO userDao = DaoFactory.getInstance().create(DaoType.USER);
 		UserEntity userE = new UserEntity(u.getId());
 		userE.setFavoriteList(u.getFav());
+		System.out.println("ciao");
 		userDao.update(userE);
 		}
 	}

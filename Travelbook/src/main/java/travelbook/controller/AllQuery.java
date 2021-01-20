@@ -293,51 +293,62 @@ public class AllQuery {
 	}
 	public void updateListFavoritTravel(Connection connessione,int idUser,int idTravel) throws SQLException
 	{
-		
+		PreparedStatement stmt1=null;
 		Statement stmt=null;
 		try {
 				stmt=connessione.createStatement();
-				ResultSet rs=stmt.executeQuery("select CreatorId from trip where idTrip="+idTravel);
+				
+				ResultSet rs=stmt.executeQuery("select CreatorTrip from trip where idTrip="+idTravel);
 				rs.next();
 				int cretorTrip=rs.getInt(1);
 				stmt.close();
-				
 				stmt=connessione.createStatement();
 				rs=stmt.executeQuery("select * from favorite where CodiceUser="+idUser+" and CodiceTravel="+idTravel);
 				if(!rs.next()) {
+					System.out.print("entro per aggiungere");
 					String query="insert into favorite (CodiceUser,codiceTravel,codiceCreatore) values( ?,?,?)";
-					PreparedStatement stmt1=connessione.prepareStatement(query);
+					stmt1=connessione.prepareStatement(query);
 					stmt1.setInt(1,idUser );
 					stmt1.setInt(2, idTravel);
 					stmt1.setInt(3, cretorTrip);
 					stmt1.execute();
+					stmt1.close();
 					stmt=connessione.createStatement();
-					stmt.executeQuery("Select Nlike from trip where idTrip="+idTravel);
-					rs.next();
-					int i=rs.getInt(1)+1;
+					ResultSet rs1=stmt.executeQuery("Select Nlike from trip where idTrip="+idTravel);
+					rs1.next();
+					int i=rs1.getInt(1)+1;
 					stmt.close();
-					stmt=connessione.createStatement();
-					stmt.executeQuery("update Trip set Nlike"+i+"where idTrip="+idTravel);
-					stmt.close();
+					stmt1=connessione.prepareStatement("update Trip set Nlike= ? where idTrip= ?");
+					stmt1.setInt(1, i+1);
+					stmt1.setInt(2,idTravel );
+					stmt1.execute();
+					stmt1.close();
 				}
 				else {
-					System.out.print("entro per Deletare");
+					System.out.print(idUser);
 					stmt=connessione.createStatement();
-					stmt.executeQuery("delete from Favorite where CodiceUser=\"+idUser+\" and CodiceTravel=\"+idTravel ");
+					String s="delete from Favorite where CodiceUser=? and CodiceTravel=? ";
+					stmt1=connessione.prepareStatement(s);
+					stmt1.setInt(1, idUser);
+					stmt1.setInt(2, idTravel);
+					stmt1.execute();
 					stmt.close();
 					stmt=connessione.createStatement();
-					stmt.executeQuery("Select Nlike from trip where idTrip="+idTravel);
-					rs.next();
-					int i=rs.getInt(1)-1;
+					ResultSet rs1=stmt.executeQuery("Select Nlike from trip where idTrip="+idTravel);
+					rs1.next();
+					int i=rs1.getInt(1)-1;
 					stmt.close();
-					stmt=connessione.createStatement();
-					stmt.executeQuery("update Trip set Nlike"+i+"where idTrip="+idTravel);
-					stmt.close();
+					stmt1=connessione.prepareStatement("update Trip set Nlike= ? where idTrip= ?");
+					stmt1.setInt(1, i);
+					stmt1.setInt(2,idTravel );
+					stmt1.execute();
+					stmt1.close();
 					
 				}
 		}finally {
 			if(stmt!=null) stmt.close();
-		}
+			if(stmt1!=null) stmt1.close();
+ 		}
 		
 		
 	}
@@ -347,8 +358,8 @@ public class AllQuery {
 		String query="update User set TripNumber= ? where idUser=?";
 		Statement stmt1=null;
 		try {
-			stmt1=connessione.createStatement();
-			ResultSet rs=stmt1.executeQuery("Select Count(idTrip) as tripNumber from trip where CreatorTrip="+idUser);
+			Statement stmt2=connessione.createStatement();
+			ResultSet rs=stmt2.executeQuery("Select Count(idTrip) as tripNumber from trip where CreatorTrip="+idUser);
 			rs.next();
 			stmt=connessione.prepareStatement(query);
 			stmt.setInt(1, rs.getInt(1));
