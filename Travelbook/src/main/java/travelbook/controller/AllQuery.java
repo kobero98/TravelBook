@@ -314,7 +314,7 @@ public class AllQuery {
 					stmt=connessione.createStatement();
 					ResultSet rs1=stmt.executeQuery("Select Nlike from trip where idTrip="+idTravel);
 					rs1.next();
-					int i=rs1.getInt(1)+1;
+					int i=rs1.getInt(1);
 					stmt.close();
 					stmt1=connessione.prepareStatement("update Trip set Nlike= ? where idTrip= ?");
 					stmt1.setInt(1, i+1);
@@ -333,10 +333,10 @@ public class AllQuery {
 					stmt=connessione.createStatement();
 					ResultSet rs1=stmt.executeQuery("Select Nlike from trip where idTrip="+idTravel);
 					rs1.next();
-					int i=rs1.getInt(1)-1;
+					int i=rs1.getInt(1);
 					stmt.close();
 					stmt1=connessione.prepareStatement("update Trip set Nlike= ? where idTrip= ?");
-					stmt1.setInt(1, i);
+					stmt1.setInt(1, i-1);
 					stmt1.setInt(2,idTravel );
 					stmt1.execute();
 					stmt1.close();

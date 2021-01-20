@@ -39,8 +39,6 @@ public class SearchTravelDao implements VisualDAO {
 			l.add(e);
 		}
 		System.out.println("Uscito dalla Search");
-		
 		return l;
 	}
-
 }
