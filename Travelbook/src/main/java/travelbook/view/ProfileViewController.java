@@ -449,7 +449,7 @@ public class ProfileViewController implements Observer{
 		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText("Your favourite travels");
-		if(user.getFav()!=null) {
+		if(user.getFav()!=null && !user.getFav().isEmpty()) {
 			ObservableList<String> fav;
 			try {
 				fav = FXCollections.observableList(myController.getFav(user.getFav()));

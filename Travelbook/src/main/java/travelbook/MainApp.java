@@ -41,6 +41,7 @@ public class MainApp extends Application {
 		this.rootLayout.setCenter(exploreLayout);
 		this.rootStage.show();
 		controller=loader2.getController();
+		System.out.println("1");
 	}catch (IOException e){
 		e.printStackTrace();
 	}

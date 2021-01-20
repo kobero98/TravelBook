@@ -18,6 +18,7 @@ public class SearchTravelDao implements VisualDAO {
 	{
 		
 			TravelEntity e=new TravelEntity();
+			e.setIdTravel(rs.getInt(1));
 			e.setNameTravel(rs.getString(2));
 			e.setDescriptionTravel(rs.getString(3));
 			e.setBackground(rs.getBinaryStream(4));

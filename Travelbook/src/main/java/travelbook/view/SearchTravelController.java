@@ -1,6 +1,7 @@
 package main.java.travelbook.view;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +22,15 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
@@ -32,11 +38,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import main.java.travelbook.controller.ControllerSearch;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.SearchTrip;
+import main.java.travelbook.view.ProfileViewController.TravelCell;
 
 public class SearchTravelController {
 	private BorderPane mainPane;
@@ -61,7 +70,7 @@ public class SearchTravelController {
 	@FXML
 	private Line lineaListView;
 	@FXML
-	private ListView <String> lista;
+	private ListView <MiniTravelBean> lista;
 	@FXML
 	private Button advanced;
 	@FXML
@@ -442,7 +451,7 @@ public class SearchTravelController {
 		}
 	}
 	@FXML
-	public void moveToExplore()throws IOException {
+	public void moveToExplore()throws IOException {								//credo si possa usare la menubar e non duplicare il codice(?)
 		FXMLLoader loader=new FXMLLoader();
 		loader.setLocation(MenuBar.class.getResource("ExplorePage.fxml"));
 		AnchorPane internalPane=(AnchorPane)loader.load();
@@ -464,7 +473,7 @@ public class SearchTravelController {
 		else trip.setDurationMin(0);
 		if(!maxCost.getText().isEmpty() && !maxCost.getText().equals("max"))
 		{
-			int i=Integer.parseInt(minCost.getText());
+			int i=Integer.parseInt(maxCost.getText());
 			trip.setDurationMax(i);
 		}
 		else trip.setDurationMax(0);
@@ -477,11 +486,11 @@ public class SearchTravelController {
 				trip.setCostoMax(1000);
 				trip.setCostoMin(300);
 		}
-		if(budjet1.isSelected()) {
+		if(budjet3.isSelected()) {
 				trip.setCostoMax(2000);
 				trip.setCostoMin(1000);
 		}
-		if(budjet1.isSelected()) {
+		if(budjet4.isSelected()) {
 				trip.setCostoMin(2000);
 		}
 		List <String> s=new ArrayList<>();
@@ -489,8 +498,99 @@ public class SearchTravelController {
 		if(s.isEmpty()) s=null;
 		trip.setType(s);
 		trip.setCity(r);
+		System.out.println(r);
 		List<MiniTravelBean> l=ControllerSearch.getInstance().search(trip);
-		if(l!=null) for(int i=0;i<l.size();i++) System.out.println(l.get(i).getNameTravel());
+		if(l!=null) for(int i=0;i<l.size();i++) {
+			System.out.println( "Sono qui"+l.get(i).getNameTravel());
+			lista.setItems(FXCollections.observableArrayList(l));
+			lista.setCellFactory(list->new TravelCell());
+		}
 		else System.out.print("erroe");
+	}
+	
+	class TravelCell extends ListCell<MiniTravelBean>{
+		@Override
+        public void updateItem(MiniTravelBean item, boolean empty) {
+            super.updateItem(item, empty);
+            if(!empty) {
+            	HBox travel = new HBox();
+            	travel.setPrefWidth(sfondo.getPrefWidth()*530/1280);
+        		travel.setPrefHeight(sfondo.getPrefHeight()*180/625);
+            	travel.setMaxWidth(USE_PREF_SIZE);
+            	travel.setMinWidth(USE_PREF_SIZE);
+            	
+            	CornerRadii rad = new CornerRadii(25);
+            	Insets in = new Insets(0);
+            	BackgroundFill bgcc = new BackgroundFill(Paint.valueOf("rgb(250, 250, 250)"), rad, in);
+            	
+            	Background mybg = new Background(bgcc);
+            	travel.setBackground(mybg);
+            	Pane travelPic = new Pane();
+            	travelPic.setPrefHeight(sfondo.getPrefHeight()*180/625);
+            	travelPic.setPrefWidth(sfondo.getPrefWidth()*265/1280);
+            	try {
+            		Image myPhoto = item.getPathImage();
+            		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+            		Background mybg1 = new Background(bgPhoto);
+            		travelPic.setBackground(mybg1);
+            	}catch(IllegalArgumentException | NullPointerException e) {
+            		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), rad, in);
+                	
+                	Background mybg1 = new Background(bgcc1);
+                	travelPic.setBackground(mybg1);
+            	}
+            	travelPic.setStyle("-fx-shape: \"M 350 900 L 350 795 C 350 780 360 770 375 770 L 438 770 C 453 770 463 780 463 795 L 463 900 Z\"");
+            	VBox vBox = new VBox();
+            	HBox hBox = new HBox();
+            	vBox.setPrefWidth(sfondo.getPrefWidth()*265/1280);
+            	vBox.setMaxWidth(USE_PREF_SIZE);
+            	vBox.setSpacing(sfondo.getPrefHeight()*(180.0/15)/625);
+            	Label name = new Label(item.getNameTravel());
+            	Text descr = new Text(item.getDescriptionTravel());
+            	descr.setWrappingWidth(sfondo.getPrefWidth()*265/1280);
+            	hBox.setAlignment(Pos.BOTTOM_RIGHT);
+ 
+            	Button edit = new Button();
+            	edit.setPrefWidth(sfondo.getPrefWidth()*35/1280);
+            	edit.setPrefHeight(sfondo.getPrefHeight()*35/625);
+            	travel.setOnMouseClicked(e->{
+            		FXMLLoader loader=new FXMLLoader();
+            		ViewTravelController controller;
+            		AnchorPane internalPane;
+            		try {
+            			MenuBar.getInstance().setIdTravel(item.getId());
+            			System.out.println("Il mio id è: "+item.getId());
+            			loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
+            			internalPane=(AnchorPane)loader.load();
+            			mainPane.setCenter(internalPane);
+            			controller=loader.getController();
+            			controller.setMainPane(mainPane,4);
+            		}catch(IOException | SQLException exc) {
+            			exc.printStackTrace();
+            		}
+            	});
+            	hBox.getChildren().add(edit);
+            	vBox.getChildren().add(name);
+            	vBox.getChildren().add(descr);
+            	vBox.getChildren().add(hBox);
+            	
+            	travel.getChildren().add(travelPic);
+            	travel.getChildren().add(vBox);
+            	sfondo.heightProperty().addListener((observable, oldValue, newValue)->{            		
+            		travel.setPrefHeight(sfondo.getPrefHeight()*180/625);
+            		travelPic.setPrefHeight(sfondo.getPrefHeight()*180/625);
+                	edit.setPrefHeight(sfondo.getPrefHeight()*35/625);
+            	});
+            	sfondo.widthProperty().addListener((observable, oldValue, newValue)->{
+            		travel.setPrefWidth(sfondo.getPrefWidth()*530/1280);
+            		travelPic.setPrefWidth(sfondo.getPrefWidth()*265/1280);
+            		edit.setPrefWidth(sfondo.getPrefWidth()*35/1280);
+            		descr.setWrappingWidth(sfondo.getPrefWidth()*265/1280);
+            	});
+            	setGraphic(travel);
+            	
+            	
+            }
+		}
 	}
 }

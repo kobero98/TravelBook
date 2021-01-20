@@ -3,6 +3,7 @@ package main.java.travelbook.controller;
 
 
 import java.sql.SQLException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.List;
 import java.util.Random;
@@ -53,6 +54,7 @@ public class ControllerLogin {
 			throw new SQLException(e.getMessage());
 		}
 		List<Entity> list = userDao.getData(userE);
+		System.out.println("2");
 		MyIdentity.getInstance().setMyEntity((UserEntity) list.get(0));
 		user=new UserBean(MyIdentity.getInstance().getMyEntity());
 		return user;

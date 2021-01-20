@@ -34,10 +34,10 @@ public class AllQuery {
 		
 		return instance;
 	}
-	private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private String myUrl="jdbc:mysql://127.0.0.1:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	//private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(myUrl,"root","root");
+		return DriverManager.getConnection(myUrl,"root","Sara.d-19");
 	}
 	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalita";
 	public ResultSet searchTrip(Statement stmt,SearchEntity entity) throws SQLException
