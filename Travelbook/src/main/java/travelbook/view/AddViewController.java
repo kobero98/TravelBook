@@ -250,6 +250,17 @@ public class AddViewController implements Observer{
 			button.fire();
 			
 		});
+		this.practicalInformation.textProperty().addListener((e)->{
+			if(this.practicalInformation.getText()!=null) {
+			if(this.practicalInformation.getText().length()>500) {
+				this.practicalInformation.setText(this.practicalInformation.getText().substring(0,500));
+			}
+			else {
+			this.saved=false;
+			this.stepByDay.get(dayNumber).get(stepNumber).setPrecisionInformation(this.practicalInformation.getText());
+			}
+			}
+		});
 		TextField text=new TextField();
 		text.setPrefHeight(26);
 		text.setPrefWidth(378);
@@ -270,18 +281,33 @@ public class AddViewController implements Observer{
 			
 		});
 		this.stopDescription.textProperty().addListener((observable,oldValue,newValue)->{
-			//Update description for the selected step in "real time"
+			if(this.stopDescription.getText()!=null) {
+			if(this.stopDescription.getText().length()>300) {
+				this.stopDescription.setText(this.stopDescription.getText().substring(0,300));
+			}
+			else {
 			saved=false;
 			this.stepByDay.get(dayNumber).get(stepNumber).setDescriptionStep(stopDescription.getText());
+			}
+			}
 		});
 		this.travelName.textProperty().addListener((observable,oldValue,newValue)->{
-			//dirty travel
+			if(travelName.getText().length()>20) {
+				this.travelName.setText(this.travelName.getText().substring(0,20));
+			}
+			else {
 			travelName.setStyle("");
 			saved=false;
+			}
 		});
 		this.travelDescription.textProperty().addListener((observable,oldValue,newValue)->{
+			if(this.travelDescription.getText().length()>100) {
+				this.travelDescription.setText(this.travelDescription.getText().substring(0,100));
+			}
+			else {
 			saved=false;
 			travelDescription.setStyle("");
+			}
 		});
 		this.viewPresentation.imageProperty().addListener((observable,oldValue,newValue)->{
 			saved=false;
@@ -738,6 +764,7 @@ public class AddViewController implements Observer{
 	    	else {
 	    		listOfErrors.add(travelName);
 	    	}
+	    	
 	    	if(!travelDescription.getText().isEmpty()) {
 	    		travel.setDescriptionTravel(travelDescription.getText());
 	    		incrementProgress();
@@ -1084,7 +1111,7 @@ public class AddViewController implements Observer{
             
             this.searchText.getLastSelectedItem().set(step.getFullPlace());
     		this.stopDescription.setText(step.getDescriptionStep());
-    		
+    		this.practicalInformation.setText(step.getPrecisionInformation());
     		//add for practical information
     		stepInfoPane.getChildren().remove(imageGridPane.getGridPane());
     		imageGridPane=dayImagePane.get(step.getGroupDay()).get(this.stepNumber);
@@ -1123,7 +1150,7 @@ public class AddViewController implements Observer{
 	    		Integer x=dayImagePane.size();
 	    		int y=(int)numOfDays;
 	    		int count=x;
-	    		while(count>=y) {
+	    		while(count>y) {
 	    			dayBox.getItems().remove(y);
 	    			dayImagePane.remove(y);
 	    			stepByDay.remove(y);

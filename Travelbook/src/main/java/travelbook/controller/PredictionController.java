@@ -47,7 +47,7 @@ public class PredictionController {
 			}
 		}
 		HttpClient client=HttpClientBuilder.create().build();
-		String url="https://api.mapbox.com/geocoding/v5/mapbox.places/"+newText+".json"+"?autocomplete="+bool+"&limit="+limit+"types=place,locality,address,poi"+"&access_token="+TOKEN;
+		String url="https://api.mapbox.com/geocoding/v5/mapbox.places/"+newText+".json"+"?autocomplete="+bool+"&limit="+limit+"&types=place,locality,address,poi"+"&access_token="+TOKEN;
 		HttpGet request=new HttpGet(url);
 		request.addHeader("accept", "application/json");
 		try {
