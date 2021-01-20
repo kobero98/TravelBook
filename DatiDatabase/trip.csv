@@ -1,0 +1,5 @@
+idTrip,nome,costo,tipo,Nlike,StartDate,EndDate,StepNumber,PhotoBackground,DescriptionTravel,CreatorTrip,Condiviso
+67,"All around",300,"#romantic Trip",0,2021-01-06,2021-01-07,0,...,"abbiamo cancellato tutto il database devo provare",5,0
+68,PrimoViaggio,450,#,0,2021-01-04,2021-01-07,0,NULL,"luogo incantevole",7,0
+69,primoViaggio,800,#,3,2021-01-11,2021-01-13,0,...,"viaggio tra roma e firenze",6,0
+70,ciao,500,#,0,2020-12-29,2020-12-30,0,...,dfsafdag,6,0
