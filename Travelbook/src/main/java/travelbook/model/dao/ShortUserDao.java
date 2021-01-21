@@ -15,6 +15,7 @@ import main.java.travelbook.model.UserEntity;
 public class ShortUserDao implements VisualDAO {
 	private UserEntity castRStoUser(ResultSet rs) throws SQLException
 	{
+		rs.next();
 		
 		UserEntity user;
 		user = new UserEntity(rs.getInt(1));

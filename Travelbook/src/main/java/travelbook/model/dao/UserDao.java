@@ -76,7 +76,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			List <Integer> following=new ArrayList<>();
 			while(rs.next())
 			{
-				follower.add(rs.getInt(1));
+				following.add(rs.getInt(1));
 			}
 			utente.setListFollowing(following);
 			stmt.close();
@@ -148,6 +148,9 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			AllQuery.getInstance().updatePhotoProfile(connection, this.entity.getId(), this.entity.getPhoto());
 		if(this.entity.getFavoriteList()!=null)
 			AllQuery.getInstance().updateListFavoritTravel(connection,this.entity.getId(),this.entity.getFavoriteList().get(this.entity.getFavoriteList().size()-1));
+		if(this.entity.getListFollowing()!=null) {
+			AllQuery.getInstance().updateListFollower(connection, this.entity.getId(), this.entity.getListFollowing().get(this.entity.getListFollowing().size()-1));
+		}
 
 	}
 	@Override

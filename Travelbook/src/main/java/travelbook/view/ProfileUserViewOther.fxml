@@ -71,7 +71,7 @@
       <ListView fx:id="travels" layoutX="641.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0" prefWidth="606.0" styleClass="travel-view" />
       <Pane fx:id="profilePhoto" layoutX="65.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="profile-pic">
          <children>
-            <Button fx:id="follow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" />
+            <Button fx:id="follow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#follow" prefHeight="30.0" prefWidth="30.0" styleClass="follow" />
          </children></Pane>
       <ListView fx:id="show" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="297.0" styleClass="lists" visible="false" />
       <StackPane fx:id="listTitle" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="297.0" styleClass="list-titles" visible="false">
@@ -84,6 +84,7 @@
             <Label fx:id="listText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="My favourite travels" StackPane.alignment="CENTER_RIGHT" />
          </children>
       </StackPane>
+      <Label fx:id="errorMsg" layoutX="20.0" layoutY="310.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="260.0" text="Something went wrong, try again" textAlignment="CENTER" visible="false" wrapText="true" />
    </children>
    <stylesheets>
       <URL value="@../css/project.css" />

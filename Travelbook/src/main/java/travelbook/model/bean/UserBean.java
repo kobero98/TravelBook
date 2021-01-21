@@ -3,6 +3,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import javafx.scene.image.Image;
+import main.java.travelbook.model.OtherUserEntity;
 import main.java.travelbook.model.UserEntity;
 
 public class UserBean{
@@ -34,7 +35,7 @@ public class UserBean{
 		this.id=id;
 	}
 	
-	public UserBean(UserEntity user) {
+	public UserBean(OtherUserEntity user) {
 		this.id=user.getId();
 		this.name=user.getName();
 		this.surname=user.getSurname();

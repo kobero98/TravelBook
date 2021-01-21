@@ -108,8 +108,16 @@ public class ViewTravelController {
 		try {
 			myTravel = TravelController.getInstance().getTravel(MenuBar.getInstance().getTravelId());
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Connection lost");
+    		alert.setHeaderText(HEADER_MSG);
+    		alert.setContentText("we couldn't load this travel, try again");
+    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
+   		 	Image image = new Image(WARN_IMG);
+   		 	ImageView imageView = new ImageView(image);
+   		 	alert.setGraphic(imageView);
+   		 	alert.showAndWait();
 		}
 		if(MenuBar.getInstance().getLoggedUser().getFav()!=null &&
 			MenuBar.getInstance().getLoggedUser().getFav().contains(myTravel.getId()))
@@ -146,7 +154,7 @@ public class ViewTravelController {
     	travel.getChildren().add(travelPic);
     	travel.getChildren().add(vBox);
     	
-    	
+    	System.out.println(myTravel.getDescriptionTravel());
     	descr.setText(myTravel.getDescriptionTravel());
     	days.getTabs().removeAll(days.getTabs());
     	days.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -242,7 +250,7 @@ public class ViewTravelController {
 		});
 	}
 	
-	public void setMainPane(BorderPane main, int provenience) throws SQLException {
+	public void setMainPane(BorderPane main, int provenience) {
 		this.mainPane=main;
 		this.goBack=provenience;
 		if(provenience == 2 || provenience == 3) bb.getButtons().get(0).setVisible(false);
@@ -388,6 +396,7 @@ public class ViewTravelController {
 			break;
 		case 3:
 			try {
+				
 				profileButtonHandler();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -403,12 +412,13 @@ public class ViewTravelController {
 	}
 	@FXML
 	private void profileButtonHandler()throws IOException {
+			MenuBar.getInstance().setIdUser(myTravel.getIdCreator());
 			FXMLLoader loader =new FXMLLoader();
 			loader.setLocation(ViewTravelController.class.getResource("ProfileUserViewOther.fxml"));
 			AnchorPane internalPane=(AnchorPane)loader.load();
 			mainPane.setCenter(internalPane);
 			ProfileOtherController controller=loader.getController();
-			controller.setMainPane(mainPane, Integer.parseInt("1"+goBack), myTravel.getIdCreator(), myTravel.getId());
+			controller.setMainPane(mainPane, Integer.parseInt("1"+goBack), myTravel.getId());
 			
 	}
 	@FXML
@@ -441,7 +451,6 @@ public class ViewTravelController {
 				TravelController.getInstance().updateFav(MenuBar.getInstance().getLoggedUser());
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Update failed");
     		alert.setHeaderText(HEADER_MSG);

@@ -45,7 +45,7 @@ public class ProfileController{
 	
 	public List<String> getFollow(List<Integer> l) throws SQLException{
 		List<String> f = null;
-		PersistanceDAO shortUserDao = DaoFactory.getInstance().create(DaoType.S_USER);
+		VisualDAO shortUserDao = DaoFactory.getInstance().createVisual(DaoType.S_USER);
 		if(l != null) {
 			for(int i=0; i<l.size(); i++) {
 				UserEntity userE = new UserEntity(l.get(i));

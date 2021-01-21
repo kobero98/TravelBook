@@ -565,7 +565,7 @@ public class SearchTravelController {
             			mainPane.setCenter(internalPane);
             			controller=loader.getController();
             			controller.setMainPane(mainPane,4);
-            		}catch(IOException | SQLException exc) {
+            		}catch(IOException exc) {
             			exc.printStackTrace();
             		}
             	});

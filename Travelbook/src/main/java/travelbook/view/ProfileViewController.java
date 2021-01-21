@@ -201,6 +201,7 @@ public class ProfileViewController implements Observer{
             	Button edit = new Button();
             	edit.setPrefWidth(mainAnchor.getPrefWidth()*35/1280);
             	edit.setPrefHeight(mainAnchor.getPrefHeight()*35/625);
+            	edit.getStyleClass().add("edit");
             	travel.setOnMouseClicked(e->{
             		FXMLLoader loader=new FXMLLoader();
             		ViewTravelController controller;
@@ -212,7 +213,7 @@ public class ProfileViewController implements Observer{
             			mainPane.setCenter(internalPane);
             			controller=loader.getController();
             			controller.setMainPane(mainPane,2);
-            		}catch(IOException | SQLException exc) {
+            		}catch(IOException exc) {
             			exc.printStackTrace();
             		}
             	});
@@ -465,7 +466,7 @@ public class ProfileViewController implements Observer{
 		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText("Your followers");
-		if(user.getFollower()!= null) {
+		if(user.getFollower()!= null && !user.getFollower().isEmpty()) {
 			ObservableList<String> fav;
 			try {
 				fav = FXCollections.observableList(myController.getFollow(user.getFollower()));
@@ -482,7 +483,7 @@ public class ProfileViewController implements Observer{
 		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText("Your interesting people");
-		if(user.getFollowing()!=null) {
+		if(user.getFollowing()!=null && !user.getFollowing().isEmpty()) {
 			ObservableList<String> fav;
 			try {
 				fav = FXCollections.observableList(myController.getFollow(user.getFollowing()));

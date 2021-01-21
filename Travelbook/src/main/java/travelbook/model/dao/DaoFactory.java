@@ -35,6 +35,9 @@ public class DaoFactory {
 			return new ShortUserDao();
 		if(tipo.compareTo(DaoType.SEARCH_TRAVEL)==0)
 			return new SearchTravelDao();
+		if(tipo.compareTo(DaoType.OTHERUSER)==0) {
+			return new OtherUserDao();
+		}
 		return null;
 	}
 

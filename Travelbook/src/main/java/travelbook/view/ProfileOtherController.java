@@ -2,6 +2,8 @@ package main.java.travelbook.view;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -26,18 +28,20 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import main.java.travelbook.controller.ControllerProfileOther;
 import main.java.travelbook.controller.ProfileController;
+import main.java.travelbook.controller.TravelController;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.UserBean;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 public class ProfileOtherController {
 	private BorderPane mainPane;
 	private int goBack;
-	private int id;
 	private int travelId;
 	private ViewTravelController controller;
 	private AnchorPane internalPane;
@@ -78,11 +82,18 @@ public class ProfileOtherController {
 	private Label placeVisited;
 	@FXML
 	private Button follow;
+	@FXML
+	private Label errorMsg;
 	private String viewTravel = "ViewTravel.fxml";
+	private ControllerProfileOther myController = new ControllerProfileOther();
+	private static final String ALERTCSS="main/java/travelbook/css/alert.css";
+	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
+	private static final String HEADER_MSG ="Something went wrong!";
+	private static final String WARN_IMG = "main/resources/AddViewImages/warning.png";
 	
 	public void initialize() {
 		try {
-			this.user = ControllerProfileOther.getInstance().getUser(id);
+			this.user = myController.getUser(MenuBar.getInstance().getUserId());
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -90,7 +101,7 @@ public class ProfileOtherController {
 		new Thread(()->{
 			ObservableList<MiniTravelBean> data;
 			try {
-				data = (ObservableList<MiniTravelBean>)ProfileController.getInstance().getTravel(user.getTravel());
+				data = FXCollections.observableArrayList(myController.getTravel(user.getTravel()));
 				travels.setItems(data); 
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -99,9 +110,33 @@ public class ProfileOtherController {
 			
 			travels.setCellFactory(list->new TravelCell());
 		}).start();
+		if(MenuBar.getInstance().getLoggedUser().getFollowing()!=null &&
+    			MenuBar.getInstance().getLoggedUser().getFollowing().contains(user.getId()))
+    				follow.getStyleClass().add("fav-selected");
+		if(user.getPhoto() !=null) {
+			BackgroundImage bgPhoto = new BackgroundImage(user.getPhoto(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+			Background newBg = new Background(bgPhoto);
+			profilePhoto.setBackground(newBg);
+		}
+		else {
+			try {
+				Image myPhoto = new Image("main/resources/ProfilePageImages/travelers.png");
+				BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+				Background newBg = new Background(bgPhoto);
+				profilePhoto.setBackground(newBg);
+			}catch(IllegalArgumentException e) {
+        		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), null, null);
+            	
+            	Background mybg1 = new Background(bgcc1);
+            	profilePhoto.setBackground(mybg1);
+			}
+		}
+		userName.setText(user.getName()+ " "+ user.getSurname());
+		myDescr.setText(user.getDescription());
 		followerButton.setText("Followers: "+user.getNFollower());
 		followingButton.setText("Following: "+user.getNFollowing());
-		placeVisited.setText(user.getName() + " has visited " + user.getNTrip() +" places");
+		placeVisited.setText(user.getName() + " has visited " + user.getnPlace() +" places");
+		favText.setText(user.getName()+"'s favourite travels");
 	}
 	class TravelCell extends ListCell<MiniTravelBean>{
 		@Override
@@ -150,28 +185,56 @@ public class ProfileOtherController {
             	Button fav = new Button();
             	fav.setPrefWidth(mainAnchor.getPrefWidth()*35/1280);
             	fav.setPrefHeight(mainAnchor.getPrefHeight()*35/625);
+            	fav.getStyleClass().add("favourite");
+            	if(MenuBar.getInstance().getLoggedUser().getFav()!=null &&
+            			MenuBar.getInstance().getLoggedUser().getFav().contains(item.getId()))
+            				fav.getStyleClass().add("fav-selected");
             	travel.setOnMouseClicked(e->{
+            		MenuBar.getInstance().setIdTravel(item.getId());
             		FXMLLoader loader=new FXMLLoader();
             		loader.setLocation(ProfileViewController.class.getResource(viewTravel));
             		try {
             			internalPane=(AnchorPane)loader.load();
             			mainPane.setCenter(internalPane);
             			controller=loader.getController();
-            			controller.setMainPane(mainPane,3,item.getId());
+            			controller.setMainPane(mainPane,3);
             		}catch(IOException exc) {
             			exc.printStackTrace();
             		}
             	});
             	fav.setOnMouseClicked(e->{
-            		//dummy method
             		String css = "fav-selected";
-            		if(favButton.getStyleClass().contains(css)) {
-            			favButton.getStyleClass().remove(css);
+            		List<Integer> f= MenuBar.getInstance().getLoggedUser().getFav();
+            		try {
+            			UserBean user1= new UserBean(MenuBar.getInstance().getLoggedUser().getId());
+            			List<Integer> s=new ArrayList<>();
+            			s.add(item.getId());
+            			user1.setFav(s);
+            			if(fav.getStyleClass().contains(css)) {
+            			fav.getStyleClass().remove(css);
+            			TravelController.getInstance().updateFav(user1);
+            			f.remove(item.getId());
+            			}
+            			else {
+            				fav.getStyleClass().add(css);
+            				if(f==null)  f=new ArrayList<>();
+            				f.add(item.getId());
+            				MenuBar.getInstance().getLoggedUser().setFav(f);
+            				myController.updateFav(MenuBar.getInstance().getLoggedUser());
+            			}
+            		} catch (SQLException exc) {
+            			Alert alert = new Alert(AlertType.WARNING);
+            			alert.setTitle("Update failed");
+                		alert.setHeaderText(HEADER_MSG);
+                		alert.setContentText("we couldn't update your information, try again");
+                		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+               		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
+               		 	Image image = new Image(WARN_IMG);
+               		 	ImageView imageView = new ImageView(image);
+               		 	alert.setGraphic(imageView);
+               		 	alert.showAndWait();
             		}
-            		else {
-            			favButton.getStyleClass().add(css);
-            		}
-            		user.getFav().add(item.getId());
+
             	});
             	hBox.getChildren().add(fav);
             	vBox.getChildren().add(name);
@@ -197,8 +260,7 @@ public class ProfileOtherController {
             }
 		}
 	}
-	public void setMainPane(BorderPane main, int provenience, int id, int travelId) {
-		this.id=id;
+	public void setMainPane(BorderPane main, int provenience, int travelId) {
 		this.mainPane=main;
 		this.goBack=provenience;
 		this.travelId = travelId;
@@ -273,47 +335,54 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 	@FXML
 	private void favouriteList(){
 		show.setVisible(true);
+		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
-		listText.setText(user.getName() + " favourite travels");
-		ObservableList<String> fav;
-		try {
-			fav = (ObservableList<String>)ProfileController.getInstance().getFav(user.getFav());
-			show.setItems(fav);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		listText.setText(user.getName()+"'s favourite travels");
+		if(user.getFav()!=null && !user.getFav().isEmpty()) {
+			ObservableList<String> fav;
+			try {
+				fav = FXCollections.observableList(myController.getFav(user.getFav()));
+				show.setItems(fav);
+			} catch (SQLException e) {
+				errorMsg.setVisible(true);
+			}
 		}
-		
 	}
 	@FXML
-	private void followerList(){
+	private void followerList() {
 		show.setVisible(true);
+		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
-		listText.setText(user.getName() + " followers");
-		ObservableList<String> fav;
-		try {
-			fav = (ObservableList<String>)ProfileController.getInstance().getFollow(user.getFollower());
-			show.setItems(fav);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		listText.setText(user.getName()+"'s followers");
+		if(user.getFollower()!= null && !user.getFollower().isEmpty()) {
+			ObservableList<String> fav;
+			try {
+				fav = FXCollections.observableList(myController.getFollow(user.getFollower()));
+				show.setItems(fav);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				errorMsg.setVisible(true);
+			}
+			
 		}
-		
 	}
 	@FXML
 	private void followingList() {
 		show.setVisible(true);
+		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
-		listText.setText(user.getName() + " interesting people");
-		ObservableList<String> fav;
-		try {
-			fav = (ObservableList<String>)ProfileController.getInstance().getFollow(user.getFollowing());
+		listText.setText(user.getName() +"'s interesting people");
+		if(user.getFollowing()!=null && !user.getFollowing().isEmpty()) {
+			ObservableList<String> fav;
+			try {
+				fav = FXCollections.observableList(myController.getFollow(user.getFollowing()));
 			show.setItems(fav);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				errorMsg.setVisible(true);
+			}
+			
 		}
-		
 	}
 	@FXML
 	private void follow() {
@@ -321,13 +390,22 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		UserBean me= MenuBar.getInstance().getLoggedUser();
 		if(follow.getStyleClass().contains(css)) {
 			follow.getStyleClass().remove(css);
+			
 			user.getFollower().remove(me.getId());
 			me.getFollowing().remove(user.getId());
 		}
 		else {
 			follow.getStyleClass().add(css);
+			if(me.getFollowing()==null) me.setFollowing(new ArrayList<>());
 			me.getFollowing().add(user.getId());
+			if(user.getFollower()==null) user.setFollower(new ArrayList<>());
 			user.getFollower().add(me.getId());
+		}
+		try {
+			myController.updateFollow(me);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
@@ -335,10 +413,12 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 	private void showBack() {
 		show.setVisible(false);
 		listTitle.setVisible(false);
+		errorMsg.setVisible(false);
 	}
 	@FXML
 	private void back() {
 		FXMLLoader loader;
+		MenuBar.getInstance().setIdTravel(travelId);
 		switch (goBack){
 		case 11:
 			loader=new FXMLLoader();
@@ -347,7 +427,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 				internalPane=(AnchorPane)loader.load();
 				mainPane.setCenter(internalPane);
 				controller=loader.getController();
-				controller.setMainPane(mainPane,1,travelId); 
+					controller.setMainPane(mainPane,1);
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
@@ -359,7 +439,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 				internalPane=(AnchorPane)loader.load();
 				mainPane.setCenter(internalPane);
 				controller=loader.getController();
-				controller.setMainPane(mainPane,4,travelId); 
+					controller.setMainPane(mainPane,4);
 			}catch(IOException e) {
 				e.printStackTrace();
 			}

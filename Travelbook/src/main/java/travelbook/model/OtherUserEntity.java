@@ -1,33 +1,39 @@
 package main.java.travelbook.model;
 
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.List;
 
 import main.java.travelbook.model.bean.MessageBean;
 
-public class OtherUserEntity {
-	private String name=null;
-	private String surname=null;
-	private String email=null;
+public class OtherUserEntity implements Entity{
+	protected String name=null;
+	protected String surname=null;
 	private String description=null;
-	private String gender=null;
-	private String urlPhoto=null;
-	private Date birthDate=null;
-	private int  id=0;
+	protected String gender=null;
+	protected InputStream photo=null;
+	protected Date birthDate=null;
+	protected int  id=0;
 	private int nFollower;
 	private int nFollowing;
 	private int nTrip;
-	private String nation;
-	private List <TravelEntity> travel;
-	private List <MessageBean> message;
+	private int nPlace=0;
+	private List <Integer> travel = null;
+	private List <Integer> favourite = null;
+	private List <Integer> follower = null;
+	private List <Integer> following = null;
+	private List <MessageBean> message = null;
+	
+	public OtherUserEntity(int codice)
+	{
+		this.id=codice;
+	}
+	public OtherUserEntity() {}
 	
 
 	public void setName(String name)
 	{
 		this.name=name;
-	}
-	public void setEmail(String mail) {
-		this.email=mail;
 	}
 	public void setSurname(String surname)
 	{
@@ -37,9 +43,9 @@ public class OtherUserEntity {
 	{
 		this.description=description;
 	}
-	public void setUrlPhoto(String url)
+	public void setPhoto(InputStream photo)
 	{
-		this.urlPhoto=url;
+		this.photo=photo;
 	}
 	public void setGender(String gender)
 	{
@@ -60,11 +66,8 @@ public class OtherUserEntity {
 	public void setBirthDate(Date birthdate) {
 		this.birthDate=birthdate;
 	}
-	public void setNation(String nation) {
-		this.nation=nation;
-	}
 	
-	public void setTravel(List <TravelEntity> t)
+	public void setTravel(List <Integer> t)
 	{
 		this.travel= t;
 	}
@@ -88,9 +91,9 @@ public class OtherUserEntity {
 	{
 		return this.description;
 	}
-	public String getUrlPhoto()
+	public InputStream getPhoto()
 	{
-		return this.urlPhoto;
+		return this.photo;
 	}
 	public String getGender()
 	{
@@ -111,16 +114,37 @@ public class OtherUserEntity {
 	public Date getBirthDate() {
 		return this.birthDate;
 	}
-	public String	getNation() {
-		return this.nation;
-	}
-	public String getEmail() {
-		return this.email;
-	}
-	public List <TravelEntity>  getTravel() {
+	public List <Integer>  getTravel() {
 		return this.travel;
 	}
 	public List <MessageBean> getMessage(){
 		return this.message;
+	}
+	public List<Integer> getFavoriteList()
+	{
+		return this.favourite;
+	}
+	public void setFavoriteList(List<Integer> list)
+	{
+		if(!list.isEmpty())this.favourite=list;
+	}
+	public List<Integer> getListFollower() {
+		return follower;
+	}
+	public void setListFollower(List<Integer> follower) {
+		if(!follower.isEmpty())this.follower = follower;
+	}
+	
+	public List<Integer> getListFollowing() {
+		return following;
+	}
+	public void setListFollowing(List<Integer> following) {
+		if(!following.isEmpty())this.following = following;
+	}
+	public int getnPlace() {
+		return nPlace;
+	}
+	public void setnPlace(int nPlace) {
+		this.nPlace = nPlace;
 	}
 }

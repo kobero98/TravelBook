@@ -46,6 +46,7 @@ public class TravelBean extends Observable {
 		this.stepNumber=travel.getStepNumber();
 		this.likeNumber=travel.getLikeNumber();
 		this.nameTravel=travel.getNameTravel();
+		this.descriptionTravel=travel.getDescriptionTravel();
 		if (travel.getImage()!= null)this.pathBackground=new Image(travel.getImage());
 		this.share = (travel.getShare()==1);
 		if (travel.getTypeTravel() != null )this.type = stringParser(travel.getTypeTravel());

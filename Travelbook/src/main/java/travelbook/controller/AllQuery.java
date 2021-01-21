@@ -36,6 +36,7 @@ public class AllQuery {
 		return c.getConenction();
 	}
 	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalita";
+	
 	public ResultSet searchTrip(Statement stmt,SearchEntity entity) throws SQLException
 	{
 		if(entity.getMaxCost()==null) {
@@ -373,6 +374,32 @@ public class AllQuery {
 		}
 	}
 	
+	public void updateListFollower(Connection connessione, Integer idFollower, Integer idFollowed) throws SQLException {
+		Statement stmt1=null;
+		PreparedStatement stmt=null;
+		try {
+				stmt1 = connessione.createStatement();
+				ResultSet rs = stmt1.executeQuery("Select * from Follow where following = "+idFollower+" and follower = "+ idFollowed);
+				if(!rs.next()) {
+					stmt=connessione.prepareStatement("Insert Into Follow (following,follower) values (?,?)");
+					stmt.setInt(1, idFollower);
+					stmt.setInt(2,idFollowed);
+					stmt.execute();
+					stmt.close();
+				}
+				else {
+					stmt = connessione.prepareStatement("Delete From Follow where following = ? and follower = ?");
+					stmt.setInt(1, idFollower);
+					stmt.setInt(2,idFollowed);
+					stmt.execute();
+					stmt.close();
+				}
+		}finally {
+			if(stmt!=null) stmt.close();
+			if(stmt1!=null) stmt1.close();
+ 		}
+	}
+	
 	public void updateDescriptionUser(Connection connessione,int iduser,String description) {
 		PreparedStatement stmt=null;
 		String query="update User set DescriptionProfile= ? where idUser=?";
@@ -472,7 +499,7 @@ public class AllQuery {
 	public ResultSet requestUserbyID(Statement stmt,int id) {
 		ResultSet rs=null;
 		try {
-			 String query= userAttributeQuery+" from User where idUser="+id;
+			 String query= "Select NameUser, Surname, BirthDate, DescriptionProfile, FollowerNumber, FollowingNumber, TripNumber, ProfileImage from User where idUser="+id;
 			 rs=stmt.executeQuery(query);
 			return rs;
 		} catch (SQLException e) {
@@ -482,7 +509,7 @@ public class AllQuery {
 	}
 	public ResultSet shortUserByID(Statement stmt, int id) throws SQLException {
 		ResultSet rs=null;
-		String query = "Select idUser,NameUser,Surname from User where idUser_"+id;
+		String query = "Select idUser,NameUser,Surname from User where idUser="+id;
 		rs=stmt.executeQuery(query);
 		return rs;
 	

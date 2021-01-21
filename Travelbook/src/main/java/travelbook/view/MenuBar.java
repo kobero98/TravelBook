@@ -43,13 +43,20 @@ public class MenuBar extends Observable implements Observer{
 		myThread=new MessagePollingThread();
 		myThread.start();
 	}
-	private int travelId;
+	private int travelId = 0;
 	public void setIdTravel(int id) {
-		System.out.println("MenuBar: "+id);
 		this.travelId=id;
 	}
 	public int getTravelId() {
 		return this.travelId;
+	}
+	
+	private int userId = 0;
+	public void setIdUser(int id) {
+		this.userId = id;
+	}
+	public int getUserId() {
+		return this.userId;
 	}
 	public  MessagePollingThread getMyThread() {
 		//Tutte le classi devono poter uccidere il thread se necessario
