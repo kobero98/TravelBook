@@ -3,11 +3,7 @@ import java.io.IOException;
 import javafx.scene.control.ButtonType;
 import java.net.URLEncoder;
 import java.time.LocalDate;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.util.Optional;
-
-import exception.ExceptionLogin;
+import java.sql.Date;import java.util.Optional;
 import exception.LoginPageException;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
@@ -350,12 +346,12 @@ public class LoginViewController {
 	private void goToFacebook() {
 		if(error.isVisible())
 			error.setVisible(false);
-		String redirect="https://www.facebook.com/connect/login_success.html";
+		 String redirect="https://www.facebook.com/connect/login_success.html";
 		 String  redirecturi="";
 		try {
 			redirecturi=URLEncoder.encode(redirect,"UTF8");
+			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String appId="1332279647110748";

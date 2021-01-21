@@ -14,15 +14,14 @@ public class MyProfileController extends ProfileController{
 		PersistanceDAO userDao= DaoFactory.getInstance().create(DaoType.USER);
 		UserEntity userE = new UserEntity(id);
 		userE.setDescription(descr);
-		System.out.println("metto la descrizione");
 		userDao.update(userE);
 	}
 	
 	public void updatePhoto(int id,File foto) throws SQLException {
 		PersistanceDAO userDao= DaoFactory.getInstance().create(DaoType.USER);
 		UserEntity userE = new UserEntity(id);
-		System.out.print("metto la foto");
 		userE.setPhoto(foto);
 		userDao.update(userE);
+		
 	}
 }
