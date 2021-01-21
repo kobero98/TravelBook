@@ -8,6 +8,9 @@ import java.security.MessageDigest;
 import java.util.List;
 import java.util.Random;
 import javax.mail.MessagingException;
+import javax.security.auth.login.LoginException;
+
+import exception.LoginPageException;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.RegistrationBean;
@@ -26,7 +29,7 @@ public class ControllerLogin {
 			instance = new ControllerLogin();
 		return instance;
 	}
-	private String passwordHash(String pswd)throws Exception {
+	private String passwordHash(String pswd)throws  Exception{
 		MessageDigest hasher=MessageDigest.getInstance("SHA-1");
 		hasher.update(pswd.getBytes("UTF-8"));
 		return toHex(hasher.digest());
@@ -43,21 +46,24 @@ public class ControllerLogin {
 		}
 		return sb.toString();
 	}
-	public UserBean signIn(String username,String password) throws SQLException{
-		UserBean user=null;
-		PersistanceDAO userDao=DaoFactory.getInstance().create(DaoType.USER);
-		UserEntity userE=new UserEntity();
-		userE.setUsername(username);
+	public UserBean signIn(String username,String password) throws LoginPageException{
 		try {
-		userE.setPassword(this.passwordHash(password));
-		}catch(Exception e) {
-			throw new SQLException(e.getMessage());
+			UserBean user=null;
+			PersistanceDAO userDao=DaoFactory.getInstance().create(DaoType.USER);
+			UserEntity userE=new UserEntity();
+			userE.setUsername(username);
+			userE.setPassword(this.passwordHash(password));
+			List<Entity> list = userDao.getData(userE);
+			MyIdentity.getInstance().setMyEntity((UserEntity) list.get(0));
+			user=new UserBean(MyIdentity.getInstance().getMyEntity());
+			return user;
+		}catch(LoginPageException e) {
+			System.out.println(e.getMessage());
+			throw e;
 		}
-		List<Entity> list = userDao.getData(userE);
-		System.out.println("2");
-		MyIdentity.getInstance().setMyEntity((UserEntity) list.get(0));
-		user=new UserBean(MyIdentity.getInstance().getMyEntity());
-		return user;
+		catch(Exception e) {
+			throw new LoginPageException(e.getMessage());
+		}
 	}
 	
 	private int numberGenerator(){

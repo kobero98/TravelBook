@@ -6,13 +6,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import exception.ExceptionRegistration;
 import exception.LoginPageException;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.UserEntity;
-
 public class UserDao implements PersistanceDAO, PredictableDAO{
 
 	private UserEntity entity;	
@@ -39,7 +37,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 	}
 	
 	@Override
-	public List <Entity> getData(Entity user1) throws SQLException {
+	public List <Entity> getData(Entity user1) throws LoginPageException {
 		ResultSet rs=null;
 		Statement stmt=null;
 		UserEntity user=(UserEntity) user1;
@@ -47,81 +45,60 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		List <Entity> list=new ArrayList<>();
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
+		}catch (SQLException e1) {
 			throw new LoginPageException("we couldn't reach our servers");
 		}
 		try {
 			stmt=connection.createStatement();
-			if(user.getUsername()!=null && user.getPassword()!=null)
+			rs=db.requestLogin(stmt,user.getUsername(), user.getPassword());				
+			UserEntity utente=castRStoUser(rs);
+			stmt.close();
+			stmt=this.connection.createStatement();
+			rs=AllQuery.getInstance().requestListIDFavoriteTrip(stmt,utente.getId());	
+			List <Integer> fav=new ArrayList<>();
+			while(rs.next())
 			{
-				rs=db.requestLogin(stmt,user.getUsername(), user.getPassword());				
-				UserEntity utente=castRStoUser(rs);
-				
-				stmt.close();
-				
-				//this.connection = AllQuery.getInstance().getConnection();
-				stmt=this.connection.createStatement();
-				rs=AllQuery.getInstance().requestListIDFavoriteTrip(stmt,utente.getId());	
-				List <Integer> fav=new ArrayList<>();
-				while(rs.next())
-				{
-					fav.add(rs.getInt(1));
-				}
-				utente.setFavoriteList(fav);
-				stmt.close();
-				
-				stmt=this.connection.createStatement();
-				rs=AllQuery.getInstance().requestListFollowerUser(stmt,utente.getId());	
-				List <Integer> follower=new ArrayList<>();
-				while(rs.next())
-				{
-					follower.add(rs.getInt(1));
-				}
-				utente.setListFollower(follower);
-				stmt.close();
-				
-				stmt=this.connection.createStatement();
-				rs=AllQuery.getInstance().requestListFollowingUser(stmt,utente.getId());	
-				List <Integer> following=new ArrayList<>();
-				while(rs.next())
-				{
-					follower.add(rs.getInt(1));
-				}
-				utente.setListFollowing(following);
-				stmt.close();
-				
-				stmt=this.connection.createStatement();
-				rs=AllQuery.getInstance().requestTripByUser(stmt, utente.getId());	
-				List <Integer> travel=new ArrayList<>();
-				while(rs.next())
-				{
-					travel.add(rs.getInt(1));
-				}
-				utente.setTravel(travel);
-				stmt.close();
-				
-				stmt=this.connection.createStatement();
-				utente.setnPlace(AllQuery.getInstance().getPlaceVisited(stmt,utente.getId()));
-				
-				stmt.close();
-				list.add((Entity) utente);
+				fav.add(rs.getInt(1));
 			}
-			
-		}finally {
-			if(stmt!=null)
+			utente.setFavoriteList(fav);
+			stmt.close();
+			stmt=this.connection.createStatement();
+			rs=AllQuery.getInstance().requestListFollowerUser(stmt,utente.getId());	
+			List <Integer> follower=new ArrayList<>();
+			while(rs.next())
 			{
-				try {
-					stmt.close();
-				}catch(SQLException e) {
-					e.getStackTrace();
-				}
-				
+				follower.add(rs.getInt(1));
 			}
+			utente.setListFollower(follower);
+			stmt.close();
+			stmt=this.connection.createStatement();
+			rs=AllQuery.getInstance().requestListFollowingUser(stmt,utente.getId());	
+			List <Integer> following=new ArrayList<>();
+			while(rs.next())
+			{
+				follower.add(rs.getInt(1));
+			}
+			utente.setListFollowing(following);
+			stmt.close();
+			stmt=this.connection.createStatement();
+			rs=AllQuery.getInstance().requestTripByUser(stmt, utente.getId());	
+			List <Integer> travel=new ArrayList<>();
+			while(rs.next())
+			{
+				travel.add(rs.getInt(1));
+			}
+			utente.setTravel(travel);
+			stmt.close();
+			stmt=this.connection.createStatement();
+			utente.setnPlace(AllQuery.getInstance().getPlaceVisited(stmt,utente.getId()));
+			stmt.close();
+			list.add((Entity) utente);
+			return list;
+		}catch(LoginPageException e){
+			throw e;
+		}catch(SQLException e){
+			throw new LoginPageException("Errore nelle funzioni di SQL");
 		}
- 		
-		
-		return list;
 	}
 
 	@Override
@@ -129,7 +106,6 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		if(this.entity!=null)
 		{
 			try {
-
 				this.connection = AllQuery.getInstance().getConnection();
 				AllQuery.getInstance().requestRegistrationUser(this.connection, this.entity);
 			} catch (SQLException e) {
@@ -148,14 +124,19 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 	
 	@Override
 	public UserEntity getMyEntity() {
-		
 		return this.entity;
 	}
-	
 	@Override
 	public void delete(Entity object) {
-		// TODO Auto-generated method stub
+		try {
+			this.entity=(UserEntity) object;
 		
+			connection=AllQuery.getInstance().getConnection();
+		
+		AllQuery.getInstance().deleteAccount(connection, this.entity.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public void update(Entity object)throws SQLException {
@@ -165,19 +146,10 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			AllQuery.getInstance().updateDescriptionUser(connection, this.entity.getId(), this.entity.getDescription());
 		if(this.entity.getPhoto()!=null)
 			AllQuery.getInstance().updatePhotoProfile(connection, this.entity.getId(), this.entity.getPhoto());
-		if(this.entity.getBirthDate()!=null)
-			System.out.println("ciao1");
 		if(this.entity.getFavoriteList()!=null)
 			AllQuery.getInstance().updateListFavoritTravel(connection,this.entity.getId(),this.entity.getFavoriteList().get(this.entity.getFavoriteList().size()-1));
 
-		if(this.entity.getSurname()!=null)
-			System.out.println("ciao1");
-
-		if(this.entity.getPassword()!=null)
-			System.out.println("ciao1");
 	}
-	
-	
 	@Override
 	public List<Entity> getPredictions(String text){
 		List<Entity> predictions=new ArrayList<>();
@@ -201,7 +173,6 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return predictions;

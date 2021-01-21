@@ -13,9 +13,7 @@ import java.time.Instant;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
-
 import exception.ExceptionLogin;
 import exception.ExceptionRegistration;
 import exception.LoginPageException;
@@ -34,10 +32,10 @@ public class AllQuery {
 		
 		return instance;
 	}
-	private String myUrl="jdbc:mysql://127.0.0.1:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	//private String myUrl="jdbc:mysql://25.93.110.25:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(myUrl,"root","Sara.d-19");
+		return DriverManager.getConnection(myUrl,"root","root");
 	}
 	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalita";
 	public ResultSet searchTrip(Statement stmt,SearchEntity entity) throws SQLException
@@ -59,17 +57,13 @@ public class AllQuery {
 			entity.setMaxDay(rs1.getInt(1));
 			conn.close();
 		}
-		
 		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip join trip_has_city on idTrip=CodiceViaggi and CreatorTrip=CodiceCreatore where City_NameC like'"+entity.getCity().getNameC() +"' and City_State like '"+entity.getCity().getState() +"' and Condiviso=0 and costo>="+entity.getMinCost()+" and costo<="+entity.getMaxCost()+" and tipo like '%"+entity.getType()+"%' and DATEDIFF(EndDate,StartDate)>="+(entity.getMinDay()-1)+" and DATEDIFF(EndDate,StartDate)<="+(entity.getMaxDay()-1);
-		System.out.println(query);
 		return stmt.executeQuery(query);
 	}
-	public ResultSet requestLogin(Statement stmt,String username,String password) throws ExceptionLogin{
+	public ResultSet requestLogin(Statement stmt,String username,String password) throws LoginPageException{
 		ResultSet rs=null;
 		try {
 				rs = stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"'");
-			
-			
 			if(rs.next()) {
 				rs= stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"' and password='"+password+"'");
 				if(!rs.next()) throw new ExceptionLogin("Errore Password");	 
@@ -82,11 +76,9 @@ public class AllQuery {
 					}
 				 else throw new ExceptionLogin("Errore Username o password");	 
 			}
-			
 			return rs;
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new ExceptionLogin("Errore Connessione");
+				throw new LoginPageException("Errore Connessione");
 			}
 		}
 	
@@ -584,8 +576,6 @@ public class AllQuery {
 			else {
 			query.append("SELECT * FROM messaggio where Destinatario="+message.getIdDestinatario());
 			}
-			
-			
 		}
 		else {
 			//Legge solo i messaggi inviati!!
@@ -626,29 +616,4 @@ public class AllQuery {
 		}
 		stmt.execute(query);
 	}	
-
-	public static void main(String [] args)
-	{
-		try {
-			Connection connessione=AllQuery.getInstance().getConnection();
-			Statement stmt=connessione.createStatement();
-			SearchEntity search=new SearchEntity();
-			CityEntity citta=new CityEntity();
-			citta.setNameC("Rome");
-			citta.setState("Italy");
-			search.setCity(citta);
-			search.setMaxCost(2000);
-			search.setMaxDay(10);
-			search.setMinCost(0);
-			search.setMinDay(0);
-			search.setType("#");
-			ResultSet rs=AllQuery.getInstance().searchTrip(stmt, search);
-			rs.next();
-			System.out.println(rs.getInt(1));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 }

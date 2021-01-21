@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 import exception.ExceptionLogin;
+import exception.LoginPageException;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.control.RadioButton;
@@ -308,17 +309,14 @@ public class LoginViewController {
 		}
 		localUsername=emailField.getText();
 		pswd=pswdField.getText();
-		
 			try {
 				user=ControllerLogin.getInstance().signIn(localUsername, pswd);
-			
-			} catch (SQLException e1) {
+			} catch (LoginPageException e1) {
 				error.setVisible(true);
 				error.setText(e1.getMessage());
 			} 
 		
 		if(user!=null) {
-
 			try {
 					MenuBar.getInstance().setUser(user);
 			        MenuBar.getInstance().moveToExplore(this.mainPane);
@@ -462,11 +460,9 @@ public class LoginViewController {
 			pswdField.setText(userToBeRegister.getPassword());
 			loginButtonHandler();
 			
-		}catch(ExceptionLogin e1) {
+			}catch(LoginPageException e1) {
 				error.setVisible(true);
 				error.setText(e1.getMessage());
-			}catch(SQLException e1) {
-				e1.getStackTrace();
 			}
 			catch(Exception e) {
 				Alert alert=new Alert(AlertType.ERROR);
