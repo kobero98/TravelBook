@@ -30,10 +30,15 @@ public class DateUtil {
 	public boolean isAfter(LocalDate a,LocalDate b) {
 		//return false if a is before b and a!=null and b!=null
 		//What is null? Unkown so i say yes every time that you want to compare a date with a null
+		
 		if(a!=null && b!=null) {
+			if(a.equals(b))
+				return true;
 		return a.isAfter(b);
 		}
 		else {
+			if(a!=null || b!=null)
+				return false;
 			return true;
 		}
 	}

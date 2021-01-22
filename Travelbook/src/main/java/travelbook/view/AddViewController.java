@@ -228,10 +228,11 @@ public class AddViewController implements Observer{
 					//then show an error message
 				}
 			else {
-				
+				if(startDate.getValue()!=null && endDate.getValue()!=null) {
 				//riesamina il numero di giorni del viaggio
 				numOfDays=util.numOfDaysBetween(startDate.getValue(),endDate.getValue())+1;
 				changeListOfDays();
+				}
 			}
 		});
 		dayBox.valueProperty().addListener((observable,oldValue,newValue)->{
