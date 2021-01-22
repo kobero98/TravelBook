@@ -31,7 +31,7 @@
          <children>
             <Line fx:id="ricercaLine" layoutX="60.0" layoutY="8.0" startY="30.0" />
             <TextField fx:id="ricercaTextField" layoutX="75.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="575.0" styleClass="search-field" />
-            <Button fx:id="searchButton" layoutX="14.0" layoutY="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" styleClass="BottoneRicerca" />
+            <Button fx:id="searchButton" layoutX="14.0" layoutY="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handlerReserch" prefHeight="40.0" prefWidth="40.0" styleClass="BottoneRicerca" />
          </children>
       </Pane>
       <Line fx:id="lineaVerticaleGrande" endY="484.0" layoutX="953.0" layoutY="131.0" startY="3.0" styleClass="line" />

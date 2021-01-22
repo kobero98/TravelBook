@@ -156,6 +156,7 @@
          </children>
       </StackPane>
       <Label fx:id="placeVisited" alignment="CENTER" layoutX="307.0" layoutY="419.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="270.0" text="Label" wrapText="true" />
+      <Label fx:id="errorMsg" layoutX="10.0" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="260.0" text="Something went wrong, try again" textAlignment="CENTER" visible="false" wrapText="true" />
    </children>
    <stylesheets>
       <URL value="@../css/project.css" />

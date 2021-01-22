@@ -3,6 +3,11 @@
   <groupId>travelbook</groupId>
   <artifactId>travelbook</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+<properties>
+  <sonar.projectKey>kobero98_TravelBook</sonar.projectKey>
+  <sonar.organization>kobero98</sonar.organization>
+  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+</properties>
   <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
