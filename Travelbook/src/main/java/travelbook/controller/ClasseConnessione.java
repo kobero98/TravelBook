@@ -8,7 +8,7 @@ public class ClasseConnessione {
 
 	public ClasseConnessione() {}
 	public Connection getConenction() throws SQLException {
-		String myUrl="jdbc:mysql://172.29.54.230:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		String myUrl="jdbc:mysql://127.0.0.1:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		return DriverManager.getConnection(myUrl,"root","root");
 	}
 }

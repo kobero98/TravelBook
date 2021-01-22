@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public abstract class AutocompleteTextField<S>{
 		//The text field that we modify with an autocomplete feature
 		private final TextField textField;
+		private  boolean blocked;
 		private final ObjectProperty<S> lastSelectedItem=new SimpleObjectProperty<>();
 		//The entries of the popUp
 		private final List<S> entries;
@@ -53,6 +54,8 @@ public abstract class AutocompleteTextField<S>{
 					entries.clear();
 				}
 				else {
+					if(this.blocked)
+						return;
 					this.textField.setText(this.textField.getText().substring(0,1).toUpperCase()+this.textField.getText().substring(1));
 					if(enable && this.textField.getText().length()>characterLowerBound) {
 					new Thread(()->{
@@ -187,5 +190,10 @@ public abstract class AutocompleteTextField<S>{
 		protected TextField getTextField() {
 			return this.textField;
 		}
-		
+		public boolean isBlocked() {
+			return blocked;
+		}
+		public void setBlocked(boolean val) {
+			this.blocked=val;
+		}
 }

@@ -22,6 +22,7 @@ public class SearchPlaceTextField extends AutocompleteTextField<PlaceAdapter> {
 		//At least 3 character are needed... 
 		//Per evitare troppe richieste a mapbox.
 		super.setCharacterLowerBound(3);
+		
 	}
 	@Override
 	protected List<PlaceAdapter> getPredictions(String text){
@@ -49,4 +50,5 @@ public class SearchPlaceTextField extends AutocompleteTextField<PlaceAdapter> {
 		}
 		return places;
 	}
+	
 }

@@ -48,7 +48,10 @@ public class AddTravel {
 		for(String type: travel.getTypeTravel()) {
 			string.append(type);
 			string.append("#");
+			
 		}
+		myTravel.setType(string.toString());
+		
 		List<Entity> steps=new ArrayList<>();
 		List<CityEntity> cities=new ArrayList<>();
 		int i=1;

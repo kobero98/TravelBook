@@ -63,9 +63,11 @@ public class TravelBean extends Observable {
 		int end=1;
 		for(int i=1; i<type.length(); i++) {
 			if(type.charAt(i)!='#') {
+				
 				end++;
 			}
 			else {
+			
 				l.add(type.substring(start, end));
 				start=end+1;
 				end++;

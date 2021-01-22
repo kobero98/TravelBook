@@ -1061,7 +1061,7 @@ public class AddViewController implements Observer{
 	    	
 	    	step.setGroupDay(dayNumber);
 	    	stepByDay.get(dayNumber).add(step);
-	    	//incrementa il valore nel travelBean e memorizza questo stepBean nel travelBean
+	    	
 	    	
 	    	Button button=makeButton();
 	    	stepsBar.getButtons().add(button);
@@ -1105,16 +1105,20 @@ public class AddViewController implements Observer{
             StepBean step=this.stepByDay.get(dayNumber).get(stepNumber);
             this.searchText.getTextField().setText(null);
             this.searchText.getLastSelectedItem().set(null);
-            if(step.getPlace()!=null) {
-            this.searchText.getTextField().setText(step.getPlace());
-            }
             
+            if(step.getPlace()!=null) {
+            	this.searchText.setBlocked(true);
+            this.searchText.getTextField().setText(step.getPlace());
+            this.searchText.setBlocked(false);
+            }
+            this.searchText.setBlocked(true);
             this.searchText.getLastSelectedItem().set(step.getFullPlace());
+            this.searchText.setBlocked(false);
     		this.stopDescription.setText(step.getDescriptionStep());
     		this.practicalInformation.setText(step.getPrecisionInformation());
-    		//add for practical information
+    		
     		stepInfoPane.getChildren().remove(imageGridPane.getGridPane());
-    		System.out.println("Size1: "+dayImagePane.size()+" size2: "+dayImagePane.get(step.getGroupDay()).size());
+    		
     		imageGridPane=dayImagePane.get(step.getGroupDay()).get(this.stepNumber);
     		stepInfoPane.getChildren().add(imageGridPane.getGridPane());
     		nextRow=imageGridPane.getGridPane().getRowConstraints().size()-1;
@@ -1204,7 +1208,7 @@ public class AddViewController implements Observer{
 	    private void removeStepHandler() {
 	    	saved=false;
 	    	//then remove the selected step from the list and the button bar.
-	    	if(stepsBar.getButtons().isEmpty()) {
+	    	
 	    	Alert confirmAlert=new Alert(AlertType.CONFIRMATION);
 	    	confirmAlert.setTitle("Delete step confirmation");
 	    	confirmAlert.setHeaderText("Are you sure to remove this step?");
@@ -1224,7 +1228,7 @@ public class AddViewController implements Observer{
 	    			dayImagePane.get(dayNumber).remove(stepNumber);
 	    			stepsBar.getButtons().remove(stepsBar.getButtons().size()-stepNumber-1);
 	    			//if stepsBar has some buttons then fire on the last else remove all the information in the field.
-	    			if(stepsBar.getButtons().isEmpty()) {
+	    			if(!stepsBar.getButtons().isEmpty()) {
 	    				Button button=(Button)stepsBar.getButtons().get(0);
 	    				button.fire();
 	    			}
@@ -1236,15 +1240,15 @@ public class AddViewController implements Observer{
 	    		
 	    	}
 	    	}
-	    	else {
-    			errorDayPanel.setVisible(true);
-    			//then run a thread that wait for seconds and later remove the error message.
-    		}
-	    }
+	    	
+	    
 	    public void modfiyTravelMode(Integer travelId) {
 	    	
 	    	try {
+	    		
 	    	this.travel=AddTravel.getIstance().getTravelById(travelId);
+	    	if(travel.getCostTravel()!=null)
+	    		this.costField.setText(travel.getCostTravel().toString());
 	    	if(travel.getNameTravel()!=null) {
 	    	travelName.setText(travel.getNameTravel());
 	    	}
@@ -1280,6 +1284,7 @@ public class AddViewController implements Observer{
 	    		}
 	    		this.stepByDay=stepInDay;
 	    		this.setImageForSteps();
+	    		this.dayBox.setValue("1");
 	    	}
 	    	}catch(Exception e) {
 	    		e.printStackTrace();
@@ -1288,8 +1293,10 @@ public class AddViewController implements Observer{
 	    }
 		private void setFiltersFromTravel(TravelBean travel) {
 			List<String> filtri=travel.getTypeTravel();
+			System.out.println(filtri==null);
 	    	if(filtri!=null) {
 	    		for(String filter: filtri) {
+	    			System.out.println(filter);
 	    			//Select all filters
 	    			for(int i=0;i<filterPane.getChildren().size();i++) {
 	    				CheckBox elem=(CheckBox)filterPane.getChildren().get(i);
@@ -1334,6 +1341,7 @@ public class AddViewController implements Observer{
     				}
     			}
     		}
+	    	
 	    }
 	    @FXML
 	    private void viewOnMapHandler() {
