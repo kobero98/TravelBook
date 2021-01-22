@@ -171,7 +171,7 @@ public class ViewTravelController {
     		steps.getStyleClass().add("itinerary");
     		Line buttonLine = new Line();
     		buttonLine.getStyleClass().add("itinerary-line");
-    		List<StepBean> todayStep = TravelController.getInstance().stepInDay(myTravel.getListStep(), Integer.parseInt(day.getId()));
+    		List<StepBean> todayStep = TravelController.getInstance().stepInDay(myTravel.getListStep(), Integer.parseInt(day.getId())-1);
     		for(int j=0; j<todayStep.size(); j++) {
     			Button b = new Button();
     			Text t = new Text(todayStep.get(j).getPlace());
