@@ -53,6 +53,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 public class AddViewController implements Observer{
+	private Integer travelId;
 	private File travelFileFoto;
 	@FXML
 	private ButtonBar menuBar;
@@ -834,7 +835,12 @@ public class AddViewController implements Observer{
 	    				});
 	    			//Call the controller applicativo
 	    			try {
+	    				if(travelId!=null) {
+	    					AddTravel.getIstance().saveAndDelete(travel, travelId);
+	    				}
+	    				else {
 	    			AddTravel.getIstance().saveTravel(travel);
+	    				}
 	    			saved=true;
 	    			Platform.runLater(()->{
 	    				progressBar.setProgress(1);
@@ -1248,6 +1254,7 @@ public class AddViewController implements Observer{
 	    	try {
 	    		
 	    	this.travel=AddTravel.getIstance().getTravelById(travelId);
+	    	this.travelId=travelId;
 	    	if(travel.getCostTravel()!=null)
 	    		this.costField.setText(travel.getCostTravel().toString());
 	    	if(travel.getNameTravel()!=null) {

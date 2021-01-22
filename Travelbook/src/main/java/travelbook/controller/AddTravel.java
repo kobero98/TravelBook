@@ -25,9 +25,17 @@ public class AddTravel {
 			istance=new AddTravel();
 		return istance;
 	}
+	public void saveAndDelete(TravelBean travel, int travelId) throws Exception {
+		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
+		TravelEntity travelE=new TravelEntity();
+		travelE.setIdTravel(travelId);
+		dao.delete((Entity)travelE);
+		saveTravel(travel);
+	}
 	public void saveTravel(TravelBean travel) throws Exception{
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity myTravel=new TravelEntity();
+		
 		myTravel.setDescriptionTravel(travel.getDescriptionTravel());
 		if(travel.getPathFile()!=null)
 			myTravel.setBackground(new FileInputStream(travel.getPathFile()));
