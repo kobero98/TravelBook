@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 public class DateUtil {
 	//Definisce una serie di utility da usare con il tipo di dato LocalDate. Per ora solo converter
 	//e un minimo di controllo
-	private String pattern="dd-MM-yyyy";
+	private String pattern="yyyy-MM-dd";
 	
 	public DateUtil() {
 

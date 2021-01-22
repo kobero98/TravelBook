@@ -21,7 +21,7 @@ public class StepBean {
 	private List <Image> photo;            //abbiamo sia foto come immagini che foto come file. ne serve solo una
 	private PlaceAdapter fullPlace;
 	private String precisionInformation;
-	private List<File> imageFile;
+	private List<File> imageFile=new ArrayList<>();
 	public List<File> getImageFile() {
 		return imageFile;
 	}

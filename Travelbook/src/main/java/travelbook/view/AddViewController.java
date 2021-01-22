@@ -230,7 +230,7 @@ public class AddViewController implements Observer{
 			else {
 				
 				//riesamina il numero di giorni del viaggio
-				numOfDays=util.numOfDaysBetween(startDate.getValue(),endDate.getValue());
+				numOfDays=util.numOfDaysBetween(startDate.getValue(),endDate.getValue())+1;
 				changeListOfDays();
 			}
 		});
@@ -893,7 +893,7 @@ public class AddViewController implements Observer{
 	    			StepBean step=steps.get(stepN);
 	    			if(step.getPlace()!=null &&!step.getPlace().isEmpty()) {
 	    				step.setListPhoto(new ArrayList<>());
-	    				for(int i=0;i<dayImagePane.get(day).get(stepN).getFiles().size()-1;i++)
+	    				for(int i=0;i<dayImagePane.get(day).get(stepN).getFiles().size();i++)
 	    					step.getImageFile().addAll(dayImagePane.get(day).get(stepN).getFiles().get(i));
 	    				
 	    				travel.getListStep().add(step);
@@ -1114,6 +1114,7 @@ public class AddViewController implements Observer{
     		this.practicalInformation.setText(step.getPrecisionInformation());
     		//add for practical information
     		stepInfoPane.getChildren().remove(imageGridPane.getGridPane());
+    		System.out.println("Size1: "+dayImagePane.size()+" size2: "+dayImagePane.get(step.getGroupDay()).size());
     		imageGridPane=dayImagePane.get(step.getGroupDay()).get(this.stepNumber);
     		stepInfoPane.getChildren().add(imageGridPane.getGridPane());
     		nextRow=imageGridPane.getGridPane().getRowConstraints().size()-1;
@@ -1241,6 +1242,7 @@ public class AddViewController implements Observer{
     		}
 	    }
 	    public void modfiyTravelMode(Integer travelId) {
+	    	
 	    	try {
 	    	this.travel=AddTravel.getIstance().getTravelById(travelId);
 	    	if(travel.getNameTravel()!=null) {
@@ -1262,6 +1264,7 @@ public class AddViewController implements Observer{
 	    	
 	    	List<StepBean> stepOfTravel=travel.getListStep();
 	    	List<List<StepBean>> stepInDay=new ArrayList<>();
+	    	
 	    	int numOfDaysInt=this.dayBox.getItems().size();
 	    	this.setFiltersFromTravel(travel);
 	    	if(stepOfTravel!=null) {
@@ -1305,7 +1308,9 @@ public class AddViewController implements Observer{
     				nextRow=0;
     				//GridPane created before by changeDayListener
     				//Add elements to this pane
-    				for(Image image: stepByDay.get(i).get(step).getListPhoto()) {
+    				if(stepByDay.get(i).get(step).getImageFile()!=null) {
+    				for(int c=0;c<stepByDay.get(i).get(step).getImageFile().size();c++) {
+    					Image image=new Image(stepByDay.get(i).get(step).getImageFile().get(c).toURI().toString());
     					ImageView view;
     					view=new ImageView();
     		    		view.setFitHeight(standardImageHeight);
@@ -1322,8 +1327,10 @@ public class AddViewController implements Observer{
     		    			anim.setLimits(0.1, 0.9);
     		    			anim.start();
     		    		});
+    		    		this.dayImagePane.get(i).get(step).getFiles().get(nextRow).add(stepByDay.get(i).get(step).getImageFile().get(c));
     		    		this.dayImagePane.get(i).get(step).add(view, nextCol, nextRow);
     		    		updateGridIndex();
+    				}
     				}
     			}
     		}
