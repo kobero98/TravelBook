@@ -346,8 +346,8 @@ public class LoginViewController {
 	private void goToFacebook() {
 		if(error.isVisible())
 			error.setVisible(false);
-		 String redirect="https://www.facebook.com/connect/login_success.html";
-		 String  redirecturi="";
+			String redirect="https://www.facebook.com/connect/login_success.html";
+			String  redirecturi="";
 		try {
 			redirecturi=URLEncoder.encode(redirect,"UTF8");
 			
@@ -361,13 +361,15 @@ public class LoginViewController {
 		engine.locationProperty().addListener((observable,oldValue,newValue)->{
 			String url=engine.getLocation();
 			try {
-			if (url.startsWith(redirect)) {
-				System.out.println("Tutto ok");
-				//Ask controller applicativo affinch� chieda a fb i dati utente
-			}
-			}catch(Exception e) {
-				//TODO
-			}
+				if (url.startsWith(redirect)) {
+					String accessToken=url.substring(redirect.length());
+					this.mainAnchor.getChildren().remove(view);
+					ControllerLogin.getInstance().facebookLogin(accessToken);
+					//Ask controller applicativo affinch� chieda a fb i dati utente
+				}
+				}catch(Exception e) {
+
+				}
 		});
 		engine.load(request);
 		this.mainAnchor.getChildren().add(view);
@@ -446,6 +448,7 @@ public class LoginViewController {
 			registerError.setText("Errore nella registrazione");
 		}
 	}
+	
 	private void saveRegistration() {
 		//Chiama il controller e passa i dati
 		try {

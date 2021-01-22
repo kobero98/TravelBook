@@ -3,12 +3,22 @@ package main.java.travelbook.controller;
 
 
 import java.sql.SQLException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.List;
 import java.util.Random;
 import javax.mail.MessagingException;
 import javax.security.auth.login.LoginException;
+
+import org.apache.http.HttpRequest;
+import org.apache.http.client.HttpClient;
 
 import exception.LoginPageException;
 import main.java.travelbook.model.Entity;
@@ -29,7 +39,39 @@ public class ControllerLogin {
 			instance = new ControllerLogin();
 		return instance;
 	}
-	private String passwordHash(String pswd)throws  Exception{
+	private int convertRequestToId(String string)
+	{
+		
+	}
+	public UserBean facebookLogin(String string)
+	{
+		try {
+			int i=string.indexOf("&");
+			String s= string.substring(14,i);
+			System.out.print(s);
+			URL url = new URL("https://graph.facebook.com/v2.7/me?field=name,picture,cover,age_range,email,first_name,last_name,gender,is_verified&access_token="+s);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			BufferedReader read = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			  String line = read.readLine();
+			  String html = "";
+			  while(line!=null) {
+			    html += line;
+			    line = read.readLine();
+			  }
+			  System.out.println("ciao");
+			  System.out.println(html);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
+	private String passwordHash(String pswd)throws Exception{
 		MessageDigest hasher=MessageDigest.getInstance("SHA-1");
 		hasher.update(pswd.getBytes("UTF-8"));
 		return toHex(hasher.digest());
