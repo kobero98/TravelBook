@@ -7,12 +7,10 @@
   <sonar.projectKey>kobero98_TravelBook</sonar.projectKey>
   <sonar.organization>kobero98</sonar.organization>
   <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  <arcgis.version>100.9.0</arcgis.version>
 </properties>
-  <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <arcgis.version>100.9.0</arcgis.version>
-    </properties>
     <repositories>
         <repository>
             <id>arcgis</id>
