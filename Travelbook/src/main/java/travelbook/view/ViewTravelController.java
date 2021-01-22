@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import main.java.travelbook.controller.TravelController;
-import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.bean.UserBean;
@@ -153,8 +151,7 @@ public class ViewTravelController {
     	
     	travel.getChildren().add(travelPic);
     	travel.getChildren().add(vBox);
-    	
-    	System.out.println(myTravel.getDescriptionTravel());
+
     	descr.setText(myTravel.getDescriptionTravel());
     	days.getTabs().removeAll(days.getTabs());
     	days.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -399,6 +396,18 @@ public class ViewTravelController {
 				
 				profileButtonHandler();
 			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case 4:
+			try {
+				FXMLLoader loader =new FXMLLoader();
+				loader.setLocation(ViewTravelController.class.getResource("SearchPage.fxml"));
+				AnchorPane internalPane=(AnchorPane)loader.load();
+				mainPane.setCenter(internalPane);
+				SearchTravelController controller=loader.getController();
+				controller.setMainPane(mainPane);
+			}catch(IOException e) {
 				e.printStackTrace();
 			}
 			break;

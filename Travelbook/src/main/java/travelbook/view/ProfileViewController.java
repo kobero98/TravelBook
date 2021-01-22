@@ -29,7 +29,6 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import main.java.travelbook.controller.MyProfileController;
-import main.java.travelbook.controller.ProfileController;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.UserBean;
 import javafx.scene.control.Alert;

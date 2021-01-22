@@ -1,11 +1,10 @@
 package main.java.travelbook.model.dao;
+
 import main.java.travelbook.model.StepEntity;
 import java.io.InputStream;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.io.File;
 import java.sql.Connection;
 import java.util.List;
 
@@ -18,11 +17,11 @@ public class StepDao implements PersistanceDAO {
 	private StepEntity myEntity;
 	@Override
 	public void update(Entity step) {
-		
+		//TODO
 	}
 	@Override
 	public void delete(Entity step) {
-		
+		//TODO
 	}
 	@Override
 	public void setData() throws SQLException{

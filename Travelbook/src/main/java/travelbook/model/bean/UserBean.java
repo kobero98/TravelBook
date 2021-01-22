@@ -1,10 +1,9 @@
 package main.java.travelbook.model.bean;
+
 import java.io.InputStream;
 import java.util.List;
-
 import javafx.scene.image.Image;
 import main.java.travelbook.model.OtherUserEntity;
-import main.java.travelbook.model.UserEntity;
 
 public class UserBean{
 	

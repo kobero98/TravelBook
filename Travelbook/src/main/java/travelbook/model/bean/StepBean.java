@@ -1,8 +1,6 @@
 package main.java.travelbook.model.bean;
 
-import java.io.IOException;
 import java.io.File;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +15,6 @@ public class StepBean {
 	private int numberInDay;
 	private String descriptionStep;
 	private String place;
-	private String day;
 	private List <Image> photo;            //abbiamo sia foto come immagini che foto come file. ne serve solo una
 	private PlaceAdapter fullPlace;
 	private String precisionInformation;
@@ -48,7 +45,6 @@ public class StepBean {
 		this.numberInDay = s.getNumberOfDay();
 		this.descriptionStep = s.getDescriptionStep();
 		this.place = s.getPlace();
-		//this.day = s.getDay().toLocalDate().toString();
 		if (s.getListPhoto() != null) {
 			this.photo = photoConvert(s.getListPhoto());
 			this.imageFile = s.getListPhoto();
@@ -97,10 +93,6 @@ public class StepBean {
 	public String getPlace() {
 		return this.place;
 	}
-	public String getDay()
-	{
-		return this.day;
-	}
 	public List<Image> getListPhoto(){
 		return this.photo;
 	}
@@ -112,10 +104,6 @@ public class StepBean {
 	public void setPlace(String location)
 	{
 		this.place=location;
-	}
-	public void setDay(String day)
-	{
-		this.day=day;
 	}
 	public void setGroupDay(int number) {
 		this.groupDay=number;

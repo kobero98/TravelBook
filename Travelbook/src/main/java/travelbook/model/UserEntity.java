@@ -1,12 +1,8 @@
 package main.java.travelbook.model;
 
-import java.util.List;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.sql.Date;
-import main.java.travelbook.model.bean.MessageBean;
 import main.java.travelbook.model.bean.RegistrationBean;
 
 

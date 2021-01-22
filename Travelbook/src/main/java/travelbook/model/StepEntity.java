@@ -14,7 +14,6 @@ public class StepEntity implements Entity {
 	private int numberOfDay=0;
 	private String descriptionStep=null;
 	private String place=null;
-	private Date day=null;
 	private List<InputStream> streamFoto=null;
 	public List<InputStream> getStreamFoto() {
 		return streamFoto;
@@ -61,10 +60,6 @@ public class StepEntity implements Entity {
 	public String getPlace() {
 		return this.place;
 	}
-	public Date getDay()
-	{
-		return this.day;
-	}
 	public int getNumberOfDay() {
 		return this.numberOfDay;
 	}
@@ -82,10 +77,6 @@ public class StepEntity implements Entity {
 	public void setPlace(String location)
 	{
 		this.place=location;
-	}
-	public void setDay(Date day)
-	{
-		this.day=day;
 	}
 	public void setGroupDay(int number) {
 		this.groupDay=number;

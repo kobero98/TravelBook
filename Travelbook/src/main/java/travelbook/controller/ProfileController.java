@@ -1,6 +1,5 @@
 package main.java.travelbook.controller;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,16 +7,12 @@ import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.MiniTravelBean;
-import main.java.travelbook.model.bean.TravelBean;
-import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
 import main.java.travelbook.model.dao.PersistanceDAO;
-import main.java.travelbook.model.dao.ShortUserDao;
 import main.java.travelbook.model.dao.VisualDAO;
 
 public class ProfileController{
-	private static ProfileController instance = null;
 	
 	public List<MiniTravelBean> getTravel(List<Integer> l) throws SQLException{
 		List<MiniTravelBean> ol = null;

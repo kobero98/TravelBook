@@ -13,7 +13,7 @@ import main.java.travelbook.model.OtherUserEntity;
 
 public class OtherUserDao implements VisualDAO {
 
-		private Connection connection;
+		
 		
 		private OtherUserEntity castRStoUser(ResultSet rs, int id) throws SQLException
 		{
@@ -34,13 +34,14 @@ public class OtherUserDao implements VisualDAO {
 		
 		@Override
 		public List <Entity> getData(Entity user1) throws SQLException {
+			final Connection connection;
 			ResultSet rs=null;
 			Statement stmt=null;
 			OtherUserEntity user=(OtherUserEntity) user1;
 			AllQuery db=AllQuery.getInstance();
 			List <Entity> list=new ArrayList<>();
 			try {
-				this.connection = AllQuery.getInstance().getConnection();
+				connection = AllQuery.getInstance().getConnection();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 				throw new LoginPageException("we couldn't reach our servers");
@@ -49,13 +50,12 @@ public class OtherUserDao implements VisualDAO {
 				stmt=connection.createStatement();
 				if(user.getId()!=0)
 				{
-					System.out.println(user.getId() + " sono la dao");
 					rs=db.requestUserbyID(stmt,user.getId());				
 					OtherUserEntity utente=castRStoUser(rs, user.getId());
 					
 					stmt.close();
 					
-					stmt=this.connection.createStatement();
+					stmt=connection.createStatement();
 					rs=AllQuery.getInstance().requestListIDFavoriteTrip(stmt,utente.getId());	
 					List <Integer> fav=new ArrayList<>();
 					while(rs.next())
@@ -65,7 +65,7 @@ public class OtherUserDao implements VisualDAO {
 					utente.setFavoriteList(fav);
 					stmt.close();
 					
-					stmt=this.connection.createStatement();
+					stmt=connection.createStatement();
 					rs=AllQuery.getInstance().requestListFollowerUser(stmt,utente.getId());	
 					List <Integer> follower=new ArrayList<>();
 					while(rs.next())
@@ -75,17 +75,17 @@ public class OtherUserDao implements VisualDAO {
 					utente.setListFollower(follower);
 					stmt.close();
 					
-					stmt=this.connection.createStatement();
+					stmt=connection.createStatement();
 					rs=AllQuery.getInstance().requestListFollowingUser(stmt,utente.getId());	
 					List <Integer> following=new ArrayList<>();
 					while(rs.next())
 					{
-						follower.add(rs.getInt(1));
+						following.add(rs.getInt(1));
 					}
 					utente.setListFollowing(following);
 					stmt.close();
 					
-					stmt=this.connection.createStatement();
+					stmt=connection.createStatement();
 					rs=AllQuery.getInstance().requestTripByUser(stmt, utente.getId());	
 					List <Integer> travel=new ArrayList<>();
 					while(rs.next())
@@ -95,7 +95,7 @@ public class OtherUserDao implements VisualDAO {
 					utente.setTravel(travel);
 					stmt.close();
 					
-					stmt=this.connection.createStatement();
+					stmt=connection.createStatement();
 					utente.setnPlace(AllQuery.getInstance().getPlaceVisited(stmt,utente.getId()));
 					
 					stmt.close();

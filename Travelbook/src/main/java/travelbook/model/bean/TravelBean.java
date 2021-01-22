@@ -1,17 +1,14 @@
 package main.java.travelbook.model.bean;
 
 import java.util.ArrayList;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
-
 import main.java.travelbook.util.DateUtil;
 import main.java.travelbook.util.Observable;
 import javafx.scene.image.Image;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.TravelEntity;
 import java.io.File;
+
 public class TravelBean extends Observable {
 
 	private int id;

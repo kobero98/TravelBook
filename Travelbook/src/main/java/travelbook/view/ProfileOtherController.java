@@ -27,7 +27,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import main.java.travelbook.controller.ControllerProfileOther;
-import main.java.travelbook.controller.ProfileController;
 import main.java.travelbook.controller.TravelController;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.UserBean;
@@ -90,13 +89,27 @@ public class ProfileOtherController {
 	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
 	private static final String HEADER_MSG ="Something went wrong!";
 	private static final String WARN_IMG = "main/resources/AddViewImages/warning.png";
+	private static final String CSS = "fav-selected";
 	
 	public void initialize() {
 		try {
 			this.user = myController.getUser(MenuBar.getInstance().getUserId());
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Connection Lost");
+    		alert.setHeaderText(HEADER_MSG);
+    		alert.setContentText("we couldn't load this page, you will be redirected to home page");
+    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
+   		 	Image image = new Image("main/resources/AddViewImages/error.png");
+   		 	ImageView imageView = new ImageView(image);
+   		 	alert.setGraphic(imageView);
+   		 	alert.showAndWait();
+   		 	try {
+				MenuBar.getInstance().moveToExplore(mainPane);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		new Thread(()->{
 			ObservableList<MiniTravelBean> data;
@@ -104,15 +117,23 @@ public class ProfileOtherController {
 				data = FXCollections.observableArrayList(myController.getTravel(user.getTravel()));
 				travels.setItems(data); 
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Travels unreacheable");
+	    		alert.setHeaderText(HEADER_MSG);
+	    		alert.setContentText("we couldn't reach your travels, try again");
+	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
+	   		 	Image image = new Image(WARN_IMG);
+	   		 	ImageView imageView = new ImageView(image);
+	   		 	alert.setGraphic(imageView);
+	   		 	alert.showAndWait();
 			}
 			
 			travels.setCellFactory(list->new TravelCell());
 		}).start();
 		if(MenuBar.getInstance().getLoggedUser().getFollowing()!=null &&
     			MenuBar.getInstance().getLoggedUser().getFollowing().contains(user.getId()))
-    				follow.getStyleClass().add("fav-selected");
+    				follow.getStyleClass().add(CSS);
 		if(user.getPhoto() !=null) {
 			BackgroundImage bgPhoto = new BackgroundImage(user.getPhoto(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 			Background newBg = new Background(bgPhoto);
@@ -163,8 +184,7 @@ public class ProfileOtherController {
             		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
             		Background mybg1 = new Background(bgPhoto);
             		travelPic.setBackground(mybg1);
-            	}catch(IllegalArgumentException e) {
-            		e.printStackTrace();
+            	}catch(IllegalArgumentException | NullPointerException e) {
             		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), rad, in);
                 	
                 	Background mybg1 = new Background(bgcc1);
@@ -188,7 +208,7 @@ public class ProfileOtherController {
             	fav.getStyleClass().add("favourite");
             	if(MenuBar.getInstance().getLoggedUser().getFav()!=null &&
             			MenuBar.getInstance().getLoggedUser().getFav().contains(item.getId()))
-            				fav.getStyleClass().add("fav-selected");
+            				fav.getStyleClass().add(CSS);
             	travel.setOnMouseClicked(e->{
             		MenuBar.getInstance().setIdTravel(item.getId());
             		FXMLLoader loader=new FXMLLoader();
@@ -202,40 +222,7 @@ public class ProfileOtherController {
             			exc.printStackTrace();
             		}
             	});
-            	fav.setOnMouseClicked(e->{
-            		String css = "fav-selected";
-            		List<Integer> f= MenuBar.getInstance().getLoggedUser().getFav();
-            		try {
-            			UserBean user1= new UserBean(MenuBar.getInstance().getLoggedUser().getId());
-            			List<Integer> s=new ArrayList<>();
-            			s.add(item.getId());
-            			user1.setFav(s);
-            			if(fav.getStyleClass().contains(css)) {
-            			fav.getStyleClass().remove(css);
-            			TravelController.getInstance().updateFav(user1);
-            			f.remove(item.getId());
-            			}
-            			else {
-            				fav.getStyleClass().add(css);
-            				if(f==null)  f=new ArrayList<>();
-            				f.add(item.getId());
-            				MenuBar.getInstance().getLoggedUser().setFav(f);
-            				myController.updateFav(MenuBar.getInstance().getLoggedUser());
-            			}
-            		} catch (SQLException exc) {
-            			Alert alert = new Alert(AlertType.WARNING);
-            			alert.setTitle("Update failed");
-                		alert.setHeaderText(HEADER_MSG);
-                		alert.setContentText("we couldn't update your information, try again");
-                		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
-               		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
-               		 	Image image = new Image(WARN_IMG);
-               		 	ImageView imageView = new ImageView(image);
-               		 	alert.setGraphic(imageView);
-               		 	alert.showAndWait();
-            		}
-
-            	});
+            	fav.setOnMouseClicked(e->addToFav(item,fav));
             	hBox.getChildren().add(fav);
             	vBox.getChildren().add(name);
             	vBox.getChildren().add(descr);
@@ -258,6 +245,39 @@ public class ProfileOtherController {
             	
             	
             }
+		}
+	}
+	
+	public void addToFav(MiniTravelBean item, Button fav){
+		try {
+		List<Integer> f= MenuBar.getInstance().getLoggedUser().getFav();
+		UserBean user1= new UserBean(MenuBar.getInstance().getLoggedUser().getId());
+		List<Integer> s=new ArrayList<>();
+		s.add(item.getId());
+		user1.setFav(s);
+		if(fav.getStyleClass().contains(CSS)) {
+		fav.getStyleClass().remove(CSS);
+		TravelController.getInstance().updateFav(user1);
+		f.remove(item.getId());
+		}
+		else {
+			fav.getStyleClass().add(CSS);
+			if(f==null)  f=new ArrayList<>();
+			f.add(item.getId());
+			MenuBar.getInstance().getLoggedUser().setFav(f);
+			myController.updateFav(MenuBar.getInstance().getLoggedUser());
+		}
+		} catch (SQLException exc) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Update failed");
+    		alert.setHeaderText(HEADER_MSG);
+    		alert.setContentText("we couldn't update your information, try again");
+    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
+   		 	Image image = new Image(WARN_IMG);
+   		 	ImageView imageView = new ImageView(image);
+   		 	alert.setGraphic(imageView);
+   		 	alert.showAndWait();
 		}
 	}
 	public void setMainPane(BorderPane main, int provenience, int travelId) {
@@ -376,7 +396,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			ObservableList<String> fav;
 			try {
 				fav = FXCollections.observableList(myController.getFollow(user.getFollowing()));
-			show.setItems(fav);
+				show.setItems(fav);
 			} catch (SQLException e) {
 				e.printStackTrace();
 				errorMsg.setVisible(true);
@@ -386,16 +406,15 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 	}
 	@FXML
 	private void follow() {
-		String css = "fav-selected";
 		UserBean me= MenuBar.getInstance().getLoggedUser();
-		if(follow.getStyleClass().contains(css)) {
-			follow.getStyleClass().remove(css);
+		if(follow.getStyleClass().contains(CSS)) {
+			follow.getStyleClass().remove(CSS);
 			
 			user.getFollower().remove(me.getId());
 			me.getFollowing().remove(user.getId());
 		}
 		else {
-			follow.getStyleClass().add(css);
+			follow.getStyleClass().add(CSS);
 			if(me.getFollowing()==null) me.setFollowing(new ArrayList<>());
 			me.getFollowing().add(user.getId());
 			if(user.getFollower()==null) user.setFollower(new ArrayList<>());
@@ -404,8 +423,16 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		try {
 			myController.updateFollow(me);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Update failed");
+    		alert.setHeaderText(HEADER_MSG);
+    		alert.setContentText("we couldn't update your information, try again");
+    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
+   		 	Image image = new Image(WARN_IMG);
+   		 	ImageView imageView = new ImageView(image);
+   		 	alert.setGraphic(imageView);
+   		 	alert.showAndWait();
 		}
 		
 	}
