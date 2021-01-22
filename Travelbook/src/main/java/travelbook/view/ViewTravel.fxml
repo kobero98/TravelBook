@@ -36,6 +36,7 @@
                </children>
             </Pane>
             <HBox fx:id="travel" layoutX="45.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="176.0" prefWidth="557.0" styleClass="h-box" />
+            <Button fx:id="viewMap" layoutX="437.0" layoutY="292.0" mnemonicParsing="false" onAction="#viewOnMapHandler" text="ViewOnMap" />
          </children>
       </AnchorPane>
       <ScrollPane fx:id="step" hbarPolicy="NEVER" layoutX="684.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="586.0">

@@ -17,6 +17,7 @@ import javafx.concurrent.Worker;
 public class ViewOnMapController {
 	
 	public void load(List<StepBean> steps) {
+		
 		WebView view;
 		WebEngine engine;
 		Stage stage;
@@ -28,9 +29,19 @@ public class ViewOnMapController {
 		 anchor.setPrefHeight(720);
 		 anchor.setPrefWidth(1280);
 		 anchor.getChildren().add(view);
+		 
 		 Scene scene=new Scene(anchor);
 		 stage.setScene(scene);
 		 stage.show();
+		 
+		 stage.heightProperty().addListener((observable,oldValue,newValue)->{
+			 anchor.setPrefHeight(stage.getHeight());
+			 view.setPrefHeight(stage.getHeight());
+		 });
+		 stage.widthProperty().addListener((observable,oldValue,newValue)->{
+			 anchor.setPrefWidth(stage.getWidth());
+			 view.setPrefWidth(stage.getWidth());
+		 });
 		 view.setVisible(true);
 			engine=view.getEngine();
 			String url= ViewOnMapController.class.getResource("mapView.html").toString();

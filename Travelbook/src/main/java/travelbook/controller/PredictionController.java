@@ -37,17 +37,24 @@ public class PredictionController {
 		if(limit<1) {
 			limit=1;
 		}
-		String[] part=text.split(" ");
 		StringBuilder newText=new StringBuilder();
-		for(int i=0;i<part.length;i++) {
+		for(int i=0;i<text.length();i++) {
 			//Le stringhe con gli spazi non funzionano.
-			newText.append(part[i]);
-			if(i<part.length-1) {
+			if(text.charAt(i)==',') {
+				newText.append("%2C");
+			}
+			else if(text.charAt(i)==' ') {
 				newText.append("%20");
 			}
+			else {
+				newText.append(text.charAt(i));
+			}
+			
+			
 		}
+		
 		HttpClient client=HttpClientBuilder.create().build();
-		String url="https://api.mapbox.com/geocoding/v5/mapbox.places/"+newText+".json"+"?autocomplete="+bool+"&limit="+limit+"&types=place,locality,address,poi"+"&access_token="+TOKEN;
+		String url="https://api.mapbox.com/geocoding/v5/mapbox.places/"+newText+".json"+"?fuzzyMatch="+bool+"&limit="+limit+"&types=place,locality,address,poi"+"&access_token="+TOKEN;
 		HttpGet request=new HttpGet(url);
 		request.addHeader("accept", "application/json");
 		try {
@@ -80,7 +87,15 @@ public class PredictionController {
         }
 	}
 	public JSONObject getPlaceByName(String name) throws MapboxException {
-		List<JSONObject> results=this.mapboxQuery(name, false, 1);
+		List<JSONObject> results=this.mapboxQuery(name, false, 10);
+		for(JSONObject res: results) {
+			
+			if(res.get("place_name").equals(name)) {
+				System.out.println(res.get("place_name"));
+				return res;
+			}
+		}
+		
 		return results.get(0);
 	}
 	public String getToken() {

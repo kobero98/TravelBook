@@ -53,6 +53,8 @@ public class ViewTravelController {
 	private BorderPane mainPane;
 	private int goBack; 
 	@FXML
+	private Button viewMap;
+	@FXML
 	private Button backButton;
 	@FXML 
 	private AnchorPane mainAnchor;
@@ -476,5 +478,10 @@ public class ViewTravelController {
 	private void shareButtonHandler() {
 		//dummy method
 		System.out.println("shared!");
+	}
+	@FXML
+	private void viewOnMapHandler() {
+		ViewOnMapController control=new ViewOnMapController();
+		control.load(this.myTravel.getListStep());
 	}
 }

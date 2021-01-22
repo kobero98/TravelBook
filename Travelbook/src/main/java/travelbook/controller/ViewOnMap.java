@@ -17,6 +17,8 @@ public class ViewOnMap {
 	
 	public List<String> loadTravel(List<StepBean> steps) throws MapboxException{
 		List<String> scripts=new ArrayList<>();
+		List<String> placeAdded=new ArrayList<>();
+		List<Double> coordinates;
 		StringBuilder forPath=new StringBuilder();
 		forPath.append("[");
 		StringBuilder script;
@@ -26,8 +28,14 @@ public class ViewOnMap {
 			if(step.getFullPlace()==null) {
 				step.setFullPlace(getPlaceByName(step.getPlace()));
 			}
-				forPath.append(step.getFullPlace().getCoordinates().toString()+",");
-				script.append(step.getFullPlace().getCoordinates().toString()+",");
+				
+				coordinates=step.getFullPlace().getCoordinates();
+				if(placeAdded.contains(step.getFullPlace().getPlaceName())) {
+					coordinates.set(0, coordinates.get(0)+0.0001);
+					coordinates.set(1, coordinates.get(1)+0.0001);
+				}
+				forPath.append(coordinates.toString()+",");
+				script.append(coordinates.toString()+",");
 			StringBuilder popupContent=new StringBuilder();
 			popupContent.append("<b>"+step.getPlace()+"</b><br>");
 			popupContent.append("Category: ");
@@ -59,6 +67,7 @@ public class ViewOnMap {
 			script.append("\""+icon+"\",");
 			script.append(start);
 			scripts.add("addMarker("+script+");");
+			placeAdded.add(step.getFullPlace().getPlaceName());
 			start=false;
 		}
 		forPath.replace(forPath.length()-1, forPath.length(), "]");
