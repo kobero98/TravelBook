@@ -16,7 +16,7 @@ public class SearchPlaceTextField extends AutocompleteTextField<PlaceAdapter> {
 	
 	public SearchPlaceTextField() {
 		this(new TextField());
-		
+		setPos(Side.BOTTOM);
 	}
 	public SearchPlaceTextField(TextField textField) {
 		super(textField);
