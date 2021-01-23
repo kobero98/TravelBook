@@ -58,6 +58,7 @@ public class AddTravel {
 			string.append("#");
 			
 		}
+	
 		myTravel.setType(string.toString());
 		
 		List<Entity> steps=new ArrayList<>();
@@ -72,6 +73,7 @@ public class AddTravel {
 			stepE.setUserId(MenuBar.getInstance().getLoggedUser().getId());
 			stepE.setListPhoto(step.getImageFile());
 			stepE.setNumber(i);
+			step.setPrecisionInformation(step.getPrecisionInformation());
 			CityEntity city=null;
 			if(step.getFullPlace()!=null) {
 				city=new CityEntity();

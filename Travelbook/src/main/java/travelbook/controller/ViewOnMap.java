@@ -25,6 +25,7 @@ public class ViewOnMap {
 		boolean start=true;
 		for(StepBean step: steps) {
 			script=new StringBuilder();
+			
 			if(step.getFullPlace()==null) {
 				step.setFullPlace(getPlaceByName(step.getPlace()));
 			}
