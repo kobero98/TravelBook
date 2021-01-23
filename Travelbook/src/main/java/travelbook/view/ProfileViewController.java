@@ -449,6 +449,7 @@ public class ProfileViewController implements Observer{
 		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText("Your favourite travels");
+		show.getItems().clear();
 		if(user.getFav()!=null && !user.getFav().isEmpty()) {
 			ObservableList<String> fav;
 			try {
@@ -465,10 +466,12 @@ public class ProfileViewController implements Observer{
 		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText("Your followers");
+		show.getItems().clear();
 		if(user.getFollower()!= null && !user.getFollower().isEmpty()) {
 			ObservableList<String> fav;
 			try {
 				fav = FXCollections.observableList(myController.getFollow(user.getFollower()));
+				
 				show.setItems(fav);
 			} catch (SQLException e) {
 				errorMsg.setVisible(true);
@@ -482,10 +485,12 @@ public class ProfileViewController implements Observer{
 		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText("Your interesting people");
+		show.getItems().clear();
 		if(user.getFollowing()!=null && !user.getFollowing().isEmpty()) {
 			ObservableList<String> fav;
 			try {
 				fav = FXCollections.observableList(myController.getFollow(user.getFollowing()));
+			
 			show.setItems(fav);
 			} catch (SQLException e) {
 				errorMsg.setVisible(true);

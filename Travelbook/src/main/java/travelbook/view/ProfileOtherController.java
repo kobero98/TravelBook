@@ -268,6 +268,7 @@ public class ProfileOtherController {
 			myController.updateFav(MenuBar.getInstance().getLoggedUser());
 		}
 		} catch (SQLException exc) {
+			
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Update failed");
     		alert.setHeaderText(HEADER_MSG);
@@ -423,6 +424,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		try {
 			myController.updateFollow(me);
 		} catch (SQLException e) {
+			
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Update failed");
     		alert.setHeaderText(HEADER_MSG);

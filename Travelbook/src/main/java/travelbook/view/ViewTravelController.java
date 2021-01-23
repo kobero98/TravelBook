@@ -407,7 +407,7 @@ public class ViewTravelController {
 		case 4:
 			try {
 				FXMLLoader loader =new FXMLLoader();
-				loader.setLocation(ViewTravelController.class.getResource("SearchPage.fxml"));
+				loader.setLocation(ViewTravelController.class.getResource("SerchPage.fxml"));
 				AnchorPane internalPane=(AnchorPane)loader.load();
 				mainPane.setCenter(internalPane);
 				SearchTravelController controller=loader.getController();
