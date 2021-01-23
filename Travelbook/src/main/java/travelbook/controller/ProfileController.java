@@ -59,7 +59,7 @@ public class ProfileController{
 	}
 	public List<String> getFav(List<Integer> l) throws SQLException{
 		List<String> f = null;
-		PersistanceDAO miniTravelDao = DaoFactory.getInstance().create(DaoType.TRAVEL);
+		VisualDAO miniTravelDao = DaoFactory.getInstance().createVisual(DaoType.S_TRAVEL);
 		TravelEntity travelE = new TravelEntity();
 		if(l != null) {
 			for(int i=0; i<l.size(); i++) {
@@ -73,6 +73,7 @@ public class ProfileController{
 				else {
 					f.add(travelE.getNameTravel());
 				}
+				System.out.println(travelE.getNameTravel());
 			}
 		}
 		return f;
