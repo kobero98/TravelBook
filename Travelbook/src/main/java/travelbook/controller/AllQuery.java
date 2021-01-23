@@ -198,28 +198,24 @@ public class AllQuery {
 			      preparedStmt.execute();
 			      preparedStmt.close();
 			      
-			    
-			      
-			      if(step.getListPhoto()!=null) {
-				      for(File f : step.getListPhoto()){
-				    	  String queryPhoto = " insert into photostep (LinkPhoto,Step_Number,codiceViaggio,codiceCreatoreViaggio) values(?,?,?,?) ";
-					      preparedStmt = connessione.prepareStatement(queryPhoto);
-					      FileInputStream fis;
-						try {
-							fis = new FileInputStream(f);
-							preparedStmt.setBinaryStream(1,fis,(int)f.length());
+			    if(step.getListPhoto()!=null) {
+			    	for(int i=0;i<step.getBytes().size();i++) {
+			    		String queryPhoto = " insert into photostep (LinkPhoto,Step_Number,codiceViaggio,codiceCreatoreViaggio) values(?,?,?,?) ";
+					    preparedStmt = connessione.prepareStatement(queryPhoto);
+					    
+							
+							preparedStmt.setBytes(1, step.getBytes().get(i).toByteArray());
+							
 						      preparedStmt.setInt (2, step.getNumber());
 						      preparedStmt.setInt (3, step.getIDTravel());
 						      preparedStmt.setInt (4, step.getIDCreator());
 						      preparedStmt.execute();  
 						      preparedStmt.close();
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-				
-				      }
-			      }	
+						
+			    	}
+			    }
+			      
+			     
 		}finally {
 			
 			if(preparedStmt!=null) {

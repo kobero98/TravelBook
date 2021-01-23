@@ -4,9 +4,18 @@ import java.sql.Date;
 import java.util.List;
 import java.io.File;
 import java.io.InputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 
 public class StepEntity implements Entity {
+	private List<ByteArrayOutputStream> bytes=new ArrayList<>();
+	public List<ByteArrayOutputStream> getBytes() {
+		return bytes;
+	}
+	public void setBytes(List<ByteArrayOutputStream> bytes) {
+		this.bytes = bytes;
+	}
 	private int number=0;
 	private int idTravel=0;
 	private int idCreator=0;

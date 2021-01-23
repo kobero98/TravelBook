@@ -1,5 +1,8 @@
 package main.java.travelbook.view;
 import java.io.IOException;
+import java.awt.image.BufferedImage;
+import javafx.embed.swing.SwingFXUtils;
+import java.io.ByteArrayOutputStream;
 import main.java.travelbook.util.Observer;
 import java.time.LocalDate;
 
@@ -11,6 +14,9 @@ import main.java.travelbook.util.NumberInDayComparator;
 import main.java.travelbook.util.Observable;
 import javafx.scene.control.ScrollPane;
 import java.util.Optional;
+
+import javax.imageio.ImageIO;
+
 import javafx.scene.control.CheckBox;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -355,6 +361,7 @@ public class AddViewController implements Observer{
 		//If is empty positions[row][col]==1
 		private List<List<Integer>> positions=new ArrayList<>();
 		private List<List<File>> files=new ArrayList<>();
+		
 		private GridPane gridPane;
 		public ImageGridPane() {
 			gridPane=new GridPane();
@@ -903,6 +910,18 @@ public class AddViewController implements Observer{
 	    				for(int i=0;i<dayImagePane.get(day).get(stepN).getFiles().size();i++) {
 	    					System.out.println("Ho: "+dayImagePane.get(day).get(stepN).getFiles().size());
 	    					step.getImageFile().addAll(dayImagePane.get(day).get(stepN).getFiles().get(i));
+	    					
+	    				}
+	    				for(int im=0;im<dayImagePane.get(day).get(stepN).getGridPane().getChildren().size();im++) {
+	    					ImageView view=(ImageView)dayImagePane.get(day).get(stepN).getGridPane().getChildren().get(im);
+	    					BufferedImage bImage = SwingFXUtils.fromFXImage(view.getImage(), null);
+	    					ByteArrayOutputStream s = new ByteArrayOutputStream();
+	    					try {
+	    					ImageIO.write(bImage, "png", s);
+	    					}catch(IOException e) {
+	    						e.printStackTrace();
+	    					}
+	    					step.getBytes().add(s);
 	    				}
 	    				travel.getListStep().add(step);
 	    			}

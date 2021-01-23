@@ -1,5 +1,6 @@
 package main.java.travelbook.model.bean;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -9,6 +10,13 @@ import javafx.scene.image.Image;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.util.PlaceAdapter;
 public class StepBean {
+	private List<ByteArrayOutputStream> bytes=new ArrayList<>();
+	public List<ByteArrayOutputStream> getBytes() {
+		return bytes;
+	}
+	public void setBytes(List<ByteArrayOutputStream> bytes) {
+		this.bytes = bytes;
+	}
 	private int number;
 	private int iDTravel;
 	private int iDCreator;

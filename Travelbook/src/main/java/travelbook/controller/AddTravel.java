@@ -72,6 +72,7 @@ public class AddTravel {
 			stepE.setPlace(step.getPlace());
 			stepE.setUserId(MenuBar.getInstance().getLoggedUser().getId());
 			stepE.setListPhoto(step.getImageFile());
+			stepE.setBytes(step.getBytes());
 			stepE.setNumber(i);
 			step.setPrecisionInformation(step.getPrecisionInformation());
 			CityEntity city=null;

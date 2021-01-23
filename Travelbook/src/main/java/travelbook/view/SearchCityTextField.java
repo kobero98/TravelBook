@@ -6,6 +6,7 @@ import java.util.List;
 public class SearchCityTextField extends AutocompleteTextField<String> {
 	public SearchCityTextField() {
 		super();
+		setPos(Side.BOTTOM);
 	}
 	public SearchCityTextField(TextField text) {
 		super(text);
