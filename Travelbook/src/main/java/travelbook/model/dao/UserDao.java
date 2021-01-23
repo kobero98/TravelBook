@@ -16,7 +16,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 	private UserEntity entity;	
 	private Connection connection;
 	
-	private UserEntity castRStoUser(ResultSet rs) throws SQLException
+	protected UserEntity castRStoUser(ResultSet rs) throws SQLException
 	{
 		
 		UserEntity user;

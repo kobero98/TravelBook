@@ -344,10 +344,10 @@ public class LoginViewController {
 	}
 	@FXML
 	private void goToFacebook() {
-		if(error.isVisible())
-			error.setVisible(false);
-			String redirect="https://www.facebook.com/connect/login_success.html";
-			String  redirecturi="";
+		if(error.isVisible()) error.setVisible(false);
+		
+		String redirect="https://www.facebook.com/connect/login_success.html";
+		String  redirecturi="";
 		try {
 			redirecturi=URLEncoder.encode(redirect,"UTF8");
 			
@@ -364,8 +364,9 @@ public class LoginViewController {
 				if (url.startsWith(redirect)) {
 					String accessToken=url.substring(redirect.length());
 					this.mainAnchor.getChildren().remove(view);
-					ControllerLogin.getInstance().facebookLogin(accessToken);
-					//Ask controller applicativo affinch� chieda a fb i dati utente
+					UserBean u=ControllerLogin.getInstance().facebookLogin(accessToken);
+				    MenuBar.getInstance().setUser(u);
+			        MenuBar.getInstance().moveToExplore(this.mainPane);
 				}
 				}catch(Exception e) {
 

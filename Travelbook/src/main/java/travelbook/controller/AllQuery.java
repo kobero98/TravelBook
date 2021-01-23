@@ -59,9 +59,8 @@ public class AllQuery {
 		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip join trip_has_city on idTrip=CodiceViaggi and CreatorTrip=CodiceCreatore where City_NameC like'"+entity.getCity().getNameC() +"' and City_State like '"+entity.getCity().getState() +"' and Condiviso=0 and costo>="+entity.getMinCost()+" and costo<="+entity.getMaxCost()+" and tipo like '%"+entity.getType()+"%' and DATEDIFF(EndDate,StartDate)>="+(entity.getMinDay()-1)+" and DATEDIFF(EndDate,StartDate)<="+(entity.getMaxDay());
 		return stmt.executeQuery(query);
 	}
-	public ResultSet requestLogin(Statement stmt,String username,String password) throws LoginPageException{
+	public ResultSet requestLogin(Statement stmt,String username,String password) throws SQLException{
 		ResultSet rs=null;
-		try {
 				rs = stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"'");
 			if(rs.next()) {
 				rs= stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"' and password='"+password+"'");
@@ -76,12 +75,9 @@ public class AllQuery {
 				 else throw new ExceptionLogin("Errore Username o password");	 
 			}
 			return rs;
-			} catch (SQLException e) {
-				throw new LoginPageException("Errore Connessione");
-			}
-		}
+		
 	
-	
+	}
 	public ResultSet requestTripById(Statement stmt,int idTrip)
 	{	ResultSet rs=null;
 		try {
@@ -136,14 +132,27 @@ public class AllQuery {
 		else return 0;
 	}
 	
-	public Integer controlloEsistenzaAccount(String id) throws SQLException
+	public UserEntity controlloEsistenzaAccount(String id) throws SQLException
 	{
-				String query="Select idUser from facebooklogin where idFacebookLogin ='"+id+"'";
-				Connection conn=getConnection();
-				Statement stmt=conn.createStatement();
+			Statement stmt=null;
+			Connection conn=null;
+			try {	
+				String query=" Select username,password from user join facebooklogin on facebooklogin.idUser=user.idUser where idFacebookLogin like '"+id+"'";
+				conn=getConnection();
+				stmt=conn.createStatement();
 				ResultSet rs=stmt.executeQuery(query);
-				if(rs.next()) return rs.getInt(1);
-				else return 0;
+				if(rs.next()) { 
+					UserEntity user= new UserEntity();
+					user.setPassword(rs.getString(2));
+					user.setUsername(rs.getString(1));
+					return user;
+				}
+				else return null;
+				
+				}finally{
+					if(stmt!=null)stmt.close();
+					if(conn!=null)conn.close();
+				}
 	}
 	
 	public ResultSet requestPhotoByStep(Statement stmt,int idStep,int idTravel) throws SQLException {
@@ -152,6 +161,30 @@ public class AllQuery {
 		rs=stmt.executeQuery(query);
 		return rs;
 	}
+	public UserEntity insertFacebookUser(Connection conn,String idF,int id) throws SQLException
+	{
+		PreparedStatement stmt=null;
+		Statement stmt1=null;
+		try{
+			String query="Insert into FacebookLogin(idFacebookLogin,idUser) values (?,?)";
+			stmt=conn.prepareStatement(query);
+			stmt.setString(1, idF);
+			stmt.setInt(2, id);
+			stmt.execute();
+			stmt.close();
+			query="select username,password from user where id="+id;
+			stmt1=conn.createStatement();
+			ResultSet rs=stmt.executeQuery(query);
+			rs.next();
+			UserEntity user=new UserEntity();
+			user.setUsername(rs.getString(1));
+			user.setPassword(rs.getString(2));
+			return user;
+		}finally {
+			if(stmt!=null) stmt.close();
+			if(stmt1!=null) stmt1.close();
+		}
+		}
 
 	public void requestRegistrationUser(Connection conn,UserEntity user) throws SQLException {
 				  PreparedStatement preparedStmt =null;

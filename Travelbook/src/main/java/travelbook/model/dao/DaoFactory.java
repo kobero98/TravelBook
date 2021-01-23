@@ -18,6 +18,8 @@ public class DaoFactory {
 			return new MessageDao();
 		if(tipo.compareTo(DaoType.STEP)==0)
 			return new StepDao();
+		if(tipo.compareTo(DaoType.FACEBOOK)==0)
+			return new FacebookDao();
 		return null;
 	}
 	public PredictableDAO createPredictable(DaoType tipo) {

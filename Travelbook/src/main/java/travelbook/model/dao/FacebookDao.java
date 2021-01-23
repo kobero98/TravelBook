@@ -1,47 +1,21 @@
 package main.java.travelbook.model.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
+import main.java.travelbook.controller.AllQuery;
+import main.java.travelbook.model.UserEntity;
 
-import main.java.travelbook.model.Entity;
-
-public class FacebookDao implements PersistanceDAO	{
-
+public class FacebookDao extends UserDao{
 	
-	@Override
-	public List<Entity> getData(Entity object) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public UserEntity getData(String id) throws SQLException{
+		UserEntity user=AllQuery.getInstance().controlloEsistenzaAccount(id);
+		return user;
 	}
-
-	@Override
-	public void setData() throws SQLException {
+	public UserEntity setData(String idFacebook,int id) throws SQLException
+	{
+		Connection connessione=AllQuery.getInstance().getConnection();
+		return AllQuery.getInstance().insertFacebookUser(connessione,idFacebook,id);
 		
 	}
-
-	@Override
-	public Entity getMyEntity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void delete(Entity object) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(Entity object) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setMyEntity(Entity user) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-	
-
 }

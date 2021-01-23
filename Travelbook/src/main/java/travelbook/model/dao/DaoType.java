@@ -9,5 +9,6 @@ public enum DaoType {
 	 MESSAGE,
 	 S_TRAVEL,
 	 S_USER,
-	 SEARCH_TRAVEL
+	 SEARCH_TRAVEL,
+	 FACEBOOK
 }

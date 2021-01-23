@@ -1,25 +1,20 @@
 package main.java.travelbook.controller;
 
-
-
+import java.sql.Date;
 import java.sql.SQLException;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.List;
 import java.util.Random;
 import javax.mail.MessagingException;
-import javax.security.auth.login.LoginException;
-
-import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import exception.LoginPageException;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.UserEntity;
@@ -27,6 +22,7 @@ import main.java.travelbook.model.bean.RegistrationBean;
 import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
+import main.java.travelbook.model.dao.FacebookDao;
 import main.java.travelbook.model.dao.PersistanceDAO;
 
 public class ControllerLogin {
@@ -39,53 +35,85 @@ public class ControllerLogin {
 			instance = new ControllerLogin();
 		return instance;
 	}
-	private String parseEmail(String url)
-	{	
-		System.out.print(url);
-		String s=url.substring(10,url.length()-26);
-		int i=s.indexOf("\\");
-		System.out.println(i);
-		s=s.substring(0,i)+"@"+s.substring(i+6);
-		return s;
+
+	private RegistrationBean createRegisterBeanFromFacebook(String accessToken,String id) throws Exception
+	{
+		RegistrationBean user=new RegistrationBean();
+		String url = "https://graph.facebook.com/v2.7/"+id+"?fields=name,first_name,last_name,email,gender,birthday&access_token="+accessToken;
+		HttpClient client=HttpClientBuilder.create().build();
+		HttpGet request=new HttpGet(url);
+		HttpResponse response = client.execute(request);
+		String json = EntityUtils.toString(response.getEntity(), "UTF-8");
+		JSONParser parser = new JSONParser();
+        Object resultObject = parser.parse(json);
+        JSONObject obj=(JSONObject)resultObject;
+        user.setEmail(obj.get("email").toString());
+        user.setName(obj.get("first_name").toString());
+        user.setSurname(obj.get("last_name").toString());
+        user.setGender(obj.get("gender").toString().substring(0,1));
+        String date=obj.get("birthday").toString();
+        String data= date.substring(6)+"-"+date.substring(0,2)+"-"+date.substring(3,5);
+        user.setBirtdate(Date.valueOf(data));
+        
+        user.setUsername(obj.get("first_name").toString()+obj.get("last_name").toString()+numberGenerator());
+		user.setPassword("p"+numberGenerator()+numberGenerator()+numberGenerator());
+        return user;
 	}
 	public UserBean facebookLogin(String string)
 	{
 		try {
 			int i=string.indexOf("&");
-			String s= string.substring(14,i);
-			URL url = new URL("https://graph.facebook.com/v2.7/me?&access_token="+s);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			BufferedReader read = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			String line = read.readLine();
-			String id="";
-			id=line.substring(line.length()-18,line.length()-2);
-			i=AllQuery.getInstance().controlloEsistenzaAccount(id);
-			if(i!=0)
-			{
-				UserEntity user=new UserEntity(i);
-				PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.USER);
-				List<Entity> l=dao.getData(user);
-				UserBean u=new UserBean((UserEntity)l.get(0));
-				return u;
-				
-			}
-			else{
-				url = new URL("https://graph.facebook.com/"+id+"?fields=email&access_token="+s);
-				connection = (HttpURLConnection) url.openConnection();
-				read = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				line = read.readLine();
-				System.out.println(line);
-				String email=parseEmail(line);
-				System.out.println(email);
-				int z=AllQuery.getInstance().getVerifiedEmail(email);
-				if(z==0) {
-					System.out.println("ciao1");
+			String accessToken= string.substring(14,i);
+			String url = "https://graph.facebook.com/v2.7/me?&access_token="+accessToken;
+			HttpClient client=HttpClientBuilder.create().build();
+			HttpGet request=new HttpGet(url);
+			HttpResponse response = client.execute(request);
+			String json = EntityUtils.toString(response.getEntity(), "UTF-8");
+			JSONParser parser = new JSONParser();
+            Object resultObject = parser.parse(json);
+            JSONObject obj=null;
+            if (resultObject instanceof JSONObject) {
+                obj =(JSONObject)resultObject;
+                }  
+            String id="";
+            if(obj!=null)
+	        {
+            	id=obj.get("id").toString();
+	            FacebookDao dao=(FacebookDao) DaoFactory.getInstance().create(DaoType.FACEBOOK);
+				UserEntity user=dao.getData(id);
+				if(user==null)
+				{
+					url = "https://graph.facebook.com/v2.7/"+id+"?fields=email&access_token="+accessToken;
+					client=HttpClientBuilder.create().build();
+					request=new HttpGet(url);
+					response = client.execute(request);
+					json = EntityUtils.toString(response.getEntity(), "UTF-8");
+					parser = new JSONParser();
+		            resultObject = parser.parse(json);
+		            obj=(JSONObject)resultObject;
+		            String email= obj.get("email").toString();
+		            int idUtente=AllQuery.getInstance().getVerifiedEmail(email);
+		            if(idUtente!=0) {
+		            	
+		            	PersistanceDAO dao1=DaoFactory.getInstance().create(DaoType.USER);
+						List<Entity>l=dao1.getData(user);
+						return new UserBean((UserEntity) l.get(0));
+		            }
+		            RegistrationBean u=createRegisterBeanFromFacebook(accessToken,id);
+		            signUp(u);
+		            idUtente=AllQuery.getInstance().getVerifiedEmail(email);
+		            user=dao.setData(id,idUtente);
+		            EmailSenderController s=new EmailSenderController();
+		            String mex="il suo Username: "+u.getUsername()+"\n la susa Password: "+u.getPassword();
+		            s.sendMessage(email,mex, "nuovo account travelbook");
+		            return signIn(u.getUsername(),u.getPassword());
 				}
 				else {
-					
+					PersistanceDAO dao1=DaoFactory.getInstance().create(DaoType.USER);
+					List<Entity>l=dao1.getData(user);
+					return new UserBean((UserEntity) l.get(0));
 				}
-				
-			}
+            }
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,9 +121,6 @@ public class ControllerLogin {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}catch (Exception e)
@@ -135,7 +160,6 @@ public class ControllerLogin {
 			user=new UserBean(MyIdentity.getInstance().getMyEntity());
 			return user;
 		}catch(LoginPageException e) {
-			System.out.println(e.getMessage());
 			throw e;
 		}
 		catch(Exception e) {
