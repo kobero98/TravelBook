@@ -907,11 +907,7 @@ public class AddViewController implements Observer{
 	    			StepBean step=steps.get(stepN);
 	    			if(step.getPlace()!=null &&!step.getPlace().isEmpty()) {
 	    				step.setListPhoto(new ArrayList<>());
-	    				for(int i=0;i<dayImagePane.get(day).get(stepN).getFiles().size();i++) {
-	    					System.out.println("Ho: "+dayImagePane.get(day).get(stepN).getFiles().size());
-	    					step.getImageFile().addAll(dayImagePane.get(day).get(stepN).getFiles().get(i));
-	    					
-	    				}
+	    				
 	    				for(int im=0;im<dayImagePane.get(day).get(stepN).getGridPane().getChildren().size();im++) {
 	    					ImageView view=(ImageView)dayImagePane.get(day).get(stepN).getGridPane().getChildren().get(im);
 	    					BufferedImage bImage = SwingFXUtils.fromFXImage(view.getImage(), null);

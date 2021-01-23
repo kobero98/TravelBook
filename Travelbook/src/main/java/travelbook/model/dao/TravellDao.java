@@ -125,9 +125,10 @@ public class TravellDao implements PersistanceDAO{
 	}
 
 	@Override
-	public void delete(Entity object) {
-		
-		
+	public void delete(Entity object) throws SQLException {
+		TravelEntity trav=(TravelEntity) object;
+		Connection connect=AllQuery.getInstance().getConnection();
+		AllQuery.getInstance().deleteTravel(connect, trav.getIdTravel());
 	}
 
 	@Override

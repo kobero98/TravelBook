@@ -1,5 +1,7 @@
 package main.java.travelbook.controller;
 import java.util.List;
+import main.java.travelbook.util.PlaceAdapter;
+import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
@@ -76,6 +78,11 @@ public class AddTravel {
 			stepE.setNumber(i);
 			step.setPrecisionInformation(step.getPrecisionInformation());
 			CityEntity city=null;
+			System.out.println(step.getFullPlace()==null);
+			if(step.getFullPlace()==null && step.getPlace()!=null) {
+				JSONObject res=new PredictionController().getPlaceByName(step.getPlace());
+				step.setFullPlace(new PlaceAdapter(res));
+			}
 			if(step.getFullPlace()!=null) {
 				city=new CityEntity();
 			city.setNameC(step.getFullPlace().getCity());

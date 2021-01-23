@@ -107,7 +107,7 @@ public class ProfileViewController implements Observer{
 		new Thread(()->{
 			ObservableList<MiniTravelBean> data;
 			try {
-				if(user.getTravel()!=null) {
+				if(user.getTravel()!=null && !user.getTravel().isEmpty()) {
 					data = FXCollections.observableList(myController.getTravel(user.getTravel()));
 					travels.setItems(data); 
 				}
