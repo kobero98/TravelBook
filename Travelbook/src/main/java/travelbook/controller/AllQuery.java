@@ -125,10 +125,30 @@ public class AllQuery {
 			return rs;
 		}
 	}
+	
+	public Integer getVerifiedEmail(String email)throws SQLException
+	{
+		String query="Select idUser from User where email like '"+email+"'";
+		Connection conn=getConnection();
+		Statement stmt=conn.createStatement();
+		ResultSet rs=stmt.executeQuery(query);
+		if(rs.next()) return rs.getInt(1);
+		else return 0;
+	}
+	
+	public Integer controlloEsistenzaAccount(String id) throws SQLException
+	{
+				String query="Select idUser from facebooklogin where idFacebookLogin ='"+id+"'";
+				Connection conn=getConnection();
+				Statement stmt=conn.createStatement();
+				ResultSet rs=stmt.executeQuery(query);
+				if(rs.next()) return rs.getInt(1);
+				else return 0;
+	}
+	
 	public ResultSet requestPhotoByStep(Statement stmt,int idStep,int idTravel) throws SQLException {
 		ResultSet rs=null;
 		String query="SELECT LinkPhoto from photostep where Step_Number="+idStep+" and CodiceViaggio="+idTravel;
-		
 		rs=stmt.executeQuery(query);
 		return rs;
 	}
@@ -138,16 +158,16 @@ public class AllQuery {
 				
 					  String query = " insert into User (Username, password,NameUser, Surname, BirthDate,Email,Gender)" + " values (?, ?, ?, ?, ?, ?, ?)";
 					  try {
-						preparedStmt = conn.prepareStatement(query);
-					  preparedStmt.setString (1, user.getUsername());
-				      preparedStmt.setString (2, user.getPassword());
-				      preparedStmt.setString (3, user.getName());
-				      preparedStmt.setString (4, user.getSurname());
-				      preparedStmt.setDate   (5,user.getBirthDate());// il data va sistemato
-				      preparedStmt.setString (6,user.getEmail());
-				      preparedStmt.setString (7,user.getGender());
-				      preparedStmt.execute();
-				      preparedStmt.close();
+							preparedStmt = conn.prepareStatement(query);
+							preparedStmt.setString (1, user.getUsername());
+						    preparedStmt.setString (2, user.getPassword());
+						    preparedStmt.setString (3, user.getName());
+						    preparedStmt.setString (4, user.getSurname());
+						    preparedStmt.setDate   (5,user.getBirthDate());// il data va sistemato
+						    preparedStmt.setString (6,user.getEmail());
+						    preparedStmt.setString (7,user.getGender());
+						    preparedStmt.execute();
+						    preparedStmt.close();
 				     }catch(SQLIntegrityConstraintViolationException e) {
 						throw new ExceptionRegistration("Errore Utente gia presente nel Database");
 					}catch(MysqlDataTruncation e){

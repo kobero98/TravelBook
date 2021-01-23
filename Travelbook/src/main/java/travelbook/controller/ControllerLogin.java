@@ -39,32 +39,67 @@ public class ControllerLogin {
 			instance = new ControllerLogin();
 		return instance;
 	}
-	private int convertRequestToId(String string)
-	{
-		
+	private String parseEmail(String url)
+	{	
+		System.out.print(url);
+		String s=url.substring(10,url.length()-26);
+		int i=s.indexOf("\\");
+		System.out.println(i);
+		s=s.substring(0,i)+"@"+s.substring(i+6);
+		return s;
 	}
 	public UserBean facebookLogin(String string)
 	{
 		try {
 			int i=string.indexOf("&");
 			String s= string.substring(14,i);
-			System.out.print(s);
-			URL url = new URL("https://graph.facebook.com/v2.7/me?field=name,picture,cover,age_range,email,first_name,last_name,gender,is_verified&access_token="+s);
+			URL url = new URL("https://graph.facebook.com/v2.7/me?&access_token="+s);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			BufferedReader read = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			  String line = read.readLine();
-			  String html = "";
-			  while(line!=null) {
-			    html += line;
-			    line = read.readLine();
-			  }
-			  System.out.println("ciao");
-			  System.out.println(html);
+			String line = read.readLine();
+			String id="";
+			id=line.substring(line.length()-18,line.length()-2);
+			i=AllQuery.getInstance().controlloEsistenzaAccount(id);
+			if(i!=0)
+			{
+				UserEntity user=new UserEntity(i);
+				PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.USER);
+				List<Entity> l=dao.getData(user);
+				UserBean u=new UserBean((UserEntity)l.get(0));
+				return u;
+				
+			}
+			else{
+				url = new URL("https://graph.facebook.com/"+id+"?fields=email&access_token="+s);
+				connection = (HttpURLConnection) url.openConnection();
+				read = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				line = read.readLine();
+				System.out.println(line);
+				String email=parseEmail(line);
+				System.out.println(email);
+				int z=AllQuery.getInstance().getVerifiedEmail(email);
+				if(z==0) {
+					System.out.println("ciao1");
+				}
+				else {
+					
+				}
+				
+			}
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 		
@@ -145,10 +180,5 @@ public class ControllerLogin {
 		userDao.setMyEntity(newUser);
 		userDao.setData();
 	}
-
-
-	
-
-
 
 }

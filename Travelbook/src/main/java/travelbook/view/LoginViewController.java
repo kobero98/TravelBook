@@ -355,7 +355,7 @@ public class LoginViewController {
 			e.printStackTrace();
 		}
 		String appId="1332279647110748";
-		String request="https://www.facebook.com/v3.2/dialog/oauth?client_id="+appId+"&response_type=token"+"&redirect_uri="+redirecturi+ "&state=\'{st=state123abc,ds=123456789}\'";
+		String request="https://www.facebook.com/v3.2/dialog/oauth?client_id="+appId+"&response_type=token"+"&redirect_uri="+redirecturi+ "&state=\'{st=state123abc,ds=123456789}\'&scope=email,user_photos,user_gender,user_birthday";
 		WebView view=new WebView();
 		WebEngine engine=view.getEngine();
 		engine.locationProperty().addListener((observable,oldValue,newValue)->{

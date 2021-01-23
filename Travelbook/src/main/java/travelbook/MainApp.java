@@ -40,8 +40,7 @@ public class MainApp extends Application {
 		exploreLayout=(AnchorPane) loader2.load();
 		this.rootLayout.setCenter(exploreLayout);
 		this.rootStage.show();
-		controller=loader2.getController();
-		System.out.println("1");
+		controller=loader2.getController();	
 	}catch (IOException e){
 		e.printStackTrace();
 	}
