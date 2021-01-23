@@ -1,6 +1,7 @@
 package main.java.travelbook.view;
 import main.java.travelbook.controller.PredictionController;
 import javafx.application.Platform;
+import javafx.geometry.Side;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -22,7 +23,7 @@ public class SearchPlaceTextField extends AutocompleteTextField<PlaceAdapter> {
 		//At least 3 character are needed... 
 		//Per evitare troppe richieste a mapbox.
 		super.setCharacterLowerBound(3);
-		
+		setPos(Side.BOTTOM);
 	}
 	@Override
 	protected List<PlaceAdapter> getPredictions(String text){

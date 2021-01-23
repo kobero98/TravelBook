@@ -24,6 +24,7 @@ import java.util.ArrayList;
  */
 public abstract class AutocompleteTextField<S>{
 		//The text field that we modify with an autocomplete feature
+		private Side pos;
 		private final TextField textField;
 		private  boolean blocked;
 		private final ObjectProperty<S> lastSelectedItem=new SimpleObjectProperty<>();
@@ -104,7 +105,7 @@ public abstract class AutocompleteTextField<S>{
 					if(!popupHidden) {
 						populate(searchResult,text1);
 						if(!entriesPopup.isShowing()) {
-							entriesPopup.show(this.textField,Side.BOTTOM,0,0);
+							entriesPopup.show(this.textField,pos,0,0);
 							
 						}
 					}
@@ -195,5 +196,8 @@ public abstract class AutocompleteTextField<S>{
 		}
 		public void setBlocked(boolean val) {
 			this.blocked=val;
+		}
+		protected void setPos(Side pos) {
+			this.pos=pos;
 		}
 }
