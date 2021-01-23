@@ -15,6 +15,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -329,7 +330,9 @@ public class ViewTravelController {
 		photoBox.setPrefWidth(0);
 		stepName.setText(s.getPlace());
 		if(s.getListPhoto()!=null) {
-			ObservableList<Image> photo = (ObservableList<Image>)s.getListPhoto();
+			ObservableList<Image> photo= FXCollections.observableArrayList();
+			photo.addAll(s.getListPhoto());
+			System.out.println(photo.size());
 			for(int i = 0; i < photo.size(); i++) {
 				ImageView displayPhoto = new ImageView(photo.get(i));
 				displayPhoto.setFitHeight(stepPhoto.getPrefHeight()*3/4);

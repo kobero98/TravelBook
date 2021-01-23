@@ -1,6 +1,7 @@
 package main.java.travelbook.model.bean;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,20 +46,21 @@ public class StepBean {
 		this.numberInDay = s.getNumberOfDay();
 		this.descriptionStep = s.getDescriptionStep();
 		this.place = s.getPlace();
-		if (s.getListPhoto() != null) {
-			this.photo = photoConvert(s.getListPhoto());
+		if (s.getStreamFoto() != null) {
+			this.photo = photoConvert(s.getStreamFoto());
 			this.imageFile = s.getListPhoto();
 		}
 		//full place non è sulla entity, non lo posso settare per ora
 		this.precisionInformation = s.getPrecisionInformation();
 	}
 	
-	private List<Image> photoConvert(List<File> f){
+	private List<Image> photoConvert(List<InputStream> f){
 		List<Image> i = new ArrayList<>();
 		for(int j=0; j<f.size(); j++) {
-			Image e = new Image(f.get(j).toURI().getPath());
+			Image e = new Image(f.get(j));
 			i.add(e);
 		}
+		System.out.println(i.size());
 		return i;
 	}
 	

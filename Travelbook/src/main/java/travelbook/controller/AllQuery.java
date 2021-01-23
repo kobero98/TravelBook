@@ -125,9 +125,10 @@ public class AllQuery {
 			return rs;
 		}
 	}
-	public ResultSet requestPhotoByStep(Statement stmt,int idStep) throws SQLException {
+	public ResultSet requestPhotoByStep(Statement stmt,int idStep,int idTravel) throws SQLException {
 		ResultSet rs=null;
-		String query="SELECT LinkPhoto from PhotoStep where Step_Number="+idStep;
+		String query="SELECT LinkPhoto from photostep where Step_Number="+idStep+" and CodiceViaggio="+idTravel;
+		
 		rs=stmt.executeQuery(query);
 		return rs;
 	}

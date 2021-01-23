@@ -42,6 +42,7 @@ public class StepDao implements PersistanceDAO {
 			ResultSet rs=AllQuery.getInstance().requestStepByTrip(stmt, entity.getIDTravel());
 			while(rs.next()) {
 				StepEntity newStep=new StepEntity();
+				newStep.setNumber(rs.getInt("Number"));
 				newStep.setTripId(rs.getInt("CodiceTrip"));
 				newStep.setPlace(rs.getString("Place"));
 				newStep.setGroupDay(rs.getInt("GroupDay"));
@@ -54,8 +55,9 @@ public class StepDao implements PersistanceDAO {
 			for(Entity entit: stepFound) {
 				StepEntity localStep=(StepEntity)entit;
 				Statement stmt1=connection.createStatement();
-				ResultSet rs1=AllQuery.getInstance().requestPhotoByStep(stmt1, localStep.getNumber());
+				ResultSet rs1=AllQuery.getInstance().requestPhotoByStep(stmt1, localStep.getNumber(), localStep.getIDTravel());
 				List<InputStream> images=new ArrayList<>();
+				System.out.println(rs1.getFetchSize());
 				while(rs1.next()) {
 					images.add(rs1.getBinaryStream(1));
 				}

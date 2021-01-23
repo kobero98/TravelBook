@@ -900,9 +900,10 @@ public class AddViewController implements Observer{
 	    			StepBean step=steps.get(stepN);
 	    			if(step.getPlace()!=null &&!step.getPlace().isEmpty()) {
 	    				step.setListPhoto(new ArrayList<>());
-	    				for(int i=0;i<dayImagePane.get(day).get(stepN).getFiles().size();i++)
+	    				for(int i=0;i<dayImagePane.get(day).get(stepN).getFiles().size();i++) {
+	    					System.out.println("Ho: "+dayImagePane.get(day).get(stepN).getFiles().size());
 	    					step.getImageFile().addAll(dayImagePane.get(day).get(stepN).getFiles().get(i));
-	    				
+	    				}
 	    				travel.getListStep().add(step);
 	    			}
 	    			else {
