@@ -3,6 +3,8 @@ package main.java.travelbook.controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import exception.DBException;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
@@ -14,7 +16,7 @@ import main.java.travelbook.model.dao.VisualDAO;
 
 public class ProfileController{
 	
-	public List<MiniTravelBean> getTravel(List<Integer> l) throws SQLException{
+	public List<MiniTravelBean> getTravel(List<Integer> l) throws DBException{
 		List<MiniTravelBean> ol = null;
 		VisualDAO miniTravelDao = DaoFactory.getInstance().createVisual(DaoType.S_TRAVEL);
 		if (l != null) {
@@ -38,7 +40,7 @@ public class ProfileController{
 	}
 	
 	
-	public List<String> getFollow(List<Integer> l) throws SQLException{
+	public List<String> getFollow(List<Integer> l) throws DBException{
 		List<String> f = null;
 		VisualDAO shortUserDao = DaoFactory.getInstance().createVisual(DaoType.S_USER);
 		if(l != null) {
@@ -57,7 +59,7 @@ public class ProfileController{
 		}
 		return f;
 	}
-	public List<String> getFav(List<Integer> l) throws SQLException{
+	public List<String> getFav(List<Integer> l) throws DBException{
 		List<String> f = null;
 		VisualDAO miniTravelDao = DaoFactory.getInstance().createVisual(DaoType.S_TRAVEL);
 		TravelEntity travelE = new TravelEntity();

@@ -345,7 +345,6 @@ public class LoginViewController {
 	@FXML
 	private void goToFacebook() {
 		if(error.isVisible()) error.setVisible(false);
-		
 		String redirect="https://www.facebook.com/connect/login_success.html";
 		String  redirecturi="";
 		try {
@@ -355,23 +354,24 @@ public class LoginViewController {
 			e.printStackTrace();
 		}
 		String appId="1332279647110748";
-		String request="https://www.facebook.com/v3.2/dialog/oauth?client_id="+appId+"&response_type=token"+"&redirect_uri="+redirecturi+ "&state=\'{st=state123abc,ds=123456789}\'&scope=email,user_photos,user_gender,user_birthday";
+		String request="https://www.facebook.com/v9.0/dialog/oauth?client_id="+appId+"&response_type=token"+"&redirect_uri="+redirecturi+ "&state=\'{st=state123abc,ds=123456789}\'&auth_type=rerequest&scope=email,user_photos,user_gender,user_birthday";
 		WebView view=new WebView();
 		WebEngine engine=view.getEngine();
-		engine.locationProperty().addListener((observable,oldValue,newValue)->{
-			String url=engine.getLocation();
-			try {
-				if (url.startsWith(redirect)) {
-					String accessToken=url.substring(redirect.length());
-					this.mainAnchor.getChildren().remove(view);
-					UserBean u=ControllerLogin.getInstance().facebookLogin(accessToken);
-				    MenuBar.getInstance().setUser(u);
-			        MenuBar.getInstance().moveToExplore(this.mainPane);
-				}
-				}catch(Exception e) {
-
-				}
-		});
+					engine.locationProperty().addListener((observable,oldValue,newValue)->{
+						String url=engine.getLocation();
+						try {
+							if (url.startsWith(redirect)) {
+								String accessToken=url.substring(redirect.length());
+								this.mainAnchor.getChildren().remove(view);
+								UserBean u=ControllerLogin.getInstance().facebookLogin(accessToken);
+								MenuBar.getInstance().setUser(u);
+						      	MenuBar.getInstance().moveToExplore(this.mainPane);
+							}
+							}catch(Exception e) {
+								error.setVisible(true);
+								error.setText(e.getMessage());
+							}
+					});
 		engine.load(request);
 		this.mainAnchor.getChildren().add(view);
 	}
@@ -444,27 +444,18 @@ public class LoginViewController {
             
 		}
 		else {
-			//ora stampa messagggio di errore
-			// da aggiungere in base al messaggio della eccezione
 			registerError.setText("Errore nella registrazione");
 		}
 	}
 	
-	private void saveRegistration() {
-		//Chiama il controller e passa i dati
+	private void saveRegistration(){
 		try {
 			ControllerLogin.getInstance().signUp(this.userToBeRegister);
-			//Subito dopo esegue il login
-			
 			emailField.setText(userToBeRegister.getUsername());
 			pswdField.setText(userToBeRegister.getPassword());
 			loginButtonHandler();
 			
-			}catch(LoginPageException e1) {
-				error.setVisible(true);
-				error.setText(e1.getMessage());
-			}
-			catch(Exception e) {
+			}catch(Exception e) {
 				Alert alert=new Alert(AlertType.ERROR);
 				alert.setHeaderText("Several System Error");
 				alert.setContentText("Something went wrong try again");
@@ -488,23 +479,22 @@ public class LoginViewController {
 			saveRegistration();
 		}
 		else {
-		Alert alert=new Alert(AlertType.ERROR);
-		alert.setHeaderText("Registration Error");
-		alert.setContentText("Wrong code, your registration has failed");
-		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
-		alert.getDialogPane().getStylesheets().add(ALERTCSS);
-		Image alertImg = new Image(ERROR_IMG);
-		ImageView imageView = new ImageView(alertImg);
-		alert.setGraphic(imageView);
-		alert.showAndWait();
-		this.codeConfirmPane.setVisible(false);
-		this.closeRegisterHandler();
+			Alert alert=new Alert(AlertType.ERROR);
+			alert.setHeaderText("Registration Error");
+			alert.setContentText("Wrong code, your registration has failed");
+			alert.getDialogPane().getStylesheets().add(PROJECTCSS);
+			alert.getDialogPane().getStylesheets().add(ALERTCSS);
+			Image alertImg = new Image(ERROR_IMG);
+			ImageView imageView = new ImageView(alertImg);
+			alert.setGraphic(imageView);
+			alert.showAndWait();
+			this.codeConfirmPane.setVisible(false);
+			this.closeRegisterHandler();
 		}
 	}
 	@FXML
 	private void closeConfirmPaneHandler() {
-		//Da cambiare e farlo uguale al save exit warning dell'add 
-		Alert saveAlert=new Alert(AlertType.CONFIRMATION);
+		 Alert saveAlert=new Alert(AlertType.CONFIRMATION);
 		 saveAlert.setTitle("Incomplete registration");
 		 saveAlert.setHeaderText("You haven't confirmed your registration");
 		 saveAlert.setContentText("You'll lose given information upon exit" );

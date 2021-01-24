@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.DBException;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.SearchEntity;
@@ -26,19 +27,25 @@ public class SearchTravelDao implements VisualDAO {
 		
 	}
 	@Override
-	public List<Entity> getData(Entity object) throws SQLException {
+	public List<Entity> getData(Entity object) throws DBException {
 		SearchEntity travel=(SearchEntity) object;
-		Connection connessione=AllQuery.getInstance().getConnection();
-		Statement stmt=connessione.createStatement();
-		System.out.println("prima di entrare nella Search");
-		ResultSet rs=AllQuery.getInstance().searchTrip(stmt,travel);
+		Connection connessione;
 		List<Entity> l=new ArrayList<>();
-		while(rs.next())
-		{
-			TravelEntity e=convertMiniTravel(rs);
-			l.add(e);
+		try {
+				connessione = AllQuery.getInstance().getConnection();
+					
+				Statement stmt=connessione.createStatement();
+				ResultSet rs=AllQuery.getInstance().searchTrip(stmt,travel);
+				
+				while(rs.next())
+				{
+					TravelEntity e=convertMiniTravel(rs);
+					l.add(e);
+				}
+				return l;
+		} catch (SQLException e1) {
+			e1.printStackTrace();
 		}
-		System.out.println("Uscito dalla Search");
 		return l;
 	}
 }

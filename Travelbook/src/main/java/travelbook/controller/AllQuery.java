@@ -59,9 +59,10 @@ public class AllQuery {
 		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip join trip_has_city on idTrip=CodiceViaggi and CreatorTrip=CodiceCreatore where City_NameC like'"+entity.getCity().getNameC() +"' and City_State like '"+entity.getCity().getState() +"' and Condiviso=0 and costo>="+entity.getMinCost()+" and costo<="+entity.getMaxCost()+" and tipo like '%"+entity.getType()+"%' and DATEDIFF(EndDate,StartDate)>="+(entity.getMinDay()-1)+" and DATEDIFF(EndDate,StartDate)<="+(entity.getMaxDay());
 		return stmt.executeQuery(query);
 	}
-	public ResultSet requestLogin(Statement stmt,String username,String password) throws SQLException{
+	public ResultSet requestLogin(Statement stmt,String username,String password) throws ExceptionLogin{
 		ResultSet rs=null;
-				rs = stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"'");
+			try {
+			rs = stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"'");
 			if(rs.next()) {
 				rs= stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"' and password='"+password+"'");
 				if(!rs.next()) throw new ExceptionLogin("Errore Password");	 
@@ -75,7 +76,9 @@ public class AllQuery {
 				 else throw new ExceptionLogin("Errore Username o password");	 
 			}
 			return rs;
-		
+			}catch(SQLException e){
+				throw new ExceptionLogin("Errore Inasspettato");
+			}
 	
 	}
 	public ResultSet requestTripById(Statement stmt,int idTrip)
@@ -172,9 +175,9 @@ public class AllQuery {
 			stmt.setInt(2, id);
 			stmt.execute();
 			stmt.close();
-			query="select username,password from user where id="+id;
+			query="select username,password from user where idUser="+id;
 			stmt1=conn.createStatement();
-			ResultSet rs=stmt.executeQuery(query);
+			ResultSet rs=stmt1.executeQuery(query);
 			rs.next();
 			UserEntity user=new UserEntity();
 			user.setUsername(rs.getString(1));
@@ -183,10 +186,11 @@ public class AllQuery {
 		}finally {
 			if(stmt!=null) stmt.close();
 			if(stmt1!=null) stmt1.close();
+			conn.close();
 		}
 		}
 
-	public void requestRegistrationUser(Connection conn,UserEntity user) throws SQLException {
+	public void requestRegistrationUser(Connection conn,UserEntity user) throws LoginPageException,SQLException {
 				  PreparedStatement preparedStmt =null;
 				
 					  String query = " insert into User (Username, password,NameUser, Surname, BirthDate,Email,Gender)" + " values (?, ?, ?, ?, ?, ?, ?)";

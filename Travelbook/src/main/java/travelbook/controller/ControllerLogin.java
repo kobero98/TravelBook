@@ -8,13 +8,20 @@ import java.security.MessageDigest;
 import java.util.List;
 import java.util.Random;
 import javax.mail.MessagingException;
+import javax.security.auth.login.LoginException;
+
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import exception.DBException;
 import exception.LoginPageException;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.UserEntity;
@@ -39,7 +46,7 @@ public class ControllerLogin {
 	private RegistrationBean createRegisterBeanFromFacebook(String accessToken,String id) throws Exception
 	{
 		RegistrationBean user=new RegistrationBean();
-		String url = "https://graph.facebook.com/v2.7/"+id+"?fields=name,first_name,last_name,email,gender,birthday&access_token="+accessToken;
+		String url = "https://graph.facebook.com/v9.0/"+id+"?fields=name,first_name,last_name,email,gender,birthday&access_token="+accessToken;
 		HttpClient client=HttpClientBuilder.create().build();
 		HttpGet request=new HttpGet(url);
 		HttpResponse response = client.execute(request);
@@ -54,17 +61,36 @@ public class ControllerLogin {
         String date=obj.get("birthday").toString();
         String data= date.substring(6)+"-"+date.substring(0,2)+"-"+date.substring(3,5);
         user.setBirtdate(Date.valueOf(data));
-        
         user.setUsername(obj.get("first_name").toString()+obj.get("last_name").toString()+numberGenerator());
 		user.setPassword("p"+numberGenerator()+numberGenerator()+numberGenerator());
         return user;
 	}
-	public UserBean facebookLogin(String string)
+	private void controlloAutorizzazioni(String accessToken,String id) throws LoginPageException, IOException, ParseException
+	{
+		String url = "https://graph.facebook.com/v9.0/"+id+"/permissions?access_token="+accessToken;
+		HttpClient client=HttpClientBuilder.create().build();
+		HttpGet request=new HttpGet(url);
+		HttpResponse response = client.execute(request);
+		String json = EntityUtils.toString(response.getEntity(), "UTF-8");
+		JSONParser parser = new JSONParser();
+        Object resultObject = parser.parse(json);
+        JSONObject o= (JSONObject) resultObject;
+        JSONArray array=(JSONArray) o.get("data");
+        for(Object a:array)
+        {
+        	JSONObject obj=(JSONObject) a;
+        	if(obj.get("status").toString().compareTo("granted")!=0) throw new LoginPageException("Autorizzazioni Negate");
+        	
+        }
+        
+			
+	}
+	public UserBean facebookLogin(String string) throws LoginPageException
 	{
 		try {
 			int i=string.indexOf("&");
 			String accessToken= string.substring(14,i);
-			String url = "https://graph.facebook.com/v2.7/me?&access_token="+accessToken;
+			String url = "https://graph.facebook.com/v9.0/me?&access_token="+accessToken;
 			HttpClient client=HttpClientBuilder.create().build();
 			HttpGet request=new HttpGet(url);
 			HttpResponse response = client.execute(request);
@@ -81,6 +107,7 @@ public class ControllerLogin {
             	id=obj.get("id").toString();
 	            FacebookDao dao=(FacebookDao) DaoFactory.getInstance().create(DaoType.FACEBOOK);
 				UserEntity user=dao.getData(id);
+				controlloAutorizzazioni(accessToken, id);
 				if(user==null)
 				{
 					url = "https://graph.facebook.com/v2.7/"+id+"?fields=email&access_token="+accessToken;
@@ -94,7 +121,7 @@ public class ControllerLogin {
 		            String email= obj.get("email").toString();
 		            int idUtente=AllQuery.getInstance().getVerifiedEmail(email);
 		            if(idUtente!=0) {
-		            	
+		            	user=dao.setData(id,idUtente);
 		            	PersistanceDAO dao1=DaoFactory.getInstance().create(DaoType.USER);
 						List<Entity>l=dao1.getData(user);
 						return new UserBean((UserEntity) l.get(0));
@@ -102,7 +129,7 @@ public class ControllerLogin {
 		            RegistrationBean u=createRegisterBeanFromFacebook(accessToken,id);
 		            signUp(u);
 		            idUtente=AllQuery.getInstance().getVerifiedEmail(email);
-		            user=dao.setData(id,idUtente);
+		            dao.setData(id,idUtente);
 		            EmailSenderController s=new EmailSenderController();
 		            String mex="il suo Username: "+u.getUsername()+"\n la susa Password: "+u.getPassword();
 		            s.sendMessage(email,mex, "nuovo account travelbook");
@@ -114,21 +141,11 @@ public class ControllerLogin {
 					return new UserBean((UserEntity) l.get(0));
 				}
             }
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}catch (Exception e)
-		{
-			e.printStackTrace();
+		}catch (LoginPageException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new LoginPageException("errore pagina di Login");
 		}
-		
-		
 		return null;
 	}
 	private String passwordHash(String pswd)throws Exception{
@@ -193,7 +210,7 @@ public class ControllerLogin {
 		return code;
 	}
 	
-	public void signUp(RegistrationBean user) throws SQLException{
+	public void signUp(RegistrationBean user) throws DBException{
 		PersistanceDAO userDao= DaoFactory.getInstance().create(DaoType.USER);
 		UserEntity newUser= new UserEntity(user);
 		try {

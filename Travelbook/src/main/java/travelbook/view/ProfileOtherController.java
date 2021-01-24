@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.DBException;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -94,7 +95,7 @@ public class ProfileOtherController {
 	public void initialize() {
 		try {
 			this.user = myController.getUser(MenuBar.getInstance().getUserId());
-		} catch (SQLException e1) {
+		} catch (DBException e1) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Connection Lost");
     		alert.setHeaderText(HEADER_MSG);
@@ -116,7 +117,7 @@ public class ProfileOtherController {
 			try {
 				data = FXCollections.observableArrayList(myController.getTravel(user.getTravel()));
 				travels.setItems(data); 
-			} catch (SQLException e) {
+			} catch (DBException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Travels unreacheable");
 	    		alert.setHeaderText(HEADER_MSG);
@@ -250,24 +251,24 @@ public class ProfileOtherController {
 	
 	public void addToFav(MiniTravelBean item, Button fav){
 		try {
-		List<Integer> f= MenuBar.getInstance().getLoggedUser().getFav();
-		UserBean user1= new UserBean(MenuBar.getInstance().getLoggedUser().getId());
-		List<Integer> s=new ArrayList<>();
-		s.add(item.getId());
-		user1.setFav(s);
-		if(fav.getStyleClass().contains(CSS)) {
-		fav.getStyleClass().remove(CSS);
-		TravelController.getInstance().updateFav(user1);
-		f.remove(item.getId());
-		}
-		else {
-			fav.getStyleClass().add(CSS);
-			if(f==null)  f=new ArrayList<>();
-			f.add(item.getId());
-			MenuBar.getInstance().getLoggedUser().setFav(f);
-			myController.updateFav(MenuBar.getInstance().getLoggedUser());
-		}
-		} catch (SQLException exc) {
+			List<Integer> f= MenuBar.getInstance().getLoggedUser().getFav();
+			UserBean user1= new UserBean(MenuBar.getInstance().getLoggedUser().getId());
+			List<Integer> s=new ArrayList<>();
+			s.add(item.getId());
+			user1.setFav(s);
+			if(fav.getStyleClass().contains(CSS)) {
+			fav.getStyleClass().remove(CSS);
+			TravelController.getInstance().updateFav(user1);
+			f.remove(item.getId());
+			}
+			else {
+				fav.getStyleClass().add(CSS);
+				if(f==null)  f=new ArrayList<>();
+				f.add(item.getId());
+				MenuBar.getInstance().getLoggedUser().setFav(f);
+				myController.updateFav(MenuBar.getInstance().getLoggedUser());
+			}
+		} catch (DBException exc) {
 			
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Update failed");
@@ -364,7 +365,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			try {
 				fav = FXCollections.observableList(myController.getFav(user.getFav()));
 				show.setItems(fav);
-			} catch (SQLException e) {
+			} catch (DBException e) {
 				errorMsg.setVisible(true);
 			}
 		}
@@ -380,7 +381,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			try {
 				fav = FXCollections.observableList(myController.getFollow(user.getFollower()));
 				show.setItems(fav);
-			} catch (SQLException e) {
+			} catch (DBException e) {
 				e.printStackTrace();
 				errorMsg.setVisible(true);
 			}
@@ -398,7 +399,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			try {
 				fav = FXCollections.observableList(myController.getFollow(user.getFollowing()));
 				show.setItems(fav);
-			} catch (SQLException e) {
+			} catch (DBException e) {
 				e.printStackTrace();
 				errorMsg.setVisible(true);
 			}
@@ -423,7 +424,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		}
 		try {
 			myController.updateFollow(me);
-		} catch (SQLException e) {
+		} catch (DBException e) {
 			
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Update failed");

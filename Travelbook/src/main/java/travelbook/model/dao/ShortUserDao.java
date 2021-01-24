@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.DBException;
 import exception.LoginPageException;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
@@ -27,7 +28,7 @@ public class ShortUserDao implements VisualDAO {
 	}
 
 	@Override
-	public List<Entity> getData(Entity user1) throws SQLException {
+	public List<Entity> getData(Entity user1) throws DBException {
 		ResultSet rs=null;
 		Statement stmt=null;
 		Connection connection=null;
@@ -51,6 +52,9 @@ public class ShortUserDao implements VisualDAO {
 					}while(rs.next());
 			}
 			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}finally {
 			if(stmt!=null)
 			{

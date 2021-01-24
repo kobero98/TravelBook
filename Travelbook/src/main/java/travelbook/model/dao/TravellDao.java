@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.DBException;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.CityEntity;
 import main.java.travelbook.model.Entity;
@@ -43,58 +44,66 @@ public class TravellDao implements PersistanceDAO{
 		return newList;
 	}
 	@Override
-	public List<Entity> getData(Entity object) throws SQLException {
+	public List<Entity> getData(Entity object) throws DBException {
 		this.entity=(TravelEntity) object;
 		List <Entity> list=new ArrayList<>();
 		ResultSet rs=null;
 		Statement stmt=null;
-		this.connection=AllQuery.getInstance().getConnection();
-		stmt=this.connection.createStatement();
-		if(this.entity.getCreatorId()!=0) {
-			rs=AllQuery.getInstance().requestTripByUser(stmt, this.entity.getCreatorId());	
-		}
-		else {
-			if(this.entity.getIdTravel()!=0) {
-				
-					rs=AllQuery.getInstance().requestTripById(stmt, this.entity.getIdTravel());
-			}
-		}
-		if(rs!=null)
-		{
-			while(rs.next()) {
-				TravelEntity ent = convertRStoTravel(rs);
-				
-				
-				PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.STEP);
-				StepEntity step=new StepEntity();
-				step.setTripId(ent.getIdTravel());
-				List<Entity> s=dao.getData(step);
-				ent.setListStep(s);
-				
-				ResultSet rs1=null;
-				Connection con2=AllQuery.getInstance().getConnection();
-				Statement stmt1=con2.createStatement();
-				rs1=AllQuery.getInstance().requestCityByTravelId(stmt1, ent.getIdTravel());
-				List <CityEntity> l=new ArrayList<>();
-				while(rs1.next())
-				{
-					CityEntity c=new CityEntity();
-					c.setNameC(rs1.getString(1));
-					c.setState(rs1.getString(2));
-					l.add(c);
+		try {
+				this.connection=AllQuery.getInstance().getConnection();
+				stmt=this.connection.createStatement();
+				if(this.entity.getCreatorId()!=0) {
+					rs=AllQuery.getInstance().requestTripByUser(stmt, this.entity.getCreatorId());	
 				}
-				ent.setCityView(l);
-				list.add((Entity) ent);
-			}
+				else {
+					if(this.entity.getIdTravel()!=0) {
+						
+							rs=AllQuery.getInstance().requestTripById(stmt, this.entity.getIdTravel());
+					}
+				}
+				if(rs!=null)
+				{
+					while(rs.next()) {
+						TravelEntity ent = convertRStoTravel(rs);
+						
+						
+						PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.STEP);
+						StepEntity step=new StepEntity();
+						step.setTripId(ent.getIdTravel());
+						List<Entity> s=dao.getData(step);
+						ent.setListStep(s);
+						
+						ResultSet rs1=null;
+						Connection con2=AllQuery.getInstance().getConnection();
+						Statement stmt1=con2.createStatement();
+						rs1=AllQuery.getInstance().requestCityByTravelId(stmt1, ent.getIdTravel());
+						List <CityEntity> l=new ArrayList<>();
+						while(rs1.next())
+						{
+							CityEntity c=new CityEntity();
+							c.setNameC(rs1.getString(1));
+							c.setState(rs1.getString(2));
+							l.add(c);
+						}
+						ent.setCityView(l);
+						list.add((Entity) ent);
+					}
+				}
+				else list=null;
+				stmt.close();
+				return list;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		else list=null;
-		stmt.close();
 		return list;
 	}
 	private Connection connection;
 	@Override
-	public void setData() throws SQLException {
-		this.connection=AllQuery.getInstance().getConnection();
+	public void setData() throws DBException {
+		try {
+			this.connection=AllQuery.getInstance().getConnection();
+		
 		int idTravel=AllQuery.getInstance().requestRegistrationTrip(this.connection,entity);
 		int i;
 		for(i=0;i<entity.getListStep().size();i++)
@@ -117,6 +126,10 @@ public class TravellDao implements PersistanceDAO{
 			}
 			AllQuery.getInstance().setCityToTravel(connection, idTravel, this.entity.getCreatorId(), citta);
 		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		AllQuery.getInstance().updateTravelNumberForUser(connection, this.entity.getCreatorId());
 	}
 	@Override
@@ -125,9 +138,14 @@ public class TravellDao implements PersistanceDAO{
 	}
 
 	@Override
-	public void delete(Entity object) throws SQLException {
+	public void delete(Entity object) throws DBException {
 		TravelEntity trav=(TravelEntity) object;
-		Connection connect=AllQuery.getInstance().getConnection();
+		Connection connect;
+		try {
+			connect = AllQuery.getInstance().getConnection();
+		} catch (SQLException e) {
+			throw new DBException("Errore nella delete");
+		}
 		AllQuery.getInstance().deleteTravel(connect, trav.getIdTravel());
 	}
 
@@ -138,7 +156,7 @@ public class TravellDao implements PersistanceDAO{
 	}
 
 	@Override
-	public void setMyEntity(Entity travel) throws SQLException {
+	public void setMyEntity(Entity travel) throws DBException {
 		this.entity=(TravelEntity) travel;
 		
 	}

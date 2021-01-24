@@ -3,7 +3,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
+import exception.DBException;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -113,7 +113,7 @@ public class ProfileViewController implements Observer{
 					data = FXCollections.observableList(myController.getTravel(user.getTravel()));
 					travels.setItems(data); 
 				}
-			} catch (SQLException e) {
+			} catch (DBException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Travels unreacheable");
 	    		alert.setHeaderText(HEADER_MSG);
@@ -385,7 +385,7 @@ public class ProfileViewController implements Observer{
 			try {
 				myController.updatePhoto(user.getId(),selectedFile);
 				
-			} catch (SQLException e) {
+			} catch (DBException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Update failed");
 	    		alert.setHeaderText(HEADER_MSG);
@@ -414,7 +414,7 @@ public class ProfileViewController implements Observer{
 			descrWrite.setVisible(false);
 			try {
 				myController.updateDescr(user.getId(),newDescr);
-			} catch (SQLException e) {
+			} catch (DBException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Update failed");
 	    		alert.setHeaderText(HEADER_MSG);
@@ -458,7 +458,7 @@ public class ProfileViewController implements Observer{
 				List<String> l =myController.getFav(user.getFav());
 				fav = FXCollections.observableList(l);
 				show.setItems(fav);
-			} catch (SQLException e) {
+			} catch (DBException e) {
 				errorMsg.setVisible(true);
 			}
 		}
@@ -476,7 +476,7 @@ public class ProfileViewController implements Observer{
 				fav = FXCollections.observableList(myController.getFollow(user.getFollower()));
 				
 				show.setItems(fav);
-			} catch (SQLException e) {
+			} catch (DBException e) {
 				errorMsg.setVisible(true);
 			}
 			
@@ -495,7 +495,7 @@ public class ProfileViewController implements Observer{
 				fav = FXCollections.observableList(myController.getFollow(user.getFollowing()));
 			
 			show.setItems(fav);
-			} catch (SQLException e) {
+			} catch (DBException e) {
 				errorMsg.setVisible(true);
 			}
 			

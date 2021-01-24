@@ -1,8 +1,7 @@
 package exception;
 
-import java.sql.SQLException;
 
-public class LoginPageException extends SQLException{
+public class LoginPageException extends DBException{
 
 	private static final long serialVersionUID = 1L;
 

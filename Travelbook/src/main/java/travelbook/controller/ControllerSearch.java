@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.DBException;
 import main.java.travelbook.model.CityEntity;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.SearchEntity;
@@ -93,7 +94,7 @@ public class ControllerSearch {
 				list.add( new MiniTravelBean( (TravelEntity)  l.get(i) ));
 			}
 			return list;
-		} catch (SQLException e) {
+		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

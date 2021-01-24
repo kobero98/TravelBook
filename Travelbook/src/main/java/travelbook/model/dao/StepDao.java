@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.sql.Connection;
 import java.util.List;
 
+import exception.DBException;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import java.util.ArrayList;
@@ -24,9 +25,14 @@ public class StepDao implements PersistanceDAO {
 		//TODO
 	}
 	@Override
-	public void setData() throws SQLException{
-		this.connection=AllQuery.getInstance().getConnection();
-		AllQuery.getInstance().requestRegistrationStep(connection,myEntity);
+	public void setData() throws DBException{
+		try {
+			this.connection=AllQuery.getInstance().getConnection();
+			AllQuery.getInstance().requestRegistrationStep(connection,myEntity);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public List<Entity> getData(Entity step){

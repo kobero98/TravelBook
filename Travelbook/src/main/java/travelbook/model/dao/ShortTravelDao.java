@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.DBException;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.TravelEntity;
@@ -26,19 +27,26 @@ public class ShortTravelDao implements VisualDAO{
 	
 
 	@Override
-	public List<Entity> getData(Entity object) throws SQLException {
+	public List<Entity> getData(Entity object) throws DBException {
 		TravelEntity entity=(TravelEntity) object;
 		List<Entity> l=new ArrayList<>();
-		Connection connection = AllQuery.getInstance().getConnection();
-		Statement stmt=connection.createStatement();
-		ResultSet rs=AllQuery.getInstance().requestShortTravel(stmt, entity.getIdTravel());
-		while(rs.next())
-		{
-			TravelEntity e=convertRsToShortTravelEntity(rs);
-			e.setIdTravel(entity.getIdTravel());
-			l.add(e);	
+		Connection connection;
+		try {
+			connection = AllQuery.getInstance().getConnection();
+			
+			Statement stmt=connection.createStatement();
+			ResultSet rs=AllQuery.getInstance().requestShortTravel(stmt, entity.getIdTravel());
+			while(rs.next())
+			{
+				TravelEntity e=convertRsToShortTravelEntity(rs);
+				e.setIdTravel(entity.getIdTravel());
+				l.add(e);	
+			}
+			connection.close();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-		connection.close();
 		return l;
 	}
 

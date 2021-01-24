@@ -1,5 +1,8 @@
 package main.java.travelbook.controller;
 import java.util.List;
+
+import exception.DBException;
+
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -57,7 +60,7 @@ public class ChatController {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);
 		try {
 			dao.update(mex);
-		} catch (SQLException e) {
+		}  catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import exception.DBException;
 import exception.ExceptionRegistration;
 import exception.LoginPageException;
 import main.java.travelbook.controller.AllQuery;
@@ -102,7 +104,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 	}
 
 	@Override
-	public void setData() throws SQLException{
+	public void setData() throws LoginPageException{
 		if(this.entity!=null)
 		{
 			try {
@@ -139,19 +141,21 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		}
 	}
 	@Override
-	public void update(Entity object)throws SQLException {
+	public void update(Entity object)throws DBException {
 		this.entity= (UserEntity) object;
-		this.connection = AllQuery.getInstance().getConnection();
-		if(this.entity.getDescription()!=null)
-			AllQuery.getInstance().updateDescriptionUser(connection, this.entity.getId(), this.entity.getDescription());
-		if(this.entity.getPhoto()!=null)
-			AllQuery.getInstance().updatePhotoProfile(connection, this.entity.getId(), this.entity.getPhoto());
-		if(this.entity.getFavoriteList()!=null)
-			AllQuery.getInstance().updateListFavoritTravel(connection,this.entity.getId(),this.entity.getFavoriteList().get(this.entity.getFavoriteList().size()-1));
-		if(this.entity.getListFollowing()!=null) {
-			AllQuery.getInstance().updateListFollower(connection, this.entity.getId(), this.entity.getListFollowing().get(this.entity.getListFollowing().size()-1));
+		try {
+				this.connection = AllQuery.getInstance().getConnection();
+				if(this.entity.getDescription()!=null)
+					AllQuery.getInstance().updateDescriptionUser(connection, this.entity.getId(), this.entity.getDescription());
+				if(this.entity.getPhoto()!=null)
+					AllQuery.getInstance().updatePhotoProfile(connection, this.entity.getId(), this.entity.getPhoto());
+				if(this.entity.getFavoriteList()!=null)
+					AllQuery.getInstance().updateListFavoritTravel(connection,this.entity.getId(),this.entity.getFavoriteList().get(this.entity.getFavoriteList().size()-1));
+				if(this.entity.getListFollowing()!=null) 
+					AllQuery.getInstance().updateListFollower(connection, this.entity.getId(), this.entity.getListFollowing().get(this.entity.getListFollowing().size()-1));
+		} catch (SQLException e) {
+			throw new DBException("errore update");
 		}
-
 	}
 	@Override
 	public List<Entity> getPredictions(String text){

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.DBException;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
@@ -30,7 +31,7 @@ public class TravelController{
 		return instance;
 	}
 	
-	public TravelBean getTravel(int id) throws SQLException {
+	public TravelBean getTravel(int id) throws DBException {
 		PersistanceDAO travelDao = DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity travelE = new TravelEntity();
 		travelE.setIdTravel(id);
@@ -52,7 +53,7 @@ public class TravelController{
 		s.sort(new NumberInDayComparator());
 	}
 	
-	public void updateFav(UserBean u) throws SQLException{
+	public void updateFav(UserBean u) throws DBException{
 		PersistanceDAO userDao = DaoFactory.getInstance().create(DaoType.USER);
 		UserEntity userE = new UserEntity(u.getId());
 		userE.setFavoriteList(u.getFav());

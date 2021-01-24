@@ -7,6 +7,9 @@ import java.sql.Statement;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import java.util.List;
+
+import exception.DBException;
+
 import java.util.ArrayList;
 import main.java.travelbook.model.dao.PersistanceDAO;
 import main.java.travelbook.model.MessageEntity;
@@ -15,11 +18,13 @@ public class MessageDao implements PersistanceDAO {
 	private Connection connection;
 
 	@Override
-	public List<Entity> getData(Entity message)throws SQLException{
+	public List<Entity> getData(Entity message)throws DBException{
 		MessageEntity messaggio=(MessageEntity) message;
 		List<Entity> results=new ArrayList<>();
 		
-		this.connection = AllQuery.getInstance().getConnection();
+		try {
+			this.connection = AllQuery.getInstance().getConnection();
+		
 			Statement stmt=connection.createStatement();
 			ResultSet rs=AllQuery.getInstance().getMessage(stmt, messaggio);
 			while(rs.next()) {
@@ -31,15 +36,23 @@ public class MessageDao implements PersistanceDAO {
 				else newM.setRead(true);
 				results.add((Entity)newM);
 			}
-		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return results;
 	}
 	@Override
-	public void setData() throws SQLException {
-		if(this.myEntity!=null) {
-			this.connection = AllQuery.getInstance().getConnection();
-			AllQuery.getInstance().sendMessage(this.connection, this.myEntity);
-		}
+	public void setData() throws DBException {
+		try {
+				if(this.myEntity!=null) {
+					this.connection = AllQuery.getInstance().getConnection();
+					AllQuery.getInstance().sendMessage(this.connection, this.myEntity);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	@Override
 	public void delete(Entity obj) {

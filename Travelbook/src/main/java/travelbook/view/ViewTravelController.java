@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import exception.DBException;
 import main.java.travelbook.controller.TravelController;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.model.bean.TravelBean;
@@ -108,7 +110,7 @@ public class ViewTravelController {
 	private void initialize() {
 		try {
 			myTravel = TravelController.getInstance().getTravel(MenuBar.getInstance().getTravelId());
-		} catch (SQLException e1) {
+		} catch (DBException e1) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Connection lost");
     		alert.setHeaderText(HEADER_MSG);
@@ -464,7 +466,7 @@ public class ViewTravelController {
 				MenuBar.getInstance().getLoggedUser().setFav(f);
 				TravelController.getInstance().updateFav(MenuBar.getInstance().getLoggedUser());
 			}
-		} catch (SQLException e) {
+		} catch (DBException e) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Update failed");
     		alert.setHeaderText(HEADER_MSG);
