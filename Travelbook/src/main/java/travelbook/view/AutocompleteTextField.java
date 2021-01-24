@@ -48,7 +48,6 @@ public abstract class AutocompleteTextField<S>{
 			entriesPopup=new ContextMenu();
 			this.textField.textProperty().addListener((observableValue, oldValue,  newValue)->{
 				if(this.textField.getText()==null||this.textField.getText().length()==0) {
-					//il testo è stato svuotato
 					filteredEntries.clear();
 					filteredEntries.addAll(this.entries);
 					entriesPopup.hide();
