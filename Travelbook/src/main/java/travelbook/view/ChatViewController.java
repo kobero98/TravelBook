@@ -2,10 +2,12 @@ package main.java.travelbook.view;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import exception.DBException;
 import javafx.scene.input.KeyCode;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -66,7 +68,8 @@ public class ChatViewController {
 	private List<Chat> myChats = MenuBar.getInstance().getMyChat();
 	private ChatController myController = new ChatController();
 	private SearchUserTextField searchFieldAuto;
-
+	 List<UserBean> tryContacts;
+	
 	class MyItem {
 		private StringProperty specialIndicator;
 		private UserBean contact;
@@ -113,11 +116,11 @@ public class ChatViewController {
 	 sentList.setItems(data); 
 	 sentList.scrollTo(data.size());
 	 sentList.setCellFactory(list -> new MessageCell());
-	 List<UserBean> tryContacts;
+	
 	try {
 		tryContacts = myController.getContacts(myChats);
 	
-	 ObservableList<MyItem> contacts = FXCollections.observableArrayList();
+		ObservableList<MyItem> contacts = FXCollections.observableArrayList();
 	 for(UserBean u: tryContacts) {
 		 contacts.add(new MyItem(u));
 	 }
@@ -128,9 +131,13 @@ public class ChatViewController {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	/*contactList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> { 
-              contactList.getItems().get(contactList.getSelectionModel().getSelectedIndex()).setSpecialIndicator("selected");
-        });*/
+	contactList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> { 
+		if(contactList.getSelectionModel().getSelectedIndex()!=-1) {
+            contactList.getItems().get(contactList.getSelectionModel().getSelectedIndex()).setSpecialIndicator("selected");
+			contactList.refresh();
+			
+		}
+    });
 	contactList.setCellFactory(list -> new ContactCell());
 	 
 	 
@@ -167,7 +174,7 @@ public class ChatViewController {
 			super.updateItem(item, empty);
 			if(!empty) {
 				HBox hBox = new HBox();
-				hBox.setSpacing(mainAnchor.getPrefWidth()*50/1280);
+				hBox.setSpacing(mainAnchor.getPrefWidth()*30/1280);
 				hBox.getStyleClass().add("h-box");
 				hBox.setAlignment(Pos.CENTER);
 				if("selected".equalsIgnoreCase(item.getSpecialIndicator())) {
@@ -196,6 +203,9 @@ public class ChatViewController {
 				hBox.getChildren().add(contact);
 				item.setSpecialIndicator("");
 				setGraphic(hBox);
+			}
+			else {
+				setGraphic(null);
 			}
 		}
 	}
@@ -312,14 +322,8 @@ public class ChatViewController {
 		  	MyItem i = new MyItem(searchedUser);
 		  	searchFieldAuto.getTextField().setText(null);
 	    	contactList.getItems().add(i);
-	    	ObservableList<MyItem> l=contactList.getItems();
-	    	contactList.layout();
-	    	contactList.setItems(null);
-	    	contactList.setItems(l);
-	    	System.out.println(contactList.getItems());
-	    	/*contactList.setItems(contactList.getItems());*/
-	    	/*contactList.getSelectionModel().select(i);
-	    	contactList.scrollTo(i);*/
+	    	contactList.getSelectionModel().select(i);
+	    	contactList.scrollTo(i);
 	    	myChats.add(new Chat(i.getUser().getId()));
 	  	}
     	
