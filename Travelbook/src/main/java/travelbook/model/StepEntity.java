@@ -1,6 +1,5 @@
 package main.java.travelbook.model;
 
-import java.sql.Date;
 import java.util.List;
 import java.io.File;
 import java.io.InputStream;

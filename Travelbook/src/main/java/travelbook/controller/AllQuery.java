@@ -1,8 +1,6 @@
 package main.java.travelbook.controller;
 
 import java.sql.Connection;
-import java.io.File;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,8 +8,6 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import exception.ExceptionLogin;
@@ -374,7 +370,7 @@ public class AllQuery {
 					stmt1.setInt(1, idUser);
 					stmt1.setInt(2, idTravel);
 					stmt1.execute();
-					stmt.close();
+					stmt1.close();
 					stmt=connessione.createStatement();
 					ResultSet rs1=stmt.executeQuery("Select Nlike from trip where idTrip="+idTravel);
 					rs1.next();

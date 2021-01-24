@@ -1,6 +1,4 @@
 package main.java.travelbook.model;
-
-import java.util.Date;
 import java.time.Instant;
 public class MessageEntity implements Entity {
 	private int idMessaggio;
