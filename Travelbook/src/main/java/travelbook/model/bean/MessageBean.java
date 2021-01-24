@@ -11,6 +11,7 @@ public class MessageBean {
 	private int type;
 	private String text;
 	private String dataTime;
+	private boolean read;
 	
 	public MessageBean(int iddestinatario,int idmittente) {
 		this.idDestinatario=iddestinatario;
@@ -27,6 +28,7 @@ public class MessageBean {
 		this.idMittente=mex.getIdMittente();
 		this.text=mex.getText();
 		this.dataTime=mex.getTime().toString();
+		this.read = mex.getRead();
 	}
 	public int getIdMessaggio()
 	{
@@ -47,7 +49,12 @@ public class MessageBean {
 	public String getTime() {
 		return this.dataTime;
 	}
-
+	public boolean getRead() {
+		return this.read;
+	}
+	public void setRead(boolean b) {
+		this.read = b;
+	}
 	public void setText(String testo) {
 		this.text=testo;
 	}

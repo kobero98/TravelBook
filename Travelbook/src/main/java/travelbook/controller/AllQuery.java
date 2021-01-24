@@ -559,7 +559,7 @@ public class AllQuery {
 	}
 	public ResultSet shortUserByID(Statement stmt, int id) throws SQLException {
 		ResultSet rs=null;
-		String query = "Select idUser,NameUser,Surname from User where idUser="+id;
+		String query = "Select idUser,NameUser,Surname, ProfileImage from User where idUser="+id;
 		rs=stmt.executeQuery(query);
 		return rs;
 	
@@ -582,7 +582,7 @@ public class AllQuery {
 		ResultSet rs=null;
 		if(nameSurname.length>1)
 			surname=nameSurname[2];
-		String query="SELECT NameUser, Surname,Username from User where NameUser like '"+name+"%' and Surname like '"+surname+"%' order by char_length(NameUser),char_length(Surname)";
+		String query="SELECT idUser, NameUser, Surname,Username,ProfileImage from User where NameUser like '"+name+"%' and Surname like '"+surname+"%' order by char_length(NameUser),char_length(Surname)";
 		try {
 			rs=stmt.executeQuery(query);
 		} catch (SQLException e) {

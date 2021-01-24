@@ -175,6 +175,11 @@ public class UserBean{
 	public void setnPlace(int nPlace) {
 		this.nPlace = nPlace;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getName()+ " " +this.getSurname();
+	}
 
 
 }

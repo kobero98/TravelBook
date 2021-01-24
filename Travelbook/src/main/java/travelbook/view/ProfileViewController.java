@@ -2,6 +2,8 @@ package main.java.travelbook.view;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -453,7 +455,8 @@ public class ProfileViewController implements Observer{
 		if(user.getFav()!=null && !user.getFav().isEmpty()) {
 			ObservableList<String> fav;
 			try {
-				fav = FXCollections.observableList(myController.getFav(user.getFav()));
+				List<String> l =myController.getFav(user.getFav());
+				fav = FXCollections.observableList(l);
 				show.setItems(fav);
 			} catch (SQLException e) {
 				errorMsg.setVisible(true);

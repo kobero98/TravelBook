@@ -168,10 +168,11 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			if(rs!=null) {
 				UserEntity localEntity;
 				while(rs.next()) {
-					localEntity=new UserEntity();
-					localEntity.setUsername(rs.getString(3));
-					localEntity.setName(rs.getString(1));
-					localEntity.setSurname(rs.getString(2));
+					localEntity=new UserEntity(rs.getInt(1));
+					localEntity.setUsername(rs.getString(4));
+					localEntity.setName(rs.getString(2));
+					localEntity.setSurname(rs.getString(3));
+					localEntity.setPhoto(rs.getBinaryStream(5));
 					predictions.add(localEntity);
 				}
 			}

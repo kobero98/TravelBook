@@ -8,6 +8,7 @@ public class MessageEntity implements Entity {
 	private int idMittente;
 	private String type;
 	private String text;
+	private boolean read;
 	private Instant dataTime;
 	private boolean soloNuovi;
 	private Instant lastTimeStamp;
@@ -17,11 +18,17 @@ public class MessageEntity implements Entity {
 	public void setLastTimeStamp(Instant lastTimeStamp) {
 		this.lastTimeStamp = lastTimeStamp;
 	}
+	public void setRead(boolean r) {
+		this.read=r;
+	}
 	public boolean getSoloNuovi() {
 		return this.soloNuovi;
 	}
 	public void setSoloNuovi(boolean val) {
 		this.soloNuovi=val;
+	}
+	public boolean getRead() {
+		return this.read;
 	}
 	public int getIdMessaggio()
 	{

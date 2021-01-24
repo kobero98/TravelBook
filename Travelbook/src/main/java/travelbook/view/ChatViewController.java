@@ -1,6 +1,9 @@
 package main.java.travelbook.view;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+
 import javafx.scene.input.KeyCode;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -28,6 +31,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import main.java.travelbook.controller.ChatController;
+import main.java.travelbook.model.bean.UserBean;
+import main.java.travelbook.util.Chat;
 
 public class ChatViewController {
 	private Object[] array1=new Object[15];
@@ -55,26 +61,25 @@ public class ChatViewController {
 	private Button searchButton;
 	@FXML
 	private TextField searchField;
-	@FXML
-	private ListView<MyItem> results;
+	private UserBean searchedUser;
+	private List<Chat> myChats = MenuBar.getInstance().getMyChat();
+	private ChatController myController = new ChatController();
+	private SearchUserTextField searchFieldAuto;
+
 	class MyItem {
 		private StringProperty specialIndicator;
-		private StringProperty name;
-        MyItem(String name) {
-            this.name = new SimpleStringProperty(name);
+		private UserBean contact;
+        MyItem(UserBean name) {
+            this.contact = name;
             this.specialIndicator = new SimpleStringProperty();
         }
 
-        public String getName() {
-            return name.get();
+        public UserBean getUser() {
+            return this.contact;
         }
 
-        public StringProperty nameProperty() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name.set(name);
+        public void setName(UserBean name) {
+            this.contact = name;
         }
 
         public String getSpecialIndicator() {
@@ -91,7 +96,13 @@ public class ChatViewController {
     }
 	
 	public void initialize() {
-	
+	searchFieldAuto = new SearchUserTextField(searchField);
+	searchFieldAuto.getLastSelectedItem().addListener((observable,oldValue,newValue)->{
+		if(searchFieldAuto.getLastSelectedItem().get()!=null) {
+			System.out.println(searchFieldAuto.getLastSelectedItem().get().getId());
+			searchedUser = searchFieldAuto.getLastSelectedItem().get();
+		}
+	});
 	 ObservableList<String> data = FXCollections.observableArrayList(
 	            "!chocolate", "salmonsalmon salmonsalmon salmonsalmonn salmonsalmon salmonsalmon salmonsalmon salmonsalmonn salmonsalmon", "!salmonsalmon salmonsalmon salmonsalmonn salmonsalmon salmonsalmon salmonsalmon salmonsalmonn salmonsalmon","!gold", "coral", "darkorchid",
 	            "darkgoldenrod", "lightsalmon", "black", "!rosybrown", "blue",
@@ -101,15 +112,24 @@ public class ChatViewController {
 	 sentList.setItems(data); 
 	 sentList.scrollTo(data.size());
 	 sentList.setCellFactory(list -> new MessageCell());
-	 ObservableList<MyItem> contacts = FXCollections.observableArrayList(new MyItem("object0"), new MyItem("object1"),new MyItem("object2"),new MyItem("object3"),new MyItem("object4"));
+	 List<UserBean> tryContacts;
+	try {
+		tryContacts = myController.getContacts(myChats);
+	
+	 ObservableList<MyItem> contacts = FXCollections.observableArrayList();
+	 for(UserBean u: tryContacts) {
+		 contacts.add(new MyItem(u));
+	 }
+	 
     
 	contactList.setItems(contacts);
-	contactList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> { 
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	/*contactList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> { 
               contactList.getItems().get(contactList.getSelectionModel().getSelectedIndex()).setSpecialIndicator("selected");
-              contactList.setItems(null);
-              ObservableList<MyItem> c=contactList.getItems();
-              contactList.setItems(c);
-        });
+        });*/
 	contactList.setCellFactory(list -> new ContactCell());
 	 
 	 
@@ -146,15 +166,16 @@ public class ChatViewController {
 			super.updateItem(item, empty);
 			if(!empty) {
 				HBox hBox = new HBox();
-				hBox.setSpacing(contactList.getPrefWidth()/5);
+				hBox.setSpacing(mainAnchor.getPrefWidth()*50/1280);
 				hBox.getStyleClass().add("h-box");
 				hBox.setAlignment(Pos.CENTER);
 				if("selected".equalsIgnoreCase(item.getSpecialIndicator())) {
 					hBox.getStyleClass().add("h-box-selected");
 				}
-				Text contact = new Text(item.getName());
+				Text contact = new Text(item.getUser().getName()+" "+item.getUser().getSurname());
 				contact.getStyleClass().add("text");
-				Image photo = new Image("main/resources/ProfilePageImages/cupola1.jpg");
+				contact.setWrappingWidth(mainAnchor.getPrefWidth()*150/1280);
+				Image photo = item.getUser().getPhoto();
 				Pane contactPic = new Pane();
 				BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 				Background bg = new Background(bgpic);
@@ -162,7 +183,8 @@ public class ChatViewController {
 				contactPic.setPrefWidth(mainAnchor.getPrefWidth()*70/1280);
 				mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
 					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*70/1280);
-					hBox.setSpacing(contactList.getPrefWidth()/5);
+					hBox.setSpacing(mainAnchor.getPrefWidth()*50/1280);
+					contact.setWrappingWidth(mainAnchor.getPrefWidth()*170/1280);
 				});
 				mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->
 					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*70/625)
@@ -283,13 +305,22 @@ public class ChatViewController {
     	write.clear();
     	sentList.scrollTo(sentList.getItems().size());
     }
-    @FXML
+  @FXML
     private void searchHandler() {
-    	MyItem t = new MyItem(searchField.getText());
-    	contactList.getItems().add(t);
-    	contactList.setItems(contactList.getItems());
-    	contactList.getSelectionModel().select(t);
-    	contactList.scrollTo(t);
+	  	if(searchFieldAuto.getTextField().getText()!= null) {
+		  	MyItem i = new MyItem(searchedUser);
+		  	searchFieldAuto.getTextField().setText(null);
+	    	contactList.getItems().add(i);
+	    	ObservableList<MyItem> l=contactList.getItems();
+	    	contactList.layout();
+	    	contactList.setItems(null);
+	    	contactList.setItems(l);
+	    	System.out.println(contactList.getItems());
+	    	/*contactList.setItems(contactList.getItems());*/
+	    	/*contactList.getSelectionModel().select(i);
+	    	contactList.scrollTo(i);*/
+	    	myChats.add(new Chat(i.getUser().getId()));
+	  	}
     	
     }
 
