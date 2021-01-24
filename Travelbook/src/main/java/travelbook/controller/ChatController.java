@@ -27,7 +27,7 @@ public class ChatController {
 		PersistanceDAO msgDao = DaoFactory.getInstance().create(DaoType.MESSAGE);
 		MessageEntity msgE = new MessageEntity();
 	}*/
-	public List<UserBean> getContacts(List<Chat> c) throws SQLException{
+	public List<UserBean> getContacts(List<Chat> c) throws DBException{
 		VisualDAO cDao = DaoFactory.getInstance().createVisual(DaoType.S_USER);
 		List<UserBean> ul = new ArrayList<>();
 		for(Chat i: c) {

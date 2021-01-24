@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import exception.DBException;
 import javafx.scene.input.KeyCode;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -123,7 +124,7 @@ public class ChatViewController {
 	 
     
 	contactList.setItems(contacts);
-	} catch (SQLException e) {
+	} catch (DBException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
