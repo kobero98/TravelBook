@@ -204,13 +204,13 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="stopDescription" layoutX="200.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="122.0" prefWidth="348.0" />
+                        <TextArea fx:id="stopDescription" layoutX="200.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="122.0" prefWidth="348.0" wrapText="true" />
                         <Label fx:id="givePractical" layoutX="33.0" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="444.0" text="Do you want to give some practical information?">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="practicalInformation" layoutX="34.0" layoutY="350.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0" prefWidth="435.0" />
+                        <TextArea fx:id="practicalInformation" layoutX="34.0" layoutY="350.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0" prefWidth="435.0" wrapText="true" />
                         <Label fx:id="stepImageLabel" layoutX="36.0" layoutY="470.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="197.6" text="Upload some photos:">
                            <font>
                               <Font size="20.0" />
