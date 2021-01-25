@@ -1,0 +1,123 @@
+.login-pane{
+	-fx-background-color: Dcolor;
+	-fx-background-radius: 0 50;
+	-fx-effect: dropshadow(three-pass-box, shadow, 10, 0, -4, 10);
+	-fx-border-color: linear-gradient(from 0% 60% to 0% 100%, Mcolor 0%, #3B3B3B 100%);
+	-fx-border-radius: 0.0 50;
+}
+/*text */
+.text-field{
+	-fx-background-color: #FDFDFD;
+	-fx-border-color: #C3C3C3;
+	-fx-border-radius: 30;
+	-fx-background-radius: 30;
+	-fx-effect: innershadow(three-pass-box, shadow, 4, 0, 0,-4);
+	-fx-font-size: 1.75em;
+	-fx-text-fill: textColorL;
+}
+.hyperlink{
+	-fx-border-color: transparent;
+}
+.hyperlink:hover{
+	-fx-text-fill: white;
+	-fx-underline: false;
+}
+.hyperlink:visited{
+	-fx-text-fill: white;
+	
+}
+ .password{
+	-fx-text-fill: textColorL;
+}
+.password:hover{
+	-fx-text-fill: textColorL;
+}
+.password:visited{
+	-fx-text-fill: textColorL;
+	-fx-underline: false;
+}
+.label{
+	-fx-text-fill: textColorD;
+	-fx-font-size: 1.50em;
+}
+/*button */
+.button{
+	-fx-background-color: Mcolor;
+	-fx-text-fill: textColorL;
+	-fx-effect: innershadow(three-pass-box, shadow, 4,0,0,-4);
+	-fx-background-radius: 25;
+	-fx-font-size: 1.25em; 
+	-fx-border-radius:25;
+}
+.button:hover,
+.button:pressed{ 
+	-fx-background-color: radial-gradient(center 50% 50%, radius 100%, Mcolor, Lcolor);
+	-fx-border-color: lightGrey;
+}
+
+
+/*.date-picker */
+.date-picker{
+	
+	-fx-background-color: #FDFDFD;
+	-fx-background-radius: 30;
+}
+
+.date-picker > .text-field{
+	-fx-font-size: 1.50em;
+	-fx-border-color: #fdfdfd;
+	-fx-effect: innershadow(three-pass-box, transparent, 4, 0, 0,-4);
+}
+.date-picker > .arrow-button{
+	-fx-background-color: transparent;
+	-fx-border-color: Mcolor;
+	-fx-border-width: 0 0 0 2;
+	-fx-background-radius: 0 30 30 0;
+}
+
+ .date-picker .cell {
+-fx-background-color: Lcolor;
+-fx-background-radius: 25;
+-fx-border-color: Mcolor;
+-fx-text-fill: textColorD;
+-fx-border-radius:20;
+-fx-border-insets: 1;
+}
+.date-picker .cell:hover {
+-fx-background-color: lightGrey;
+}
+
+.date-picker .cell:focused {
+-fx-background-color:Dcolor;
+ }
+
+.date-picker-popup {
+     -fx-background-color: Dcolor;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 20;
+    -fx-alignment: CENTER; /* VBox */
+    -fx-spacing: 0; /* VBox */
+    -fx-padding: 0.083333em; /* 1 1 1 1 */
+    -fx-effect: dropshadow( gaussian , shadow , 4, 0.0 , -4 , -4 );
+}
+ .date-picker-popup .month-year-pane{
+ 	-fx-background-color: Dcolor;
+ 	-fx-background-radius: 20;
+ 	-fx-text-fill: #626262;
+ 	-fx-padding: 5;
+ }
+ .date-picker-popup > * > .spinner > .button {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 1, 2;
+    -fx-color: transparent;
+    -fx-background-radius: 0;
+}
+.date-picker-popup > .calendar-grid {
+    -fx-background-color: Lcolor;
+    -fx-padding: 5;
+    -fx-background-radius: 0 0 20 20;
+}
+.date-picker-popup > * > .week-number-cell {
+	-fx-text-fill: textColorD;
+	-fx-padding: 0;
+}

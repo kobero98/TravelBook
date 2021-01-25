@@ -1,0 +1,174 @@
+.back-button{
+	-fx-background-color: textColorD;
+	-fx-shape: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z";
+}
+.back-button:hover{
+	-fx-background-color: #FFC2A6;
+	-fx-effect: innershadow(three-pass-box, shadow, 0, 0, 0, 0);
+}
+.back-button:pressed{
+	-fx-background-color: Dcolor;
+	-fx-text-fill: #FDFDFD;
+	-fx-effect:innershadow(three-pass-box, shadow, 4, 0, 0, 4);
+}
+.button-bar{
+	-fx-background-radius: 0 0 30 0;
+}
+.button-bar .button{
+	-fx-background-color: textColorD;
+} 
+.share{
+	-fx-shape: "M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z";
+}
+.favourite{
+	-fx-shape: "M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z";
+}
+.button-bar .fav-selected{
+	-fx-background-color: Dcolor;
+	-fx-shape: "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+}
+.message{
+	-fx-shape: "M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4 6V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10c.55 0 1-.45 1-1z";
+}
+.view-profile{
+	-fx-shape: "M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z";
+}
+.pane{
+	-fx-background-color: Dcolor;
+	-fx-background-radius: 0 0 25 25;
+}
+.title-pane{
+	-fx-background-color: Dcolor;
+	-fx-background-radius: 0 80 0 0;
+	-fx-effect: dropshadow(three-pass-box, shadow, 4, 0, 0, 4);
+	
+}
+.text{
+	-fx-fill: textColorD;
+	-fx-font-size: 0.7em;
+}
+.name > .text{
+	-fx-font-size: 1.5em;
+}
+.tab-pane> .tab-content-area {
+    -fx-background-color: #FDFDFD;
+    -fx-border-color: transparent Dcolor Dcolor Dcolor;
+    -fx-border-radius: 0 0 10 10;
+}
+
+.tab-pane > .tab-header-area {
+    -fx-padding: 0.416667em 5 0.0em 0.416667em; /* 5 2 0 5 */
+}
+
+.tab-pane > *.tab-header-area > .headers-region {
+    -fx-translate-x: -9;
+}
+
+.tab-pane > *.tab-header-area > *.tab-header-background{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent Dcolor transparent ;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab{
+    -fx-padding: 0.083333em 0.5em 0.083333em 0.5em;
+    -fx-border-color: Dcolor;
+    -fx-background-color:
+        rgb(255,255,255),
+        linear-gradient(to bottom, #FFA286 0%, #FFA490 49%, #FFA894 50%, #FFB8A4 100%);
+    -fx-background-insets: 0,2 2 0 2;
+	-fx-background-radius: 10 10 0 0;
+    -fx-border-color: rgb(244,0,0), Dcolor, Dcolor, Dcolor;
+    -fx-border-radius: 10 10 0 0;
+    -fx-border-width: 1 1 1 1;
+    -fx-pref-height: 1.8em;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:hover{
+    -fx-border-color: textColorD;
+    -fx-background-color:
+        rgb(255,255,255),
+        linear-gradient(to bottom, #FCDCC8 0%, #FFDFCB 49%, #FFE3CF 50%, #FFEFDB 100%);
+    -fx-background-insets: 0,2 2 0 2;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected{
+    -fx-border-color: Dcolor;
+    -fx-border-width: 1 1 0 1;
+    -fx-background-color: #FDFDFD;
+    -fx-pref-height: 2em;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected .focus-indicator{
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: textColorL;
+}
+.h-box{
+	-fx-background-color: #FDFDFD;
+	-fx-background-radius: 25 25 0 0;
+	-fx-border-color: textColorL;
+	-fx-border-width: 0 0 1 0;
+}
+.h-box .label{
+	-fx-padding: 0.5em;
+	-fx-background-radius: 0 0 25 0;
+	-fx-background-color: Dcolor;
+}
+.h-box .label > .text{
+	-fx-font-size: 1.5em;
+	-fx-fill: #FDFDFD;
+}
+.list-view{
+	-fx-border-color: null;
+	-fx-background-color: rgba(252, 220, 200, 0.5);
+	-fx-background-radius: 30 0 0 30;
+}
+.list-view > .virtual-flow > .clipped-container > .sheet > .list-cell{
+	-fx-background-color: null;
+}
+
+.photo-bar{
+	-fx-effect: null;
+	-fx-background-color:null;
+	-fx-padding: 0.5em 2.1em 0 0;
+}
+.left-button{
+	-fx-background-color: lightGrey;
+	-fx-shape: "M7.4446 1.87975L6.11689 0.552368L0.467041 6.20082L6.11689 11.8493L7.4446 10.5219L3.13189 6.20082L7.4446 1.87975Z"
+}
+.right-button{
+	-fx-background-color: lightGrey;
+	-fx-shape: "M1.34987 0.200775L0.0220947 1.52817L4.335 5.84926L0.0220947 10.1704L1.34987 11.4978L6.99996 5.84926L1.34987 0.200775Z" 
+}
+.scroll-photo > .viewport{
+	-fx-background-color: transparent;
+	-fx-background-radius: 0;
+}
+.itinerary{
+	-fx-background-color: transparent;
+	-fx-effect: dropshadow(three-pass-box, shadow, 4,0,0,4);
+}
+.itinerary .button{
+	-fx-background-color: Dcolor;
+	-fx-background-radius: 0;
+	-fx-shape: "M18.509 0.918137C10.7066 0.918137 4.39612 6.50857 4.39612 13.4207C4.39612 22.7976 18.509 36.6397 18.509 36.6397C18.509 36.6397 32.6219 22.7976 32.6219 13.4207C32.6219 6.50857 26.3115 0.918137 18.509 0.918137ZM18.509 17.8859C15.7268 17.8859 13.4687 15.8855 13.4687 13.4207C13.4687 10.9559 15.7268 8.95549 18.509 8.95549C21.2913 8.95549 23.5494 10.9559 23.5494 13.4207C23.5494 15.8855 21.2913 17.8859 18.509 17.8859Z";
+}
+.itinerary-line{
+	-fx-stroke: Dcolor;
+	-fx-stroke-width: 3;
+}
+.itinerary .button:hover{
+	-fx-border-color: lightGrey;
+	-fx-background-color: Dcolor;
+	-fx-background-insets: -16 -8 0 -8;
+	-fx-border-insets: -16 -8 0 -8;
+}
+.itinerary .button-focused{
+	-fx-border-color: lightGrey;
+	-fx-background-insets: -16 -8 0 -8;
+	-fx-border-insets: -16 -8 0 -8;
+}
