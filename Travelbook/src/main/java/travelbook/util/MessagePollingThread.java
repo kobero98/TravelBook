@@ -22,30 +22,77 @@ public class MessagePollingThread extends Thread {
 		try {
 			//Non c'e' bisogno di sincronizzarsi sulla chat perche' il thread che scrive e' uno solo
 		lastLocalTime=lastTime;
-		List<MessageEntity> messages=myController.getNewMessage( MenuBar.getInstance().getLoggedUser().getId(),lastLocalTime);
 		List<Chat> chats=MenuBar.getInstance().getMyChat();
-		if(!messages.isEmpty())
-			lastTime=Instant.now();
-		for(MessageEntity message: messages) {
-			found=false;
-			for(int i=0;i<chats.size();i++) {
-				Chat chat=chats.get(i);
-				if(chat.getIdUser()==message.getIdMittente()) {
-					chat.getReceive().add(new MessageBean(message));
-					if(lastTime != null || !message.getRead()) chat.setChanged();
-					found=true;
-					break;
+		if(lastTime!=null) {
+			List<MessageEntity> messages=myController.getNewMessage(MenuBar.getInstance().getLoggedUser().getId(),lastLocalTime);
+			if(!messages.isEmpty())
+				lastTime=Instant.now();
+			for(MessageEntity message: messages) {
+				found=false;
+				for(int i=0;i<chats.size();i++) {
+					Chat chat=chats.get(i);
+					if(chat.getIdUser()==message.getIdMittente()) {
+						chat.getReceive().add(new MessageBean(message));
+						chat.setChanged();
+						found=true;
+						break;
+						}
+					}
+					if(!found) {
+						System.out.println("Nuova chat creata");
+						List<MessageBean> messaggi=new ArrayList<>();
+						messaggi.add(new MessageBean(message));
+						Chat nuovaChat=new Chat(message.getIdMittente(),messaggi);
+						MenuBar.getInstance().newChat(nuovaChat);
+						nuovaChat.setChanged();
 					}
 				}
-				if(!found) {
-					System.out.println("Nuova chat creata");
-					List<MessageBean> messaggi=new ArrayList<>();
-					messaggi.add(new MessageBean(message));
-					Chat nuovaChat=new Chat(message.getIdMittente(),messaggi);
-					MenuBar.getInstance().newChat(nuovaChat);
-					nuovaChat.setChanged();
+		}
+		else {
+			lastTime = Instant.now();
+			List<MessageBean> messages = myController.getReceived(MenuBar.getInstance().getLoggedUser().getId());
+			for(MessageBean message: messages) {
+				found=false;
+				for(int i=0;i<chats.size();i++) {
+					Chat chat=chats.get(i);
+					if(chat.getIdUser()==message.getIdMittente()) {
+						chat.getReceive().add(message);
+						if(!message.getRead())
+							chat.setChanged();
+						found=true;
+						break;
+						}
+					}
+					if(!found) {
+						System.out.println("Nuova chat creata");
+						List<MessageBean> messaggi=new ArrayList<>();
+						messaggi.add(message);
+						Chat nuovaChat=new Chat(message.getIdMittente(),messaggi);
+						MenuBar.getInstance().newChat(nuovaChat);
+						nuovaChat.setChanged();
+					}
 				}
-			}
+			messages = myController.getSend(MenuBar.getInstance().getLoggedUser().getId());
+			for(MessageBean message: messages) {
+				found=false;
+				for(int i=0;i<chats.size();i++) {
+					Chat chat=chats.get(i);
+					if(chat.getIdUser()==message.getIdDestinatario()) {
+						chat.getSend().add(message);
+						found=true;
+						break;
+						}
+					}
+					if(!found) {
+						System.out.println("Nuova chat creata");
+						List<MessageBean> messaggi=new ArrayList<>();
+						messaggi.add(message);
+						Chat nuovaChat=new Chat(message.getIdDestinatario(),messaggi);
+						MenuBar.getInstance().newChat(nuovaChat);
+					}
+				}
+			
+		}
 		Thread.sleep(3000);
 		
 		}catch(Exception e) {

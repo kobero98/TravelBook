@@ -63,6 +63,30 @@ public class ChatController {
 		}
 		return messaggi;
 	}
+	public List<MessageBean> getReceived(int idUser) throws DBException{
+		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);
+		MessageEntity nuovaEntity=new MessageEntity(0,idUser);
+		nuovaEntity.setSoloNuovi(false);
+		List<Entity> entities=dao.getData(nuovaEntity);
+		List<MessageBean> messaggi=new ArrayList<>();
+		for(Entity entity: entities) {
+			MessageBean messaggio=new MessageBean((MessageEntity)entity);
+			messaggi.add(messaggio);
+		}
+		return messaggi;
+	}
+	public List<MessageBean> getSend(int idUser) throws DBException{
+		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);
+		MessageEntity nuovaEntity=new MessageEntity(idUser,0);
+		nuovaEntity.setSoloNuovi(false);
+		List<Entity> entities=dao.getData(nuovaEntity);
+		List<MessageBean> messaggi=new ArrayList<>();
+		for(Entity entity: entities) {
+			MessageBean messaggio=new MessageBean((MessageEntity)entity);
+			messaggi.add(messaggio);
+		}
+		return messaggi;
+	}
 	public void setReadMex(MessageEntity mex) {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);
 		try {
