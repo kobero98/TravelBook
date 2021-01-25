@@ -76,7 +76,7 @@ public class UserBean{
 	}
 	public void setPhoto(InputStream photo)
 	{
-		this.photo=new Image(photo);
+		if(photo != null) this.photo=new Image(photo);
 	}
 	public void setSex(String sex)
 	{

@@ -13,6 +13,9 @@ import main.java.travelbook.model.dao.PersistanceDAO;
 import main.java.travelbook.model.dao.PredictableDAO;
 import main.java.travelbook.model.dao.VisualDAO;
 import main.java.travelbook.util.Chat;
+import main.java.travelbook.util.DateComparator;
+import main.java.travelbook.util.DateUtil;
+import main.java.travelbook.view.MenuBar;
 import main.java.travelbook.model.MessageEntity;
 import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.MessageBean;
@@ -23,10 +26,12 @@ import main.java.travelbook.model.Entity;
 public class ChatController {
 	
 	
-	/*public List<MessageBean> getMessages(int id){
-		PersistanceDAO msgDao = DaoFactory.getInstance().create(DaoType.MESSAGE);
-		MessageEntity msgE = new MessageEntity();
-	}*/
+	public List<MessageBean> getMessages(List<MessageBean> msgR, List<MessageBean> msgS){
+		List<MessageBean> msg = new ArrayList<>(msgR);
+		msg.addAll(msgS);
+		msg.sort(new DateComparator());
+		return msg;
+	}
 	public List<UserBean> getContacts(List<Chat> c) throws DBException{
 		VisualDAO cDao = DaoFactory.getInstance().createVisual(DaoType.S_USER);
 		List<UserBean> ul = new ArrayList<>();
@@ -34,11 +39,13 @@ public class ChatController {
 			UserEntity userE = new UserEntity(i.getIdUser());
 			System.out.println(userE.getId());
 			userE = (UserEntity)cDao.getData(userE).get(0);
-			UserBean u = new UserBean(userE.getId());
-			u.setName(userE.getName());
-			u.setSurname(userE.getSurname());
-			u.setPhoto(userE.getPhoto());
-			ul.add(u);
+			if(userE.getId()!=MenuBar.getInstance().getLoggedUser().getId()) {
+				UserBean u = new UserBean(userE.getId());
+				u.setName(userE.getName());
+				u.setSurname(userE.getSurname());
+				u.setPhoto(userE.getPhoto());
+				ul.add(u);
+			}
 		}
 		return ul;
 	}
@@ -76,5 +83,14 @@ public class ChatController {
 			results.add(singleResult);
 		}
 		return results;
+	}
+	public void sendMessage(MessageBean m) throws DBException {
+		PersistanceDAO msgDao = DaoFactory.getInstance().create(DaoType.MESSAGE);
+		MessageEntity myEntity = new MessageEntity(m.getIdMittente(),m.getIdDestinatario());
+		myEntity.setText(m.getText());
+		myEntity.setRead(false);
+		myEntity.setTime(m.getTime());
+		msgDao.setMyEntity(myEntity);
+		msgDao.setData();
 	}
 }

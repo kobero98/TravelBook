@@ -1,5 +1,7 @@
 package main.java.travelbook.model.bean;
 
+import java.time.Instant;
+
 import main.java.travelbook.model.MessageEntity;
 
 public class MessageBean {
@@ -10,7 +12,7 @@ public class MessageBean {
 	private int idMittente;
 	private int type;
 	private String text;
-	private String dataTime;
+	private Instant dataTime;
 	private boolean read;
 	
 	public MessageBean(int iddestinatario,int idmittente) {
@@ -27,7 +29,7 @@ public class MessageBean {
 		this.idMessaggio=mex.getIdMessaggio();
 		this.idMittente=mex.getIdMittente();
 		this.text=mex.getText();
-		this.dataTime=mex.getTime().toString();
+		this.dataTime=mex.getTime();
 		this.read = mex.getRead();
 	}
 	public int getIdMessaggio()
@@ -46,7 +48,7 @@ public class MessageBean {
 	public String getText(){
 		return this.text;
 	}
-	public String getTime() {
+	public Instant getTime() {
 		return this.dataTime;
 	}
 	public boolean getRead() {
@@ -58,7 +60,7 @@ public class MessageBean {
 	public void setText(String testo) {
 		this.text=testo;
 	}
-	public void setTime(String time) {
+	public void setTime(Instant time) {
 		this.dataTime=time;
 	}
 	public void setType(int tipo) {

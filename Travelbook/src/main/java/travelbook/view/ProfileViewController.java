@@ -374,7 +374,7 @@ public class ProfileViewController implements Observer{
 	private void photoHandler(){
 		FileChooser dialog=new FileChooser();
 		dialog.setTitle("Choose a profile photo");
-		dialog.getExtensionFilters().add(new ExtensionFilter("Image Files","*.png","*.jpg"));
+		dialog.getExtensionFilters().add(new ExtensionFilter("Image Files","*.png","*.jpg", "*.jpeg"));
 		File selectedFile=dialog.showOpenDialog(mainPane.getScene().getWindow());
 		if(selectedFile!=null) {
 			Image myPhoto=new Image(selectedFile.toURI().toString());
