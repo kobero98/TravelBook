@@ -10,5 +10,6 @@ public enum DaoType {
 	 S_TRAVEL,
 	 S_USER,
 	 SEARCH_TRAVEL,
-	 FACEBOOK
+	 FACEBOOK,
+	 SHARE
 }
