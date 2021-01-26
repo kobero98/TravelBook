@@ -6,6 +6,7 @@ import java.util.List;
 
 import exception.DBException;
 import main.java.travelbook.model.Entity;
+import main.java.travelbook.model.ShareEntity;
 import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.StepBean;
@@ -14,6 +15,7 @@ import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
 import main.java.travelbook.model.dao.PersistanceDAO;
+import main.java.travelbook.model.dao.VisualDAO;
 import main.java.travelbook.util.NumberInDayComparator;
 
 public class TravelController{
@@ -59,4 +61,34 @@ public class TravelController{
 		userE.setFavoriteList(u.getFav());
 		userDao.update(userE);
 		}
+	public List<UserBean> getContactSharing(UserBean myUser) throws DBException{
+		List<UserBean> contact=new ArrayList<>();
+		List<Integer> followFollowing=new ArrayList<>();
+		for(Integer seguito: myUser.getFollowing()) {
+			if(myUser.getFollower().contains(seguito)) {
+				followFollowing.add(seguito);
+			}
+		}
+		VisualDAO dao=DaoFactory.getInstance().createVisual(DaoType.S_USER);
+		for(Integer fol:followFollowing) {
+			UserEntity entity=new UserEntity(fol);
+			UserEntity res=(UserEntity)(dao.getData(entity).get(0));
+			contact.add(new UserBean(res));
+		}
+		return contact;
+	}
+	public void shareTravel(List<UserBean> user, int travelId, int travelC, int userId) throws DBException {
+		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.SHARE);
+		for(UserBean us: user) {
+			ShareEntity sh=new ShareEntity();
+			sh.setTravelShared(travelId);
+			sh.setWhoShare(userId);
+			sh.setWhoReceive(us.getId());
+			sh.setCreator(travelC);
+			dao.setMyEntity((Entity)sh);
+			dao.setData();
+		}
+		
+		
+	}
 	}

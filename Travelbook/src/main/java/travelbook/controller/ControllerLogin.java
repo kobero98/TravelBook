@@ -54,6 +54,7 @@ public class ControllerLogin {
 		JSONParser parser = new JSONParser();
         Object resultObject = parser.parse(json);
         JSONObject obj=(JSONObject)resultObject;
+        
         user.setEmail(obj.get("email").toString());
         user.setName(obj.get("first_name").toString());
         user.setSurname(obj.get("last_name").toString());
@@ -119,6 +120,7 @@ public class ControllerLogin {
 		            resultObject = parser.parse(json);
 		            obj=(JSONObject)resultObject;
 		            String email= obj.get("email").toString();
+		           
 		            int idUtente=AllQuery.getInstance().getVerifiedEmail(email);
 		            if(idUtente!=0) {
 		            	user=dao.setData(id,idUtente);
