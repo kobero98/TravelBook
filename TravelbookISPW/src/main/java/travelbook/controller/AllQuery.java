@@ -16,7 +16,7 @@ import exception.LoginPageException;
 import main.java.travelbook.model.CityEntity;
 import main.java.travelbook.model.MessageEntity;
 import main.java.travelbook.model.SearchEntity;
-//import main.java.travelbook.model.ShareEntity;
+import main.java.travelbook.model.ShareEntity;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
@@ -693,7 +693,7 @@ public class AllQuery {
 		}
 		stmt.execute(query);
 	}	
-	/*public void shareTravel(Connection conn, ShareEntity shared) throws SQLException {
+	public void shareTravel(Connection conn, ShareEntity shared) throws SQLException {
 		String query="INSERT INTO viaggicondivisi values(?,?,?,?)";
 		PreparedStatement insert=conn.prepareStatement(query);
 		insert.setInt(1, shared.getWhoShare());
@@ -701,7 +701,7 @@ public class AllQuery {
 		insert.setInt(3, shared.getTravelShared());
 		insert.setInt(4, shared.getCreator());
 		insert.execute();
-	}*/
+	}
 	public ResultSet getShared(Statement stmt,int userId)throws SQLException{
 		ResultSet rs;
 		String query="SELECT * FROM viaggicondivisi where AchiVieneCondiviso="+userId;
