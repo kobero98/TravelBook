@@ -11,6 +11,8 @@
   <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   <arcgis.version>100.9.0</arcgis.version>
 </properties>
+
+
     <repositories>
         <repository>
             <id>arcgis</id>
@@ -23,51 +25,6 @@
     <artifactId>json-simple</artifactId>
     <version>1.1.1</version>
   </dependency>
-<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-swing -->
-<dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-swing</artifactId>
-    <version>11</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
-<dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx</artifactId>
-    <version>11</version>
-    <type>pom</type>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
-<dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-fxml</artifactId>
-    <version>11</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-web -->
-<dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-web</artifactId>
-    <version>11</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
-<dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-fxml</artifactId>
-    <version>11</version>
-</dependency>
-
-       <dependency>
-         <groupId>org.openjfx</groupId>
-         <artifactId>javafx-controls</artifactId>
-         <version>11</version>
-        </dependency>
-	<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-graphics -->
-	<dependency>
-  	 <groupId>org.openjfx</groupId>
-   	 <artifactId>javafx-graphics</artifactId>
-   	 <version>11</version>
-	</dependency>
-
 <!-- https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
 <dependency>
     <groupId>org.sonarsource.scanner.maven</groupId>
@@ -75,6 +32,15 @@
     <version>3.7.0.1746</version>
 </dependency>
 
+	<!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
+	<dependency>
+	    <groupId>org.openjfx</groupId>
+	    <artifactId>javafx</artifactId>
+	    <version>15</version>
+	    <type>pom</type>
+	</dependency>
+
+  	
   <dependency>
                <groupId>com.sun.mail</groupId>
                 <artifactId>javax.mail</artifactId>
@@ -111,8 +77,8 @@
 	</dependency>
 
 </dependencies>
-
   <build>
+  
     <sourceDirectory>src</sourceDirectory>
     <resources>
       <resource>
@@ -123,7 +89,11 @@
       </resource>
     </resources>
     <plugins>
-      <plugin>
+    	<plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.4</version>
+          </plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
