@@ -1,5 +1,7 @@
 package main.java.travelbook.view;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
 import java.io.ByteArrayOutputStream;
@@ -685,7 +687,14 @@ public class AddViewController implements Observer{
 		 saveAlert.getButtonTypes().addAll(saveExit,notSave,cancel);
 		 saveAlert.getDialogPane().getStylesheets().add(PROJECTCSS);
 		 saveAlert.getDialogPane().getStylesheets().add(ALERTCSS);
-		 Image image = new Image("main/resources/AddViewImages/help.png");
+		 URL url = null;
+		 try {
+			url = new File("src/main/resources/AddViewImages/help.png").toURI().toURL();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 Image image = new Image(url.toString());
 		 ImageView imageView = new ImageView(image);
 		 saveAlert.setGraphic(imageView);
 		 saveAlert.initOwner(this.mainPane.getScene().getWindow());

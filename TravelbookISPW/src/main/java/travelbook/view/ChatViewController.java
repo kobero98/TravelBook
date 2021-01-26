@@ -1,7 +1,12 @@
 package main.java.travelbook.view;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +40,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import main.java.travelbook.controller.ChatController;
+import main.java.travelbook.model.bean.MessageBean;
 import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.util.Chat;
 
@@ -53,7 +59,7 @@ public class ChatViewController {
 	@FXML
 	private StackPane writeBar;
 	@FXML
-	private ListView<String> sentList;
+	private ListView<MessageBean> sentList;
 	@FXML
 	private ListView<MyItem> contactList;
 	@FXML
@@ -68,7 +74,7 @@ public class ChatViewController {
 	private List<Chat> myChats = MenuBar.getInstance().getMyChat();
 	private ChatController myController = new ChatController();
 	private SearchUserTextField searchFieldAuto;
-	 List<UserBean> tryContacts;
+	private Chat current = null;
 	
 	class MyItem {
 		private StringProperty specialIndicator;
@@ -100,23 +106,15 @@ public class ChatViewController {
     }
 	
 	public void initialize() {
+	contactList.setItems(null);
 	searchFieldAuto = new SearchUserTextField(searchField);
 	searchFieldAuto.getLastSelectedItem().addListener((observable,oldValue,newValue)->{
 		if(searchFieldAuto.getLastSelectedItem().get()!=null) {
-			System.out.println(searchFieldAuto.getLastSelectedItem().get().getId());
 			searchedUser = searchFieldAuto.getLastSelectedItem().get();
 		}
 	});
-	 ObservableList<String> data = FXCollections.observableArrayList(
-	            "!chocolate", "salmonsalmon salmonsalmon salmonsalmonn salmonsalmon salmonsalmon salmonsalmon salmonsalmonn salmonsalmon", "!salmonsalmon salmonsalmon salmonsalmonn salmonsalmon salmonsalmon salmonsalmon salmonsalmonn salmonsalmon","!gold", "coral", "darkorchid",
-	            "darkgoldenrod", "lightsalmon", "black", "!rosybrown", "blue",
-	            "blueviolet", "brown", "salmon", "gold", "coral", "darkorchid",
-	            "darkgoldenrod", "lightsalmon", "!black", "rosybrown", "blue",
-	            "blueviolet", "brown");
-	 sentList.setItems(data); 
-	 sentList.scrollTo(data.size());
 	 sentList.setCellFactory(list -> new MessageCell());
-	
+	 List<UserBean> tryContacts;
 	try {
 		tryContacts = myController.getContacts(myChats);
 	
@@ -133,9 +131,24 @@ public class ChatViewController {
 	}
 	contactList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> { 
 		if(contactList.getSelectionModel().getSelectedIndex()!=-1) {
-            contactList.getItems().get(contactList.getSelectionModel().getSelectedIndex()).setSpecialIndicator("selected");
+			MyItem user = contactList.getItems().get(contactList.getSelectionModel().getSelectedIndex());
+            user.setSpecialIndicator("selected");
 			contactList.refresh();
-			
+			int i = 0;
+			System.out.println(myChats);
+			System.out.println(user.getUser());
+			current = null;
+			while(i<myChats.size() && current == null) {
+				if(myChats.get(i).getIdUser()==user.getUser().getId())
+					current = myChats.get(i);
+				i++;
+			}
+			if(current == null) {
+				current = new Chat(user.getUser().getId());
+				myChats.add(current);
+				System.out.println(current.getIdUser());
+			}
+			changeChat();
 		}
     });
 	contactList.setCellFactory(list -> new ContactCell());
@@ -145,20 +158,20 @@ public class ChatViewController {
 	}
 	
 	
-	 class MessageCell extends ListCell<String>{
+	 class MessageCell extends ListCell<MessageBean>{
 		@Override
-        public void updateItem(String item, boolean empty) {
+        public void updateItem(MessageBean item, boolean empty) {
             super.updateItem(item, empty);
             if (item != null) {
             	HBox hBox = new HBox();
-            	if(item.startsWith("!")) {
+            	if(item.getIdMittente()!=MenuBar.getInstance().getLoggedUser().getId()) {
             		hBox.setAlignment(Pos.BASELINE_LEFT);
             	}
             	else {
             		hBox.setAlignment(Pos.BASELINE_RIGHT);
             	}
                 // Create centered Label
-                Label label = new Label(item);
+                Label label = new Label(item.getText());
                 label.setWrapText(true);
                 label.setMaxWidth((chatAnchor.getPrefWidth()-(1.0/5)*chatAnchor.getPrefWidth())/2);
                 label.setAlignment(Pos.CENTER);
@@ -166,6 +179,8 @@ public class ChatViewController {
                 hBox.getChildren().add(label);
                 setGraphic(hBox);
             }
+            else
+            	setGraphic(null);
         }
 	}
 	class ContactCell extends ListCell<MyItem>{
@@ -183,10 +198,25 @@ public class ChatViewController {
 				Text contact = new Text(item.getUser().getName()+" "+item.getUser().getSurname());
 				contact.getStyleClass().add("text");
 				contact.setWrappingWidth(mainAnchor.getPrefWidth()*150/1280);
-				Image photo = item.getUser().getPhoto();
 				Pane contactPic = new Pane();
-				BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-				Background bg = new Background(bgpic);
+				Background bg;
+				try {
+					Image photo = item.getUser().getPhoto();
+					
+					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+					bg = new Background(bgpic);
+				}catch(NullPointerException | IllegalArgumentException e) {
+					URL url=null;
+					try {
+						url = new File("src/main/resources/ProfilePageImages/travelers.png").toURI().toURL();
+					} catch (MalformedURLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					Image photo = new Image(url.toString());
+					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+					bg = new Background(bgpic);
+				}
 				contactPic.setPrefHeight(mainAnchor.getPrefHeight()*70/625);
 				contactPic.setPrefWidth(mainAnchor.getPrefWidth()*70/1280);
 				mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
@@ -207,6 +237,19 @@ public class ChatViewController {
 			else {
 				setGraphic(null);
 			}
+		}
+	}
+	
+	private void changeChat() {
+		List<MessageBean>  myMessages;
+		myMessages = myController.getMessages(current.getReceive(), current.getSend());
+		if(myMessages!=null) {
+			ObservableList<MessageBean> data = FXCollections.observableArrayList(myMessages);
+			sentList.setItems(data); 
+			sentList.scrollTo(data.size());
+		}
+		else {
+			sentList.setItems(null);
 		}
 	}
 	public void setMainPane(BorderPane main) {
@@ -312,7 +355,18 @@ public class ChatViewController {
     }
     @FXML
     private void sendHandler() {
-    	sentList.getItems().add(write.getText());
+    	MessageBean newMsg = new MessageBean(current.getIdUser(), MenuBar.getInstance().getLoggedUser().getId());
+    	newMsg.setText(write.getText());
+    	newMsg.setTime(Instant.now());
+    	newMsg.setRead(false);
+    	sentList.getItems().add(newMsg);
+    	current.getSend().add(newMsg);
+    	try {
+			myController.sendMessage(newMsg);
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	write.clear();
     	sentList.scrollTo(sentList.getItems().size());
     }
@@ -321,10 +375,21 @@ public class ChatViewController {
 	  	if(searchFieldAuto.getTextField().getText()!= null) {
 		  	MyItem i = new MyItem(searchedUser);
 		  	searchFieldAuto.getTextField().setText(null);
-	    	contactList.getItems().add(i);
-	    	contactList.getSelectionModel().select(i);
-	    	contactList.scrollTo(i);
-	    	myChats.add(new Chat(i.getUser().getId()));
+		  	int j=0;
+		  	boolean found = false;
+		  	while(j<contactList.getItems().size() && !found) {
+		  		if(contactList.getItems().get(j).getUser().getId()==i.getUser().getId()) {
+		  			contactList.getSelectionModel().select(contactList.getItems().get(j));
+		  			contactList.scrollTo(contactList.getItems().get(j));
+		  			found = true;
+		  		}
+		  		j++;
+		  	}
+		  	if(!found) {
+		  		contactList.getItems().add(i);
+		  		contactList.getSelectionModel().select(i);
+		  		contactList.scrollTo(i);
+		  	}
 	  	}
     	
     }
