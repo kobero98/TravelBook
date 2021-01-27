@@ -87,7 +87,7 @@ public class MessagePollingThread extends Thread {
 						System.out.println("Nuova chat creata");
 						List<MessageBean> messaggi=new ArrayList<>();
 						messaggi.add(message);
-						Chat nuovaChat=new Chat(message.getIdDestinatario(),messaggi);
+						Chat nuovaChat=new Chat(message.getIdDestinatario(),null,messaggi);
 						MenuBar.getInstance().newChat(nuovaChat);
 					}
 				}

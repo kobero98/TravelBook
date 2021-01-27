@@ -99,10 +99,10 @@ public class ProfileViewController implements Observer{
 	private Button logOutButton;
 	@FXML
 	private Label errorMsg;
-	private static final String ALERTCSS="main/java/travelbook/css/alert.css";
-	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
+	private static final String ALERTCSS="src/main/java/travelbook/css/alert.css";
+	private static final String PROJECTCSS="src/main/java/travelbook/css/project.css";
 	private static final String HEADER_MSG ="Something went wrong!";
-	private static final String WARN_IMG = "main/resources/AddViewImages/warning.png";
+	private static final String WARN_IMG = "src/main/resources/AddViewImages/warning.png";
 	UserBean user=MenuBar.getInstance().getLoggedUser();
 	MyProfileController myController = new MyProfileController();
 	public void initialize() {
@@ -120,9 +120,20 @@ public class ProfileViewController implements Observer{
 				alert.setTitle("Travels unreacheable");
 	    		alert.setHeaderText(HEADER_MSG);
 	    		alert.setContentText("we couldn't reach your travels, try again");
-	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
-	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
-	   		 	Image image = new Image(WARN_IMG);
+	    		URL url = null;
+		   		 try {
+		   		 url = new File(ALERTCSS).toURI().toURL();
+		   		 alert.getDialogPane().getStylesheets().add(url.toString());
+		   		 url = new File(PROJECTCSS).toURI().toURL();
+		   		 alert.getDialogPane().getStylesheets().add(url.toString());
+		   		 
+		   		 
+		   			url = new File(WARN_IMG).toURI().toURL();
+		   		} catch (MalformedURLException e1) {
+		   			// TODO Auto-generated catch block
+		   			e1.printStackTrace();
+		   		}
+	   		 	Image image = new Image(url.toString());
 	   		 	ImageView imageView = new ImageView(image);
 	   		 	alert.setGraphic(imageView);
 	   		 	alert.showAndWait();
@@ -139,11 +150,12 @@ public class ProfileViewController implements Observer{
 		}
 		else {
 			try {
-				Image myPhoto = new Image("main/resources/ProfilePageImages/travelers.png");
+				URL url = new File("src/main/resources/ProfilePageImages/travelers.png").toURI().toURL();
+				Image myPhoto = new Image(url.toString());
 				BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 				Background newBg = new Background(bgPhoto);
 				profilePhoto.setBackground(newBg);
-			}catch(IllegalArgumentException e) {
+			}catch(IllegalArgumentException | MalformedURLException e) {
         		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), null, null);
             	
             	Background mybg1 = new Background(bgcc1);
@@ -361,7 +373,7 @@ public class ProfileViewController implements Observer{
 				dot.setFill(Color.DARKSALMON);
 				mainAnchor.getChildren().add(dot);
 				dot.setLayoutX(510);
-				dot.setLayoutY(30);
+				dot.setLayoutY(530);
 				mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->
 					dot.setLayoutY(mainAnchor.getHeight()*30/625));
 				mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
@@ -394,9 +406,20 @@ public class ProfileViewController implements Observer{
 				alert.setTitle("Update failed");
 	    		alert.setHeaderText(HEADER_MSG);
 	    		alert.setContentText("we couldn't update your information, try again");
-	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
-	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
-	   		 	Image image = new Image(WARN_IMG);
+	    		URL url = null;
+		   		 try {
+		   		 url = new File(ALERTCSS).toURI().toURL();
+		   		 alert.getDialogPane().getStylesheets().add(url.toString());
+		   		 url = new File(PROJECTCSS).toURI().toURL();
+		   		 alert.getDialogPane().getStylesheets().add(url.toString());
+		   		 
+		   		 
+		   			url = new File(WARN_IMG).toURI().toURL();
+		   		} catch (MalformedURLException e1) {
+		   			// TODO Auto-generated catch block
+		   			e1.printStackTrace();
+		   		}
+	   		 	Image image = new Image(url.toString());
 	   		 	ImageView imageView = new ImageView(image);
 	   		 	alert.setGraphic(imageView);
 	   		 	alert.showAndWait();
@@ -423,9 +446,20 @@ public class ProfileViewController implements Observer{
 				alert.setTitle("Update failed");
 	    		alert.setHeaderText(HEADER_MSG);
 	    		alert.setContentText("we couldn't update your information, try again");
-	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
-	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
-	   		 	Image image = new Image(WARN_IMG);
+	    		URL url = null;
+		   		 try {
+		   		 url = new File(ALERTCSS).toURI().toURL();
+		   		 alert.getDialogPane().getStylesheets().add(url.toString());
+		   		 url = new File(PROJECTCSS).toURI().toURL();
+		   		 alert.getDialogPane().getStylesheets().add(url.toString());
+		   		 
+		   		 
+		   			url = new File(WARN_IMG).toURI().toURL();
+		   		} catch (MalformedURLException e1) {
+		   			// TODO Auto-generated catch block
+		   			e1.printStackTrace();
+		   		}
+	   		 	Image image = new Image(url.toString());
 	   		 	ImageView imageView = new ImageView(image);
 	   		 	alert.setGraphic(imageView);
 	   		 	alert.showAndWait();
@@ -513,6 +547,7 @@ public class ProfileViewController implements Observer{
 	}
 	@FXML
 	private void logOut() {
+		MenuBar.getInstance().initialize();
 		FXMLLoader loader=new FXMLLoader();
 		try {
 			URL url = new File("src/main/java/travelbook/view/LoginView.fxml").toURI().toURL();

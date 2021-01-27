@@ -87,8 +87,8 @@ public class AddViewController implements Observer{
 	private Label givePractical;
 	@FXML
 	private Label stepImageLabel;
-	private static final String ALERTCSS="main/java/travelbook/css/alert.css";
-	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
+	private static final String ALERTCSS="src/main/java/travelbook/css/alert.css";
+	private static final String PROJECTCSS="src/main/java/travelbook/css/project.css";
 	@FXML
 	private Button removeImage;
 	@FXML
@@ -685,10 +685,14 @@ public class AddViewController implements Observer{
 		 ButtonType cancel=new ButtonType("Cancel",ButtonData.CANCEL_CLOSE);
 		 saveAlert.getButtonTypes().clear();
 		 saveAlert.getButtonTypes().addAll(saveExit,notSave,cancel);
-		 saveAlert.getDialogPane().getStylesheets().add(PROJECTCSS);
-		 saveAlert.getDialogPane().getStylesheets().add(ALERTCSS);
 		 URL url = null;
 		 try {
+		 url = new File(ALERTCSS).toURI().toURL();
+		 saveAlert.getDialogPane().getStylesheets().add(url.toString());
+		 url = new File(PROJECTCSS).toURI().toURL();
+		 saveAlert.getDialogPane().getStylesheets().add(url.toString());
+		 
+		 
 			url = new File("src/main/resources/AddViewImages/help.png").toURI().toURL();
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -826,9 +830,20 @@ public class AddViewController implements Observer{
 	    		alert.setHeaderText("Incomplete steps found");
 	    		alert.setContentText("There are some incomplete steps, complete them and then retry");
 	    		alert.setTitle("Error post message");
-	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
-	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
-	   		 	Image image = new Image("main/resources/AddViewImages/error.png");
+	    		URL url = null;
+	   		 try {
+	   		 url = new File(ALERTCSS).toURI().toURL();
+	   		 alert.getDialogPane().getStylesheets().add(url.toString());
+	   		 url = new File(PROJECTCSS).toURI().toURL();
+	   		 alert.getDialogPane().getStylesheets().add(url.toString());
+	   		 
+	   		 
+	   			url = new File("src/main/resources/AddViewImages/error.png").toURI().toURL();
+	   		} catch (MalformedURLException e) {
+	   			// TODO Auto-generated catch block
+	   			e.printStackTrace();
+	   		}
+	   		 	Image image = new Image(url.toString());
 	   		 	ImageView imageView = new ImageView(image);
 	   		 	alert.setGraphic(imageView);
 	    		alert.initOwner(this.mainPane.getScene().getWindow());
@@ -961,9 +976,20 @@ public class AddViewController implements Observer{
 	    		alert.setTitle("Invalid format");
 	    		alert.setHeaderText("Invalid type for travel's cost");
 	    		alert.setContentText("travel cost must be a number! This information will not be stored");
-	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
-	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
-	   		 	Image image = new Image("main/resources/AddViewImages/warning.png");
+	    		URL url = null;
+		   		 try {
+		   		 url = new File(ALERTCSS).toURI().toURL();
+		   		 alert.getDialogPane().getStylesheets().add(url.toString());
+		   		 url = new File(PROJECTCSS).toURI().toURL();
+		   		 alert.getDialogPane().getStylesheets().add(url.toString());
+		   		 
+		   		 
+		   			url = new File("src/main/resources/AddViewImages/warning.png").toURI().toURL();
+		   		} catch (MalformedURLException e1) {
+		   			// TODO Auto-generated catch block
+		   			e1.printStackTrace();
+		   		}
+	   		 	Image image = new Image(url.toString());
 	   		 	ImageView imageView = new ImageView(image);
 	   		 	alert.setGraphic(imageView);
 	   		 	alert.showAndWait();
@@ -1106,9 +1132,20 @@ public class AddViewController implements Observer{
 	    		maxSizeReach.setTitle("Max number of step error");
 	    		maxSizeReach.setHeaderText("Max size of step per day reached");
 	    		maxSizeReach.setContentText("You have reached the maximum number of steps per day, the maximum number is "+this.stepLimit);
-	    		maxSizeReach.getDialogPane().getStylesheets().add(PROJECTCSS);
-	   		 	maxSizeReach.getDialogPane().getStylesheets().add(ALERTCSS);
-	   		 	Image image = new Image("main/resources/AddViewImages/error.png");
+	    		URL url = null;
+		   		 try {
+		   		 url = new File(ALERTCSS).toURI().toURL();
+		   		 maxSizeReach.getDialogPane().getStylesheets().add(url.toString());
+		   		 url = new File(PROJECTCSS).toURI().toURL();
+		   		maxSizeReach.getDialogPane().getStylesheets().add(url.toString());
+		   		 
+		   		 
+		   			url = new File("src/main/resources/AddViewImages/error.png").toURI().toURL();
+		   		} catch (MalformedURLException e) {
+		   			// TODO Auto-generated catch block
+		   			e.printStackTrace();
+		   		}
+				 Image image = new Image(url.toString());
 	   		 	ImageView imageView = new ImageView(image);
 	   		 	maxSizeReach.setGraphic(imageView);
 	    		maxSizeReach.initOwner(this.mainPane.getScene().getWindow());
@@ -1245,9 +1282,20 @@ public class AddViewController implements Observer{
 	    	confirmAlert.setTitle("Delete step confirmation");
 	    	confirmAlert.setHeaderText("Are you sure to remove this step?");
 	    	confirmAlert.setContentText("if you remove this step then all the information are deleted");
-	    	confirmAlert.getDialogPane().getStylesheets().add(PROJECTCSS);
-			confirmAlert.getDialogPane().getStylesheets().add(ALERTCSS);
-			Image image = new Image("main/resources/AddViewImages/help.png");
+	    	URL url = null;
+	   		 try {
+	   		 url = new File(ALERTCSS).toURI().toURL();
+	   		 confirmAlert.getDialogPane().getStylesheets().add(url.toString());
+	   		 url = new File(PROJECTCSS).toURI().toURL();
+	   		 confirmAlert.getDialogPane().getStylesheets().add(url.toString());
+	   		 
+	   		 
+	   			url = new File("src/main/resources/AddViewImages/help.png").toURI().toURL();
+	   		} catch (MalformedURLException e) {
+	   			// TODO Auto-generated catch block
+	   			e.printStackTrace();
+	   		}
+			 Image image = new Image(url.toString());
    		 	ImageView imageView = new ImageView(image);
    		 	confirmAlert.setGraphic(imageView);
 	    	confirmAlert.initOwner(this.mainPane.getScene().getWindow());

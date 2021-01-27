@@ -2,6 +2,7 @@ package main.java.travelbook.view;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -562,8 +563,8 @@ public class SearchTravelController {
             		AnchorPane internalPane;
             		try {
             			MenuBar.getInstance().setIdTravel(item.getId());
-            			System.out.println("Il mio id è: "+item.getId());
-            			loader.setLocation(ProfileViewController.class.getResource("ViewTravel.fxml"));
+            			URL url = new File("src/main/java/travelbook/view/ViewTravel.fxml").toURI().toURL();
+            			loader.setLocation(url);
             			internalPane=(AnchorPane)loader.load();
             			mainPane.setCenter(internalPane);
             			controller=loader.getController();

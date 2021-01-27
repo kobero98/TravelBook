@@ -27,8 +27,13 @@ public class ChatController {
 	
 	
 	public List<MessageBean> getMessages(List<MessageBean> msgR, List<MessageBean> msgS){
-		List<MessageBean> msg = new ArrayList<>(msgR);
-		msg.addAll(msgS);
+		List<MessageBean> msg=null;
+		if(msgR!=null) {
+			msg = new ArrayList<>(msgR);
+			msg.addAll(msgS);
+		}
+		else
+			msg = msgS;
 		msg.sort(new DateComparator());
 		return msg;
 	}

@@ -136,5 +136,8 @@ public class MenuBar extends Observable implements Observer{
 	public void setNotified() {
 		this.notify=false;
 	}
-
+	public void initialize() {
+		this.myChat = new ArrayList<>();
+		this.notify = false;
+	}
 }

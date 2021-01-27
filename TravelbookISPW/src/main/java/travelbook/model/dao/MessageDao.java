@@ -29,6 +29,7 @@ public class MessageDao implements PersistanceDAO {
 			ResultSet rs=AllQuery.getInstance().getMessage(stmt, messaggio);
 			while(rs.next()) {
 				MessageEntity newM=new MessageEntity(rs.getInt("Mittente"),rs.getInt("Destinatario"));
+				System.out.println("D: "+rs.getInt("Mittente")+" M: "+ rs.getInt("Destinatario"));
 				newM.setText(rs.getString("Testo"));
 				newM.setTime(rs.getTimestamp("data").toInstant());
 				newM.setType(rs.getString("NomeViaggio"));

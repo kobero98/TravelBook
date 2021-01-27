@@ -1,6 +1,10 @@
 package main.java.travelbook.view;
 import javafx.scene.web.WebView;
 import main.java.travelbook.controller.MapboxException;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.controller.PredictionController;
@@ -44,7 +48,14 @@ public class ViewOnMapController {
 		 });
 		 view.setVisible(true);
 			engine=view.getEngine();
-			String url= ViewOnMapController.class.getResource("mapView.html").toString();
+			URL myUrl=null;
+			try {
+				myUrl = new File("src/main/java/travelbook/view/ViewOnMapController.html").toURI().toURL();
+			} catch (MalformedURLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			String url= myUrl.toString();
 			engine.getLoadWorker().stateProperty().addListener((observable,oldValue,newValue)->{
 				if(newValue==Worker.State.SUCCEEDED) {
 					PredictionController controller=new PredictionController();
@@ -60,9 +71,20 @@ public class ViewOnMapController {
 						alert.setHeaderText("Map service error");
 						alert.setContentText(e.getMessage());
 						alert.initOwner(stage);
-						alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/alert.css");
-						alert.getDialogPane().getStylesheets().add("main/java/travelbook/css/project.css");
-						Image image = new Image("main/resources/AddViewImages/error.png");
+						URL url1 = null;
+				   		 try {
+				   		 url1= new File("src/main/java/travelbook/css/alert.css").toURI().toURL();
+				   		 alert.getDialogPane().getStylesheets().add(url.toString());
+				   		 url1 = new File("src/main/java/travelbook/css/project.css").toURI().toURL();
+				   		 alert.getDialogPane().getStylesheets().add(url.toString());
+				   		 
+				   		 
+				   			url1 = new File("src/main/resources/error.png").toURI().toURL();
+				   		} catch (MalformedURLException e1) {
+				   			// TODO Auto-generated catch block
+				   			e1.printStackTrace();
+				   		}
+			  		 	Image image = new Image(url1.toString());
 						ImageView imageView = new ImageView(image);
 						alert.setGraphic(imageView);
 						alert.showAndWait();

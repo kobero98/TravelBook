@@ -641,13 +641,14 @@ public class AllQuery {
 	public ResultSet getMessage(Statement stmt, MessageEntity message) {
 		ResultSet rs=null;
 		StringBuilder query=new StringBuilder();
+		
 		if(message.getIdMittente()==0) {
 			if(message.getSoloNuovi()) {
 				
 				query.append("SELECT * FROM messaggio where Destinatario="+message.getIdDestinatario()+" and letto="+0);
 				if(message.getLastTimeStamp()!=null) {
 						query.append(" and data>'"+Timestamp.from(message.getLastTimeStamp())+"'");
-						System.out.println("Try at :"+Timestamp.from(message.getLastTimeStamp()));
+						//System.out.println("Try at :"+Timestamp.from(message.getLastTimeStamp()));
 					}
 			}
 			else {

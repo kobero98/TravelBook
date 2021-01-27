@@ -89,10 +89,10 @@ public class ProfileOtherController {
 	private Label errorMsg;
 	private String viewTravel = "ViewTravel.fxml";
 	private ControllerProfileOther myController = new ControllerProfileOther();
-	private static final String ALERTCSS="main/java/travelbook/css/alert.css";
-	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
+	private static final String ALERTCSS="src/main/java/travelbook/css/alert.css";
+	private static final String PROJECTCSS="src/main/java/travelbook/css/project.css";
 	private static final String HEADER_MSG ="Something went wrong!";
-	private static final String WARN_IMG = "main/resources/AddViewImages/warning.png";
+	private static final String WARN_IMG = "src/main/resources/AddViewImages/warning.png";
 	private static final String CSS = "fav-selected";
 	
 	public void initialize() {
@@ -103,9 +103,20 @@ public class ProfileOtherController {
 			alert.setTitle("Connection Lost");
     		alert.setHeaderText(HEADER_MSG);
     		alert.setContentText("we couldn't load this page, you will be redirected to home page");
-    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
-   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
-   		 	Image image = new Image("main/resources/AddViewImages/error.png");
+    		URL url = null;
+	   		 try {
+	   		 url = new File(ALERTCSS).toURI().toURL();
+	   		 alert.getDialogPane().getStylesheets().add(url.toString());
+	   		 url = new File(PROJECTCSS).toURI().toURL();
+	   		 alert.getDialogPane().getStylesheets().add(url.toString());
+	   		 
+	   		 
+	   			url = new File("src/main/resources/AddViewImages/error.png").toURI().toURL();
+	   		} catch (MalformedURLException e) {
+	   			// TODO Auto-generated catch block
+	   			e.printStackTrace();
+	   		}
+		 Image image = new Image(url.toString());
    		 	ImageView imageView = new ImageView(image);
    		 	alert.setGraphic(imageView);
    		 	alert.showAndWait();
@@ -125,9 +136,20 @@ public class ProfileOtherController {
 				alert.setTitle("Travels unreacheable");
 	    		alert.setHeaderText(HEADER_MSG);
 	    		alert.setContentText("we couldn't reach your travels, try again");
-	    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
-	   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
-	   		 	Image image = new Image(WARN_IMG);
+	    		URL url = null;
+		   		 try {
+		   		 url = new File(ALERTCSS).toURI().toURL();
+		   		 alert.getDialogPane().getStylesheets().add(url.toString());
+		   		 url = new File(PROJECTCSS).toURI().toURL();
+		   		 alert.getDialogPane().getStylesheets().add(url.toString());
+		   		 
+		   		 
+		   			url = new File(WARN_IMG).toURI().toURL();
+		   		} catch (MalformedURLException e1) {
+		   			// TODO Auto-generated catch block
+		   			e1.printStackTrace();
+		   		}
+	    		 Image image = new Image(url.toString());
 	   		 	ImageView imageView = new ImageView(image);
 	   		 	alert.setGraphic(imageView);
 	   		 	alert.showAndWait();
@@ -145,11 +167,12 @@ public class ProfileOtherController {
 		}
 		else {
 			try {
-				Image myPhoto = new Image("main/resources/ProfilePageImages/travelers.png");
+				URL url = new File("src/main/resources/ProfilePageImages/travelers.png").toURI().toURL();
+				Image myPhoto = new Image(url.toString());
 				BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 				Background newBg = new Background(bgPhoto);
 				profilePhoto.setBackground(newBg);
-			}catch(IllegalArgumentException e) {
+			}catch(IllegalArgumentException | MalformedURLException e) {
         		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), null, null);
             	
             	Background mybg1 = new Background(bgcc1);
@@ -215,7 +238,7 @@ public class ProfileOtherController {
             				fav.getStyleClass().add(CSS);
             	travel.setOnMouseClicked(e->{
             			try {
-            				URL url = new File("src/main/java/travelbook/view/viewTravel.fxml").toURI().toURL();
+            				URL url = new File(viewTravel).toURI().toURL();
             				MenuBar.getInstance().setIdTravel(item.getId());
             				FXMLLoader loader=new FXMLLoader();
             				loader.setLocation(url);
@@ -278,9 +301,20 @@ public class ProfileOtherController {
 			alert.setTitle("Update failed");
     		alert.setHeaderText(HEADER_MSG);
     		alert.setContentText("we couldn't update your information, try again");
-    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
-   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
-   		 	Image image = new Image(WARN_IMG);
+    		URL url = null;
+	   		 try {
+	   		 url = new File(ALERTCSS).toURI().toURL();
+	   		 alert.getDialogPane().getStylesheets().add(url.toString());
+	   		 url = new File(PROJECTCSS).toURI().toURL();
+	   		 alert.getDialogPane().getStylesheets().add(url.toString());
+	   		 
+	   		 
+	   			url = new File(WARN_IMG).toURI().toURL();
+	   		} catch (MalformedURLException e) {
+	   			// TODO Auto-generated catch block
+	   			e.printStackTrace();
+	   		}
+		 Image image = new Image(url.toString());
    		 	ImageView imageView = new ImageView(image);
    		 	alert.setGraphic(imageView);
    		 	alert.showAndWait();
@@ -434,9 +468,20 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			alert.setTitle("Update failed");
     		alert.setHeaderText(HEADER_MSG);
     		alert.setContentText("we couldn't update your information, try again");
-    		alert.getDialogPane().getStylesheets().add(PROJECTCSS);
-   		 	alert.getDialogPane().getStylesheets().add(ALERTCSS);
-   		 	Image image = new Image(WARN_IMG);
+    		URL url = null;
+	   		 try {
+	   		 url = new File(ALERTCSS).toURI().toURL();
+	   		 alert.getDialogPane().getStylesheets().add(url.toString());
+	   		 url = new File(PROJECTCSS).toURI().toURL();
+	   		 alert.getDialogPane().getStylesheets().add(url.toString());
+	   		 
+	   		 
+	   			url = new File(WARN_IMG).toURI().toURL();
+	   		} catch (MalformedURLException e1) {
+	   			// TODO Auto-generated catch block
+	   			e1.printStackTrace();
+	   		}
+		 Image image = new Image(url.toString());
    		 	ImageView imageView = new ImageView(image);
    		 	alert.setGraphic(imageView);
    		 	alert.showAndWait();
@@ -457,7 +502,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		case 11:	
 			try {
 				loader=new FXMLLoader();
-				URL url = new File("src/main/java/travelbook/view/viewTravel.fxml").toURI().toURL();
+				URL url = new File(viewTravel).toURI().toURL();
 				loader.setLocation(url);
 				internalPane=(AnchorPane)loader.load();
 				mainPane.setCenter(internalPane);
@@ -470,7 +515,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		case 14:
 			try {
 				loader=new FXMLLoader();
-				URL url = new File("src/main/java/travelbook/view/viewTravel.fxml").toURI().toURL();
+				URL url = new File(viewTravel).toURI().toURL();
 				
 				loader.setLocation(url);
 			
