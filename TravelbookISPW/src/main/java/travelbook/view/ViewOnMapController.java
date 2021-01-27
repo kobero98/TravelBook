@@ -50,7 +50,7 @@ public class ViewOnMapController {
 			engine=view.getEngine();
 			URL myUrl=null;
 			try {
-				myUrl = new File("src/main/java/travelbook/view/ViewOnMapController.html").toURI().toURL();
+				myUrl = new File("src/main/java/travelbook/view/mapView.html").toURI().toURL();
 			} catch (MalformedURLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
