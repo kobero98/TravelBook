@@ -4,8 +4,9 @@ package main.java.travelbook.controller;
 
 
 import java.util.List;
-
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.net.URLEncoder;
 
 import org.apache.http.HttpResponse;
@@ -24,13 +25,21 @@ import org.json.simple.parser.JSONParser;
 import java.util.ArrayList;
 public class PredictionController {
 	
-	private static final String TOKEN="pk.eyJ1IjoiZGVtYWdvZ28iLCJhIjoiY2tqMWJybjZtMGpjbzMwbWh6bWt1MHcycyJ9.f9zugEhda3-7YFxBwutEnA";
+	private static  String token="pk.eyJ1IjoiZGVtYWdvZ28iLCJhIjoiY2tqMWJybjZtMGpjbzMwbWh6bWt1MHcycyJ9.f9zugEhda3-7YFxBwutEnA";
 	
 	public List<JSONObject> getPredictions(String text) throws MapboxException {
 		return mapboxQuery(text,true,10,"place,address,locality,poi");
 	}
 	private List<JSONObject> mapboxQuery(String text,boolean bool,int limit,String tipi) throws MapboxException {
-		
+		JSONParser pars=new JSONParser();
+		JSONObject obj;
+		try {
+			Reader reader=new FileReader("src/main/java/travelbook/controller/configuration.json");
+			obj=(JSONObject)pars.parse(reader);
+		}catch(Exception e) {
+			throw new MapboxException(e.getMessage());
+		}
+		token=obj.get("access_token").toString();
 		if(limit>10) {
 			limit=10;
 		}
@@ -42,7 +51,7 @@ public class PredictionController {
 			newText=URLEncoder.encode(text,"UTF8");
 		
 		HttpClient client=HttpClientBuilder.create().build();
-		String url="https://api.mapbox.com/geocoding/v5/mapbox.places/"+newText+".json"+"?fuzzyMatch="+bool+"&limit="+limit+"&types="+tipi+"&access_token="+TOKEN;
+		String url="https://api.mapbox.com/geocoding/v5/mapbox.places/"+newText+".json"+"?fuzzyMatch="+bool+"&limit="+limit+"&types="+tipi+"&access_token="+token;
 		HttpGet request=new HttpGet(url);
 		request.addHeader("accept", "application/json");
 		try {
@@ -103,7 +112,7 @@ public class PredictionController {
 		return results.get(0);
 	}
 	public String getToken() {
-		return TOKEN;
+		return token;
 	}
 	
 	

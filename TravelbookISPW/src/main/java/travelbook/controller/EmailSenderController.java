@@ -1,17 +1,31 @@
 package main.java.travelbook.controller;
 import javax.mail.Transport;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.Session;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.List;
 import java.util.Properties;
 public class EmailSenderController {
 		public void sendMessage(String dest,String mex, String subj) throws MessagingException {
 		// Create a mail session
-		String mit = "travelbookispw@outlook.it";
+		JSONParser parser=new JSONParser();
+		JSONObject jsonObject;
+		try {
+			Reader reader=new FileReader("src/main/java/travelbook/controller/configuration.json");
+			jsonObject=(JSONObject)parser.parse(reader);
+			
+		}catch(Exception e){
+			throw new MessagingException(e.getMessage());
+		}
+		String mit = jsonObject.get("email").toString();
+		String pswd= jsonObject.get("password").toString();
 		Properties props=new Properties();
 	    props.put("mail.smtp.host", "smtp.office365.com");
 	    props.put("mail.smtp.auth", "true");
@@ -31,7 +45,7 @@ public class EmailSenderController {
 	    
 	    Transport transport=session.getTransport("smtp");
 	    //Authentication of mit
-	    transport.connect("smtp.office365.com",mit,"ProgettoISPW2021");
+	    transport.connect("smtp.office365.com",mit,pswd);
 	    transport.sendMessage(message, message.getAllRecipients());
 		}
 		public void sendMessage(List<String> destinatari, List<String> mexByDest, List<String> subj) throws MessagingException{
