@@ -91,6 +91,18 @@ body{
 	align-items: center;
 	width: 28em;
 }
+#registrazione{
+	display: flex;
+	opacity: 0;
+	align-items: center;
+	border: 2px solid #FF0000;
+}
+#code{
+	display: flex;
+	opacity: 0;
+	align-items: center;
+	border: 2px solid #FF0000;
+}
 
 .textfield{
 	background-color: #FDFDFD;

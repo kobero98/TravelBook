@@ -1,0 +1,51 @@
+.contact-panel{
+    width:18.75em;
+}
+.contact{
+    overflow: scroll;
+    background-color: rgba(252, 220, 200, 0.5);
+    height: 28.125em;
+    width:18.75em;
+}
+.chat-panel{
+    width:56.5em;
+}
+.chat{
+    overflow: scroll;
+    background-image: url(resource/sfondo.png);
+    width:56.5em;
+    height: 31.125em;
+    align-items: stretch;
+}
+.search{
+    background-color: var(--Dcolor);
+    height: 3.125em;
+    width:18.75em;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.write{
+    width:37.6em;
+    height:5.625em;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: var(--Dcolor);
+    border-radius: 0px 0px 0px 50px;
+}
+#search-bar{
+    width:15.625em;
+    height:2.5em;
+    font-size: 1em;
+}
+#write-bar{
+    overflow: scroll;
+    font: normal normal 1em "Arial";
+    width:27.875em;
+    height:2.375em;
+    border-radius: 0px;
+    overflow-wrap:break-word;
+    word-break: break-all;
+    
+}

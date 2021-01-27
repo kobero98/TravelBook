@@ -1,0 +1,39 @@
+.search-bar{
+    height:2.8125em;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+}
+#search{
+    width:35.9375em;
+}
+.as-text{
+    color:var(--textColorD);
+    font: normal normal 0.75em "Arial";
+}
+.l-panel{
+    width:58.3125em;
+    height:30.75em;
+
+}
+.advanced-search{
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.found{
+    background-color:rgba(252, 220, 200, 0.5);
+    width:54.3125em;
+    height:28.75em;
+    border-radius:2em;
+    overflow: scroll;
+}
+.suggestion{
+    background-color:rgba(252, 220, 200, 0.5);
+    height:29.375em;
+    border-radius:2em;
+    width:19.75em;
+    overflow: scroll;
+    justify-content: flex-start;
+}
