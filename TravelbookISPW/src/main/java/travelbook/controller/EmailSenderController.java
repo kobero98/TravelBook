@@ -17,15 +17,9 @@ public class EmailSenderController {
 		// Create a mail session
 		JSONParser parser=new JSONParser();
 		JSONObject jsonObject;
-		try {
-			Reader reader=new FileReader("src/main/java/travelbook/controller/configuration.json");
-			jsonObject=(JSONObject)parser.parse(reader);
-			
-		}catch(Exception e){
-			throw new MessagingException(e.getMessage());
-		}
-		String mit = jsonObject.get("email").toString();
-		String pswd= jsonObject.get("password").toString();
+		
+		String mit = "travelbookispw@outlook.it";
+		String pswd= "ProgettoISPW2021";
 		Properties props=new Properties();
 	    props.put("mail.smtp.host", "smtp.office365.com");
 	    props.put("mail.smtp.auth", "true");

@@ -23,11 +23,25 @@ public class UserBean{
 	private List <Integer> message = null;
 	private List<Integer> follower = null;
 	private List<Integer> following = null;
-	private List<Integer> fav = null;	
+	private List<Integer> fav = null;
+	private String username;
+	private String password;
+	public String getUsername() {
+		return username;
+	}
 
-	
-	
-	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public UserBean() {}
 	
 	public UserBean(int id) {

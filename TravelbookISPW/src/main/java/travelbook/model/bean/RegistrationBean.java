@@ -56,5 +56,7 @@ public class RegistrationBean {
 	public String getGender() {
 		return this.gender;
 	}	
-	
+	public String toString() {
+		return this.email+" "+this.name+this.password+this.gender+this.username+this.surname+this.birthDate;
+	}
 }

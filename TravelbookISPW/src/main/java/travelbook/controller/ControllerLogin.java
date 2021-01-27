@@ -20,7 +20,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import exception.DBException;
 import exception.LoginPageException;
 import main.java.travelbook.model.Entity;
@@ -157,6 +156,7 @@ public class ControllerLogin {
 	}
 	public UserBean signIn(String username,String password) throws LoginPageException{
 		try {
+			System.out.println("QUI");
 			UserBean user=null;
 			PersistanceDAO userDao=DaoFactory.getInstance().create(DaoType.USER);
 			UserEntity userE=new UserEntity();

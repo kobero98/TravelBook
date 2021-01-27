@@ -306,7 +306,8 @@ public class LoginViewController {
 		localUsername=emailField.getText();
 		pswd=pswdField.getText();
 			try {
-				user=ControllerLogin.getInstance().signIn(localUsername, pswd);
+				ControllerLogin controller=new ControllerLogin();
+				user=controller.signIn(localUsername, pswd);
 			} catch (LoginPageException e1) {
 				error.setVisible(true);
 				error.setText(e1.getMessage());
@@ -363,7 +364,8 @@ public class LoginViewController {
 							if (url.startsWith(redirect)) {
 								String accessToken=url.substring(redirect.length());
 								this.mainAnchor.getChildren().remove(view);
-								UserBean u=ControllerLogin.getInstance().facebookLogin(accessToken);
+								ControllerLogin controller=new ControllerLogin();
+								UserBean u=controller.facebookLogin(accessToken);
 								MenuBar.getInstance().setUser(u);
 						      	MenuBar.getInstance().moveToExplore(this.mainPane);
 							}
@@ -439,7 +441,8 @@ public class LoginViewController {
           user.setGender(gender);
           this.userToBeRegister=user;
           new Thread(()->{
-          this.codeOfreg=ControllerLogin.getInstance().calcoloRegistration(email);
+        	  ControllerLogin controller=new ControllerLogin();
+          this.codeOfreg=controller.calcoloRegistration(email);
           Platform.runLater(()->this.showConfirmCode()); }).start();
             
 		}
@@ -450,7 +453,8 @@ public class LoginViewController {
 	
 	private void saveRegistration(){
 		try {
-			ControllerLogin.getInstance().signUp(this.userToBeRegister);
+			ControllerLogin controller=new ControllerLogin();
+			controller.signUp(this.userToBeRegister);
 			emailField.setText(userToBeRegister.getUsername());
 			pswdField.setText(userToBeRegister.getPassword());
 			loginButtonHandler();
