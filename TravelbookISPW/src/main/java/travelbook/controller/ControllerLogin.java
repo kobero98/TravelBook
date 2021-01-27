@@ -33,16 +33,6 @@ import main.java.travelbook.model.dao.FacebookDao;
 import main.java.travelbook.model.dao.PersistanceDAO;
 
 public class ControllerLogin {
-	private static ControllerLogin instance = null;
-	
-	private ControllerLogin() {}
-	
-	public static ControllerLogin getInstance() {
-		if(instance==null)
-			instance = new ControllerLogin();
-		return instance;
-	}
-
 	private RegistrationBean createRegisterBeanFromFacebook(String accessToken,String id) throws Exception
 	{
 		RegistrationBean user=new RegistrationBean();
