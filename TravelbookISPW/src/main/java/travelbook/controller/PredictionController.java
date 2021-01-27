@@ -31,7 +31,7 @@ public class PredictionController {
 		return mapboxQuery(text,true,10,"place,address,locality,poi");
 	}
 	private List<JSONObject> mapboxQuery(String text,boolean bool,int limit,String tipi) throws MapboxException {
-		JSONParser pars=new JSONParser();
+		/*JSONParser pars=new JSONParser();
 		JSONObject obj;
 		try {
 			Reader reader=new FileReader("src/main/java/travelbook/controller/configuration.json");
@@ -39,7 +39,7 @@ public class PredictionController {
 		}catch(Exception e) {
 			throw new MapboxException(e.getMessage());
 		}
-		token=obj.get("access_token").toString();
+		token=obj.get("access_token").toString();*/
 		if(limit>10) {
 			limit=10;
 		}
