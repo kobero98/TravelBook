@@ -30,7 +30,7 @@
 <title>Travelbook</title>
 </head>
 <body>
-	<div id="code">
+	<div id=code>
 			<form action="confirm.jsp" method="POST">
 				<input id="code" type="text" name="code" value="insert code here">
 				<input id="closeCode" type="button" name="closeCode" value="close">

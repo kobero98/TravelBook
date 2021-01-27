@@ -91,6 +91,15 @@ body{
 	align-items: center;
 	width: 28em;
 }
+#registerTable{
+	display:flex;
+	flex-direction: column;
+	width: 28em;
+	height: 23.125em;
+	justify-content: space-evenly;
+	align-items:stretch;
+}
+
 #registrazione{
 	display: flex;
 	opacity: 0;

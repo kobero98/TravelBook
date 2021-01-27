@@ -3,6 +3,7 @@
  <%@page errorPage="errorpage.jsp" %>
 <%@ page import="main.java.travelbook.model.bean.UserBean" %>
 <%@ page import="main.java.travelbook.controller.*" %>
+<%@page import="java.sql.Date" %>
 <jsp:useBean id="user" scope="session" class="main.java.travelbook.model.bean.UserBean"/>
 <jsp:setProperty name="user" property="*" />
 <jsp:useBean id="userReg" scope="request" class="main.java.travelbook.model.bean.RegistrationBean"/>
@@ -18,8 +19,10 @@
 <% 
 	}
 	if(request.getParameter("signup")!=null){
-		out.println(userReg.toString());
-		if(userReg.getUsername()!=null && userReg.getEmail()!=null && userReg.getPassword()!=null && userReg.getName()!=null && userReg.getSurname()!=null && userReg.getBirtdate()!=null && userReg.getGender()!=null){
+		//out.println(userReg.toString());
+		//if(userReg.getUsername()!=null && userReg.getEmail()!=null && userReg.getPassword()!=null && userReg.getName()!=null && userReg.getSurname()!=null && userReg.getBirtdate()!=null && userReg.getGender()!=null){
+		String date=(String)request.getParameter("birthDate");
+		userReg.setBirtdate((Date.valueOf(date)));
 		ControllerLogin controller=new ControllerLogin();
 		String code= controller.calcoloRegistration(userReg.getEmail());
 		request.getSession().setAttribute("regBean",userReg);
@@ -28,7 +31,7 @@
 			<jsp:forward page="confirm.jsp"/>
 		<%
 	}
-	}
+	//}
 %>
 
 	
@@ -72,8 +75,8 @@
 	<div class="anchor">
 		<div id=login>
 			<form action="login.jsp" id="loginTable" method="POST">
-				<input id="username" type="text" name="username" class="textfield">
-				<input id="pswd" type="password" name="password" class="textfield">
+				<input id="username" type="text" name="username" class="textfield" required>
+				<input id="pswd" type="password" name="password" class="textfield" required>
 				<div id=buttons>
 				<input type="button" value="registrati" class="form-button" onclick="apriRegistrazione()">
 				<input type="submit" value="accedi" name="accedi" class="form-button">
@@ -89,21 +92,21 @@
 		</div>
 		
 	</div>
-	<div id="registrazione" class="stack-top">
-			<form action="login.jsp" method="POST">
-				<input id="username" type="text" name="username">
-				<input type="password" name="password">
-				<input type="email" name="email">
-				<input type="text" id="name" name="name">
-				<input id="surname" type="text" name="surname">
-				 <input type="radio" id="male" name="gender" value="male">
+	<div id=registrazione>
+			<form action="login.jsp" method="POST" id="registerTable">
+				<input id="username" type="text" name="username" required>
+				<input type="password" name="password" required>
+				<input type="email" name="email" required>
+				<input type="text" id="name" name="name" required>
+				<input id="surname" type="text" name="surname" required>
+				 <input type="radio" id="male" name="gender" value="male" required>
 					<label for="male">Male</label><br>
-				<input type="radio" id="female" name="gender" value="female">
+				<input type="radio" id="female" name="gender" value="female" required>
 					<label for="female">Female</label><br>
-				<input type="radio" id="other" name="gender" value="other">
+				<input type="radio" id="other" name="gender" value="other" required>
 					<label for="other">Other</label> 
-				<input type="date" name="birthDate">
-				<input type="submit" name="signup" value="signup">
+				<input type="date" name="birthDate" required>
+				<input type="submit" name="signup" value="signup" required>
 				<input type="button" name="close" value="close" onclick="closeRegistration()">
 			</form>
 	</div>

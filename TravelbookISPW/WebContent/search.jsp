@@ -1,0 +1,46 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+    <link rel="stylesheet" href="loginCss.css">
+    <link rel="stylesheet" href="search.css">
+	<title>Travelbook</title>
+	
+
+</head>
+<body>
+    <div class="header">
+        <p class="title">
+            Travelbook
+        </p>
+        <p class="subtitle">
+            Wherever you go, go with all your heart
+        </p>
+    </div>
+    <div class="search-bar">
+        <input type="button", name="search-button", id="search-button">
+        <input type="search", name="search", id="search", class="textfield">
+    </div>
+    <div class="anchor">
+        <input type="button", id="back", class="back-button">
+        <div class="panel l-panel">
+            <div class="advanced-search">
+                <input type="button", id="expand">
+                <p class="as-text">
+                    advanced search
+                </p>
+            </div>
+            <div class="found">
+                <p class="write">
+                    This is what we have found
+                </p>
+            </div>
+        </div>    
+        <div class="panel suggestion">
+            <p class="write">
+                Our suggestions
+            </p>
+        </div>
