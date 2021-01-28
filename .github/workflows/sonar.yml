@@ -21,4 +21,4 @@ jobs:
       with:
         java-version: 15
     - name: Build with Maven
-      run: mvn -B package --file TravelbookISPW/pom.xml -e
+      run: mvn -B -X package --file TravelbookISPW/pom.xml 
