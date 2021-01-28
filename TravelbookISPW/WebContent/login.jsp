@@ -19,8 +19,6 @@
 <% 
 	}
 	if(request.getParameter("signup")!=null){
-		//out.println(userReg.toString());
-		//if(userReg.getUsername()!=null && userReg.getEmail()!=null && userReg.getPassword()!=null && userReg.getName()!=null && userReg.getSurname()!=null && userReg.getBirtdate()!=null && userReg.getGender()!=null){
 		String date=(String)request.getParameter("birthDate");
 		userReg.setBirtdate((Date.valueOf(date)));
 		ControllerLogin controller=new ControllerLogin();
@@ -30,8 +28,22 @@
 		%>
 			<jsp:forward page="confirm.jsp"/>
 		<%
+	}	if(request.getParameter("token")!=null){
+		out.println("facebook");
+		ControllerLogin controller=new ControllerLogin();
+		
+		UserBean logged=controller.facebookLogin(request.getParameter("token"));
+		request.getSession().setAttribute("loggedBean",logged);
+		%>
+			<jsp:forward page="explore.jsp"/>
+		<% 
+	}else{
+		out.println(request.getContextPath());
+		out.println(request.getQueryString());
+		if(request.getParameter("data_access_expiration_time")!=null)
+			out.println("Non trovato facebook");
 	}
-	//}
+	
 %>
 
 	
@@ -45,7 +57,28 @@
 	<link rel="stylesheet" href="css\loginCss.css">
 	<title>Travelbook</title>
 	<script>
-			
+			function leggiUrl(){
+				var url=document.location.href;
+				var token=url.split("#access_token=");
+				if(token.length>1){
+					var access_token=url.slice("http://localhost:8080/TravelbookISPW/login.jsp?".length);
+					
+					$.ajax({
+						url: "/TravelbookISPW/login.jsp",
+						type: "POST",
+						data: "token="+access_token,
+						error: function(){
+					         alert('errore!');
+					       },
+						success: function(){
+							alert('successo!');
+						}
+					});
+				}
+				else{
+					alert("niente");
+				}
+			}
 			function apriRegistrazione(){
 				$("#login").animate({opacity: '0.1'},"slow");
 				$("#registrazione").animate({opacity: '0.9'},"slow");
@@ -63,7 +96,7 @@
 	</script>
 
 </head>
-<body>
+<body onload="leggiUrl()">
 	<div class="header">
 	<p class="title">
 		Travelbook
@@ -83,7 +116,7 @@
 			</div>
 			</form>
 			<div id=fb>
-			<a href="https://www.facebook.com/v3.2/dialog/oauth?client_id=1332279647110748&response_type=token&redirect_uri=http://localhost:8080/ProvaTomcat/facebook.jsp&state=\'{st=state123abc,ds=123456789}\'">Accedi con facebook</a>
+			<a href="https://www.facebook.com/v3.2/dialog/oauth?client_id=1332279647110748&response_type=token&redirect_uri=http://localhost:8080/TravelbookISPW/login.jsp&state=\'{st=state123abc,ds=123456789}\'">Accedi con facebook</a>
 			<img src="resource\logoFacebook.png">
 		</div>
 		</div>
