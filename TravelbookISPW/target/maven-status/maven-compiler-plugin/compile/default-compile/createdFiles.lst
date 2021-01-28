@@ -3,6 +3,7 @@ main\java\travelbook\model\bean\StepBean.class
 main\java\travelbook\model\CityEntity.class
 main\java\travelbook\model\bean\TravelBean.class
 main\java\travelbook\model\bean\SearchTrip.class
+main\java\travelbook\model\bean\ShareBean.class
 main\java\travelbook\model\dao\PersistanceDAO.class
 main\java\travelbook\model\dao\StepDao.class
 main\java\travelbook\model\dao\UserDao.class
@@ -12,6 +13,7 @@ main\java\travelbook\view\SearchTravelController$TipoListaGraphic.class
 main\java\travelbook\view\SearchTravelController.class
 main\java\travelbook\view\ChatViewController.class
 main\java\travelbook\model\dao\DaoFactory.class
+main\java\travelbook\view\ProfileViewController$followCell.class
 main\java\travelbook\view\SearchTravelController$TravelCell.class
 main\java\travelbook\model\bean\CityBean.class
 main\java\travelbook\util\MessagePollingThread.class
@@ -46,6 +48,7 @@ main\java\travelbook\view\AddViewController$ImageGridPane.class
 exception\ExceptionRegistration.class
 main\java\travelbook\view\ChatViewController$ContactCell.class
 main\java\travelbook\view\RootController.class
+main\java\travelbook\view\ViewTravelController$ContactCell.class
 main\java\travelbook\model\dao\VisualDAO.class
 main\java\travelbook\util\Observer.class
 main\java\travelbook\controller\AddTravel.class
@@ -59,6 +62,8 @@ main\java\travelbook\model\dao\TravellDao.class
 exception\ExceptionLogin.class
 exception\LoginPageException.class
 main\java\travelbook\view\ProfileOtherController$TravelCell.class
+main\java\travelbook\view\ProfileViewController$favCell.class
+main\java\travelbook\util\DateComparator.class
 main\java\travelbook\controller\ControllerSearch.class
 main\java\travelbook\view\ChatViewController$MessageCell.class
 main\java\travelbook\controller\TravelController.class
@@ -75,12 +80,16 @@ main\java\travelbook\controller\EmailSenderController.class
 exception\DBException.class
 main\java\travelbook\model\OtherUserEntity.class
 main\java\travelbook\controller\MapboxException.class
+main\java\travelbook\model\bean\Bean.class
 main\java\travelbook\model\dao\ShortUserDao.class
 main\java\travelbook\view\ProfileOtherController.class
 main\java\travelbook\view\ProfileViewController$TravelCell.class
 main\java\travelbook\view\ViewTravelController.class
+main\java\travelbook\view\ProfileViewController$shCell.class
+main\java\travelbook\model\dao\ShareDao.class
 main\java\travelbook\model\dao\OtherUserDao.class
 main\java\travelbook\util\NumberInDayComparator.class
+main\java\travelbook\model\ShareEntity.class
 main\java\travelbook\view\AddViewController.class
 main\java\travelbook\view\ViewOnMapController.class
 main\java\travelbook\controller\AllQuery.class
