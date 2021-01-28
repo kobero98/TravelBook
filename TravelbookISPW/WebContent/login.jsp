@@ -29,7 +29,7 @@
 			<jsp:forward page="confirm.jsp"/>
 		<%
 	}	if(request.getParameter("token")!=null){
-		out.println("facebook");
+		
 		ControllerLogin controller=new ControllerLogin();
 		
 		UserBean logged=controller.facebookLogin(request.getParameter("token"));
@@ -63,15 +63,17 @@
 				if(token.length>1){
 					var access_token=url.slice("http://localhost:8080/TravelbookISPW/login.jsp?".length);
 					
-					$.ajax({
-						url: "/TravelbookISPW/login.jsp",
+					jQuery.ajax({
+						url: "login.jsp",
 						type: "POST",
-						data: "token="+access_token,
-						error: function(){
-					         alert('errore!');
+						data: "token="+encodeURIComponent(access_token),
+						
+						error: function(xhr,ajaxOptions,thrownError){
+							alert(xhr.status);
+					         alert(thrownError);
 					       },
 						success: function(){
-							alert('successo!');
+							document.location.href="http://localhost:8080/TravelbookISPW/explore.jsp";
 						}
 					});
 				}
