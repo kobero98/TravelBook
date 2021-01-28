@@ -3,7 +3,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import exception.DBException;
 import javafx.scene.layout.AnchorPane;
@@ -111,6 +110,8 @@ public class ProfileViewController implements Observer{
 	private static final String PROJECTCSS="src/main/java/travelbook/css/project.css";
 	private static final String HEADER_MSG ="Something went wrong!";
 	private static final String WARN_IMG = "src/main/resources/AddViewImages/warning.png";
+	private static final String DEFAULT_IMG ="src/main/resources/ProfilePageImages/travelers.png";
+	private static final String DAFAULT_IMG_COLOR="rgb(255, 162, 134)"; 
 	UserBean user=MenuBar.getInstance().getLoggedUser();
 	MyProfileController myController = new MyProfileController();
 	public void initialize() {
@@ -138,7 +139,6 @@ public class ProfileViewController implements Observer{
 		   		 
 		   			url = new File(WARN_IMG).toURI().toURL();
 		   		} catch (MalformedURLException e1) {
-		   			// TODO Auto-generated catch block
 		   			e1.printStackTrace();
 		   		}
 	   		 	Image image = new Image(url.toString());
@@ -158,13 +158,13 @@ public class ProfileViewController implements Observer{
 		}
 		else {
 			try {
-				URL url = new File("src/main/resources/ProfilePageImages/travelers.png").toURI().toURL();
+				URL url = new File(DEFAULT_IMG).toURI().toURL();
 				Image myPhoto = new Image(url.toString());
 				BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 				Background newBg = new Background(bgPhoto);
 				profilePhoto.setBackground(newBg);
 			}catch(IllegalArgumentException | MalformedURLException e) {
-        		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), null, null);
+        		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf(DAFAULT_IMG_COLOR), null, null);
             	
             	Background mybg1 = new Background(bgcc1);
             	profilePhoto.setBackground(mybg1);
@@ -205,7 +205,7 @@ public class ProfileViewController implements Observer{
             		Background mybg1 = new Background(bgPhoto);
             		travelPic.setBackground(mybg1);
             	}catch(IllegalArgumentException | NullPointerException e) {
-            		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), rad, in);
+            		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf(DAFAULT_IMG_COLOR), rad, in);
                 	
                 	Background mybg1 = new Background(bgcc1);
                 	travelPic.setBackground(mybg1);
@@ -434,10 +434,10 @@ public class ProfileViewController implements Observer{
 		   		 
 		   			url = new File(WARN_IMG).toURI().toURL();
 		   		} catch (MalformedURLException e1) {
-		   			// TODO Auto-generated catch block
 		   			e1.printStackTrace();
 		   		}
-	   		 	Image image = new Image(url.toString());
+		   		Image image=null;
+	   		 	if(url!=null)  image = new Image(url.toString());
 	   		 	ImageView imageView = new ImageView(image);
 	   		 	alert.setGraphic(imageView);
 	   		 	alert.showAndWait();
@@ -474,10 +474,10 @@ public class ProfileViewController implements Observer{
 		   		 
 		   			url = new File(WARN_IMG).toURI().toURL();
 		   		} catch (MalformedURLException e1) {
-		   			// TODO Auto-generated catch block
 		   			e1.printStackTrace();
 		   		}
-	   		 	Image image = new Image(url.toString());
+		   		Image image=null;
+	   		 	if(url!=null) image = new Image(url.toString());
 	   		 	ImageView imageView = new ImageView(image);
 	   		 	alert.setGraphic(imageView);
 	   		 	alert.showAndWait();
@@ -536,9 +536,11 @@ public class ProfileViewController implements Observer{
 				}
 				HBox hBox = new HBox();
             	VBox vBox = new VBox();
-            	Label title = new Label(myTravel.getNameTravel());
+            	Label title=null;
+            	title = new Label(myTravel.getNameTravel());
             	title.getStyleClass().add("text1");
-            	Label creator = new Label(myUser.getName()+" "+myUser.getSurname());
+            	Label creator =null;
+            	if(myUser!=null)  creator = new Label(myUser.getName()+" "+myUser.getSurname());
             	creator.getStyleClass().add("text2");
             	Pane contactPic = new Pane();
 				Background bg;
@@ -550,12 +552,13 @@ public class ProfileViewController implements Observer{
 				}catch(NullPointerException | IllegalArgumentException e) {
 					URL url=null;
 					try {
-						url = new File("src/main/resources/ProfilePageImages/travelers.png").toURI().toURL();
+						url = new File(DEFAULT_IMG).toURI().toURL();
 					} catch (MalformedURLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					Image photo = new Image(url.toString());
+					Image photo=null;
+					if(url!=null) photo = new Image(url.toString());
 					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 					bg = new Background(bgpic);
 				}
@@ -650,12 +653,13 @@ public class ProfileViewController implements Observer{
 				}catch(NullPointerException | IllegalArgumentException e) {
 					URL url=null;
 					try {
-						url = new File("src/main/resources/ProfilePageImages/travelers.png").toURI().toURL();
+						url = new File(DEFAULT_IMG).toURI().toURL();
 					} catch (MalformedURLException e1) {
-						// TODO Auto-generated catch block
+
 						e1.printStackTrace();
 					}
-					Image photo = new Image(url.toString());
+					Image photo=null;
+					if(url !=null)  photo = new Image(url.toString());
 					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 					bg = new Background(bgpic);
 				}
@@ -678,7 +682,6 @@ public class ProfileViewController implements Observer{
 						ProfileOtherController controller=loader.getController();
 						controller.setMainPane(mainPane, 4, 0);
 					} catch (IOException e2) {
-						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					}
 					});
@@ -703,7 +706,7 @@ public class ProfileViewController implements Observer{
 					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 					bg = new Background(bgpic);
 					}catch(NullPointerException | IllegalArgumentException e) {
-						BackgroundFill bgfill = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), null, null);
+						BackgroundFill bgfill = new BackgroundFill(Paint.valueOf(DAFAULT_IMG_COLOR), null, null);
 						bg = new Background(bgfill);
 					}
 					
@@ -736,7 +739,6 @@ public class ProfileViewController implements Observer{
 			URL url = new File("src/main/java/travelbook/view/LoginView.fxml").toURI().toURL();
 			loader.setLocation(url);
 		} catch (MalformedURLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		LoginViewController controller = new LoginViewController();

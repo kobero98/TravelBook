@@ -14,6 +14,7 @@ public class profilePollingThread extends Thread{
 		while(goOn)
 		{
 			UserBean user=MenuBar.getInstance().getLoggedUser();
+			
 		}
 	}
 }

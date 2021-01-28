@@ -1,17 +1,14 @@
 package main.java.travelbook.controller;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.util.List;
 import java.util.Random;
 import javax.mail.MessagingException;
-import javax.security.auth.login.LoginException;
-
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -32,14 +29,14 @@ import main.java.travelbook.model.dao.FacebookDao;
 import main.java.travelbook.model.dao.PersistanceDAO;
 
 public class ControllerLogin {
-	private RegistrationBean createRegisterBeanFromFacebook(String accessToken,String id) throws Exception
+	private RegistrationBean createRegisterBeanFromFacebook(String accessToken,String id) throws IOException, ParseException
 	{
 		RegistrationBean user=new RegistrationBean();
 		String url = "https://graph.facebook.com/v9.0/"+id+"?fields=name,first_name,last_name,email,gender,birthday&access_token="+accessToken;
 		HttpClient client=HttpClientBuilder.create().build();
 		HttpGet request=new HttpGet(url);
 		HttpResponse response = client.execute(request);
-		String json = EntityUtils.toString(response.getEntity(), "UTF-8");
+		String json = EntityUtils.toString(response.getEntity(),StandardCharsets.UTF_8);
 		JSONParser parser = new JSONParser();
         Object resultObject = parser.parse(json);
         JSONObject obj=(JSONObject)resultObject;
@@ -60,7 +57,7 @@ public class ControllerLogin {
 		HttpClient client=HttpClientBuilder.create().build();
 		HttpGet request=new HttpGet(url);
 		HttpResponse response = client.execute(request);
-		String json = EntityUtils.toString(response.getEntity(), "UTF-8");
+		String json = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 		JSONParser parser = new JSONParser();
         Object resultObject = parser.parse(json);
         JSONObject o= (JSONObject) resultObject;
@@ -83,7 +80,7 @@ public class ControllerLogin {
 			HttpClient client=HttpClientBuilder.create().build();
 			HttpGet request=new HttpGet(url);
 			HttpResponse response = client.execute(request);
-			String json = EntityUtils.toString(response.getEntity(), "UTF-8");
+			String json = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 			JSONParser parser = new JSONParser();
             Object resultObject = parser.parse(json);
             JSONObject obj=null;
@@ -103,7 +100,7 @@ public class ControllerLogin {
 					client=HttpClientBuilder.create().build();
 					request=new HttpGet(url);
 					response = client.execute(request);
-					json = EntityUtils.toString(response.getEntity(), "UTF-8");
+					json = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 					parser = new JSONParser();
 		            resultObject = parser.parse(json);
 		            obj=(JSONObject)resultObject;
@@ -137,9 +134,9 @@ public class ControllerLogin {
 		}
 		return null;
 	}
-	private String passwordHash(String pswd)throws Exception{
+	private String passwordHash(String pswd) throws GeneralSecurityException{
 		MessageDigest hasher=MessageDigest.getInstance("SHA-1");
-		hasher.update(pswd.getBytes("UTF-8"));
+		hasher.update(pswd.getBytes(StandardCharsets.UTF_8));
 		return toHex(hasher.digest());
 	}
 	private static String toHex(byte[] data)  {
@@ -156,12 +153,11 @@ public class ControllerLogin {
 	}
 	public UserBean signIn(String username,String password) throws LoginPageException{
 		try {
-			System.out.println("QUI");
 			UserBean user=null;
 			PersistanceDAO userDao=DaoFactory.getInstance().create(DaoType.USER);
 			UserEntity userE=new UserEntity();
 			userE.setUsername(username);
-			userE.setPassword(this.passwordHash(password));
+			userE.setPassword(this.passwordHash(password)); 
 			List<Entity> list = userDao.getData(userE);
 			MyIdentity.getInstance().setMyEntity((UserEntity) list.get(0));
 			user=new UserBean(MyIdentity.getInstance().getMyEntity());
@@ -204,7 +200,7 @@ public class ControllerLogin {
 		PersistanceDAO userDao= DaoFactory.getInstance().create(DaoType.USER);
 		UserEntity newUser= new UserEntity(user);
 		try {
-		newUser.setPassword(this.passwordHash(user.getPassword()));
+			newUser.setPassword(this.passwordHash(user.getPassword()));
 		}catch(Exception e) {
 			e.getStackTrace();
 		}

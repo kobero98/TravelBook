@@ -406,6 +406,9 @@ public class LoginViewController {
 		if(cognome.isEmpty()) {
 			errore=true;
 		}
+		if(nations.getValue().isEmpty()) {
+			errore=true;
+		}
 		String pswd=this.pswd1.getText();
 		if(pswd.isEmpty()) {
 			errore=true;
@@ -439,6 +442,7 @@ public class LoginViewController {
           user.setSurname(cognome);
           user.setName(nome);
           user.setGender(gender);
+          user.setNazionalita(nations.getValue());
           this.userToBeRegister=user;
           new Thread(()->{
         	  ControllerLogin controller=new ControllerLogin();

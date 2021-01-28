@@ -11,7 +11,7 @@ public class UserEntity extends OtherUserEntity implements Entity{
 	private String username=null;
 	private String password=null;
 	private String email=null;
-	private String nation;
+	private String nation=null;
 	
 	public UserEntity(RegistrationBean user) {
 		super.name=user.getName();
@@ -21,6 +21,7 @@ public class UserEntity extends OtherUserEntity implements Entity{
 		this.password=user.getPassword();
 		super.birthDate=user.getBirtdate();
 		super.gender=user.getGender();
+		this.nation=user.getNazionalita();
 	}
 	public UserEntity(int id) {
 		super(id);

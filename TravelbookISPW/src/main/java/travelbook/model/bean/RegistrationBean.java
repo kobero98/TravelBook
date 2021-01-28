@@ -11,6 +11,7 @@ public class RegistrationBean implements Bean{
 	private String email;
 	private Date birthDate;
 	private String gender;
+	private String nazionalita;
 	
 	public void setUsername(String username) {
 		this.username=username;
@@ -33,7 +34,10 @@ public class RegistrationBean implements Bean{
 	public void setGender(String gender) {
 		this.gender=gender;
 	}
-	
+	public void setNazionalita(String nazionalita)
+	{
+		this.nazionalita=nazionalita;
+	}
 	
 	public String getUsername() {
 		return this.username;
@@ -56,7 +60,11 @@ public class RegistrationBean implements Bean{
 	public String getGender() {
 		return this.gender;
 	}	
+	@Override
 	public String toString() {
 		return this.email+" "+this.name+this.password+this.gender+this.username+this.surname+this.birthDate;
+	}
+	public String getNazionalita() {
+		return this.nazionalita;
 	}
 }

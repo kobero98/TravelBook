@@ -191,7 +191,7 @@ public class AllQuery {
 	public void requestRegistrationUser(Connection conn,UserEntity user) throws LoginPageException,SQLException {
 				  PreparedStatement preparedStmt =null;
 				
-					  String query = " insert into User (Username, password,NameUser, Surname, BirthDate,Email,Gender)" + " values (?, ?, ?, ?, ?, ?, ?)";
+					  String query = " insert into User (Username, password,NameUser, Surname, BirthDate,Email,Gender,Nazionalita)" + " values (?, ?, ?, ?, ?, ?, ?,?)";
 					  try {
 							preparedStmt = conn.prepareStatement(query);
 							preparedStmt.setString (1, user.getUsername());
@@ -201,6 +201,7 @@ public class AllQuery {
 						    preparedStmt.setDate   (5,user.getBirthDate());// il data va sistemato
 						    preparedStmt.setString (6,user.getEmail());
 						    preparedStmt.setString (7,user.getGender());
+						    preparedStmt.setString (8, user.getNation());
 						    preparedStmt.execute();
 						    preparedStmt.close();
 				     }catch(SQLIntegrityConstraintViolationException e) {
@@ -396,7 +397,6 @@ public class AllQuery {
 	public void updateTravelNumberForUser(Connection connessione,int idUser) {
 		PreparedStatement stmt=null;
 		String query="update User set TripNumber= ? where idUser=?";
-		Statement stmt1=null;
 		try {
 			Statement stmt2=connessione.createStatement();
 			ResultSet rs=stmt2.executeQuery("Select Count(idTrip) as tripNumber from trip where CreatorTrip="+idUser);
@@ -406,26 +406,18 @@ public class AllQuery {
 			stmt.setInt(2, idUser);
 			stmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
-			if(stmt!=null )
+			if(stmt!=null ) {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			if(stmt1!=null )
-				try {
-					stmt1.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			}
+				
 		}
 	}
-	
 	public void updateListFollower(Connection connessione, Integer idFollower, Integer idFollowed) throws SQLException {
 		Statement stmt1=null;
 		PreparedStatement stmt=null;
@@ -461,14 +453,12 @@ public class AllQuery {
 			stmt.setInt(2, iduser);
 			stmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			if(stmt!=null)
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -483,14 +473,12 @@ public class AllQuery {
 			stmt.setInt(2, idUser);
 			stmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			if(stmt!=null)
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -521,7 +509,6 @@ public class AllQuery {
 	{ 	
 		PreparedStatement preparedStmt=null;
 		try {
-		
 				  String query = "Delete from User where idUser=? ";
 			      preparedStmt = connessione.prepareStatement(query);
 			      preparedStmt.setInt (1,iduser);
@@ -531,8 +518,7 @@ public class AllQuery {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			if(connessione!=null) {
-				try {
+			try {
 					connessione.close();
 				} catch (SQLException e) {
 					
@@ -546,7 +532,6 @@ public class AllQuery {
 						e.printStackTrace();
 					}
 			}
-		}
 	}
 	public ResultSet requestUserbyID(Statement stmt,int id) {
 		ResultSet rs=null;
@@ -588,7 +573,6 @@ public class AllQuery {
 		try {
 			rs=stmt.executeQuery(query);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return rs;
@@ -599,7 +583,6 @@ public class AllQuery {
 		try {
 			 rs=stmt.executeQuery(query);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return rs;
@@ -613,14 +596,12 @@ public class AllQuery {
 			stmt.setString(2, entity.getState());
 			stmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			if(stmt!=null)
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
@@ -633,7 +614,6 @@ public class AllQuery {
 			prp.setString(2, entity.getState());
 			prp.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -648,7 +628,6 @@ public class AllQuery {
 				query.append("SELECT * FROM messaggio where Destinatario="+message.getIdDestinatario()+" and letto="+0);
 				if(message.getLastTimeStamp()!=null) {
 						query.append(" and data>'"+Timestamp.from(message.getLastTimeStamp())+"'");
-						//System.out.println("Try at :"+Timestamp.from(message.getLastTimeStamp()));
 					}
 			}
 			else {
@@ -664,13 +643,11 @@ public class AllQuery {
 		try {
 			rs=stmt.executeQuery(query.toString());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return rs;
 	}
 	public void sendMessage(Connection connect, MessageEntity message)throws SQLException {
-		ResultSet rs=null;
 		String query="INSERT INTO messaggio(Destinatario,Mittente,Testo,data) values (?,?,?,?)";
 		PreparedStatement insertMex=connect.prepareStatement(query);
         insertMex.setInt(1, message.getIdDestinatario());
