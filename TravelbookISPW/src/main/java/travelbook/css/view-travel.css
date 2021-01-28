@@ -107,18 +107,18 @@
     -fx-alignment: CENTER;
     -fx-text-fill: textColorL;
 }
-.h-box{
+.h-box1{
 	-fx-background-color: #FDFDFD;
 	-fx-background-radius: 25 25 0 0;
 	-fx-border-color: textColorL;
 	-fx-border-width: 0 0 1 0;
 }
-.h-box .label{
+.h-box1 .label{
 	-fx-padding: 0.5em;
 	-fx-background-radius: 0 0 25 0;
 	-fx-background-color: Dcolor;
 }
-.h-box .label > .text{
+.h-box1 .label > .text{
 	-fx-font-size: 1.5em;
 	-fx-fill: #FDFDFD;
 }
@@ -171,4 +171,21 @@
 	-fx-border-color: lightGrey;
 	-fx-background-insets: -16 -8 0 -8;
 	-fx-border-insets: -16 -8 0 -8;
+}
+.contact{
+	-fx-background-color: Mcolor;
+	-fx-background-radius: 30 30 0 0;
+}
+.h-box{
+	-fx-background-color: null;
+	-fx-border-width: 0 0 2 0;
+	-fx-border-color: lightGrey;
+}
+
+.photo{
+	
+	-fx-shape: "M 25, 50 a 25,25 0 1,1 50,0 a 25,25 0 1,1 -50,0 Z";
+	-fx-border-color: textColorL;
+	-fx-border-width: 2;
+	
 }

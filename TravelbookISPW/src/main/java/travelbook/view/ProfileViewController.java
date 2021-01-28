@@ -33,7 +33,9 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import main.java.travelbook.controller.MyProfileController;
+import main.java.travelbook.model.bean.Bean;
 import main.java.travelbook.model.bean.MiniTravelBean;
+import main.java.travelbook.model.bean.ShareBean;
 import main.java.travelbook.model.bean.UserBean;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -74,13 +76,19 @@ public class ProfileViewController implements Observer{
 	@FXML
 	private TextArea descrWrite; 
 	@FXML
-	private ListView<String> show;
+	private ListView<Bean> show;
 	@FXML
 	private Button favButton;
 	@FXML
 	private ImageView favIcon;
 	@FXML
 	private Text favText;
+	@FXML
+	private Button shButton;
+	@FXML
+	private ImageView shIcon;
+	@FXML
+	private Text shText;
 	@FXML
 	private Button followerButton;
 	@FXML
@@ -217,23 +225,7 @@ public class ProfileViewController implements Observer{
             	edit.setPrefWidth(mainAnchor.getPrefWidth()*35/1280);
             	edit.setPrefHeight(mainAnchor.getPrefHeight()*35/625);
             	edit.getStyleClass().add("edit");
-            	travel.setOnMouseClicked(e->{
-            		FXMLLoader loader=new FXMLLoader();
-            		
-            		ViewTravelController controller;
-            		AnchorPane internalPane;
-            		try {
-            			URL url = new File("src/main/java/travelbook/view/ViewTravel.fxml").toURI().toURL();
-            			MenuBar.getInstance().setIdTravel(item.getId());
-            			loader.setLocation(url);
-            			internalPane=(AnchorPane)loader.load();
-            			mainPane.setCenter(internalPane);
-            			controller=loader.getController();
-            			controller.setMainPane(mainPane,2);
-            		}catch(IOException exc) {
-            			exc.printStackTrace();
-            		}
-            	});
+            	travel.setOnMouseClicked(e->moveToView(item.getId()));
             	edit.setOnMouseClicked(e->{
             		try {
             			MenuBar.getInstance().setIdTravel(item.getId());
@@ -266,6 +258,24 @@ public class ProfileViewController implements Observer{
             }
 		}
 	}
+	
+	private void moveToView(int id) {
+   		FXMLLoader loader=new FXMLLoader();
+		
+		ViewTravelController controller;
+		AnchorPane internalPane;
+		try {
+			URL url = new File("src/main/java/travelbook/view/ViewTravel.fxml").toURI().toURL();
+			MenuBar.getInstance().setIdTravel(id);
+			loader.setLocation(url);
+			internalPane=(AnchorPane)loader.load();
+			mainPane.setCenter(internalPane);
+			controller=loader.getController();
+			controller.setMainPane(mainPane,2);
+		}catch(IOException exc) {
+			exc.printStackTrace();
+		}
+	}
 	public void setMainPane(BorderPane main) {
 
 		this.mainPane=main;
@@ -281,9 +291,13 @@ public class ProfileViewController implements Observer{
 			followingButton.setPrefHeight(mainAnchor.getHeight()*57/625);
 			followingButton.setLayoutY(mainAnchor.getHeight()*410/625);
 			favButton.setPrefHeight(mainAnchor.getHeight()*50/625);
-			favButton.setLayoutY(mainAnchor.getHeight()*513/625);
+			favButton.setLayoutY(mainAnchor.getHeight()*499/625);
 			favIcon.setFitHeight(mainAnchor.getHeight()*27.5/625);
-			favText.setLayoutY(mainAnchor.getHeight()*534/625);
+			favText.setLayoutY(mainAnchor.getHeight()*519/625);
+			shButton.setPrefHeight(mainAnchor.getHeight()*50/625);
+			shButton.setLayoutY(mainAnchor.getHeight()*564/625);
+			shIcon.setFitHeight(mainAnchor.getHeight()*27.5/625);
+			shText.setLayoutY(mainAnchor.getHeight()*583/625);
 			map.setFitHeight(mainAnchor.getHeight()*160/625);
 			map.setLayoutY(mainAnchor.getHeight()*434/625);
 			placeVisited.setPrefHeight(mainAnchor.getHeight()*160/625);
@@ -328,6 +342,10 @@ public class ProfileViewController implements Observer{
 			favButton.setLayoutX(mainAnchor.getWidth()*41/1280);
 			favIcon.setFitWidth(mainAnchor.getWidth()*30/1280);
 			favText.setLayoutX(mainAnchor.getWidth()*95/1280);
+			shButton.setPrefWidth(mainAnchor.getWidth()*50/1280);
+			shButton.setLayoutX(mainAnchor.getWidth()*41/1280);
+			shIcon.setFitWidth(mainAnchor.getWidth()*30/1280);
+			shText.setLayoutX(mainAnchor.getWidth()*95/1280);
 			map.setFitWidth(mainAnchor.getWidth()*285/1280);
 			map.setLayoutX(mainAnchor.getWidth()*307/1280);
 			placeVisited.setPrefWidth(mainAnchor.getWidth()*270/1280);
@@ -484,6 +502,81 @@ public class ProfileViewController implements Observer{
 		myDescrEdit.setVisible(false);
 	}
 	@FXML
+	private void sharedList(){
+		show.setVisible(true);
+		errorMsg.setVisible(false);
+		listTitle.setVisible(true);
+		listText.setText("Check out this travels");
+		show.getItems().clear();
+		try {
+			List<Bean> sh = myController.getShared(user.getId());
+			if(sh!=null && !sh.isEmpty()) {
+				ObservableList<Bean> fav = FXCollections.observableList(sh);
+				show.setItems(fav);
+				show.setCellFactory(list->new shCell());
+			}
+		} catch (DBException e) {
+			errorMsg.setVisible(true);
+		}
+	}
+	class shCell extends ListCell<Bean>{
+		@Override
+        public void updateItem(Bean item, boolean empty) {
+            super.updateItem(item, empty);
+            if(!empty) {
+            	ShareBean myItem = (ShareBean)item;
+            	MiniTravelBean myTravel=null;
+            	UserBean myUser=null;
+				try {
+					myTravel = myController.getTravel(myItem.getTravelShared());
+					myUser = myController.getUser(myItem.getCreator());
+				} catch (DBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				HBox hBox = new HBox();
+            	VBox vBox = new VBox();
+            	Label title = new Label(myTravel.getNameTravel());
+            	title.getStyleClass().add("text1");
+            	Label creator = new Label(myUser.getName()+" "+myUser.getSurname());
+            	creator.getStyleClass().add("text2");
+            	Pane contactPic = new Pane();
+				Background bg;
+				try {
+					Image photo = myTravel.getPathImage();
+					
+					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+					bg = new Background(bgpic);
+				}catch(NullPointerException | IllegalArgumentException e) {
+					URL url=null;
+					try {
+						url = new File("src/main/resources/ProfilePageImages/travelers.png").toURI().toURL();
+					} catch (MalformedURLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					Image photo = new Image(url.toString());
+					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+					bg = new Background(bgpic);
+				}
+					contactPic.setBackground(bg);
+					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
+					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
+					contactPic.getStyleClass().add("profile-pic");
+            	vBox.setOnMouseClicked(e->{
+            		moveToView(myItem.getTravelShared());
+            	});
+            	vBox.getChildren().add(title);
+            	vBox.getChildren().add(creator);
+            	hBox.getChildren().add(contactPic);
+            	hBox.getChildren().add(vBox);
+            	setGraphic(hBox);
+            }
+            else
+            	setGraphic(null);
+		}
+	}
+	@FXML
 	private void favouriteList(){
 		show.setVisible(true);
 		errorMsg.setVisible(false);
@@ -491,11 +584,12 @@ public class ProfileViewController implements Observer{
 		listText.setText("Your favourite travels");
 		show.getItems().clear();
 		if(user.getFav()!=null && !user.getFav().isEmpty()) {
-			ObservableList<String> fav;
+			ObservableList<Bean> fav;
 			try {
-				List<String> l =myController.getFav(user.getFav());
+				List<Bean> l =myController.getFav(user.getFav());
 				fav = FXCollections.observableList(l);
 				show.setItems(fav);
+				show.setCellFactory(list-> new favCell());
 			} catch (DBException e) {
 				errorMsg.setVisible(true);
 			}
@@ -509,10 +603,10 @@ public class ProfileViewController implements Observer{
 		listText.setText("Your followers");
 		show.getItems().clear();
 		if(user.getFollower()!= null && !user.getFollower().isEmpty()) {
-			ObservableList<String> fav;
+			ObservableList<Bean> fav;
 			try {
 				fav = FXCollections.observableList(myController.getFollow(user.getFollower()));
-				
+				show.setCellFactory(list-> new followCell());
 				show.setItems(fav);
 			} catch (DBException e) {
 				errorMsg.setVisible(true);
@@ -528,15 +622,104 @@ public class ProfileViewController implements Observer{
 		listText.setText("Your interesting people");
 		show.getItems().clear();
 		if(user.getFollowing()!=null && !user.getFollowing().isEmpty()) {
-			ObservableList<String> fav;
+			ObservableList<Bean> fav;
 			try {
 				fav = FXCollections.observableList(myController.getFollow(user.getFollowing()));
-			
-			show.setItems(fav);
+				show.setCellFactory(list-> new followCell());
+				show.setItems(fav);
 			} catch (DBException e) {
 				errorMsg.setVisible(true);
 			}
 			
+		}
+	}
+	class followCell extends ListCell<Bean>{
+		@Override
+		public void updateItem(Bean item, boolean empty) {
+            super.updateItem(item, empty);
+            if(!empty) {
+            	UserBean myItem = (UserBean)item;
+            	HBox hBox = new HBox();
+            	Pane contactPic = new Pane();
+				Background bg;
+				try {
+					Image photo = myItem.getPhoto();
+					
+					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+					bg = new Background(bgpic);
+				}catch(NullPointerException | IllegalArgumentException e) {
+					URL url=null;
+					try {
+						url = new File("src/main/resources/ProfilePageImages/travelers.png").toURI().toURL();
+					} catch (MalformedURLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					Image photo = new Image(url.toString());
+					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+					bg = new Background(bgpic);
+				}
+					contactPic.setBackground(bg);
+					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
+					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
+					contactPic.getStyleClass().add("profile-pic");
+					Label name = new Label(myItem.getName()+" "+myItem.getSurname());
+					name.getStyleClass().add("text1");
+					hBox.getChildren().add(contactPic);
+					hBox.getChildren().add(name);
+					hBox.setOnMouseClicked(e1->{
+						MenuBar.getInstance().setIdUser(myItem.getId());
+						FXMLLoader loader =new FXMLLoader();
+						try {
+							URL url1 = new File("src/main/java/travelbook/view/ProfileUserViewOther.fxml").toURI().toURL();
+						loader.setLocation(url1);
+						AnchorPane internalPane=(AnchorPane)loader.load();
+						mainPane.setCenter(internalPane);
+						ProfileOtherController controller=loader.getController();
+						controller.setMainPane(mainPane, 4, 0);
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					});
+					setGraphic(hBox);
+				
+            }
+		}
+	}
+	
+	class favCell extends ListCell<Bean>{
+		@Override
+		public void updateItem(Bean item, boolean empty) {
+            super.updateItem(item, empty);
+            if(!empty) {
+            	MiniTravelBean myItem = (MiniTravelBean)item;
+            	HBox hBox = new HBox();
+            	Pane contactPic = new Pane();
+				Background bg;
+				try {
+					Image photo = myItem.getPathImage();
+					
+					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+					bg = new Background(bgpic);
+					}catch(NullPointerException | IllegalArgumentException e) {
+						BackgroundFill bgfill = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), null, null);
+						bg = new Background(bgfill);
+					}
+					
+					contactPic.setBackground(bg);
+					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
+					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
+					contactPic.getStyleClass().add("profile-pic");
+					Label name = new Label(myItem.getNameTravel());
+					name.getStyleClass().add("text1");
+					hBox.getChildren().add(contactPic);
+					hBox.getChildren().add(name);
+					hBox.setOnMouseClicked(e1->
+						moveToView(myItem.getId()));
+					setGraphic(hBox);
+				
+            }
 		}
 	}
 	@FXML

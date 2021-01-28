@@ -3,7 +3,7 @@ package main.java.travelbook.model.bean;
 import javafx.scene.image.Image;
 import main.java.travelbook.model.TravelEntity;
 
-public class MiniTravelBean{
+public class MiniTravelBean implements Bean{
 	private Integer id;
 	private String nameTravel;
 	private String descriptionTravel;

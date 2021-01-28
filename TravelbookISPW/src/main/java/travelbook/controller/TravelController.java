@@ -20,17 +20,9 @@ import main.java.travelbook.util.NumberInDayComparator;
 
 public class TravelController{
 	
-	private static TravelController instance = null;
 	
-	private TravelController() {
+	public TravelController() {
 		
-	}
-	
-	public static TravelController getInstance() {
-		if(instance == null) {
-			instance = new TravelController();
-		}
-		return instance;
 	}
 	
 	public TravelBean getTravel(int id) throws DBException {
@@ -64,26 +56,28 @@ public class TravelController{
 	public List<UserBean> getContactSharing(UserBean myUser) throws DBException{
 		List<UserBean> contact=new ArrayList<>();
 		List<Integer> followFollowing=new ArrayList<>();
-		for(Integer seguito: myUser.getFollowing()) {
-			if(myUser.getFollower().contains(seguito)) {
-				followFollowing.add(seguito);
+		if(myUser.getFollowing()!=null) {
+			for(Integer seguito: myUser.getFollowing()) {
+				if(myUser.getFollower().contains(seguito)) {
+					followFollowing.add(seguito);
+				}
 			}
-		}
-		VisualDAO dao=DaoFactory.getInstance().createVisual(DaoType.S_USER);
-		for(Integer fol:followFollowing) {
-			UserEntity entity=new UserEntity(fol);
-			UserEntity res=(UserEntity)(dao.getData(entity).get(0));
-			contact.add(new UserBean(res));
+			VisualDAO dao=DaoFactory.getInstance().createVisual(DaoType.S_USER);
+			for(Integer fol:followFollowing) {
+				UserEntity entity=new UserEntity(fol);
+				UserEntity res=(UserEntity)(dao.getData(entity).get(0));
+				contact.add(new UserBean(res));
+			}
 		}
 		return contact;
 	}
-	public void shareTravel(List<UserBean> user, int travelId, int travelC, int userId) throws DBException {
+	public void shareTravel(List<Integer> user, int travelId, int travelC, int userId) throws DBException {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.SHARE);
-		for(UserBean us: user) {
+		for(Integer us: user) {
 			ShareEntity sh=new ShareEntity();
 			sh.setTravelShared(travelId);
 			sh.setWhoShare(userId);
-			sh.setWhoReceive(us.getId());
+			sh.setWhoReceive(us);
 			sh.setCreator(travelC);
 			dao.setMyEntity((Entity)sh);
 			dao.setData();

@@ -4,7 +4,7 @@ import java.time.Instant;
 
 import main.java.travelbook.model.MessageEntity;
 
-public class MessageBean {
+public class MessageBean implements Bean{
 
 	
 	private int idMessaggio;

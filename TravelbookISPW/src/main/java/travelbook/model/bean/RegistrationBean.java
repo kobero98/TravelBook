@@ -2,7 +2,7 @@ package main.java.travelbook.model.bean;
 
 import java.sql.Date;
 
-public class RegistrationBean {
+public class RegistrationBean implements Bean{
 
 	private String username;
 	private String password;

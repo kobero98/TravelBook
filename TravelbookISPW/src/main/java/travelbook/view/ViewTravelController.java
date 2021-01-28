@@ -37,12 +37,16 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import main.java.travelbook.view.ChatViewController.MyItem;
 import main.java.travelbook.view.animation.SlideImageAnimationHL;
 import main.java.travelbook.view.animation.SlideImageAnimationHR;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -104,15 +108,22 @@ public class ViewTravelController {
 	private Button rightScroll;
 	@FXML
 	private Button leftScroll;
+	@FXML
+	private ListView<UserBean> shareList;
+	@FXML
+	private Button goShare;
 	private Button selected = null;
 	private static final String ALERTCSS="src/main/java/travelbook/css/alert.css";
 	private static final String PROJECTCSS="src/main/java/travelbook/css/project.css";
 	private static final String HEADER_MSG ="Something went wrong!";
 	private static final String WARN_IMG = "src/main/resources/AddViewImages/warning.png";
+	private TravelController myController = new TravelController();
+	private List <Integer> toShareId = new ArrayList<>();
 	@FXML
 	private void initialize() {
+		
 		try {
-			myTravel = TravelController.getInstance().getTravel(MenuBar.getInstance().getTravelId());
+			myTravel = myController.getTravel(MenuBar.getInstance().getTravelId());
 		} catch (DBException e1) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Connection lost");
@@ -188,7 +199,7 @@ public class ViewTravelController {
     		steps.getStyleClass().add("itinerary");
     		Line buttonLine = new Line();
     		buttonLine.getStyleClass().add("itinerary-line");
-    		List<StepBean> todayStep = TravelController.getInstance().stepInDay(myTravel.getListStep(), Integer.parseInt(day.getId())-1);
+    		List<StepBean> todayStep = myController.stepInDay(myTravel.getListStep(), Integer.parseInt(day.getId())-1);
     		for(int j=0; j<todayStep.size(); j++) {
     			Button b = new Button();
     			Text t = new Text(todayStep.get(j).getPlace());
@@ -301,6 +312,12 @@ public class ViewTravelController {
 			photoBox.setPrefHeight(mainAnchor.getHeight()*169/625);
 			leftScroll.setPrefHeight(mainAnchor.getHeight()*20/625);
 			rightScroll.setPrefHeight(mainAnchor.getHeight()*20/625);
+			shareList.setPrefHeight(mainAnchor.getHeight()*280/625);
+			shareList.setLayoutY(mainAnchor.getHeight()*264/625);
+			viewMap.setPrefHeight(mainAnchor.getHeight()*35/625);
+			viewMap.setLayoutY(mainAnchor.getHeight()*292/625);
+			goShare.setPrefHeight(mainAnchor.getHeight()*30/625);
+			goShare.setLayoutY(mainAnchor.getHeight()*544/625);
 		});	
 		
 		this.mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
@@ -336,6 +353,12 @@ public class ViewTravelController {
 			photoBox.setPrefWidth(mainAnchor.getWidth()*photoBox.getPrefWidth()/1280);
 			leftScroll.setPrefWidth(mainAnchor.getWidth()*15/1280);
 			rightScroll.setPrefWidth(mainAnchor.getWidth()*15/1280);
+			shareList.setPrefWidth(mainAnchor.getWidth()*240/1280);
+			shareList.setLayoutX(mainAnchor.getWidth()*336/1280);
+			viewMap.setPrefWidth(mainAnchor.getWidth()*150/1280);
+			viewMap.setLayoutX(mainAnchor.getWidth()*437/1280);
+			goShare.setPrefWidth(mainAnchor.getWidth()*240/1280);
+			goShare.setLayoutX(mainAnchor.getWidth()*336/1280);
 		});
 		this.mainAnchor.setPrefHeight(mainPane.getHeight()*625/720);
 		this.mainAnchor.setPrefWidth(mainPane.getWidth());
@@ -348,7 +371,6 @@ public class ViewTravelController {
 		if(s.getListPhoto()!=null) {
 			ObservableList<Image> photo= FXCollections.observableArrayList();
 			photo.addAll(s.getListPhoto());
-			System.out.println(photo.size());
 			for(int i = 0; i < photo.size(); i++) {
 				ImageView displayPhoto = new ImageView(photo.get(i));
 				displayPhoto.setFitHeight(stepPhoto.getPrefHeight()*3/4);
@@ -445,7 +467,7 @@ public class ViewTravelController {
 	private void profileButtonHandler()throws IOException {
 			MenuBar.getInstance().setIdUser(myTravel.getIdCreator());
 			FXMLLoader loader =new FXMLLoader();
-			URL url = new File("src/main/java/travelbook/view/ProfileOtherController.fxml").toURI().toURL();
+			URL url = new File("src/main/java/travelbook/view/ProfileUserViewOther.fxml").toURI().toURL();
 			loader.setLocation(url);
 			AnchorPane internalPane=(AnchorPane)loader.load();
 			mainPane.setCenter(internalPane);
@@ -472,7 +494,7 @@ public class ViewTravelController {
 			user.setFav(s);
 			if(favButton.getStyleClass().contains(css)) {
 			favButton.getStyleClass().remove(css);
-			TravelController.getInstance().updateFav(user);
+			myController.updateFav(user);
 			f.remove((Integer) myTravel.getId());
 			}
 			else {
@@ -480,7 +502,7 @@ public class ViewTravelController {
 				if(f==null)  f=new ArrayList<>();
 				f.add(myTravel.getId());
 				MenuBar.getInstance().getLoggedUser().setFav(f);
-				TravelController.getInstance().updateFav(MenuBar.getInstance().getLoggedUser());
+				myController.updateFav(MenuBar.getInstance().getLoggedUser());
 			}
 		} catch (DBException e) {
 			Alert alert = new Alert(AlertType.WARNING);
@@ -508,8 +530,103 @@ public class ViewTravelController {
 	}
 	@FXML
 	private void shareButtonHandler() {
-		//dummy method
-		System.out.println("shared!");
+		if(!shareList.isVisible()) {
+			shareList.setItems(null);
+			viewMap.setVisible(false);
+			shareList.setVisible(true);
+			goShare.setVisible(true);
+			try {
+				ObservableList<UserBean> data = FXCollections.observableArrayList(myController.getContactSharing(MenuBar.getInstance().getLoggedUser()));
+				shareList.setItems(data);
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			shareList.setCellFactory(list->new ContactCell());
+		}
+		else {
+			shareList.setVisible(false);
+			goShare.setVisible(false);
+			viewMap.setVisible(true);
+			toShareId.clear();
+		}
+	}
+	class ContactCell extends ListCell<UserBean>{
+		@Override
+		public void updateItem(UserBean item, boolean empty) {
+			super.updateItem(item, empty);
+			if(!empty) {
+				HBox hBox = new HBox();
+				hBox.setSpacing(mainAnchor.getPrefWidth()*5/1280);
+				hBox.setAlignment(Pos.CENTER);
+				hBox.getStyleClass().add("h-box");
+				Text contact = new Text(item.getName()+" "+item.getSurname());
+				contact.getStyleClass().add("text");
+				contact.setWrappingWidth(mainAnchor.getPrefWidth()*100/1280);
+				Pane contactPic = new Pane();
+				Background bg;
+				try {
+					Image photo = item.getPhoto();
+					
+					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+					bg = new Background(bgpic);
+				}catch(NullPointerException | IllegalArgumentException e) {
+					URL url=null;
+					try {
+						url = new File("src/main/resources/ProfilePageImages/travelers.png").toURI().toURL();
+					} catch (MalformedURLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					Image photo = new Image(url.toString());
+					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+					bg = new Background(bgpic);
+				}
+				contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
+				contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
+				CheckBox check = new CheckBox();
+				check.selectedProperty().addListener((observable, oldValue, newValue)->{
+					if(check.isSelected()) 
+						toShareId.add(item.getId());
+					else
+						if(toShareId.contains(item.getId())) 
+							toShareId.remove(item.getId());
+				});
+				mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
+					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
+					hBox.setSpacing(mainAnchor.getPrefWidth()*5/1280);
+					contact.setWrappingWidth(mainAnchor.getPrefWidth()*100/1280);
+				});
+				mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->
+					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625)
+				);
+				contactPic.setBackground(bg);
+				contactPic.getStyleClass().add("photo");
+				hBox.getChildren().add(contactPic);
+				hBox.getChildren().add(contact);
+				hBox.getChildren().add(check);
+				setGraphic(hBox);
+			}
+			else {
+				setGraphic(null);
+			}
+		}
+	}
+	
+	@FXML
+	private void goShareHandler() {
+		if(!toShareId.isEmpty()) {
+			try {
+				myController.shareTravel(this.toShareId, this.myTravel.getId(), this.myTravel.getIdCreator(), MenuBar.getInstance().getLoggedUser().getId());
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			shareList.setVisible(false);
+			goShare.setVisible(false);
+			viewMap.setVisible(true);
+			toShareId.clear();
+		}
 	}
 	@FXML
 	private void viewOnMapHandler() {

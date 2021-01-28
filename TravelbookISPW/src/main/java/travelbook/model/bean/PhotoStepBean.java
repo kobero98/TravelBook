@@ -1,6 +1,6 @@
 package main.java.travelbook.model.bean;
 
-public class PhotoStepBean {
+public class PhotoStepBean implements Bean{
 	
 	private int idPhoto;
 	private int stepNumber;

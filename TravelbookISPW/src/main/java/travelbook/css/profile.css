@@ -124,4 +124,12 @@
 .fav-selected{
 	-fx-background-color: Dcolor;
 }
+.text1{
+	-fx-font: bold normal 0.75em "Arial";
+	-fx-text-fill: textColorD;
+}
+.text2{
+	-fx-font: normal italic 0.6em "Arial";
+	-fx-text-fill: textColorL;
+}
 

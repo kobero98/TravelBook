@@ -2,7 +2,7 @@ package main.java.travelbook.model.bean;
 
 import java.util.List;
 
-public class SearchTrip {
+public class SearchTrip implements Bean{
 
 	private List<String> type=null;
 	private String city=null;

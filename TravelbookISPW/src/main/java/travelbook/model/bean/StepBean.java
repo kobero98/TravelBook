@@ -9,7 +9,7 @@ import java.util.List;
 import javafx.scene.image.Image;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.util.PlaceAdapter;
-public class StepBean {
+public class StepBean implements Bean{
 	private List<ByteArrayOutputStream> bytes=new ArrayList<>();
 	public List<ByteArrayOutputStream> getBytes() {
 		return bytes;

@@ -5,7 +5,7 @@ import java.util.List;
 import javafx.scene.image.Image;
 import main.java.travelbook.model.OtherUserEntity;
 
-public class UserBean{
+public class UserBean implements Bean{
 	
 	private int id;
 	private String name="ciao";

@@ -431,16 +431,16 @@ public class AllQuery {
 		PreparedStatement stmt=null;
 		try {
 				stmt1 = connessione.createStatement();
-				ResultSet rs = stmt1.executeQuery("Select * from Follow where following = "+idFollower+" and follower = "+ idFollowed);
+				ResultSet rs = stmt1.executeQuery("Select * from Follow where follower = "+idFollower+" and following = "+ idFollowed);
 				if(!rs.next()) {
-					stmt=connessione.prepareStatement("Insert Into Follow (following,follower) values (?,?)");
+					stmt=connessione.prepareStatement("Insert Into Follow (follower,following) values (?,?)");
 					stmt.setInt(1, idFollower);
 					stmt.setInt(2,idFollowed);
 					stmt.execute();
 					stmt.close();
 				}
 				else {
-					stmt = connessione.prepareStatement("Delete From Follow where following = ? and follower = ?");
+					stmt = connessione.prepareStatement("Delete From Follow where follower = ? and following = ?");
 					stmt.setInt(1, idFollower);
 					stmt.setInt(2,idFollowed);
 					stmt.execute();

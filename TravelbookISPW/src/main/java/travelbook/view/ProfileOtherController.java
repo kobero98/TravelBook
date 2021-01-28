@@ -87,7 +87,7 @@ public class ProfileOtherController {
 	private Button follow;
 	@FXML
 	private Label errorMsg;
-	private String viewTravel = "ViewTravel.fxml";
+	private String viewTravel = "src/main/java/travelbook/view/ViewTravel.fxml";
 	private ControllerProfileOther myController = new ControllerProfileOther();
 	private static final String ALERTCSS="src/main/java/travelbook/css/alert.css";
 	private static final String PROJECTCSS="src/main/java/travelbook/css/project.css";
@@ -285,7 +285,7 @@ public class ProfileOtherController {
 			user1.setFav(s);
 			if(fav.getStyleClass().contains(CSS)) {
 			fav.getStyleClass().remove(CSS);
-			TravelController.getInstance().updateFav(user1);
+			new TravelController().updateFav(user1);
 			f.remove(item.getId());
 			}
 			else {
@@ -401,7 +401,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		if(user.getFav()!=null && !user.getFav().isEmpty()) {
 			ObservableList<String> fav;
 			try {
-				fav = FXCollections.observableList(myController.getFav(user.getFav()));
+				fav = FXCollections.observableList(myController.getFavS(user.getFav()));
 				show.setItems(fav);
 			} catch (DBException e) {
 				errorMsg.setVisible(true);
@@ -417,7 +417,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		if(user.getFollower()!= null && !user.getFollower().isEmpty()) {
 			ObservableList<String> fav;
 			try {
-				fav = FXCollections.observableList(myController.getFollow(user.getFollower()));
+				fav = FXCollections.observableList(myController.getFollowS(user.getFollower()));
 				show.setItems(fav);
 			} catch (DBException e) {
 				e.printStackTrace();
@@ -435,7 +435,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		if(user.getFollowing()!=null && !user.getFollowing().isEmpty()) {
 			ObservableList<String> fav;
 			try {
-				fav = FXCollections.observableList(myController.getFollow(user.getFollowing()));
+				fav = FXCollections.observableList(myController.getFollowS(user.getFollowing()));
 				show.setItems(fav);
 			} catch (DBException e) {
 				e.printStackTrace();
@@ -531,6 +531,13 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			try {
 				MenuBar.getInstance().moveToChat(mainPane);
 			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case 3:
+			try {
+				MenuBar.getInstance().moveToProfile(mainPane);
+			}catch(IOException e) {
 				e.printStackTrace();
 			}
 			break;

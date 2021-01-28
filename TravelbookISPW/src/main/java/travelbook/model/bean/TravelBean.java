@@ -9,7 +9,7 @@ import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.TravelEntity;
 import java.io.File;
 
-public class TravelBean extends Observable {
+public class TravelBean extends Observable implements Bean{
 
 	private int id;
 	private Double costTravel;

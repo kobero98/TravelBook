@@ -1,6 +1,6 @@
 package main.java.travelbook.model.bean;
 
-public class CityBean{
+public class CityBean implements Bean{
 	private String nameCity;
 	private String nameNation;
 

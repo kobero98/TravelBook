@@ -2,7 +2,7 @@ package main.java.travelbook.model.bean;
 
 import main.java.travelbook.model.ShareEntity;
 
-public class ShareBean {
+public class ShareBean implements Bean{
 	private int whoShare;
 	private int whoReceive;
 	private int travelShared;

@@ -129,3 +129,20 @@
 .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell{
 	-fx-background-color: null;
 }
+/*check-box */
+.check-box{
+	-fx-font-size: 0.7em;
+	-fx-text-fill: textColorL;
+}
+.check-box .box{
+	-fx-background-color: Lcolor;
+	-fx-border-color: lightGrey;
+	-fx-border-radius: 5;
+	-fx-border-width: 2;
+	-fx-background-radius: 5;
+}
+.check-box:selected > .box > .mark{
+    -fx-padding: 0.416667em 0.416667em 0.5em 0.5em;
+    -fx-shape: "M 5.1806931,9.0173267 7.5232674,12.170792 11.307426,4.4673266 10.091089,3.9717821 7.2980199,9.6029703 6.1267328,7.9361386 z";
+    -fx-background-color: Dcolor;
+}
