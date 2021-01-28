@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
+<%@page import="main.java.travelbook.model.bean.UserBean" %>
+<%
+	if(request.getSession().getAttribute("loggedBean")!=null){
+		UserBean log=(UserBean)request.getSession().getAttribute("loggedBean");
+		
+		out.println(log.getName());
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>

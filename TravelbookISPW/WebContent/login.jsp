@@ -37,11 +37,6 @@
 		%>
 			<jsp:forward page="explore.jsp"/>
 		<% 
-	}else{
-		out.println(request.getContextPath());
-		out.println(request.getQueryString());
-		if(request.getParameter("data_access_expiration_time")!=null)
-			out.println("Non trovato facebook");
 	}
 	
 %>
@@ -77,9 +72,7 @@
 						}
 					});
 				}
-				else{
-					alert("niente");
-				}
+				
 			}
 			function apriRegistrazione(){
 				$("#login").animate({opacity: '0.1'},"slow");
