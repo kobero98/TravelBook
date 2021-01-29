@@ -63,7 +63,6 @@ public class StepDao implements PersistanceDAO {
 				Statement stmt1=connection.createStatement();
 				ResultSet rs1=AllQuery.getInstance().requestPhotoByStep(stmt1, localStep.getNumber(), localStep.getIDTravel());
 				List<InputStream> images=new ArrayList<>();
-				System.out.println(rs1.getFetchSize());
 				while(rs1.next()) {
 					images.add(rs1.getBinaryStream(1));
 				}

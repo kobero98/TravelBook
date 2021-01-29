@@ -1,22 +1,16 @@
 package main.java.travelbook.controller;
-import javax.mail.Transport;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-
-import java.io.FileReader;
-import java.io.Reader;
 import java.util.List;
 import java.util.Properties;
 public class EmailSenderController {
 		public void sendMessage(String dest,String mex, String subj) throws MessagingException {
 		// Create a mail session
-		JSONParser parser=new JSONParser();
-		JSONObject jsonObject;
+
 		
 		String mit = "travelbookispw@outlook.it";
 		String pswd= "ProgettoISPW2021";

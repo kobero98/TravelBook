@@ -1,7 +1,6 @@
 package main.java.travelbook.controller;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,16 +52,14 @@ public class MyProfileController extends ProfileController{
 		TravelEntity travelE = new TravelEntity();
 		travelE.setIdTravel(l);
 		TravelEntity rs= (TravelEntity)miniTravelDao.getData(travelE).get(0);
-		MiniTravelBean bean = new MiniTravelBean(rs);
+		return new MiniTravelBean(rs);
 
-		return bean;
 	}
 	public UserBean getUser(Integer l) throws DBException{
 		VisualDAO shortUserDao = DaoFactory.getInstance().createVisual(DaoType.S_USER);
 		UserEntity userE = new UserEntity(l);
 		UserEntity rs= (UserEntity)shortUserDao.getData(userE).get(0);
-		UserBean bean = new UserBean(rs);
+		return new UserBean(rs);
 
-		return bean;
 	}
 }

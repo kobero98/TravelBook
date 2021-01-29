@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.DBException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -503,7 +504,13 @@ public class SearchTravelController {
 		trip.setType(s);
 		trip.setCity(r);
 		System.out.println(r);
-		List<MiniTravelBean> l=ControllerSearch.getInstance().search(trip);
+		List<MiniTravelBean> l=null;
+		try {
+			l = ControllerSearch.getInstance().search(trip);
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(l!=null) for(int i=0;i<l.size();i++) {
 			System.out.println( "Sono qui"+l.get(i).getNameTravel());
 			lista.setItems(FXCollections.observableArrayList(l));

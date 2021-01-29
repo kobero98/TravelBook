@@ -31,15 +31,7 @@ public class PredictionController {
 		return mapboxQuery(text,true,10,"place,address,locality,poi");
 	}
 	private List<JSONObject> mapboxQuery(String text,boolean bool,int limit,String tipi) throws MapboxException {
-		/*JSONParser pars=new JSONParser();
-		JSONObject obj;
-		try {
-			Reader reader=new FileReader("src/main/java/travelbook/controller/configuration.json");
-			obj=(JSONObject)pars.parse(reader);
-		}catch(Exception e) {
-			throw new MapboxException(e.getMessage());
-		}
-		token=obj.get("access_token").toString();*/
+		
 		if(limit>10) {
 			limit=10;
 		}
@@ -54,16 +46,13 @@ public class PredictionController {
 		String url="https://api.mapbox.com/geocoding/v5/mapbox.places/"+newText+".json"+"?fuzzyMatch="+bool+"&limit="+limit+"&types="+tipi+"&access_token="+token;
 		HttpGet request=new HttpGet(url);
 		request.addHeader("accept", "application/json");
-		try {
 			HttpResponse response = client.execute(request);
 			String json = EntityUtils.toString(response.getEntity(), "UTF-8");
 			return parseString(json);
 		} catch (IOException e) {
 			throw new MapboxException(e.getMessage());
 		}
-		}catch(Exception e) {
-			throw new MapboxException(e.getMessage());
-		}
+		
 
 	}
 	private List<JSONObject> parseString(String json) throws MapboxException {
@@ -86,6 +75,7 @@ public class PredictionController {
         }
 	}
 	public JSONObject getPlaceByName(String name) throws MapboxException {
+		String s = "place-name";
 		List<String> types=new ArrayList<>();
 		types.add("place");
 		types.add("locality");
@@ -94,8 +84,7 @@ public class PredictionController {
 		List<JSONObject> results=this.mapboxQuery(name, false, 10,"place,locality,address,poi");
 		for(JSONObject res: results) {
 			
-			if(res.get("place_name").equals(name)) {
-				System.out.println(res.get("place_name"));
+			if(res.get(s).equals(name)) {
 				return res;
 			}
 		}
@@ -103,8 +92,7 @@ public class PredictionController {
 			results=this.mapboxQuery(name, false, 10, tipo);
 			for(JSONObject res: results) {
 				
-				if(res.get("place_name").equals(name)) {
-					System.out.println(res.get("place_name"));
+				if(res.get(s).equals(name)) {
 					return res;
 				}
 			}

@@ -1,7 +1,6 @@
 package main.java.travelbook.controller;
 
-import java.sql.SQLException;
-import main.java.travelbook.model.ShareEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,12 +10,9 @@ import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.Bean;
 import main.java.travelbook.model.bean.MiniTravelBean;
-import main.java.travelbook.model.bean.ShareBean;
-import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
-import main.java.travelbook.model.dao.PersistanceDAO;
 import main.java.travelbook.model.dao.VisualDAO;
 
 public class ProfileController{

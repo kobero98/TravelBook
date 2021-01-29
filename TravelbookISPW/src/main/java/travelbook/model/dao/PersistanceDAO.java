@@ -1,9 +1,8 @@
 package main.java.travelbook.model.dao;
 
-import java.sql.SQLException;
+
 
 import exception.DBException;
-import exception.LoginPageException;
 import main.java.travelbook.model.Entity;
 
 public interface PersistanceDAO extends VisualDAO{

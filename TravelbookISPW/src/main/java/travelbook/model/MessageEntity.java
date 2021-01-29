@@ -61,5 +61,10 @@ public class MessageEntity implements Entity {
 		this.idMittente=mit;
 		this.idDestinatario=dest;
 	}
+	public MessageEntity(int id, int mit, int dest) {
+		this.idMessaggio=id;
+		this.idMittente=mit;
+		this.idDestinatario=dest;
+	}
 	
 }

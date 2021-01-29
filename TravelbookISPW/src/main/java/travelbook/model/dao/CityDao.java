@@ -26,7 +26,6 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 			
 		while(rs.next()) {	
 			city=new CityEntity();
-			System.out.println(rs.getString(1)+rs.getString(2));
 			city.setNameC(rs.getString(1));
 			city.setState(rs.getString(2));
 			predictions.add(city);

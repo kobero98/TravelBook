@@ -1,6 +1,5 @@
 package main.java.travelbook.controller;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,15 +67,13 @@ public class ControllerSearch {
 	}
 	private CityEntity convertCity(String s) {
 		CityEntity citta=new CityEntity();
-		String nome="";
-		String state="";
 		int i=s.indexOf(",");
 		citta.setNameC(s.substring(0, i));
 		citta.setState(s.substring(i+1));
 		return citta;
 		
 	}
-	public List <MiniTravelBean> search(SearchTrip trip){
+	public List <MiniTravelBean> search(SearchTrip trip) throws DBException{
 		SearchEntity search=new SearchEntity();
 		search.setType(setTypeOrder(trip.getType()));
 		search.setCity(convertCity(trip.getCity()));
@@ -87,19 +84,12 @@ public class ControllerSearch {
 		if(trip.getCostoMax()!=0)search.setMaxCost(trip.getCostoMax());
 		else search.setMaxCost(null);
 		VisualDAO dao=DaoFactory.getInstance().createVisual(DaoType.SEARCH_TRAVEL);
-		try {
-			List<Entity> l=dao.getData(search);
-			List<MiniTravelBean> list=new ArrayList<>();
-			for(int i=0;i<l.size();i++) {
-				list.add( new MiniTravelBean( (TravelEntity)  l.get(i) ));
-			}
-			return list;
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		List<Entity> l=dao.getData(search);
+		List<MiniTravelBean> list=new ArrayList<>();
+		for(int i=0;i<l.size();i++) {
+			list.add( new MiniTravelBean( (TravelEntity)  l.get(i) ));
 		}
-		
-		return null;
+		return list;
 	}
 	public List<String> getCitiesPredictions(String text) {
 		PredictableDAO dao= DaoFactory.getInstance().createPredictable(DaoType.CITY);

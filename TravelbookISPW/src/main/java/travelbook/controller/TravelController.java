@@ -1,6 +1,5 @@
 package main.java.travelbook.controller;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class TravelController{
 	
 	
 	public TravelController() {
-		
+		/*this contructor doesn't need param*/
 	}
 	
 	public TravelBean getTravel(int id) throws DBException {

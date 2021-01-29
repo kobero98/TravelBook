@@ -20,7 +20,6 @@ public class UserBean implements Bean{
 	private int nTrip;
 	private int nPlace;
 	private List <Integer> travel = null;
-	private List <Integer> message = null;
 	private List<Integer> follower = null;
 	private List<Integer> following = null;
 	private List<Integer> fav = null;
@@ -60,7 +59,6 @@ public class UserBean implements Bean{
 		this.nTrip=user.getNTrip();
 		this.travel = user.getTravel();
 		this.nPlace = user.getnPlace();
- 		//this.message = user.getMessage();
 		this.follower =user.getListFollower();
 		this.following = user.getListFollowing();
 		this.fav = user.getFavoriteList();
@@ -115,9 +113,6 @@ public class UserBean implements Bean{
 	{
 		this.travel= t;
 	}
-	public void setMessagge(List <Integer> m) {
-		this.message=m;
-	}
 	public void setFollowing(List<Integer> f) {
 		this.following=f;
 	}
@@ -170,9 +165,6 @@ public class UserBean implements Bean{
 	}
 	public List <Integer>  getTravel() {
 		return this.travel;
-	}
-	public List <Integer> getMessage(){
-		return this.message;
 	}
 	public List<Integer> getFollower(){
 		return this.follower;

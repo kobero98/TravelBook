@@ -68,7 +68,6 @@ public class StepBean implements Bean{
 			Image e = new Image(f.get(j));
 			i.add(e);
 		}
-		System.out.println(i.size());
 		return i;
 	}
 	

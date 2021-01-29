@@ -3,6 +3,8 @@ import main.java.travelbook.controller.ChatController;
 import java.time.Instant;
 import main.java.travelbook.view.MenuBar;
 import java.util.List;
+
+import exception.DBException;
 import main.java.travelbook.model.MessageEntity;
 import main.java.travelbook.model.bean.MessageBean;
 import java.util.ArrayList;
@@ -15,15 +17,30 @@ public class MessagePollingThread extends Thread {
 	}
 	@Override
 	public void run() {
-		Instant lastLocalTime;
-		boolean found=false;
-		System.out.println("Run");
+		
 		while(goOn) {
 		try {
 			//Non c'e' bisogno di sincronizzarsi sulla chat perche' il thread che scrive e' uno solo
-		lastLocalTime=lastTime;
 		List<Chat> chats=MenuBar.getInstance().getMyChat();
 		if(lastTime!=null) {
+			updateMessage(chats);
+		}
+		else {
+			initMessageReceive(chats);
+			initMessageSend(chats);
+			
+		}
+		Thread.sleep(3000);
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		}
+		}
+		private void updateMessage(List<Chat> chats) throws DBException {
+			boolean found=false;
+			Instant lastLocalTime;
+			lastLocalTime=lastTime;
 			List<MessageEntity> messages=myController.getNewMessage(MenuBar.getInstance().getLoggedUser().getId(),lastLocalTime);
 			if(!messages.isEmpty())
 				lastTime=Instant.now();
@@ -39,7 +56,6 @@ public class MessagePollingThread extends Thread {
 						}
 					}
 					if(!found) {
-						System.out.println("Nuova chat creata");
 						List<MessageBean> messaggi=new ArrayList<>();
 						messaggi.add(new MessageBean(message));
 						Chat nuovaChat=new Chat(message.getIdMittente(),messaggi);
@@ -48,7 +64,8 @@ public class MessagePollingThread extends Thread {
 					}
 				}
 		}
-		else {
+		private void initMessageReceive(List<Chat> chats) throws DBException{
+			boolean found;
 			lastTime = Instant.now();
 			List<MessageBean> messages = myController.getReceived(MenuBar.getInstance().getLoggedUser().getId());
 			for(MessageBean message: messages) {
@@ -64,7 +81,6 @@ public class MessagePollingThread extends Thread {
 						}
 					}
 					if(!found) {
-						System.out.println("Nuova chat creata");
 						List<MessageBean> messaggi=new ArrayList<>();
 						messaggi.add(message);
 						Chat nuovaChat=new Chat(message.getIdMittente(),messaggi);
@@ -72,7 +88,12 @@ public class MessagePollingThread extends Thread {
 						nuovaChat.setChanged();
 					}
 				}
-			messages = myController.getSend(MenuBar.getInstance().getLoggedUser().getId());
+			
+		}
+		private void initMessageSend(List<Chat> chats) throws DBException{
+			boolean found;
+			List<MessageBean> messages = myController.getSend(MenuBar.getInstance().getLoggedUser().getId());
+			
 			for(MessageBean message: messages) {
 				found=false;
 				for(int i=0;i<chats.size();i++) {
@@ -84,22 +105,11 @@ public class MessagePollingThread extends Thread {
 						}
 					}
 					if(!found) {
-						System.out.println("Nuova chat creata");
 						List<MessageBean> messaggi=new ArrayList<>();
 						messaggi.add(message);
 						Chat nuovaChat=new Chat(message.getIdDestinatario(),null,messaggi);
 						MenuBar.getInstance().newChat(nuovaChat);
 					}
 				}
-			
 		}
-		Thread.sleep(3000);
-		
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		}
-		
-	}
 }

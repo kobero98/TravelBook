@@ -1,6 +1,5 @@
 package main.java.travelbook.model.dao;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,7 +10,6 @@ import java.util.List;
 import exception.DBException;
 
 import java.util.ArrayList;
-import main.java.travelbook.model.dao.PersistanceDAO;
 import main.java.travelbook.model.MessageEntity;
 public class MessageDao implements PersistanceDAO {
 	private MessageEntity myEntity;
@@ -29,12 +27,10 @@ public class MessageDao implements PersistanceDAO {
 			ResultSet rs=AllQuery.getInstance().getMessage(stmt, messaggio);
 			while(rs.next()) {
 				MessageEntity newM=new MessageEntity(rs.getInt("Mittente"),rs.getInt("Destinatario"));
-				System.out.println("D: "+rs.getInt("Mittente")+" M: "+ rs.getInt("Destinatario"));
 				newM.setText(rs.getString("Testo"));
 				newM.setTime(rs.getTimestamp("data").toInstant());
 				newM.setType(rs.getString("NomeViaggio"));
-				if(rs.getInt("letto")==0)newM.setRead(false);
-				else newM.setRead(true);
+				newM.setRead(rs.getInt("letto")==1);
 				results.add((Entity)newM);
 			}
 		} catch (SQLException e) {
@@ -57,6 +53,7 @@ public class MessageDao implements PersistanceDAO {
 	}
 	@Override
 	public void delete(Entity obj) {
+		//TODO
 		
 	}
 	@Override
@@ -71,7 +68,7 @@ public class MessageDao implements PersistanceDAO {
 	}
 	@Override
 	public Entity getMyEntity() {
-		return (Entity)this.myEntity;
+		return this.myEntity;
 	}
 	@Override
 	public void setMyEntity(Entity entity) {

@@ -2,6 +2,10 @@ package main.java.travelbook.controller;
 import java.util.List;
 import main.java.travelbook.util.PlaceAdapter;
 import org.json.simple.JSONObject;
+
+import exception.DBException;
+import exception.SaveTravelException;
+
 import java.util.ArrayList;
 import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
@@ -13,6 +17,7 @@ import main.java.travelbook.model.CityEntity;
 import main.java.travelbook.view.MenuBar;
 import main.java.travelbook.model.Entity;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Date;
 
 import main.java.travelbook.model.dao.PersistanceDAO;
@@ -27,14 +32,14 @@ public class AddTravel {
 			istance=new AddTravel();
 		return istance;
 	}
-	public void saveAndDelete(TravelBean travel, int travelId) throws Exception {
+	public void saveAndDelete(TravelBean travel, int travelId) throws DBException, MapboxException, FileNotFoundException{
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity travelE=new TravelEntity();
 		travelE.setIdTravel(travelId);
 		dao.delete((Entity)travelE);
 		saveTravel(travel);
 	}
-	public void saveTravel(TravelBean travel) throws Exception{
+	public void saveTravel(TravelBean travel) throws DBException,FileNotFoundException, MapboxException{
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity myTravel=new TravelEntity();
 		
@@ -78,7 +83,7 @@ public class AddTravel {
 			stepE.setNumber(i);
 			step.setPrecisionInformation(step.getPrecisionInformation());
 			CityEntity city=null;
-			System.out.println(step.getFullPlace()==null);
+			
 			if(step.getFullPlace()==null && step.getPlace()!=null) {
 				JSONObject res=new PredictionController().getPlaceByName(step.getPlace());
 				step.setFullPlace(new PlaceAdapter(res));
@@ -98,7 +103,7 @@ public class AddTravel {
 		dao.setMyEntity((Entity)myTravel);
 		dao.setData();
 	}
-	public TravelBean getTravelById(Integer id) throws Exception {
+	public TravelBean getTravelById(Integer id) throws DBException {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity myTravel=new TravelEntity();
 		myTravel.setIdTravel(id);

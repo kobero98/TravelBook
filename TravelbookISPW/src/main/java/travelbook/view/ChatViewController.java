@@ -4,21 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import exception.DBException;
 import javafx.scene.input.KeyCode;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
@@ -26,7 +23,9 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -242,6 +241,33 @@ public class ChatViewController {
 	
 	private void changeChat() {
 		List<MessageBean>  myMessages;
+		for(MessageBean m:current.getReceive()) {
+			if(!m.getRead()) {
+				m.setRead(true);
+				try {
+					myController.setReadMex(m);
+				} catch (DBException e) {
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle("Server Error");
+		    		alert.setHeaderText("Something went wrong!");
+		    		alert.setContentText("we couldn't reach your travels, try again");
+		    		URL url = null;
+			   		try {
+				   		 url = new File("src/main/java/travelbook/css/alert.css").toURI().toURL();
+				   		 alert.getDialogPane().getStylesheets().add(url.toString());
+				   		 url = new File("src/main/java/travelbook/css/project.css").toURI().toURL();
+				   		 alert.getDialogPane().getStylesheets().add(url.toString());
+				   		 url = new File("src/main/resources/AddViewImages/warning.png").toURI().toURL();
+				   		 Image image = new Image(url.toString());
+				   		 ImageView imageView = new ImageView(image);
+				   		 alert.setGraphic(imageView);
+			   		} catch (MalformedURLException e1) {
+			   			alert.setGraphic(null);
+			   		}
+		   		 	alert.showAndWait();
+				}
+			}
+		}
 		myMessages = myController.getMessages(current.getReceive(), current.getSend());
 		if(myMessages!=null) {
 			ObservableList<MessageBean> data = FXCollections.observableArrayList(myMessages);

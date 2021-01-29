@@ -30,13 +30,13 @@ public class ViewOnMap {
 				step.setFullPlace(getPlaceByName(step.getPlace()));
 			}
 				
-				coordinates=step.getFullPlace().getCoordinates();
-				if(placeAdded.contains(step.getFullPlace().getPlaceName())) {
-					coordinates.set(0, coordinates.get(0)+0.0001);
-					coordinates.set(1, coordinates.get(1)+0.0001);
-				}
-				forPath.append(coordinates.toString()+",");
-				script.append(coordinates.toString()+",");
+			coordinates=step.getFullPlace().getCoordinates();
+			if(placeAdded.contains(step.getFullPlace().getPlaceName())) {
+				coordinates.set(0, coordinates.get(0)+0.0001);
+				coordinates.set(1, coordinates.get(1)+0.0001);
+			}
+			forPath.append(coordinates.toString()+",");
+			script.append(coordinates.toString()+",");
 			StringBuilder popupContent=new StringBuilder();
 			popupContent.append("<b>"+step.getPlace()+"</b><br>");
 			popupContent.append("Category: ");

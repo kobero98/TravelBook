@@ -37,9 +37,7 @@ public class DateUtil {
 		return a.isAfter(b);
 		}
 		else {
-			if(a!=null || b!=null)
-				return false;
-			return true;
+			return !(a!=null || b!=null);
 		}
 	}
 	public boolean isAfter(String a,String b) {
