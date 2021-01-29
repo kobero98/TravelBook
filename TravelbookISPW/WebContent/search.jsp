@@ -18,11 +18,14 @@
 		{
 			if(soprasotto==0)
 				{
-					$("#found").animate({height: '+=50em'},"slow");
+					console.log("ciao");
+					$("#advancedSearch").show();
 					soprasotto=1;
 				}
 			else{
-				$("#found").animate({height: '-=50em'},"slow");
+
+				console.log(soprasotto);
+				$("#advancedSearch").hide();
 				soprasotto=0;
 			}
 		}
@@ -42,7 +45,38 @@
         <input type="button" name="search-button" id="search-button">
         <input type="search" name="search" id="search" class="textfield">
     </div>
-    <div class="anchor">
+    <div id=advancedSearch hidden="true">
+    	<div id=cost>
+    		<p>Your budget</p>
+    		<input type="radio" value="<300" name="costo" >
+    		<input type="radio" value="300-1000" name="costo" >
+    		<input type="radio" value="1000-2000" name="costo" >
+    		<input type="radio" value=">2000" name="costo" >
+    	</div>
+    	<div id=durat>
+    		<p>How many days?
+    		<input type="number" min=0 value="costoMin" name="min" >
+    		<input type="number" min=0 value="costoMax" name="max" >
+    	</div>
+    	<div id=type>
+    		<p> What do you fancy?
+    		<div>
+    			<p><span class="dot">Romantic Trip</span><br>
+    			<span class="dot"></span><p>Family Holiday<br>
+    			<span class="dot"></span><p>On The Road<br>
+    			<span class="dot"></span><p>Children Friendly<br>
+    			<span class="dot"></span><p>Travel with Friend<br>
+    			<span class="dot"></span><p>Cultural Travel<br>
+    			<span class="dot"></span><p>Relaxing Holiday<br>
+    		</div>
+    		<div>
+    			
+    		</div>
+    		<div hidden=true>
+    		</div>
+    	</div>
+    </div>
+    <div id=d class="anchor">
         <input type="button" id="back" name="back" value="back" onclick="tornaIndietro()" class="back-button">
         <div class="panel l-panel">
             <div class="advanced-search">
@@ -51,8 +85,8 @@
                     advanced search
                 </p>
             </div>
-            <div id="found" class="found">
-                <p class="write">
+            <div id=found class="found">
+                <p id=para class="write">
                     This is what we have found
                 </p>
             </div>
