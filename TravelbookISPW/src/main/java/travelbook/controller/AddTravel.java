@@ -1,10 +1,10 @@
 package main.java.travelbook.controller;
 import java.util.List;
+
 import main.java.travelbook.util.PlaceAdapter;
 import org.json.simple.JSONObject;
 
 import exception.DBException;
-import exception.SaveTravelException;
 
 import java.util.ArrayList;
 import main.java.travelbook.model.dao.DaoFactory;
