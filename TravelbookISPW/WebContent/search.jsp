@@ -7,8 +7,32 @@
     <link rel="stylesheet" href="css\loginCss.css">
     <link rel="stylesheet" href="css\search.css">
     <script src="js\jquery.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>  
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    
 	<title>Travelbook</title>
-	<script>
+	<script> 
+    $(function()
+            {
+             $('#auto').autocomplete(
+             {
+             source:function(request,response)
+             {
+             //Fetch data
+             $.ajax({
+                 url:"autocomplete.jsp",
+                 method:"get",
+                 dataType:'json',
+                 data:{search:request.term},
+                 success:function(data)
+                 {
+                     response(data);
+                 }
+             });
+             }
+             });   
+            }); 
 		var soprasotto=0;
 		function tornaIndietro()
 		{
@@ -29,7 +53,6 @@
 				soprasotto=0;
 			}
 		}
-		
 	</script>
 </head>
 <body>
@@ -41,11 +64,11 @@
             Wherever you go, go with all your heart
         </p>
     </div>
-    <div class="search-bar">
-        <input type="button" name="search-button" id="search-button">
-        <input type="search" name="search" id="search" class="textfield">
+    <div class="search-bar ui-widget" >
+        <input type="button" name="search-button" id=search-button>
+        <input type="search" name="search" id=search class="textfield">
     </div>
-    <div id=advancedSearch hidden="true">
+    <div id=advancedSearch  hidden="true">
     	<div id=cost>
     		<p>Your budget</p>
     		<input type="radio" value="<300" name="costo" >
@@ -61,7 +84,7 @@
     	<div id=type>
     		<p> What do you fancy?
     		<div>
-    			<p><span class="dot">Romantic Trip</span><br>
+    			<span class="dot"></span><p>Romantic Trip<br>
     			<span class="dot"></span><p>Family Holiday<br>
     			<span class="dot"></span><p>On The Road<br>
     			<span class="dot"></span><p>Children Friendly<br>
@@ -79,7 +102,7 @@
     <div id=d class="anchor">
         <input type="button" id="back" name="back" value="back" onclick="tornaIndietro()" class="back-button">
         <div class="panel l-panel">
-            <div class="advanced-search">
+            <div>
                 <input type="button" onclick="spostamento()" id="expand">
                 <p class="as-text">
                     advanced search
