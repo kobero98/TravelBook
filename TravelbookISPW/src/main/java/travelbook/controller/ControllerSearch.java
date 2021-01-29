@@ -1,5 +1,6 @@
 package main.java.travelbook.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +85,12 @@ public class ControllerSearch {
 		if(trip.getCostoMax()!=0)search.setMaxCost(trip.getCostoMax());
 		else search.setMaxCost(null);
 		VisualDAO dao=DaoFactory.getInstance().createVisual(DaoType.SEARCH_TRAVEL);
-		List<Entity> l=dao.getData(search);
+		List<Entity> l;
+		try {
+			l = dao.getData(search);
+		} catch ( SQLException e) {
+			throw new DBException("connection lost");
+		}
 		List<MiniTravelBean> list=new ArrayList<>();
 		for(int i=0;i<l.size();i++) {
 			list.add( new MiniTravelBean( (TravelEntity)  l.get(i) ));

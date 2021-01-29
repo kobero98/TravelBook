@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +36,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import main.java.travelbook.view.ChatViewController.MyItem;
 import main.java.travelbook.view.animation.SlideImageAnimationHL;
 import main.java.travelbook.view.animation.SlideImageAnimationHR;
 import javafx.scene.control.Alert;

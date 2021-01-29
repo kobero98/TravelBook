@@ -74,9 +74,9 @@ public class ViewOnMapController {
 						URL url1 = null;
 				   		 try {
 				   		 url1= new File("src/main/java/travelbook/css/alert.css").toURI().toURL();
-				   		 alert.getDialogPane().getStylesheets().add(url.toString());
+				   		 alert.getDialogPane().getStylesheets().add(url1.toString());
 				   		 url1 = new File("src/main/java/travelbook/css/project.css").toURI().toURL();
-				   		 alert.getDialogPane().getStylesheets().add(url.toString());
+				   		 alert.getDialogPane().getStylesheets().add(url1.toString());
 				   		 
 				   		 
 				   			url1 = new File("src/main/resources/error.png").toURI().toURL();

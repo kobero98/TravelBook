@@ -9,7 +9,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -24,7 +23,7 @@ import main.java.travelbook.util.Observable;
 public class TravelButton implements Observer {
 	private Pane pane;
 	private StackPane stack;
-	private TravelBean myTravel;
+	
 	private Label title;
 	private Label subtitle;
 	private BorderPane mainPane;
@@ -84,7 +83,8 @@ public class TravelButton implements Observer {
 	}
 	@Override
 	public void update(Observable o) {
-		this.myTravel=(TravelBean) o;
+		TravelBean myTravel;
+		myTravel=(TravelBean) o;
 		this.stack.setOnMouseClicked(e->{
 			FXMLLoader loader=new FXMLLoader();
 			URL url;
@@ -102,7 +102,7 @@ public class TravelButton implements Observer {
 				internalPane=(AnchorPane)loader.load();
 				mainPane.setCenter(internalPane);
 				controller=loader.getController();
-				MenuBar.getInstance().setIdTravel(this.myTravel.getId());
+				MenuBar.getInstance().setIdTravel(myTravel.getId());
 				controller.setMainPane(mainPane, 1);
 				
 			}catch(Exception e1) {
@@ -110,7 +110,7 @@ public class TravelButton implements Observer {
 			}
 		});
 		//Carica la foto nel pane
-		BackgroundImage bgPhoto = new BackgroundImage(this.myTravel.getPathImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+		BackgroundImage bgPhoto = new BackgroundImage(myTravel.getPathImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 		Background newBg = new Background(bgPhoto);
 		this.pane.setBackground(newBg);
 	}

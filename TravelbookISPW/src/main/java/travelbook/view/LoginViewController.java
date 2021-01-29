@@ -447,7 +447,11 @@ public class LoginViewController {
           new Thread(()->{
         	  ControllerLogin controller=new ControllerLogin();
           this.codeOfreg=controller.calcoloRegistration(email);
-          Platform.runLater(()->this.showConfirmCode()); }).start();
+          Platform.runLater(()->{
+        	  this.codeConfirmPane.setVisible(true);
+      		this.registerPane.setVisible(false);
+          });
+          }).start();
             
 		}
 		else {
@@ -475,11 +479,7 @@ public class LoginViewController {
 				alert.showAndWait();
 			}
 	}
-	private void showConfirmCode() {
-		this.codeConfirmPane.setVisible(true);
-		this.registerPane.setVisible(false);
-		
-	}
+	
 	@FXML
 	private void confirmCode() {
 		String text=this.codeTextField.getText();

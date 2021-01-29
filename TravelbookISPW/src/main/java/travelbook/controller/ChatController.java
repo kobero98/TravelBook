@@ -3,6 +3,8 @@ package main.java.travelbook.controller;
 import java.util.List;
 
 import exception.DBException;
+
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -39,7 +41,11 @@ public class ChatController {
 		List<UserBean> ul = new ArrayList<>();
 		for(Chat i: c) {
 			UserEntity userE = new UserEntity(i.getIdUser());
-			userE = (UserEntity)cDao.getData(userE).get(0);
+			try {
+				userE = (UserEntity)cDao.getData(userE).get(0);
+			} catch (SQLException e) {
+				throw new DBException("We couldn't find your contacts");
+			}
 			if(userE.getId()!=MenuBar.getInstance().getLoggedUser().getId()) {
 				UserBean u = new UserBean(userE.getId());
 				u.setName(userE.getName());
@@ -56,7 +62,12 @@ public class ChatController {
 		if(time!=null)
 			nuovaEntity.setLastTimeStamp(time);
 		nuovaEntity.setSoloNuovi(true);
-		List<Entity> entities=dao.getData(nuovaEntity);
+		List<Entity> entities;
+		try {
+			entities = dao.getData(nuovaEntity);
+		} catch ( SQLException e) {
+			throw new DBException("connection lost");
+		}
 		List<MessageEntity> messaggi=new ArrayList<>();
 		for(Entity entity: entities) {
 			MessageEntity messaggio=(MessageEntity)entity;
@@ -68,7 +79,12 @@ public class ChatController {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);
 		MessageEntity nuovaEntity=new MessageEntity(0,idUser);
 		nuovaEntity.setSoloNuovi(false);
-		List<Entity> entities=dao.getData(nuovaEntity);
+		List<Entity> entities;
+		try {
+			entities = dao.getData(nuovaEntity);
+		} catch ( SQLException e) {
+			throw new DBException("connection lost");
+		}
 		List<MessageBean> messaggi=new ArrayList<>();
 		for(Entity entity: entities) {
 			MessageBean messaggio=new MessageBean((MessageEntity)entity);
@@ -80,7 +96,12 @@ public class ChatController {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);
 		MessageEntity nuovaEntity=new MessageEntity(idUser,0);
 		nuovaEntity.setSoloNuovi(false);
-		List<Entity> entities=dao.getData(nuovaEntity);
+		List<Entity> entities;
+		try {
+			entities = dao.getData(nuovaEntity);
+		} catch (SQLException e) {
+			throw new DBException("connection lost");
+		}
 		List<MessageBean> messaggi=new ArrayList<>();
 		for(Entity entity: entities) {
 			MessageBean messaggio=new MessageBean((MessageEntity)entity);

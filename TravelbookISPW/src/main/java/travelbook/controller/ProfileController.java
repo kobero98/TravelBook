@@ -1,6 +1,7 @@
 package main.java.travelbook.controller;
 
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,12 @@ public class ProfileController{
 				TravelEntity travelE = new TravelEntity();
 			
 				travelE.setIdTravel(l.get(i));
-				List<Entity> rs= miniTravelDao.getData(travelE);
+				List<Entity> rs=new ArrayList<>();
+				try {
+					rs = miniTravelDao.getData(travelE);
+				} catch (SQLException e) {
+					throw new DBException("we couldn't find this information");
+				}
 				travelE = (TravelEntity)rs.get(0);
 				MiniTravelBean bean = new MiniTravelBean(travelE);
 				if(ol==null) {
@@ -47,7 +53,13 @@ public class ProfileController{
 		if(l != null) {
 			for(int i=0; i<l.size(); i++) {
 				UserEntity userE = new UserEntity(l.get(i));
-				List<Entity> rs= shortUserDao.getData(userE);
+				List<Entity> rs=new ArrayList<>();
+				try {
+					rs = shortUserDao.getData(userE);
+				
+				} catch (SQLException e) {
+					throw new DBException("we could't find this information");
+				}
 				userE = (UserEntity)rs.get(0);
 				if(f==null) {
 					f = new ArrayList<>();
@@ -66,7 +78,12 @@ public class ProfileController{
 		if(l != null) {
 			for(int i=0; i<l.size(); i++) {
 				UserEntity userE = new UserEntity(l.get(i));
-				List<Entity> rs= shortUserDao.getData(userE);
+				List<Entity> rs=new ArrayList<>();
+				try {
+					rs = shortUserDao.getData(userE);
+				} catch (SQLException e) {
+					throw new DBException("we could't find this information");
+				}
 				userE = (UserEntity)rs.get(0);
 				if(f==null) {
 					f = new ArrayList<>();
@@ -86,7 +103,12 @@ public class ProfileController{
 		if(l != null) {
 			for(int i=0; i<l.size(); i++) {
 				travelE.setIdTravel(l.get(i));
-				List<Entity> rs= miniTravelDao.getData(travelE);
+				List<Entity> rs=new ArrayList<>();
+				try {
+					rs = miniTravelDao.getData(travelE);
+				} catch (SQLException e) {
+					throw new DBException("we could't find this information");
+				}
 				travelE = (TravelEntity)rs.get(0);
 				if(f==null) {
 					f = new ArrayList<>();
@@ -106,7 +128,12 @@ public class ProfileController{
 		if(l != null) {
 			for(int i=0; i<l.size(); i++) {
 				travelE.setIdTravel(l.get(i));
-				List<Entity> rs= miniTravelDao.getData(travelE);
+				List<Entity> rs=new ArrayList<>();
+				try {
+					rs = miniTravelDao.getData(travelE);
+				} catch (SQLException e) {
+					throw new DBException("we couldn't find this information");
+				}
 				travelE = (TravelEntity)rs.get(0);
 				if(f==null) {
 					f = new ArrayList<>();

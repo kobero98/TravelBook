@@ -33,7 +33,7 @@ public class OtherUserDao implements VisualDAO {
 		}
 		
 		@Override
-		public List <Entity> getData(Entity user1) throws LoginPageException{
+		public List <Entity> getData(Entity user1) throws LoginPageException, SQLException{
 			final Connection connection;
 			ResultSet rs=null;
 			Statement stmt=null;
@@ -107,11 +107,7 @@ public class OtherUserDao implements VisualDAO {
 			}finally {
 				if(stmt!=null)
 				{
-					try {
 						stmt.close();
-					}catch(SQLException e) {
-						throw new LoginPageException("errore");
-					}
 					
 				}
 			}

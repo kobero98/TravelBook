@@ -43,7 +43,7 @@ public class ShareDao implements PersistanceDAO {
 		}
 	}
 	@Override
-	public void delete(Entity object) {
+	public void delete(Entity object) throws UnsupportedOperationException{
 		
 	}
 	

@@ -260,7 +260,7 @@ public class AddViewController implements Observer{
 			button.fire();
 			
 		});
-		this.practicalInformation.textProperty().addListener((e)->{
+		this.practicalInformation.textProperty().addListener(e->{
 			if(this.practicalInformation.getText()!=null) {
 			if(this.practicalInformation.getText().length()>500) {
 				this.practicalInformation.setText(this.practicalInformation.getText().substring(0,500));
@@ -804,7 +804,6 @@ public class AddViewController implements Observer{
 	    		viewPresentation.setStyle("-fx-border-color: #FF0000");
 	    	}
 	    	this.addFiltersAndDate(listOfErrors, travel);
-	    	System.out.println(travel.getEndDate()+" "+travel.getStartDate());
 	    	if(this.costField.getText()!=null && !this.costField.getText().isEmpty()) {
 	    		try{
 	    			travel.setCostTravel(Double.parseDouble(this.costField.getText()));
@@ -916,7 +915,6 @@ public class AddViewController implements Observer{
 	    		listOfErrors.add(startDate);
 	    	}
 	    	if(this.endDate.getValue()!=null && !util.isFuture(this.endDate.getValue())) {
-	    		System.out.println(this.endDate.getValue()==null);
 	    		travel.setEndTravelDate(util.toString(this.endDate.getValue()));
 	    	}
 	    	else {
@@ -1254,13 +1252,7 @@ public class AddViewController implements Observer{
 	    	for(int i=0;i<row;i++) {
 	    		for(int j=0;j<col;j++) {
 	    			if(imageGridPane.getGridPane().getChildren().get(i*col +j)==actualImage) {
-	    				imageGridPane.getGridPane().getChildren().remove(i*col+j);
-	    				imageGridPane.remove(i, j);
-	    				imageGridPane.getFiles().get(i).remove(j);
-	    				if(imageGridPane.getFiles().get(i).isEmpty())
-	    					imageGridPane.getFiles().remove(i);
-	    				nextCol=j;
-	    				nextRow=i;
+	    				actualRemove(i,j,col);
 	    				break;
 	    			}
 	    			
@@ -1272,6 +1264,15 @@ public class AddViewController implements Observer{
 	    	}
 	    	//then close the image panel
 	    	this.closeImage();
+	    }
+	    private void actualRemove(int i, int j, int col) {
+	    	imageGridPane.getGridPane().getChildren().remove(i*col+j);
+			imageGridPane.remove(i, j);
+			imageGridPane.getFiles().get(i).remove(j);
+			if(imageGridPane.getFiles().get(i).isEmpty())
+				imageGridPane.getFiles().remove(i);
+			nextCol=j;
+			nextRow=i;
 	    }
 	    @FXML
 	    private void removeStepHandler() {
@@ -1351,7 +1352,7 @@ public class AddViewController implements Observer{
 	    	List<List<StepBean>> stepInDay=new ArrayList<>();
 	    	
 	    	int numOfDaysInt=this.dayBox.getItems().size();
-	    	System.out.println("Giorni: "+numOfDaysInt);
+	    	
 	    	this.setFiltersFromTravel(travel);
 	    	if(stepOfTravel!=null) {
 	    		for(int i=0;i<numOfDaysInt;i++) {
@@ -1359,7 +1360,6 @@ public class AddViewController implements Observer{
 	    		}
 	    		for(int i=0;i<stepOfTravel.size();i++) {
 	    			StepBean step=stepOfTravel.get(i);
-	    			System.out.println("GroupDay: "+step.getGroupDay());
 	    			stepInDay.get(step.getGroupDay()).add(step);
 	    		}
 	    		for(int i=0;i<numOfDaysInt;i++) {
@@ -1376,10 +1376,10 @@ public class AddViewController implements Observer{
 	    }
 		private void setFiltersFromTravel(TravelBean travel) {
 			List<String> filtri=travel.getTypeTravel();
-			System.out.println(filtri==null);
+			
 	    	if(filtri!=null) {
 	    		for(String filter: filtri) {
-	    			System.out.println(filter);
+	    			
 	    			//Select all filters
 	    			for(int i=0;i<filterPane.getChildren().size();i++) {
 	    				CheckBox elem=(CheckBox)filterPane.getChildren().get(i);
@@ -1397,7 +1397,7 @@ public class AddViewController implements Observer{
 	    		this.dayImagePane.add(new ArrayList<>());
     			for(int step=0;step<stepByDay.get(i).size();step++) {
     				this.dayImagePane.get(i).add(new ImageGridPane());
-    				System.out.println("Ho : "+stepByDay.get(i).size()+" step");
+    				
     				nextCol=0;
     				nextRow=0;
     				//GridPane created before by changeDayListener
@@ -1406,7 +1406,7 @@ public class AddViewController implements Observer{
     					this.imageGridPane=dayImagePane.get(i).get(step);
     				for(int c=0;c<stepByDay.get(i).get(step).getListPhoto().size();c++) {
     					Image image=stepByDay.get(i).get(step).getListPhoto().get(c);
-    					System.out.println("Aggiunta una foto");
+    					
     					ImageView view;
     					view=new ImageView();
     		    		view.setFitHeight(standardImageHeight);
@@ -1423,7 +1423,7 @@ public class AddViewController implements Observer{
     		    			anim.setLimits(0.1, 0.9);
     		    			anim.start();
     		    		});
-    		    		//this.dayImagePane.get(i).get(step).getFiles().get(nextRow).add(stepByDay.get(i).get(step).getImageFile().get(c));
+    		    		
     		    		this.dayImagePane.get(i).get(step).add(view, nextCol, nextRow);
     		    		updateGridIndex();
     				}

@@ -19,6 +19,7 @@ import main.java.travelbook.model.Entity;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.Date;
+import java.sql.SQLException;
 
 import main.java.travelbook.model.dao.PersistanceDAO;
 import main.java.travelbook.util.DateUtil;
@@ -107,7 +108,12 @@ public class AddTravel {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity myTravel=new TravelEntity();
 		myTravel.setIdTravel(id);
-		List<Entity> entities=dao.getData(myTravel);
+		List<Entity> entities=new ArrayList<>();
+		try {
+			entities = dao.getData(myTravel);
+		} catch (SQLException e) {
+			throw new DBException("we couldn't find your travel, retry");
+		}
 		return new TravelBean((TravelEntity)entities.get(0));
 	}
 }

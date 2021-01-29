@@ -1,6 +1,8 @@
 package main.java.travelbook.controller;
 
 
+import java.sql.SQLException;
+
 import exception.DBException;
 import main.java.travelbook.model.OtherUserEntity;
 import main.java.travelbook.model.UserEntity;
@@ -16,7 +18,11 @@ public class ControllerProfileOther extends ProfileController{
 	public UserBean getUser(int id) throws DBException {
 		VisualDAO userDao = DaoFactory.getInstance().createVisual(DaoType.OTHERUSER);
 		OtherUserEntity userE = new OtherUserEntity(id);
-		userE = (OtherUserEntity)userDao.getData(userE).get(0);
+		try {
+			userE = (OtherUserEntity)userDao.getData(userE).get(0);
+		} catch ( SQLException e) {
+			throw new DBException("connection lost");
+		}
 		return new UserBean(userE);
 	}
 	public void updateFav(UserBean u) throws DBException{

@@ -1,6 +1,7 @@
 package main.java.travelbook.controller;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,12 @@ public class MyProfileController extends ProfileController{
 		us.setWhoReceive(userId);
 		List<Bean> results=new ArrayList<>();
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.SHARE);
-		List<Entity> res=dao.getData(us);
+		List<Entity> res;
+		try {
+			res = dao.getData(us);
+		} catch (SQLException e) {
+			throw new DBException("connection lost");
+		}
 		for(Entity ent:res) {
 			ShareBean bean=new ShareBean((ShareEntity)ent);
 			results.add(bean);
@@ -51,14 +57,24 @@ public class MyProfileController extends ProfileController{
 		VisualDAO miniTravelDao = DaoFactory.getInstance().createVisual(DaoType.S_TRAVEL);
 		TravelEntity travelE = new TravelEntity();
 		travelE.setIdTravel(l);
-		TravelEntity rs= (TravelEntity)miniTravelDao.getData(travelE).get(0);
+		TravelEntity rs;
+		try {
+			rs = (TravelEntity)miniTravelDao.getData(travelE).get(0);
+		} catch ( SQLException e) {
+			throw new DBException("connection lost");
+		}
 		return new MiniTravelBean(rs);
 
 	}
 	public UserBean getUser(Integer l) throws DBException{
 		VisualDAO shortUserDao = DaoFactory.getInstance().createVisual(DaoType.S_USER);
 		UserEntity userE = new UserEntity(l);
-		UserEntity rs= (UserEntity)shortUserDao.getData(userE).get(0);
+		UserEntity rs;
+		try {
+			rs = (UserEntity)shortUserDao.getData(userE).get(0);
+		} catch (SQLException e) {
+			throw new DBException("connection lost");
+		}
 		return new UserBean(rs);
 
 	}

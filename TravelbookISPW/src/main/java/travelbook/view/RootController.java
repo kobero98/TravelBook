@@ -24,11 +24,8 @@ public class RootController {
 			
 			
 		});
-		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->{
-			mainPane.setPrefWidth(mainPane.getScene().getWindow().getWidth());
-			
-			
-		}); 
+		this.mainPane.getScene().getWindow().widthProperty().addListener((observable,oldValue,newValue)->
+			mainPane.setPrefWidth(mainPane.getScene().getWindow().getWidth())); 
 		this.mainPane.heightProperty().addListener((observable,oldValue,newValue)->{
 			StackPane title=(StackPane)mainPane.getTop();
 			title.setPrefHeight(mainPane.getHeight()*94/720);

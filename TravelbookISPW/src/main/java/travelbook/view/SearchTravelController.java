@@ -2,9 +2,7 @@ package main.java.travelbook.view;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +22,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -49,7 +46,6 @@ import javafx.scene.text.Text;
 import main.java.travelbook.controller.ControllerSearch;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.SearchTrip;
-import main.java.travelbook.view.ProfileViewController.TravelCell;
 
 public class SearchTravelController {
 	private BorderPane mainPane;
@@ -113,7 +109,7 @@ public class SearchTravelController {
 	private Line lineaVerticaleGrande;
 	@FXML
 	private ScrollPane scrollSelezionati;
-	private ToggleGroup group;
+	
 	private List <MyTypes> typeChoose=new ArrayList<>();
 	class MyTypes{
 		private String tipo;
@@ -159,7 +155,6 @@ public class SearchTravelController {
 		}
 	@FXML
 	private void initialize() {
-		SearchCityTextField newText=new SearchCityTextField(this.ricercaTextField);
 		ObservableList<MyTypes> information = FXCollections.observableArrayList(new MyTypes("Romantic Trip",Color.DARKMAGENTA),new MyTypes("Family Holiday",Color.DARKTURQUOISE),
 				new MyTypes("On The Road",Color.LIMEGREEN),new MyTypes("Children Friendly",Color.CRIMSON),new MyTypes("Travel with Friend",Color.NAVY),
 				new MyTypes("Cultural Travel",Color.ORANGE),new MyTypes("Relaxing Holiday",Color.VIOLET));
@@ -229,9 +224,10 @@ public class SearchTravelController {
 }
 	public void setMainPane(BorderPane main)
 	{
+		ToggleGroup group;
 		this.mainPane=main;
 		
-		this.group = new ToggleGroup();
+		group = new ToggleGroup();
 	    budjet1.setToggleGroup(group);
 	    budjet2.setToggleGroup(group);
 	    budjet3.setToggleGroup(group);

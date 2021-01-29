@@ -513,13 +513,13 @@ public class ProfileViewController implements Observer{
 			if(sh!=null && !sh.isEmpty()) {
 				ObservableList<Bean> fav = FXCollections.observableList(sh);
 				show.setItems(fav);
-				show.setCellFactory(list->new shCell());
+				show.setCellFactory(list->new ShCell());
 			}
 		} catch (DBException e) {
 			errorMsg.setVisible(true);
 		}
 	}
-	class shCell extends ListCell<Bean>{
+	class ShCell extends ListCell<Bean>{
 		@Override
         public void updateItem(Bean item, boolean empty) {
             super.updateItem(item, empty);
@@ -529,7 +529,7 @@ public class ProfileViewController implements Observer{
             	UserBean myUser=null;
 				try {
 					myTravel = myController.getTravel(myItem.getTravelShared());
-					myUser = myController.getUser(myItem.getCreator());
+					myUser = myController.getUser(myItem.getWhoShare());
 				} catch (DBException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -566,9 +566,8 @@ public class ProfileViewController implements Observer{
 					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
 					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
 					contactPic.getStyleClass().add("profile-pic");
-            	vBox.setOnMouseClicked(e->{
-            		moveToView(myItem.getTravelShared());
-            	});
+            	hBox.setOnMouseClicked(e->
+            		moveToView(myItem.getTravelShared()));
             	vBox.getChildren().add(title);
             	vBox.getChildren().add(creator);
             	hBox.getChildren().add(contactPic);
@@ -592,7 +591,7 @@ public class ProfileViewController implements Observer{
 				List<Bean> l =myController.getFav(user.getFav());
 				fav = FXCollections.observableList(l);
 				show.setItems(fav);
-				show.setCellFactory(list-> new favCell());
+				show.setCellFactory(list-> new FavCell());
 			} catch (DBException e) {
 				errorMsg.setVisible(true);
 			}
@@ -609,7 +608,7 @@ public class ProfileViewController implements Observer{
 			ObservableList<Bean> fav;
 			try {
 				fav = FXCollections.observableList(myController.getFollow(user.getFollower()));
-				show.setCellFactory(list-> new followCell());
+				show.setCellFactory(list-> new FollowCell());
 				show.setItems(fav);
 			} catch (DBException e) {
 				errorMsg.setVisible(true);
@@ -628,7 +627,7 @@ public class ProfileViewController implements Observer{
 			ObservableList<Bean> fav;
 			try {
 				fav = FXCollections.observableList(myController.getFollow(user.getFollowing()));
-				show.setCellFactory(list-> new followCell());
+				show.setCellFactory(list-> new FollowCell());
 				show.setItems(fav);
 			} catch (DBException e) {
 				errorMsg.setVisible(true);
@@ -636,7 +635,7 @@ public class ProfileViewController implements Observer{
 			
 		}
 	}
-	class followCell extends ListCell<Bean>{
+	class FollowCell extends ListCell<Bean>{
 		@Override
 		public void updateItem(Bean item, boolean empty) {
             super.updateItem(item, empty);
@@ -691,7 +690,7 @@ public class ProfileViewController implements Observer{
 		}
 	}
 	
-	class favCell extends ListCell<Bean>{
+	class FavCell extends ListCell<Bean>{
 		@Override
 		public void updateItem(Bean item, boolean empty) {
             super.updateItem(item, empty);

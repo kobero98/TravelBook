@@ -4,9 +4,7 @@ package main.java.travelbook.controller;
 
 
 import java.util.List;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.net.URLEncoder;
 
 import org.apache.http.HttpResponse;

@@ -1,5 +1,6 @@
 package main.java.travelbook.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,12 @@ public class TravelController{
 		PersistanceDAO travelDao = DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity travelE = new TravelEntity();
 		travelE.setIdTravel(id);
-		List<Entity> rs= travelDao.getData(travelE);
+		List<Entity> rs;
+		try {
+			rs = travelDao.getData(travelE);
+		} catch ( SQLException e) {
+			throw new DBException("connection lost");
+		}
 		if(!rs.isEmpty())travelE = (TravelEntity)rs.get(0);
 		return new TravelBean(travelE);
 	}
@@ -64,7 +70,12 @@ public class TravelController{
 			VisualDAO dao=DaoFactory.getInstance().createVisual(DaoType.S_USER);
 			for(Integer fol:followFollowing) {
 				UserEntity entity=new UserEntity(fol);
-				UserEntity res=(UserEntity)(dao.getData(entity).get(0));
+				UserEntity res;
+				try {
+					res = (UserEntity)(dao.getData(entity).get(0));
+				} catch ( SQLException e) {
+					throw new DBException("connection lost");
+				}
 				contact.add(new UserBean(res));
 			}
 		}
