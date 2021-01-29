@@ -12,10 +12,14 @@
 <html>
 <head>
 	<meta charset="ISO-8859-1">
-    <link rel="stylesheet" href="loginCss.css">
-    <link rel="stylesheet" href="explore.css">
+    <link rel="stylesheet" href="css\loginCss.css">
+    <link rel="stylesheet" href="css\explore.css">
 	<title>Travelbook</title>
-	
+	<Script>
+	function spostamentoSearch(){
+		location.replace("search.jsp");
+	}
+	</Script>
 
 </head>
 <body>
@@ -61,7 +65,7 @@
                 <p id = "searchWrite">
                     Looking for something more specific? Try our research tool, narrowing your desires with a lot of different options
                 </p>
-                <input type="button", id="searchButton", name="searchButton",path="M12 8V4l8 8-8 8v-4H4V8z">
+                <input type="button" id="searchButton" name="searchButton" onclick="spostamentoSearch()"path="M12 8V4l8 8-8 8v-4H4V8z">
             </div>
             
         </div>
