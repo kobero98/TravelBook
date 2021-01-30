@@ -9,6 +9,7 @@ import java.util.List;
 
 import exception.DBException;
 import main.java.travelbook.controller.TravelController;
+import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.bean.UserBean;
@@ -38,7 +39,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import main.java.travelbook.view.animation.SlideImageAnimationHL;
 import main.java.travelbook.view.animation.SlideImageAnimationHR;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.CheckBox;
@@ -48,7 +48,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -111,10 +110,6 @@ public class ViewTravelController {
 	@FXML
 	private Button goShare;
 	private Button selected = null;
-	private static final String ALERTCSS="src/main/java/travelbook/css/alert.css";
-	private static final String PROJECTCSS="src/main/java/travelbook/css/project.css";
-	private static final String HEADER_MSG ="Something went wrong!";
-	private static final String WARN_IMG = "src/main/resources/AddViewImages/warning.png";
 	private TravelController myController = new TravelController();
 	private List <Integer> toShareId = new ArrayList<>();
 	@FXML
@@ -123,27 +118,7 @@ public class ViewTravelController {
 		try {
 			myTravel = myController.getTravel(MenuBar.getInstance().getTravelId());
 		} catch (DBException e1) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Connection lost");
-    		alert.setHeaderText(HEADER_MSG);
-    		alert.setContentText("we couldn't load this travel, try again");
-    		URL url = null;
-	   		 try {
-	   		 url = new File(ALERTCSS).toURI().toURL();
-	   		 alert.getDialogPane().getStylesheets().add(url.toString());
-	   		 url = new File(PROJECTCSS).toURI().toURL();
-	   		 alert.getDialogPane().getStylesheets().add(url.toString());
-	   		 
-	   		 
-	   			url = new File(WARN_IMG).toURI().toURL();
-	   		} catch (MalformedURLException e) {
-	   			// TODO Auto-generated catch block
-	   			e.printStackTrace();
-	   		}
-  		 	Image image = new Image(url.toString());
-   		 	ImageView imageView = new ImageView(image);
-   		 	alert.setGraphic(imageView);
-   		 	alert.showAndWait();
+			new TriggerAlert().triggerAlertCreate(e1.getMessage(), "warn").showAndWait();
 		}
 		if(MenuBar.getInstance().getLoggedUser().getFav()!=null &&
 			MenuBar.getInstance().getLoggedUser().getFav().contains(myTravel.getId()))
@@ -418,13 +393,13 @@ public class ViewTravelController {
 	@FXML
 	private void backHandler() {
 		switch(goBack) {
-		/*case 1:
+		case 1:
 			try {
 				MenuBar.getInstance().moveToExplore(mainPane);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			break;*/
+			break;
 		case 2:
 			try {
     		MenuBar.getInstance().moveToProfile(mainPane);
@@ -503,27 +478,7 @@ public class ViewTravelController {
 				myController.updateFav(MenuBar.getInstance().getLoggedUser());
 			}
 		} catch (DBException e) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Update failed");
-    		alert.setHeaderText(HEADER_MSG);
-    		alert.setContentText("we couldn't update your information, try again");
-    		URL url = null;
-	   		 try {
-	   		 url = new File(ALERTCSS).toURI().toURL();
-	   		 alert.getDialogPane().getStylesheets().add(url.toString());
-	   		 url = new File(PROJECTCSS).toURI().toURL();
-	   		 alert.getDialogPane().getStylesheets().add(url.toString());
-	   		 
-	   		 
-	   			url = new File(WARN_IMG).toURI().toURL();
-	   		} catch (MalformedURLException e1) {
-	   			// TODO Auto-generated catch block
-	   			e1.printStackTrace();
-	   		}
- 		 	Image image = new Image(url.toString());
-   		 	ImageView imageView = new ImageView(image);
-   		 	alert.setGraphic(imageView);
-   		 	alert.showAndWait();
+			new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 		}
 	}
 	@FXML
@@ -537,8 +492,7 @@ public class ViewTravelController {
 				ObservableList<UserBean> data = FXCollections.observableArrayList(myController.getContactSharing(MenuBar.getInstance().getLoggedUser()));
 				shareList.setItems(data);
 			} catch (DBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 			}
 			shareList.setCellFactory(list->new ContactCell());
 		}
@@ -617,8 +571,7 @@ public class ViewTravelController {
 			try {
 				myController.shareTravel(this.toShareId, this.myTravel.getId(), this.myTravel.getIdCreator(), MenuBar.getInstance().getLoggedUser().getId());
 			} catch (DBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 			}
 			shareList.setVisible(false);
 			goShare.setVisible(false);

@@ -1,4 +1,4 @@
-package main.java.travelbook.exception;
+package exception;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -16,7 +16,7 @@ public class TriggerAlert {
 	private static final String ERR_IMG= "src/main/resources/AddViewImages/error.png";
 	private static final String HELP_IMG="src/main/resources/AddViewImages/help.png";
 	
-	public TriggerAlert(String s, String type) {
+	public Alert triggerAlertCreate(String s, String type) {
 		Alert alert=null;
 		URL url = null;
 		try {		
@@ -50,6 +50,6 @@ public class TriggerAlert {
 		alert.setTitle("Connection lost");
 		alert.setHeaderText("Something went wrong, try again");
 		alert.setContentText(s);
-		alert.showAndWait(); 	
+		return alert;	
 	}
 }

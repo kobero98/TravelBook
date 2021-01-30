@@ -15,7 +15,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
@@ -23,9 +22,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -39,6 +36,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import main.java.travelbook.controller.ChatController;
+import exception.TriggerAlert;
 import main.java.travelbook.model.bean.MessageBean;
 import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.util.Chat;
@@ -125,8 +123,7 @@ public class ChatViewController {
     
 	contactList.setItems(contacts);
 	} catch (DBException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		new TriggerAlert().triggerAlertCreate(e.getLocalizedMessage(), "warn").showAndWait();
 	}
 	contactList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> { 
 		if(contactList.getSelectionModel().getSelectedIndex()!=-1) {
@@ -244,24 +241,7 @@ public class ChatViewController {
 				try {
 					myController.setReadMex(m);
 				} catch (DBException e) {
-					Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle("Server Error");
-		    		alert.setHeaderText("Something went wrong!");
-		    		alert.setContentText("we couldn't reach your travels, try again");
-		    		URL url = null;
-			   		try {
-				   		 url = new File("src/main/java/travelbook/css/alert.css").toURI().toURL();
-				   		 alert.getDialogPane().getStylesheets().add(url.toString());
-				   		 url = new File("src/main/java/travelbook/css/project.css").toURI().toURL();
-				   		 alert.getDialogPane().getStylesheets().add(url.toString());
-				   		 url = new File("src/main/resources/AddViewImages/warning.png").toURI().toURL();
-				   		 Image image = new Image(url.toString());
-				   		 ImageView imageView = new ImageView(image);
-				   		 alert.setGraphic(imageView);
-			   		} catch (MalformedURLException e1) {
-			   			alert.setGraphic(null);
-			   		}
-		   		 	alert.showAndWait();
+					new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 				}
 			}
 		}
@@ -387,8 +367,7 @@ public class ChatViewController {
     	try {
 			myController.sendMessage(newMsg);
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 		}
     	write.clear();
     	sentList.scrollTo(sentList.getItems().size());

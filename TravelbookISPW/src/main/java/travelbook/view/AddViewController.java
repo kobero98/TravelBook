@@ -1,7 +1,6 @@
 package main.java.travelbook.view;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
 import java.io.ByteArrayOutputStream;
@@ -27,6 +26,7 @@ import javafx.application.Platform;
 import main.java.travelbook.model.bean.TravelBean;
 import javafx.scene.input.MouseEvent;
 import main.java.travelbook.controller.AddTravel;
+import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.util.DateUtil;
 import main.java.travelbook.util.PlaceAdapter;
@@ -47,7 +47,6 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.scene.image.Image;
@@ -87,8 +86,6 @@ public class AddViewController implements Observer{
 	private Label givePractical;
 	@FXML
 	private Label stepImageLabel;
-	private static final String ALERTCSS="src/main/java/travelbook/css/alert.css";
-	private static final String PROJECTCSS="src/main/java/travelbook/css/project.css";
 	@FXML
 	private Button removeImage;
 	@FXML
@@ -676,31 +673,14 @@ public class AddViewController implements Observer{
 		}
 	}
 	private boolean alertSave() {
-		Alert saveAlert=new Alert(AlertType.CONFIRMATION);
+		 Alert saveAlert=new TriggerAlert().triggerAlertCreate("There are some unsaved information that will be lost. What do you want to do?","help" );
 		 saveAlert.setTitle("Unsaved information");
 		 saveAlert.setHeaderText("There are some unsaved information");
-		 saveAlert.setContentText("There are some unsaved information that will be lost. What do you want to do?" );
 		 ButtonType saveExit=new ButtonType("Save And Exit");
 		 ButtonType notSave=new ButtonType("Don't save and exit");
 		 ButtonType cancel=new ButtonType("Cancel",ButtonData.CANCEL_CLOSE);
 		 saveAlert.getButtonTypes().clear();
 		 saveAlert.getButtonTypes().addAll(saveExit,notSave,cancel);
-		 URL url = null;
-		 try {
-		 url = new File(ALERTCSS).toURI().toURL();
-		 saveAlert.getDialogPane().getStylesheets().add(url.toString());
-		 url = new File(PROJECTCSS).toURI().toURL();
-		 saveAlert.getDialogPane().getStylesheets().add(url.toString());
-		 
-		 
-			url = new File("src/main/resources/AddViewImages/help.png").toURI().toURL();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 Image image = new Image(url.toString());
-		 ImageView imageView = new ImageView(image);
-		 saveAlert.setGraphic(imageView);
 		 saveAlert.initOwner(this.mainPane.getScene().getWindow());
 		 Optional<ButtonType> result=saveAlert.showAndWait();
 		 if(result.isPresent()) {
@@ -825,30 +805,8 @@ public class AddViewController implements Observer{
 	    		progressPane.setOpacity(0);
     			internalPane.setOpacity(1);
     			progressPane.setVisible(false);
-	    		Alert alert=new Alert(AlertType.ERROR);
-	    		alert.setHeaderText("Incomplete steps found");
-	    		alert.setContentText("There are some incomplete steps, complete them and then retry");
-	    		alert.setTitle("Error post message");
-	    		URL url = null;
-	   		 try {
-	   		 url = new File(ALERTCSS).toURI().toURL();
-	   		 alert.getDialogPane().getStylesheets().add(url.toString());
-	   		 url = new File(PROJECTCSS).toURI().toURL();
-	   		 alert.getDialogPane().getStylesheets().add(url.toString());
-	   		 
-	   		 
-	   			url = new File("src/main/resources/AddViewImages/error.png").toURI().toURL();
-	   		} catch (MalformedURLException e) {
-	   			// TODO Auto-generated catch block
-	   			e.printStackTrace();
-	   		}
-	   		 	Image image = new Image(url.toString());
-	   		 	ImageView imageView = new ImageView(image);
-	   		 	alert.setGraphic(imageView);
-	    		alert.initOwner(this.mainPane.getScene().getWindow());
-	    		alert.showAndWait();
-	    		
-	    	}
+	    		new TriggerAlert().triggerAlertCreate("There are some incomplete steps, complete them and then retry", "err").showAndWait();
+	    		}
 	    		if(!listOfErrors.isEmpty()) {
 	    			this.modifyColor(listOfErrors);
 	    			progressPane.setOpacity(0);
@@ -970,27 +928,8 @@ public class AddViewController implements Observer{
 	    	}catch(NullPointerException e) {
 	    		travel.setCostTravel(null);
 	    	}catch(NumberFormatException e) {
-	    		Alert alert=new Alert(AlertType.WARNING);
-	    		alert.setTitle("Invalid format");
-	    		alert.setHeaderText("Invalid type for travel's cost");
-	    		alert.setContentText("travel cost must be a number! This information will not be stored");
-	    		URL url = null;
-		   		 try {
-		   		 url = new File(ALERTCSS).toURI().toURL();
-		   		 alert.getDialogPane().getStylesheets().add(url.toString());
-		   		 url = new File(PROJECTCSS).toURI().toURL();
-		   		 alert.getDialogPane().getStylesheets().add(url.toString());
-		   		 
-		   		 
-		   			url = new File("src/main/resources/AddViewImages/warning.png").toURI().toURL();
-		   		} catch (MalformedURLException e1) {
-		   			// TODO Auto-generated catch block
-		   			e1.printStackTrace();
-		   		}
-	   		 	Image image = new Image(url.toString());
-	   		 	ImageView imageView = new ImageView(image);
-	   		 	alert.setGraphic(imageView);
-	   		 	alert.showAndWait();
+	    		new TriggerAlert().triggerAlertCreate("travel cost must be a number! This information will not be stored", "warn").showAndWait();
+	    		
 	    	}
 	    	travel.setStartTravelDate(startDateString);
 	    	travel.setEndTravelDate(endDateString);
@@ -1126,28 +1065,7 @@ public class AddViewController implements Observer{
 	    	}
 	    	}
 	    	else {
-	    		Alert maxSizeReach=new Alert(AlertType.ERROR);
-	    		maxSizeReach.setTitle("Max number of step error");
-	    		maxSizeReach.setHeaderText("Max size of step per day reached");
-	    		maxSizeReach.setContentText("You have reached the maximum number of steps per day, the maximum number is "+this.stepLimit);
-	    		URL url = null;
-		   		 try {
-		   		 url = new File(ALERTCSS).toURI().toURL();
-		   		 maxSizeReach.getDialogPane().getStylesheets().add(url.toString());
-		   		 url = new File(PROJECTCSS).toURI().toURL();
-		   		maxSizeReach.getDialogPane().getStylesheets().add(url.toString());
-		   		 
-		   		 
-		   			url = new File("src/main/resources/AddViewImages/error.png").toURI().toURL();
-		   		} catch (MalformedURLException e) {
-		   			// TODO Auto-generated catch block
-		   			e.printStackTrace();
-		   		}
-				 Image image = new Image(url.toString());
-	   		 	ImageView imageView = new ImageView(image);
-	   		 	maxSizeReach.setGraphic(imageView);
-	    		maxSizeReach.initOwner(this.mainPane.getScene().getWindow());
-	    		maxSizeReach.showAndWait();
+	    		new TriggerAlert().triggerAlertCreate("You have reached the maximum number of steps per day, the maximum number is "+this.stepLimit, "err").showAndWait();
 	    	}
 	    }
 	    private Button makeButton() {
@@ -1279,27 +1197,9 @@ public class AddViewController implements Observer{
 	    	saved=false;
 	    	//then remove the selected step from the list and the button bar.
 	    	
-	    	Alert confirmAlert=new Alert(AlertType.CONFIRMATION);
+	    	Alert confirmAlert=new TriggerAlert().triggerAlertCreate("if you remove this step then all the information are deleted", "help");
 	    	confirmAlert.setTitle("Delete step confirmation");
 	    	confirmAlert.setHeaderText("Are you sure to remove this step?");
-	    	confirmAlert.setContentText("if you remove this step then all the information are deleted");
-	    	URL url = null;
-	   		 try {
-	   		 url = new File(ALERTCSS).toURI().toURL();
-	   		 confirmAlert.getDialogPane().getStylesheets().add(url.toString());
-	   		 url = new File(PROJECTCSS).toURI().toURL();
-	   		 confirmAlert.getDialogPane().getStylesheets().add(url.toString());
-	   		 
-	   		 
-	   			url = new File("src/main/resources/AddViewImages/help.png").toURI().toURL();
-	   		} catch (MalformedURLException e) {
-	   			// TODO Auto-generated catch block
-	   			e.printStackTrace();
-	   		}
-			 Image image = new Image(url.toString());
-   		 	ImageView imageView = new ImageView(image);
-   		 	confirmAlert.setGraphic(imageView);
-	    	confirmAlert.initOwner(this.mainPane.getScene().getWindow());
 	    	confirmAlert.showAndWait();
 	    	ButtonType result=confirmAlert.getResult();
 	    	if(result.getButtonData()==ButtonData.OK_DONE) {
