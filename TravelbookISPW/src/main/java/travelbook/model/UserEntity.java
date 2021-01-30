@@ -66,7 +66,6 @@ public class UserEntity extends OtherUserEntity implements Entity{
 		this.email = email;
 	}
 	
-
 	
 }
 

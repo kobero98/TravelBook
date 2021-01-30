@@ -13,4 +13,5 @@ module travelbook {
     opens main.java.travelbook.view to javafx.fxml;
     exports main.java.travelbook;
     exports main.java.travelbook.view;
+    exports main.java.travelbook.util;
 }

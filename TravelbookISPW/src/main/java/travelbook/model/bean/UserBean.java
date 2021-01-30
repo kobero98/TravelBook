@@ -1,5 +1,7 @@
 package main.java.travelbook.model.bean;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import javafx.scene.image.Image;
@@ -25,6 +27,25 @@ public class UserBean implements Bean{
 	private List<Integer> fav = null;
 	private String username;
 	private String password;
+	private byte[] array;
+	public byte[] getArray() {
+		if(this.photoStream==null) {
+			return null;
+		}
+		try {
+			ByteArrayOutputStream buffer= new ByteArrayOutputStream();
+			int nRead;
+			byte[] targetArray=new byte[16384];
+			while((nRead=photoStream.read(targetArray,0,targetArray.length))!=-1) {
+				buffer.write(targetArray,0,nRead);
+			}
+			this.array=buffer.toByteArray();
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		return array;
+	}
+	private InputStream photoStream;
 	public String getUsername() {
 		return username;
 	}
@@ -53,7 +74,8 @@ public class UserBean implements Bean{
 		this.surname=user.getSurname();
 		this.description=user.getDescription();
 		this.gender=user.getGender();
-		if(user.getPhoto()!=null)		this.photo=new Image(user.getPhoto());
+		if(user.getPhoto()!=null)
+			this.photoStream=user.getPhoto();
 		this.nFollower=user.getNFollower();
 		this.nFollowing=user.getNFollowing();
 		this.nTrip=user.getNTrip();
@@ -138,7 +160,13 @@ public class UserBean implements Bean{
 	}
 	public Image getPhoto()
 	{
+		if(this.photoStream==null) {
+			return null;
+		}
+		if(this.photo==null)
+			this.photo=new Image(this.photoStream);
 		return this.photo;
+		
 	}
 	public String getSex()
 	{

@@ -1,6 +1,7 @@
 package main.java.travelbook.controller;
 
 import java.io.File;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,12 @@ public class MyProfileController extends ProfileController{
 		userE.setPhoto(foto);
 		userDao.update(userE);
 		
+	}
+	public void updatePhotoInputStream(int id,InputStream bytes) throws DBException {
+		PersistanceDAO userDao=DaoFactory.getInstance().create(DaoType.USER);
+		UserEntity userE=new UserEntity(id);
+		userE.setPhoto(bytes);
+		userDao.update(userE);
 	}
 	public List<Bean> getShared(int userId) throws DBException{
 		ShareEntity us=new ShareEntity();
