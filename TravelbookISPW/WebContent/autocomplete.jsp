@@ -2,13 +2,11 @@
     pageEncoding="ISO-8859-1"%>
 <%@page import="org.json.simple.JSONArray"%>
 <%@page import="org.json.simple.JSONObject"%>
-<%@page contentType="text/html; charset=iso-8859-1" language="java"%>
 <%@page language="java" %>
 <%@page import="java.sql.*" %>
 <%@page import="java.util.*" %>
 <%@ page import="main.java.travelbook.controller.*" %>
 <%
-	System.out.println("ciao");
     try
     {
     	ControllerSearch controller=ControllerSearch.getInstance();
@@ -16,13 +14,13 @@
     	 System.out.println(query);
 		List <String> l=controller.getCitiesPredictions(query);
         JSONArray json=new JSONArray();
+        JSONObject o=new JSONObject();
 		int i=0;
 		while(i<l.size()){
-			JSONObject o=new JSONObject();
 			o.put("citta", l.get(i));
-			json.add(o);
+			i++;
      	 }
-		out.print(json.toString());
+		out.print(o);
     } catch(Exception e1)
       {
       out.println(e1);

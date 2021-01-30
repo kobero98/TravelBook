@@ -15,20 +15,36 @@
 	<script> 
     $(function()
             {
-             $('#auto').autocomplete(
+             $('#search').autocomplete(
              {
+           		position:{ my: "left top", at: "left bottom", collision: "none" },
+           	 minlength:1,
              source:function(request,response)
              {
+            
              //Fetch data
              $.ajax({
                  url:"autocomplete.jsp",
-                 method:"get",
+                 method:"post",
                  dataType:'json',
                  data:{search:request.term},
+                 
                  success:function(data)
-                 {
-                     response(data);
-                 }
+                 { 
+                	 console.log(data);
+                	 response(data);
+                 },
+                 select: function( event, ui ) {
+                     log( ui.item ?
+                       "Selected: " + ui.item.label :
+                       "Nothing selected, input was " + this.value);
+                   },
+                   open: function() {
+                     $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+                   },
+                   close: function() {
+                     $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+                   }
              });
              }
              });   
@@ -42,13 +58,11 @@
 		{
 			if(soprasotto==0)
 				{
-					console.log("ciao");
 					$("#advancedSearch").show();
 					soprasotto=1;
 				}
 			else{
 
-				console.log(soprasotto);
 				$("#advancedSearch").hide();
 				soprasotto=0;
 			}
@@ -66,7 +80,7 @@
     </div>
     <div class="search-bar ui-widget" >
         <input type="button" name="search-button" id=search-button>
-        <input type="search" name="search" id=search class="textfield">
+        <input type="text" name="search" id=search class="textfield">
     </div>
     <div id=advancedSearch  hidden="true">
     	<div id=cost>
@@ -104,7 +118,7 @@
         <div class="panel l-panel">
             <div>
                 <input type="button" onclick="spostamento()" id="expand">
-                <p class="as-text">
+                <p id=test class="as-text">
                     advanced search
                 </p>
             </div>
