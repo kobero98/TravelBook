@@ -5,8 +5,8 @@
 <html>
 <head>
 	<meta charset="ISO-8859-1">
-    <link rel="stylesheet" href="loginCss.css">
-    <link rel="stylesheet" href="add.css">
+    <link rel="stylesheet" href="css/loginCss.css">
+    <link rel="stylesheet" href="css/add.css">
 	<title>Travelbook</title>
 	
 

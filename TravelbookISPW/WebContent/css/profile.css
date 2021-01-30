@@ -55,6 +55,24 @@
     align-items: center;
     justify-content: center;
 }
+.panelProfile{
+	position: absolute;
+	width: 19.09375em;
+    height: 36.9375em;
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+	justify-content: space-evenly;
+}
+#chooseIm{
+	position: relative;
+	left: -10em;
+	opacity: 0;
+}
+.followPanel{
+	display:flex;
+	
+}
 .text{
     font: normal normal 1em "Arial";
     color: var(--textColorD);

@@ -7,13 +7,46 @@
 		
 		out.println(log.getName());
 	}
+	if(request.getParameter("profile")!=null){
+%>
+	<jsp:forward page="profile.jsp"/>
+<%		
+	}
+	if(request.getParameter("add")!=null){
+%>
+	<jsp:forward page="add.jsp"/>
+<% 
+	}
+	if(request.getParameter("chat")!=null){
+%>
+	<jsp:forward page="chat.jsp"/>
+<% 
+	}
+	if(request.getParameter("explore")!=null){
+%>
+	<jsp:forward page="explore.jsp"/>
+<% 
+	}
+	if(request.getParameter("searchButton")!=null){
+%>
+	<jsp:forward page="search.jsp"/>
+<% 
+	}
 %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="ISO-8859-1">
+<<<<<<< .mine
+    <link rel="stylesheet" href="css/loginCss.css">
+    <link rel="stylesheet" href="css/explore.css">
+||||||| .r269
+    <link rel="stylesheet" href="loginCss.css">
+    <link rel="stylesheet" href="explore.css">
+=======
     <link rel="stylesheet" href="css\loginCss.css">
     <link rel="stylesheet" href="css\explore.css">
+>>>>>>> .r304
 	<title>Travelbook</title>
 	<Script>
 	function spostamentoSearch(){
@@ -35,10 +68,12 @@
          
         <div class="panel">
             <div class="menu-bar">
-                <input type="button", class="button", name="profile", value="PROFILE">
-                <input type="button", class="button", name="add", value="ADD">
-                <input type="button", class="button p-button", name="explore", value="EXPLORE">
-                <input type="button", class="button", name="chat", value="CHAT">
+            <form action="explore.jsp" method="POST">
+                <input type="submit" class="button" name="profile" value="PROFILE">
+                <input type="submit" class="button" name="add" value="ADD">
+                <input type="submit" class="button p-button" name="explore" value="EXPLORE">
+                <input type="submit" class="button" name="chat" value="CHAT">
+            </form>
             </div>
             <p class = "write">
                 Suggestions
@@ -62,10 +97,18 @@
                 ADVANCED SEARCH
             </p>
             <div id="sp">
+            	<form action="explore.jsp" method="POST">
                 <p id = "searchWrite">
                     Looking for something more specific? Try our research tool, narrowing your desires with a lot of different options
                 </p>
+<<<<<<< .mine
+                <input type="submit" id="searchButton" name="searchButton" path="M12 8V4l8 8-8 8v-4H4V8z">
+                </form>
+||||||| .r269
+                <input type="button", id="searchButton", name="searchButton",path="M12 8V4l8 8-8 8v-4H4V8z">
+=======
                 <input type="button" id="searchButton" name="searchButton" onclick="spostamentoSearch()"path="M12 8V4l8 8-8 8v-4H4V8z">
+>>>>>>> .r304
             </div>
             
         </div>
