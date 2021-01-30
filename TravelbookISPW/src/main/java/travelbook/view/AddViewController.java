@@ -1006,14 +1006,7 @@ public class AddViewController implements Observer{
 	    		view.setImage(im);
 	    		view.setOnMouseClicked((MouseEvent e)->{
 	    			//Se clicchi sulla foto la apre in "grande"
-	    			ImageView io=(ImageView)e.getTarget();
-	    			actualImage=io;
-	    			viewImage.setImage(io.getImage());
-	    			viewImagePane.setVisible(true);
-	    			OpacityAnimation anim=new OpacityAnimation();
-	    			anim.setBackTop(internalPane, viewImagePane);
-	    			anim.setLimits(0.1, 0.9);
-	    			anim.start();
+	    			openImage(e);
 	    		});
 	    		while(!imageGridPane.isValid(nextRow,nextCol)) {
 	    			nextCol++;
@@ -1314,14 +1307,7 @@ public class AddViewController implements Observer{
     		    		view.setImage(image);
     		    		view.setOnMouseClicked((MouseEvent e)->{
     		    			//Se clicchi sulla foto la apre in "grande"
-    		    			ImageView io=(ImageView)e.getTarget();
-    		    			actualImage=io;
-    		    			viewImage.setImage(io.getImage());
-    		    			viewImagePane.setVisible(true);
-    		    			OpacityAnimation anim=new OpacityAnimation();
-    		    			anim.setBackTop(internalPane, viewImagePane);
-    		    			anim.setLimits(0.1, 0.9);
-    		    			anim.start();
+    		    			openImage(e);
     		    		});
     		    		
     		    		this.dayImagePane.get(i).get(step).add(view, nextCol, nextRow);
@@ -1348,5 +1334,14 @@ public class AddViewController implements Observer{
 	    	controller.load(stepNow);
 	    	}
 	    	}
-	    
+	    private void openImage(MouseEvent e) {
+	    	ImageView io=(ImageView)e.getTarget();
+			actualImage=io;
+			viewImage.setImage(io.getImage());
+			viewImagePane.setVisible(true);
+			OpacityAnimation anim=new OpacityAnimation();
+			anim.setBackTop(internalPane, viewImagePane);
+			anim.setLimits(0.1, 0.9);
+			anim.start();
+	    }
 }

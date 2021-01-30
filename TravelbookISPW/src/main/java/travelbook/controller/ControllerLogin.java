@@ -76,7 +76,6 @@ public class ControllerLogin {
 		try {
 			int i=string.indexOf("&");
 			String accessToken= string.substring(14,i);
-			System.out.println(accessToken);
 			String url = "https://graph.facebook.com/v9.0/me?&access_token="+accessToken;
 			HttpClient client=HttpClientBuilder.create().build();
 			HttpGet request=new HttpGet(url);

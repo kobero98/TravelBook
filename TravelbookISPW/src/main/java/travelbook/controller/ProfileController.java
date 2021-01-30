@@ -18,8 +18,8 @@ import main.java.travelbook.model.dao.VisualDAO;
 
 public class ProfileController{
 	
-	public List<MiniTravelBean> getTravel(List<Integer> l) throws DBException{
-		List<MiniTravelBean> ol = null;
+	public List<Bean> getTravel(List<Integer> l) throws DBException{
+		List<Bean> ol = null;
 		VisualDAO miniTravelDao = DaoFactory.getInstance().createVisual(DaoType.S_TRAVEL);
 		if (l != null) {
 			for(int i=0; i<l.size(); i++) {
@@ -96,31 +96,7 @@ public class ProfileController{
 		}
 		return f;
 	}
-	public List<Bean> getFav(List<Integer> l) throws DBException{
-		List<Bean> f = null;
-		VisualDAO miniTravelDao = DaoFactory.getInstance().createVisual(DaoType.S_TRAVEL);
-		TravelEntity travelE = new TravelEntity();
-		if(l != null) {
-			for(int i=0; i<l.size(); i++) {
-				travelE.setIdTravel(l.get(i));
-				List<Entity> rs=new ArrayList<>();
-				try {
-					rs = miniTravelDao.getData(travelE);
-				} catch (SQLException e) {
-					throw new DBException("we could't find this information");
-				}
-				travelE = (TravelEntity)rs.get(0);
-				if(f==null) {
-					f = new ArrayList<>();
-					f.add(new MiniTravelBean(travelE));
-				}
-				else {
-					f.add(new MiniTravelBean(travelE));
-				}
-			}
-		}
-		return f;
-	}
+
 	public List<String> getFavS(List<Integer> l) throws DBException{
 		List<String> f = null;
 		VisualDAO miniTravelDao = DaoFactory.getInstance().createVisual(DaoType.S_TRAVEL);

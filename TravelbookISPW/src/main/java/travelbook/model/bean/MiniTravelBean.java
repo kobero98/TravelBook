@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import main.java.travelbook.model.TravelEntity;
 
 public class MiniTravelBean implements Bean{
@@ -16,7 +17,7 @@ public class MiniTravelBean implements Bean{
 	private byte[] array;
 	public byte[] getArray() {
 		if(this.imageStream==null)
-			return null;
+			return null;		//serve array vuoto ma non voglio incasinarti le cose demago
 		try {
 			ByteArrayOutputStream buffer= new ByteArrayOutputStream();
 			int nRead;

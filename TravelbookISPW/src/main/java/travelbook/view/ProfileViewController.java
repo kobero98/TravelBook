@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import exception.DBException;
+import exception.TriggerAlert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -36,8 +37,6 @@ import main.java.travelbook.model.bean.Bean;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.ShareBean;
 import main.java.travelbook.model.bean.UserBean;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
@@ -50,6 +49,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import main.java.travelbook.util.Observable;
 import main.java.travelbook.util.Observer;
+import main.java.travelbook.util.SetImage;
 public class ProfileViewController implements Observer{
 	private BorderPane mainPane;
 	private Object[] array1=new Object[15];
@@ -59,7 +59,7 @@ public class ProfileViewController implements Observer{
 	@FXML
 	private ButtonBar menuBar;
 	@FXML
-	private ListView<MiniTravelBean> travels;
+	private ListView<Bean> travels;
 	@FXML
 	private AnchorPane profileAnchor;
 	@FXML
@@ -106,70 +106,30 @@ public class ProfileViewController implements Observer{
 	private Button logOutButton;
 	@FXML
 	private Label errorMsg;
-	private static final String ALERTCSS="src/main/java/travelbook/css/alert.css";
-	private static final String PROJECTCSS="src/main/java/travelbook/css/project.css";
-	private static final String HEADER_MSG ="Something went wrong!";
-	private static final String WARN_IMG = "src/main/resources/AddViewImages/warning.png";
 	private static final String DEFAULT_IMG ="src/main/resources/ProfilePageImages/travelers.png";
 	private static final String DAFAULT_IMG_COLOR="rgb(255, 162, 134)"; 
+	
 	UserBean user=MenuBar.getInstance().getLoggedUser();
 	MyProfileController myController = new MyProfileController();
 	public void initialize() {
 		MenuBar.getInstance().setNewThread();
 		MenuBar.getInstance().addObserver(this);
 		new Thread(()->{
-			ObservableList<MiniTravelBean> data;
+			ObservableList<Bean> data;
 			try {
 				if(user.getTravel()!=null && !user.getTravel().isEmpty()) {
 					data = FXCollections.observableList(myController.getTravel(user.getTravel()));
 					travels.setItems(data); 
 				}
 			} catch (DBException e) {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.setTitle("Travels unreacheable");
-	    		alert.setHeaderText(HEADER_MSG);
-	    		alert.setContentText("we couldn't reach your travels, try again");
-	    		URL url = null;
-		   		 try {
-		   		 url = new File(ALERTCSS).toURI().toURL();
-		   		 alert.getDialogPane().getStylesheets().add(url.toString());
-		   		 url = new File(PROJECTCSS).toURI().toURL();
-		   		 alert.getDialogPane().getStylesheets().add(url.toString());
-		   		 
-		   		 
-		   			url = new File(WARN_IMG).toURI().toURL();
-		   		} catch (MalformedURLException e1) {
-		   			e1.printStackTrace();
-		   		}
-	   		 	Image image = new Image(url.toString());
-	   		 	ImageView imageView = new ImageView(image);
-	   		 	alert.setGraphic(imageView);
-	   		 	alert.showAndWait();
+				new TriggerAlert().triggerAlertCreate("we couldn't reach your travels, try again", "warn").showAndWait();
 			}
 			
 			travels.setCellFactory(list->new TravelCell());
 		}).start();
 
 		
-		if(user.getPhoto() !=null) {
-			BackgroundImage bgPhoto = new BackgroundImage(user.getPhoto(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-			Background newBg = new Background(bgPhoto);
-			profilePhoto.setBackground(newBg);
-		}
-		else {
-			try {
-				URL url = new File(DEFAULT_IMG).toURI().toURL();
-				Image myPhoto = new Image(url.toString());
-				BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-				Background newBg = new Background(bgPhoto);
-				profilePhoto.setBackground(newBg);
-			}catch(IllegalArgumentException | MalformedURLException e) {
-        		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf(DAFAULT_IMG_COLOR), null, null);
-            	
-            	Background mybg1 = new Background(bgcc1);
-            	profilePhoto.setBackground(mybg1);
-			}
-		}
+		new SetImage(profilePhoto, user.getPhoto(), false);
 		
 		userName.setText(user.getName()+" "+user.getSurname());
 		
@@ -179,11 +139,12 @@ public class ProfileViewController implements Observer{
 		followingButton.setText("Following: "+user.getNFollowing());
 		placeVisited.setText("You have visited " + user.getnPlace()+" places");
 	}
-	class TravelCell extends ListCell<MiniTravelBean>{
+	class TravelCell extends ListCell<Bean>{
 		@Override
-        public void updateItem(MiniTravelBean item, boolean empty) {
+        public void updateItem(Bean item, boolean empty) {
             super.updateItem(item, empty);
             if(!empty) {
+            	MiniTravelBean item1 = (MiniTravelBean)item;
             	HBox travel = new HBox();
             	travel.setPrefWidth(mainAnchor.getPrefWidth()*530/1280);
         		travel.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
@@ -200,7 +161,7 @@ public class ProfileViewController implements Observer{
             	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
             	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
             	try {
-            		Image myPhoto = item.getPathImage();
+            		Image myPhoto = item1.getPathImage();
             		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
             		Background mybg1 = new Background(bgPhoto);
             		travelPic.setBackground(mybg1);
@@ -216,8 +177,8 @@ public class ProfileViewController implements Observer{
             	vBox.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
             	vBox.setMaxWidth(USE_PREF_SIZE);
             	vBox.setSpacing(mainAnchor.getPrefHeight()*(180.0/15)/625);
-            	Label name = new Label(item.getNameTravel());
-            	Text descr = new Text(item.getDescriptionTravel());
+            	Label name = new Label(item1.getNameTravel());
+            	Text descr = new Text(item1.getDescriptionTravel());
             	descr.setWrappingWidth(mainAnchor.getPrefWidth()*265/1280);
             	hBox.setAlignment(Pos.BOTTOM_RIGHT);
  
@@ -225,10 +186,10 @@ public class ProfileViewController implements Observer{
             	edit.setPrefWidth(mainAnchor.getPrefWidth()*35/1280);
             	edit.setPrefHeight(mainAnchor.getPrefHeight()*35/625);
             	edit.getStyleClass().add("edit");
-            	travel.setOnMouseClicked(e->moveToView(item.getId()));
+            	travel.setOnMouseClicked(e->moveToView(item1.getId()));
             	edit.setOnMouseClicked(e->{
             		try {
-            			MenuBar.getInstance().setIdTravel(item.getId());
+            			MenuBar.getInstance().setIdTravel(item1.getId());
             			MenuBar.getInstance().moveToAddTravel(mainPane); //aggiungere id viaggio dopo aver sistemato add
             		}catch(IOException exc) {
             			exc.printStackTrace();
@@ -420,27 +381,7 @@ public class ProfileViewController implements Observer{
 				myController.updatePhoto(user.getId(),selectedFile);
 				
 			} catch (DBException e) {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.setTitle("Update failed");
-	    		alert.setHeaderText(HEADER_MSG);
-	    		alert.setContentText("we couldn't update your information, try again");
-	    		URL url = null;
-		   		 try {
-		   		 url = new File(ALERTCSS).toURI().toURL();
-		   		 alert.getDialogPane().getStylesheets().add(url.toString());
-		   		 url = new File(PROJECTCSS).toURI().toURL();
-		   		 alert.getDialogPane().getStylesheets().add(url.toString());
-		   		 
-		   		 
-		   			url = new File(WARN_IMG).toURI().toURL();
-		   		} catch (MalformedURLException e1) {
-		   			e1.printStackTrace();
-		   		}
-		   		Image image=null;
-	   		 	if(url!=null)  image = new Image(url.toString());
-	   		 	ImageView imageView = new ImageView(image);
-	   		 	alert.setGraphic(imageView);
-	   		 	alert.showAndWait();
+				new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 			}
 		}
 	}
@@ -460,27 +401,7 @@ public class ProfileViewController implements Observer{
 			try {
 				myController.updateDescr(user.getId(),newDescr);
 			} catch (DBException e) {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.setTitle("Update failed");
-	    		alert.setHeaderText(HEADER_MSG);
-	    		alert.setContentText("we couldn't update your information, try again");
-	    		URL url = null;
-		   		 try {
-		   		 url = new File(ALERTCSS).toURI().toURL();
-		   		 alert.getDialogPane().getStylesheets().add(url.toString());
-		   		 url = new File(PROJECTCSS).toURI().toURL();
-		   		 alert.getDialogPane().getStylesheets().add(url.toString());
-		   		 
-		   		 
-		   			url = new File(WARN_IMG).toURI().toURL();
-		   		} catch (MalformedURLException e1) {
-		   			e1.printStackTrace();
-		   		}
-		   		Image image=null;
-	   		 	if(url!=null) image = new Image(url.toString());
-	   		 	ImageView imageView = new ImageView(image);
-	   		 	alert.setGraphic(imageView);
-	   		 	alert.showAndWait();
+				new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 			}
 			
 		}
@@ -508,12 +429,13 @@ public class ProfileViewController implements Observer{
 		listTitle.setVisible(true);
 		listText.setText("Check out this travels");
 		show.getItems().clear();
+		show.setCellFactory(list->new ShCell());
 		try {
 			List<Bean> sh = myController.getShared(user.getId());
 			if(sh!=null && !sh.isEmpty()) {
 				ObservableList<Bean> fav = FXCollections.observableList(sh);
 				show.setItems(fav);
-				show.setCellFactory(list->new ShCell());
+				
 			}
 		} catch (DBException e) {
 			errorMsg.setVisible(true);
@@ -531,8 +453,7 @@ public class ProfileViewController implements Observer{
 					myTravel = myController.getTravel(myItem.getTravelShared());
 					myUser = myController.getUser(myItem.getWhoShare());
 				} catch (DBException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 				}
 				HBox hBox = new HBox();
             	VBox vBox = new VBox();
@@ -554,8 +475,7 @@ public class ProfileViewController implements Observer{
 					try {
 						url = new File(DEFAULT_IMG).toURI().toURL();
 					} catch (MalformedURLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						//TODO
 					}
 					Image photo=null;
 					if(url!=null) photo = new Image(url.toString());
@@ -585,13 +505,15 @@ public class ProfileViewController implements Observer{
 		listTitle.setVisible(true);
 		listText.setText("Your favourite travels");
 		show.getItems().clear();
+		show.setCellFactory(list-> new FavCell());
 		if(user.getFav()!=null && !user.getFav().isEmpty()) {
 			ObservableList<Bean> fav;
 			try {
-				List<Bean> l =myController.getFav(user.getFav());
+				List<Bean> l =myController.getTravel(user.getFav());
 				fav = FXCollections.observableList(l);
-				show.setItems(fav);
 				show.setCellFactory(list-> new FavCell());
+				show.setItems(fav);
+				
 			} catch (DBException e) {
 				errorMsg.setVisible(true);
 			}
@@ -604,11 +526,12 @@ public class ProfileViewController implements Observer{
 		listTitle.setVisible(true);
 		listText.setText("Your followers");
 		show.getItems().clear();
+		show.setCellFactory(list-> new FollowCell());
 		if(user.getFollower()!= null && !user.getFollower().isEmpty()) {
 			ObservableList<Bean> fav;
 			try {
 				fav = FXCollections.observableList(myController.getFollow(user.getFollower()));
-				show.setCellFactory(list-> new FollowCell());
+				
 				show.setItems(fav);
 			} catch (DBException e) {
 				errorMsg.setVisible(true);
@@ -623,11 +546,12 @@ public class ProfileViewController implements Observer{
 		listTitle.setVisible(true);
 		listText.setText("Your interesting people");
 		show.getItems().clear();
+		show.setCellFactory(list-> new FollowCell());
 		if(user.getFollowing()!=null && !user.getFollowing().isEmpty()) {
 			ObservableList<Bean> fav;
 			try {
 				fav = FXCollections.observableList(myController.getFollow(user.getFollowing()));
-				show.setCellFactory(list-> new FollowCell());
+				
 				show.setItems(fav);
 			} catch (DBException e) {
 				errorMsg.setVisible(true);

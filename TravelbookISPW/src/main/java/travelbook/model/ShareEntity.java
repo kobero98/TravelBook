@@ -17,6 +17,10 @@ public class ShareEntity implements Entity {
 	public void setWhoShare(int whoShare) {
 		this.whoShare = whoShare;
 	}
+	public void setTravelShared(int travelShared) {
+		this.travelShared = travelShared;
+	}
+	
 	public int getWhoReceive() {
 		return whoReceive;
 	}
@@ -26,8 +30,5 @@ public class ShareEntity implements Entity {
 	public int getTravelShared() {
 		return travelShared;
 	}
-	public void setTravelShared(int travelShared) {
-		this.travelShared = travelShared;
-	}
-	
+
 }

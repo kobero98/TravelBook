@@ -34,12 +34,11 @@ import main.java.travelbook.controller.ControllerProfileOther;
 import main.java.travelbook.controller.TravelController;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.UserBean;
-import javafx.scene.control.Alert;
+import	main.java.travelbook.model.bean.Bean;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 public class ProfileOtherController {
@@ -52,7 +51,7 @@ public class ProfileOtherController {
 	@FXML
 	private AnchorPane mainAnchor;
 	@FXML
-	private ListView<MiniTravelBean> travels;
+	private ListView<Bean> travels;
 	@FXML
 	private Pane profilePhoto;
 	@FXML
@@ -89,10 +88,6 @@ public class ProfileOtherController {
 	private Label errorMsg;
 	private String viewTravel = "src/main/java/travelbook/view/ViewTravel.fxml";
 	private ControllerProfileOther myController = new ControllerProfileOther();
-	private static final String ALERTCSS="src/main/java/travelbook/css/alert.css";
-	private static final String PROJECTCSS="src/main/java/travelbook/css/project.css";
-	private static final String HEADER_MSG ="Something went wrong!";
-	private static final String WARN_IMG = "src/main/resources/AddViewImages/warning.png";
 	private static final String CSS = "fav-selected";
 	
 	public void initialize() {
@@ -102,7 +97,7 @@ public class ProfileOtherController {
 			new TriggerAlert().triggerAlertCreate(e1.getMessage(), "err").showAndWait();
 		}
 		new Thread(()->{
-			ObservableList<MiniTravelBean> data;
+			ObservableList<Bean> data;
 			try {
 				data = FXCollections.observableArrayList(myController.getTravel(user.getTravel()));
 				travels.setItems(data); 
@@ -141,11 +136,12 @@ public class ProfileOtherController {
 		placeVisited.setText(user.getName() + " has visited " + user.getnPlace() +" places");
 		favText.setText(user.getName()+"'s favourite travels");
 	}
-	class TravelCell extends ListCell<MiniTravelBean>{
+	class TravelCell extends ListCell<Bean>{
 		@Override
-        public void updateItem(MiniTravelBean item, boolean empty) {
+        public void updateItem(Bean item, boolean empty) {
             super.updateItem(item, empty);
             if(!empty) {
+            	MiniTravelBean item1 = (MiniTravelBean)item;
             	HBox travel = new HBox();
             	travel.setPrefWidth(mainAnchor.getPrefWidth()*530/1280);
         		travel.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
@@ -162,7 +158,7 @@ public class ProfileOtherController {
             	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
             	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
             	try {
-            		Image myPhoto = item.getPathImage();
+            		Image myPhoto = item1.getPathImage();
             		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
             		Background mybg1 = new Background(bgPhoto);
             		travelPic.setBackground(mybg1);
@@ -179,8 +175,8 @@ public class ProfileOtherController {
             	vBox.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
             	vBox.setMaxWidth(USE_PREF_SIZE);
             	vBox.setSpacing(mainAnchor.getPrefHeight()*(180.0/15)/625);
-            	Label name = new Label(item.getNameTravel());
-            	Text descr = new Text(item.getDescriptionTravel());
+            	Label name = new Label(item1.getNameTravel());
+            	Text descr = new Text(item1.getDescriptionTravel());
             	descr.setWrappingWidth(mainAnchor.getPrefWidth()*265/1280);
             	hBox.setAlignment(Pos.BOTTOM_RIGHT);
  
@@ -189,12 +185,12 @@ public class ProfileOtherController {
             	fav.setPrefHeight(mainAnchor.getPrefHeight()*35/625);
             	fav.getStyleClass().add("favourite");
             	if(MenuBar.getInstance().getLoggedUser().getFav()!=null &&
-            			MenuBar.getInstance().getLoggedUser().getFav().contains(item.getId()))
+            			MenuBar.getInstance().getLoggedUser().getFav().contains(item1.getId()))
             				fav.getStyleClass().add(CSS);
             	travel.setOnMouseClicked(e->{
             			try {
             				URL url = new File(viewTravel).toURI().toURL();
-            				MenuBar.getInstance().setIdTravel(item.getId());
+            				MenuBar.getInstance().setIdTravel(item1.getId());
             				FXMLLoader loader=new FXMLLoader();
             				loader.setLocation(url);
             				internalPane=(AnchorPane)loader.load();
@@ -205,7 +201,7 @@ public class ProfileOtherController {
             			exc.printStackTrace();
             		}
             	});
-            	fav.setOnMouseClicked(e->addToFav(item,fav));
+            	fav.setOnMouseClicked(e->addToFav(item1,fav));
             	hBox.getChildren().add(fav);
             	vBox.getChildren().add(name);
             	vBox.getChildren().add(descr);
