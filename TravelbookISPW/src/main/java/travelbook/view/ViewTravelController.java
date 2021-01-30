@@ -418,13 +418,13 @@ public class ViewTravelController {
 	@FXML
 	private void backHandler() {
 		switch(goBack) {
-		case 1:
+		/*case 1:
 			try {
 				MenuBar.getInstance().moveToExplore(mainPane);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			break;
+			break;*/
 		case 2:
 			try {
     		MenuBar.getInstance().moveToProfile(mainPane);

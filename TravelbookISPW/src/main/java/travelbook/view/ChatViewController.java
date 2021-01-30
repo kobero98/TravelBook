@@ -134,8 +134,6 @@ public class ChatViewController {
             user.setSpecialIndicator("selected");
 			contactList.refresh();
 			int i = 0;
-			System.out.println(myChats);
-			System.out.println(user.getUser());
 			current = null;
 			while(i<myChats.size() && current == null) {
 				if(myChats.get(i).getIdUser()==user.getUser().getId())
@@ -145,7 +143,6 @@ public class ChatViewController {
 			if(current == null) {
 				current = new Chat(user.getUser().getId());
 				myChats.add(current);
-				System.out.println(current.getIdUser());
 			}
 			changeChat();
 		}
