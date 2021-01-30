@@ -67,7 +67,7 @@ public class MessagePollingThread extends Thread {
 		private void initMessageReceive(List<Chat> chats) throws DBException{
 			boolean found;
 			lastTime = Instant.now();
-			List<MessageBean> messages = myController.getReceived(MenuBar.getInstance().getLoggedUser().getId());
+			List<MessageBean> messages = myController.getMessagesThread(0,MenuBar.getInstance().getLoggedUser().getId());
 			for(MessageBean message: messages) {
 				found=false;
 				for(int i=0;i<chats.size();i++) {
@@ -92,7 +92,7 @@ public class MessagePollingThread extends Thread {
 		}
 		private void initMessageSend(List<Chat> chats) throws DBException{
 			boolean found;
-			List<MessageBean> messages = myController.getSend(MenuBar.getInstance().getLoggedUser().getId());
+			List<MessageBean> messages = myController.getMessagesThread(MenuBar.getInstance().getLoggedUser().getId(),0);
 			
 			for(MessageBean message: messages) {
 				found=false;

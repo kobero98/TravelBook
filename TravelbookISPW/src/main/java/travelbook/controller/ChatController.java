@@ -75,9 +75,9 @@ public class ChatController {
 		}
 		return messaggi;
 	}
-	public List<MessageBean> getReceived(int idUser) throws DBException{
+	public List<MessageBean> getMessagesThread(int idMe, int idUser) throws DBException{
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);
-		MessageEntity nuovaEntity=new MessageEntity(0,idUser);
+		MessageEntity nuovaEntity=new MessageEntity(idMe,idUser);
 		nuovaEntity.setSoloNuovi(false);
 		List<Entity> entities;
 		try {
@@ -92,23 +92,7 @@ public class ChatController {
 		}
 		return messaggi;
 	}
-	public List<MessageBean> getSend(int idUser) throws DBException{
-		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);
-		MessageEntity nuovaEntity=new MessageEntity(idUser,0);
-		nuovaEntity.setSoloNuovi(false);
-		List<Entity> entities;
-		try {
-			entities = dao.getData(nuovaEntity);
-		} catch (SQLException e) {
-			throw new DBException("connection lost");
-		}
-		List<MessageBean> messaggi=new ArrayList<>();
-		for(Entity entity: entities) {
-			MessageBean messaggio=new MessageBean((MessageEntity)entity);
-			messaggi.add(messaggio);
-		}
-		return messaggi;
-	}
+
 	public void setReadMex(MessageBean mex) throws DBException{
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);
 		MessageEntity mexE=new MessageEntity(mex.getIdMessaggio(),mex.getIdMittente(),mex.getIdDestinatario());
