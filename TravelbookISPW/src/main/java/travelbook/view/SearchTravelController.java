@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 import exception.DBException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -500,12 +499,10 @@ public class SearchTravelController {
 		if(s.isEmpty()) s=null;
 		trip.setType(s);
 		trip.setCity(r);
-		System.out.println(r);
 		List<MiniTravelBean> l=null;
 		try {
 			l = ControllerSearch.getInstance().search(trip);
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(l!=null) for(int i=0;i<l.size();i++) {
@@ -557,10 +554,6 @@ public class SearchTravelController {
             	Text descr = new Text(item.getDescriptionTravel());
             	descr.setWrappingWidth(sfondo.getPrefWidth()*265/1280);
             	hBox.setAlignment(Pos.BOTTOM_RIGHT);
- 
-            	Button edit = new Button();
-            	edit.setPrefWidth(sfondo.getPrefWidth()*35/1280);
-            	edit.setPrefHeight(sfondo.getPrefHeight()*35/625);
             	travel.setOnMouseClicked(e->{
             		FXMLLoader loader=new FXMLLoader();
             		ViewTravelController controller;
@@ -577,7 +570,6 @@ public class SearchTravelController {
             			exc.printStackTrace();
             		}
             	});
-            	hBox.getChildren().add(edit);
             	vBox.getChildren().add(name);
             	vBox.getChildren().add(descr);
             	vBox.getChildren().add(hBox);
@@ -587,12 +579,11 @@ public class SearchTravelController {
             	sfondo.heightProperty().addListener((observable, oldValue, newValue)->{            		
             		travel.setPrefHeight(sfondo.getPrefHeight()*180/625);
             		travelPic.setPrefHeight(sfondo.getPrefHeight()*180/625);
-                	edit.setPrefHeight(sfondo.getPrefHeight()*35/625);
+                	
             	});
             	sfondo.widthProperty().addListener((observable, oldValue, newValue)->{
             		travel.setPrefWidth(sfondo.getPrefWidth()*530/1280);
             		travelPic.setPrefWidth(sfondo.getPrefWidth()*265/1280);
-            		edit.setPrefWidth(sfondo.getPrefWidth()*35/1280);
             		descr.setWrappingWidth(sfondo.getPrefWidth()*265/1280);
             	});
             	setGraphic(travel);
