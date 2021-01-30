@@ -928,7 +928,7 @@ public class AddViewController implements Observer{
 	    	}catch(NullPointerException e) {
 	    		travel.setCostTravel(null);
 	    	}catch(NumberFormatException e) {
-	    		new TriggerAlert().triggerAlertCreate("travel cost must be a number! This information will not be stored", "warn").showAndWait();
+	    		new TriggerAlert().triggerAlertCreate("travel cost must be a number! This information will not be stored", "err").showAndWait();
 	    		
 	    	}
 	    	travel.setStartTravelDate(startDateString);

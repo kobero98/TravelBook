@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exception.DBException;
+import exception.TriggerAlert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -98,32 +99,7 @@ public class ProfileOtherController {
 		try {
 			this.user = myController.getUser(MenuBar.getInstance().getUserId());
 		} catch (DBException e1) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Connection Lost");
-    		alert.setHeaderText(HEADER_MSG);
-    		alert.setContentText("we couldn't load this page, you will be redirected to home page");
-    		URL url = null;
-	   		 try {
-	   		 url = new File(ALERTCSS).toURI().toURL();
-	   		 alert.getDialogPane().getStylesheets().add(url.toString());
-	   		 url = new File(PROJECTCSS).toURI().toURL();
-	   		 alert.getDialogPane().getStylesheets().add(url.toString());
-	   		 
-	   		 
-	   			url = new File("src/main/resources/AddViewImages/error.png").toURI().toURL();
-	   		} catch (MalformedURLException e) {
-	   			// TODO Auto-generated catch block
-	   			e.printStackTrace();
-	   		}
-		 Image image = new Image(url.toString());
-   		 	ImageView imageView = new ImageView(image);
-   		 	alert.setGraphic(imageView);
-   		 	alert.showAndWait();
-   		 	try {
-				MenuBar.getInstance().moveToExplore(mainPane);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			new TriggerAlert().triggerAlertCreate(e1.getMessage(), "err").showAndWait();
 		}
 		new Thread(()->{
 			ObservableList<MiniTravelBean> data;
@@ -131,27 +107,7 @@ public class ProfileOtherController {
 				data = FXCollections.observableArrayList(myController.getTravel(user.getTravel()));
 				travels.setItems(data); 
 			} catch (DBException e) {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.setTitle("Travels unreacheable");
-	    		alert.setHeaderText(HEADER_MSG);
-	    		alert.setContentText("we couldn't reach your travels, try again");
-	    		URL url = null;
-		   		 try {
-		   		 url = new File(ALERTCSS).toURI().toURL();
-		   		 alert.getDialogPane().getStylesheets().add(url.toString());
-		   		 url = new File(PROJECTCSS).toURI().toURL();
-		   		 alert.getDialogPane().getStylesheets().add(url.toString());
-		   		 
-		   		 
-		   			url = new File(WARN_IMG).toURI().toURL();
-		   		} catch (MalformedURLException e1) {
-		   			// TODO Auto-generated catch block
-		   			e1.printStackTrace();
-		   		}
-	    		 Image image = new Image(url.toString());
-	   		 	ImageView imageView = new ImageView(image);
-	   		 	alert.setGraphic(imageView);
-	   		 	alert.showAndWait();
+				new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 			}
 			
 			travels.setCellFactory(list->new TravelCell());
@@ -296,27 +252,7 @@ public class ProfileOtherController {
 			}
 		} catch (DBException exc) {
 			
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Update failed");
-    		alert.setHeaderText(HEADER_MSG);
-    		alert.setContentText("we couldn't update your information, try again");
-    		URL url = null;
-	   		 try {
-	   		 url = new File(ALERTCSS).toURI().toURL();
-	   		 alert.getDialogPane().getStylesheets().add(url.toString());
-	   		 url = new File(PROJECTCSS).toURI().toURL();
-	   		 alert.getDialogPane().getStylesheets().add(url.toString());
-	   		 
-	   		 
-	   			url = new File(WARN_IMG).toURI().toURL();
-	   		} catch (MalformedURLException e) {
-	   			// TODO Auto-generated catch block
-	   			e.printStackTrace();
-	   		}
-		 Image image = new Image(url.toString());
-   		 	ImageView imageView = new ImageView(image);
-   		 	alert.setGraphic(imageView);
-   		 	alert.showAndWait();
+			new TriggerAlert().triggerAlertCreate(exc.getMessage(), "warn").showAndWait();
 		}
 	}
 	public void setMainPane(BorderPane main, int provenience, int travelId) {
@@ -463,27 +399,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			myController.updateFollow(me);
 		} catch (DBException e) {
 			
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Update failed");
-    		alert.setHeaderText(HEADER_MSG);
-    		alert.setContentText("we couldn't update your information, try again");
-    		URL url = null;
-	   		 try {
-	   		 url = new File(ALERTCSS).toURI().toURL();
-	   		 alert.getDialogPane().getStylesheets().add(url.toString());
-	   		 url = new File(PROJECTCSS).toURI().toURL();
-	   		 alert.getDialogPane().getStylesheets().add(url.toString());
-	   		 
-	   		 
-	   			url = new File(WARN_IMG).toURI().toURL();
-	   		} catch (MalformedURLException e1) {
-	   			// TODO Auto-generated catch block
-	   			e1.printStackTrace();
-	   		}
-		 Image image = new Image(url.toString());
-   		 	ImageView imageView = new ImageView(image);
-   		 	alert.setGraphic(imageView);
-   		 	alert.showAndWait();
+			new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 		}
 		
 	}

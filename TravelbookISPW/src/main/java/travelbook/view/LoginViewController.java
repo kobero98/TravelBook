@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.sql.Date;import java.util.Optional;
 import exception.LoginPageException;
+import exception.TriggerAlert;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.control.RadioButton;
@@ -25,11 +26,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
 import main.java.travelbook.model.bean.RegistrationBean;
@@ -38,9 +37,6 @@ import main.java.travelbook.model.bean.UserBean;
 public class LoginViewController {
 	private RegistrationBean userToBeRegister;
 	private String codeOfreg;
-	private static final String ALERTCSS="main/java/travelbook/css/alert.css";
-	private static final String PROJECTCSS="main/java/travelbook/css/project.css";
-	private static final String ERROR_IMG="main/resources/AddViewImages/error.png";
 	@FXML
 	private Pane codeConfirmPane;
 	@FXML
@@ -149,9 +145,8 @@ public class LoginViewController {
 	}
 	private void setAlert() {
 		this.mainPane.getScene().getWindow().setOnCloseRequest(e->{
-			Alert alert=new Alert(AlertType.CONFIRMATION) ;
+			Alert alert=new TriggerAlert().triggerAlertCreate("Are you sure you want to quit?","help");
 			alert.setHeaderText("Exit request");
-			alert.setContentText("Are you sure you want to quit?");
 			alert.showAndWait();
 			ButtonType result=alert.getResult();
 			if(result.getButtonData()==ButtonData.OK_DONE && MenuBar.getInstance().getMyThread()!=null) {
@@ -468,15 +463,8 @@ public class LoginViewController {
 			loginButtonHandler();
 			
 			}catch(Exception e) {
-				Alert alert=new Alert(AlertType.ERROR);
-				alert.setHeaderText("Several System Error");
-				alert.setContentText("Something went wrong try again");
-				alert.getDialogPane().getStylesheets().add(PROJECTCSS);
-				alert.getDialogPane().getStylesheets().add(ALERTCSS);
-				Image alertImg = new Image(ERROR_IMG);
-				ImageView imageView = new ImageView(alertImg);
-				alert.setGraphic(imageView);
-				alert.showAndWait();
+
+				new TriggerAlert().triggerAlertCreate("Several system error", "err").showAndWait();
 			}
 	}
 	
@@ -487,34 +475,20 @@ public class LoginViewController {
 			saveRegistration();
 		}
 		else {
-			Alert alert=new Alert(AlertType.ERROR);
-			alert.setHeaderText("Registration Error");
-			alert.setContentText("Wrong code, your registration has failed");
-			alert.getDialogPane().getStylesheets().add(PROJECTCSS);
-			alert.getDialogPane().getStylesheets().add(ALERTCSS);
-			Image alertImg = new Image(ERROR_IMG);
-			ImageView imageView = new ImageView(alertImg);
-			alert.setGraphic(imageView);
-			alert.showAndWait();
+			new TriggerAlert().triggerAlertCreate("Wrong code, try again", "err").showAndWait();
 			this.codeConfirmPane.setVisible(false);
 			this.closeRegisterHandler();
 		}
 	}
 	@FXML
 	private void closeConfirmPaneHandler() {
-		 Alert saveAlert=new Alert(AlertType.CONFIRMATION);
+		 Alert saveAlert=new TriggerAlert().triggerAlertCreate("You'll lose given information upon exit", "help");
 		 saveAlert.setTitle("Incomplete registration");
 		 saveAlert.setHeaderText("You haven't confirmed your registration");
-		 saveAlert.setContentText("You'll lose given information upon exit" );
 		 ButtonType exit=new ButtonType("Exit");
 		 ButtonType notExit=new ButtonType("Don't exit");
 		 saveAlert.getButtonTypes().clear();
 		 saveAlert.getButtonTypes().addAll(exit,notExit);
-		 saveAlert.getDialogPane().getStylesheets().add(PROJECTCSS);
-		 saveAlert.getDialogPane().getStylesheets().add(ALERTCSS);
-		 Image alertImg = new Image(ERROR_IMG);
-		 ImageView imageView = new ImageView(alertImg);
-		 saveAlert.setGraphic(imageView);
 		 Optional<ButtonType> results=saveAlert.showAndWait();
 		 if(results.isPresent() && results.get()==exit) {
 			this.codeConfirmPane.setVisible(false);

@@ -12,15 +12,12 @@ public class RootController {
 	private BorderPane mainPane;
 
 	public void setMainPane(BorderPane main) {
-		System.out.print("ciao");
 		this.mainPane=main;
 		//then define the resize logic
 		this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->{
 			DoubleProperty fontSize = new SimpleDoubleProperty(mainPane.getHeight()*20/720); // font size in pt
 			main.styleProperty().bind(Bindings.format("-fx-font-size: %.2fpt;", fontSize));
-			System.out.println("Altezza: "+this.mainPane.getScene().getWindow().getHeight());
 			mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight());
-			System.out.println("Altezza borderPane: "+this.mainPane.getHeight());
 			
 			
 		});

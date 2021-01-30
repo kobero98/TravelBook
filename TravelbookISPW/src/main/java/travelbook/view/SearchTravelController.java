@@ -478,7 +478,6 @@ public class SearchTravelController {
 			trip.setDurationMax(i);
 		}
 		else trip.setDurationMax(0);
-		System.out.println("min: "+trip.getDurationMin()+" max: "+trip.getDurationMax());
 		if(trip.getDurationMin()>trip.getDurationMax()) return;
 		trip.setCostoMax(0);
 		trip.setCostoMin(0);
@@ -506,11 +505,9 @@ public class SearchTravelController {
 			e.printStackTrace();
 		}
 		if(l!=null) for(int i=0;i<l.size();i++) {
-			System.out.println( "Sono qui"+l.get(i).getNameTravel());
 			lista.setItems(FXCollections.observableArrayList(l));
 			lista.setCellFactory(list->new TravelCell());
 		}
-		else System.out.print("erroe");
 	}
 	
 	class TravelCell extends ListCell<MiniTravelBean>{
