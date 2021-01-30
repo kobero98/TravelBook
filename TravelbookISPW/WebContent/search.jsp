@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-
+<%
+	if(request.getParameter("search-button")!=null)
+		System.out.println("ciao");
+		if(){
+			
+		}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,12 +32,10 @@
              $.ajax({
                  url:"autocomplete.jsp",
                  method:"post",
-                 dataType:'json',
+                 dataType:"json",
                  data:{search:request.term},
-                 
                  success:function(data)
                  { 
-                	 console.log(data);
                 	 response(data);
                  },
                  select: function( event, ui ) {
@@ -71,17 +75,15 @@
 </head>
 <body>
     <div class="header">
-        <p class="title">
-            Travelbook
-        </p>
+        <p class="title">Travelbook</p>
         <p class="subtitle">
             Wherever you go, go with all your heart
         </p>
     </div>
-    <div class="search-bar ui-widget" >
-        <input type="button" name="search-button" id=search-button>
-        <input type="text" name="search" id=search class="textfield">
-    </div>
+    <form class="search-bar ui-widget" >
+        <input type="submit" name="search-button" id=search-button>
+        <input type="text" name="search" value=" " id=search class="textfield">
+    </form>
     <div id=advancedSearch  hidden="true">
     	<div id=cost>
     		<p>Your budget</p>
@@ -128,7 +130,6 @@
                 </p>
             </div>
         </div>
-      
         <div class="panel suggestion">
             <p class="write">
                 Our suggestions
