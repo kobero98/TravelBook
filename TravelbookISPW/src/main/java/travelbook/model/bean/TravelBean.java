@@ -7,7 +7,11 @@ import main.java.travelbook.util.Observable;
 import javafx.scene.image.Image;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.TravelEntity;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class TravelBean extends Observable implements Bean{
 
@@ -19,6 +23,8 @@ public class TravelBean extends Observable implements Bean{
 	private String nameTravel;
 	private String descriptionTravel;
 	private File pathFile;
+	private byte[] array;
+	private InputStream imageStream;
 	public File getPathFile() {
 		return pathFile;
 	}
@@ -33,7 +39,6 @@ public class TravelBean extends Observable implements Bean{
 	private String endDate;
 	private List <StepBean> step;
 	private int dayNum;
-	
 	public TravelBean() {}
 	public TravelBean(TravelEntity travel)
 	{
@@ -44,7 +49,7 @@ public class TravelBean extends Observable implements Bean{
 		this.likeNumber=travel.getLikeNumber();
 		this.nameTravel=travel.getNameTravel();
 		this.descriptionTravel=travel.getDescriptionTravel();
-		if (travel.getImage()!= null)this.pathBackground=new Image(travel.getImage());
+		if (travel.getImage()!= null)this.imageStream=travel.getImage();
 		this.share = (travel.getShare()==1);
 		if (travel.getTypeTravel() != null )this.type = stringParser(travel.getTypeTravel());
 		this.startDate = travel.getStartDate().toLocalDate().toString();
@@ -53,7 +58,22 @@ public class TravelBean extends Observable implements Bean{
 		this.dayNum = (int)new DateUtil().numOfDaysBetween(travel.getStartDate().toLocalDate(), travel.getEndDate().toLocalDate()) +1;
 		
 	}
-	
+	public byte[] getArray() {
+		if(this.imageStream==null)
+			return null;
+		try {
+			ByteArrayOutputStream buffer= new ByteArrayOutputStream();
+			int nRead;
+			byte[] targetArray=new byte[16384];
+			while((nRead=imageStream.read(targetArray,0,targetArray.length))!=-1) {
+				buffer.write(targetArray,0,nRead);
+			}
+			this.array=buffer.toByteArray();
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		return array;
+	}
 	private List<String> stringParser(String type) {
 		List<String> l = new ArrayList<>();
 		int start=1;
@@ -110,6 +130,10 @@ public class TravelBean extends Observable implements Bean{
 		return this.type;
 	}
 	public Image getPathImage() {
+		if(this.imageStream==null)
+			return null;
+		if(this.pathBackground==null)
+			this.pathBackground=new Image(this.imageStream);
 		return this.pathBackground;
 	}
 	public String getStartDate() {

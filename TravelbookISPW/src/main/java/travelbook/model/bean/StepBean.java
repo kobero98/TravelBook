@@ -2,6 +2,7 @@ package main.java.travelbook.model.bean;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,38 @@ public class StepBean implements Bean{
 	private List <Image> photo;            //abbiamo sia foto come immagini che foto come file. ne serve solo una
 	private PlaceAdapter fullPlace;
 	private String precisionInformation;
+	private List<InputStream> isL;
+	private List<byte[]> array=new ArrayList<>();
+	public List<InputStream> getIs() {
+		return isL;
+	}
+	public void setIs(List<InputStream> is) {
+		this.isL = is;
+	}
+	public List<byte[]> getArray() {
+	/*	if(this.isL==null)
+			return new ArrayList<>();*/
+		
+		try {
+			for(InputStream is:isL) {
+			ByteArrayOutputStream buffer= new ByteArrayOutputStream();
+			int nRead;
+			byte[] targetArray=new byte[16384];
+			while((nRead=is.read(targetArray,0,targetArray.length))!=-1) {
+				buffer.write(targetArray,0,nRead);
+			}
+			this.array.add(buffer.toByteArray());
+			System.out.println(buffer.toByteArray());
+			}
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		
+		return this.array;
+	}
+	public void setArray(List<byte[]> array) {
+		this.array = array;
+	}
 	private List<File> imageFile=new ArrayList<>();
 	public List<File> getImageFile() {
 		return imageFile;
@@ -55,10 +88,13 @@ public class StepBean implements Bean{
 		this.descriptionStep = s.getDescriptionStep();
 		this.place = s.getPlace();
 		if (s.getStreamFoto() != null) {
-			this.photo = photoConvert(s.getStreamFoto());
+			this.isL=s.getStreamFoto();
+			
 			this.imageFile = s.getListPhoto();
 		}
+		
 		//full place non è sulla entity, non lo posso settare per ora
+		//non devi farlo
 		this.precisionInformation = s.getPrecisionInformation();
 	}
 	
@@ -103,6 +139,12 @@ public class StepBean implements Bean{
 		return this.place;
 	}
 	public List<Image> getListPhoto(){
+		if(this.photo==null) {
+			if(this.isL!=null)
+				this.photo = photoConvert(this.isL);
+			else
+				this.photo=new ArrayList<>();
+		}
 		return this.photo;
 	}
 	
