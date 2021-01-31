@@ -120,10 +120,7 @@ public class ProfileOtherController {
             if(!empty) {
             	MiniTravelBean item1 = (MiniTravelBean)item;
             	HBox travel = new HBox();
-            	travel.setPrefWidth(mainAnchor.getPrefWidth()*530/1280);
-        		travel.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
-            	travel.setMaxWidth(USE_PREF_SIZE);
-            	travel.setMinWidth(USE_PREF_SIZE);
+            	
             	
             	CornerRadii rad = new CornerRadii(25);
             	Insets in = new Insets(0);
@@ -132,19 +129,26 @@ public class ProfileOtherController {
             	Background mybg = new Background(bgcc);
             	travel.setBackground(mybg);
             	Pane travelPic = new Pane();
-            	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
-            	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
+            	
             	new SetImage(travelPic, item1.getPathImage(), true);
             	VBox vBox = new VBox();
             	HBox hBox = new HBox();
-            	vBox.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
-            	vBox.setMaxWidth(USE_PREF_SIZE);
-            	vBox.setSpacing(mainAnchor.getPrefHeight()*(180.0/15)/625);
+            	
             	Label name = new Label(item1.getNameTravel());
             	Text descr = new Text(item1.getDescriptionTravel());
             	descr.setWrappingWidth(mainAnchor.getPrefWidth()*265/1280);
             	hBox.setAlignment(Pos.BOTTOM_RIGHT);
- 
+            	
+            	travel.setPrefWidth(mainAnchor.getPrefWidth()*530/1280);
+        		travel.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
+            	travel.setMaxWidth(USE_PREF_SIZE);
+            	travel.setMinWidth(USE_PREF_SIZE);
+            	vBox.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
+            	vBox.setMaxWidth(USE_PREF_SIZE);
+            	vBox.setSpacing(mainAnchor.getPrefHeight()*(180.0/15)/625);
+            	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
+            	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
+            	
             	Button fav = new Button();
             	fav.setPrefWidth(mainAnchor.getPrefWidth()*35/1280);
             	fav.setPrefHeight(mainAnchor.getPrefHeight()*35/625);
@@ -372,36 +376,13 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 	}
 	@FXML
 	private void back() {
-		FXMLLoader loader;
 		MenuBar.getInstance().setIdTravel(travelId);
 		switch (goBack){
 		case 11:	
-			try {
-				loader=new FXMLLoader();
-				URL url = new File(viewTravel).toURI().toURL();
-				loader.setLocation(url);
-				internalPane=(AnchorPane)loader.load();
-				mainPane.setCenter(internalPane);
-				controller=loader.getController();
-					controller.setMainPane(mainPane,1);
-			}catch(IOException e) {
-				e.printStackTrace();
-			}
+			moveToView(1);
 			break;
 		case 14:
-			try {
-				loader=new FXMLLoader();
-				URL url = new File(viewTravel).toURI().toURL();
-				
-				loader.setLocation(url);
-			
-				internalPane=(AnchorPane)loader.load();
-				mainPane.setCenter(internalPane);
-				controller=loader.getController();
-					controller.setMainPane(mainPane,4);
-			}catch(IOException e) {
-				e.printStackTrace();
-			}
+			moveToView(4);
 			break;
 		case 2:
 			try {
@@ -423,6 +404,21 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			} catch(IOException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	private void moveToView(int i) {
+		try {
+			FXMLLoader loader=new FXMLLoader();
+			URL url = new File(viewTravel).toURI().toURL();
+			
+			loader.setLocation(url);
+		
+			internalPane=(AnchorPane)loader.load();
+			mainPane.setCenter(internalPane);
+			controller=loader.getController();
+				controller.setMainPane(mainPane,i);
+		}catch(IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

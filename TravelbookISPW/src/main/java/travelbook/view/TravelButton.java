@@ -9,7 +9,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javafx.scene.layout.BorderPane;

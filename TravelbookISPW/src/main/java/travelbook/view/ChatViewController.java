@@ -98,9 +98,8 @@ public class ChatViewController {
 	contactList.setItems(null);
 	searchFieldAuto = new SearchUserTextField(searchField);
 	searchFieldAuto.getLastSelectedItem().addListener((observable,oldValue,newValue)->{
-		if(searchFieldAuto.getLastSelectedItem().get()!=null) {
+		if(searchFieldAuto.getLastSelectedItem().get()!=null) 
 			searchedUser = searchFieldAuto.getLastSelectedItem().get();
-		}
 	});
 	 sentList.setCellFactory(list -> new MessageCell());
 	 List<UserBean> tryContacts;
@@ -120,19 +119,7 @@ public class ChatViewController {
 	contactList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> { 
 		if(contactList.getSelectionModel().getSelectedIndex()!=-1) {
 			MyItem user = contactList.getItems().get(contactList.getSelectionModel().getSelectedIndex());
-            user.setSpecialIndicator("selected");
-			contactList.refresh();
-			int i = 0;
-			current = null;
-			while(i<myChats.size() && current == null) {
-				if(myChats.get(i).getIdUser()==user.getUser().getId())
-					current = myChats.get(i);
-				i++;
-			}
-			if(current == null) {
-				current = new Chat(user.getUser().getId());
-				myChats.add(current);
-			}
+            select(user);
 			changeChat();
 		}
     });
@@ -142,7 +129,21 @@ public class ChatViewController {
 	
 	}
 	
-	
+	private void select(MyItem user) {
+		user.setSpecialIndicator("selected");
+		contactList.refresh();
+		int i = 0;
+		current = null;
+		while(i<myChats.size() && current == null) {
+			if(myChats.get(i).getIdUser()==user.getUser().getId())
+				current = myChats.get(i);
+			i++;
+		}
+		if(current == null) {
+			current = new Chat(user.getUser().getId());
+			myChats.add(current);
+		}
+	}
 	 class MessageCell extends ListCell<MessageBean>{
 		@Override
         public void updateItem(MessageBean item, boolean empty) {
