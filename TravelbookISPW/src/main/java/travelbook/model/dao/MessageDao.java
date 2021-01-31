@@ -34,8 +34,7 @@ public class MessageDao implements PersistanceDAO {
 				results.add((Entity)newM);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DBException("we can't reach your messages");
 		}
 		return results;
 	}
@@ -47,13 +46,12 @@ public class MessageDao implements PersistanceDAO {
 					AllQuery.getInstance().sendMessage(this.connection, this.myEntity);
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new DBException("we can't send your message");
 			}
 	}
 	@Override
 	public void delete(Entity obj) {
-		//TODO
+		throw new UnsupportedOperationException();
 		
 	}
 	@Override

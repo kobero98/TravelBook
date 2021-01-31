@@ -68,7 +68,7 @@ public class MyProfileController extends ProfileController{
 		try {
 			rs = (TravelEntity)miniTravelDao.getData(travelE).get(0);
 		} catch ( SQLException e) {
-			throw new DBException("connection lost");
+			throw new DBException("connection lost, we can't upload this travel");
 		}
 		return new MiniTravelBean(rs);
 

@@ -44,8 +44,7 @@ public class ShortTravelDao implements VisualDAO{
 			}
 			connection.close();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			throw new DBException("we can't reach your travel");
 		}
 		return l;
 	}

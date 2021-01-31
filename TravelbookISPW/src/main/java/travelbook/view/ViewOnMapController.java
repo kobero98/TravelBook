@@ -6,15 +6,13 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+
+import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.controller.PredictionController;
 import main.java.travelbook.controller.ViewOnMap;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.concurrent.Worker;
@@ -67,27 +65,7 @@ public class ViewOnMapController {
 						engine.executeScript(script);
 					}
 					}catch(MapboxException e) {
-						Alert alert=new Alert(AlertType.ERROR);
-						alert.setHeaderText("Map service error");
-						alert.setContentText(e.getMessage());
-						alert.initOwner(stage);
-						URL url1 = null;
-				   		 try {
-				   		 url1= new File("src/main/java/travelbook/css/alert.css").toURI().toURL();
-				   		 alert.getDialogPane().getStylesheets().add(url1.toString());
-				   		 url1 = new File("src/main/java/travelbook/css/project.css").toURI().toURL();
-				   		 alert.getDialogPane().getStylesheets().add(url1.toString());
-				   		 
-				   		 
-				   			url1 = new File("src/main/resources/error.png").toURI().toURL();
-				   		} catch (MalformedURLException e1) {
-				   			// TODO Auto-generated catch block
-				   			e1.printStackTrace();
-				   		}
-			  		 	Image image = new Image(url1.toString());
-						ImageView imageView = new ImageView(image);
-						alert.setGraphic(imageView);
-						alert.showAndWait();
+						new TriggerAlert().triggerAlertCreate("Map error", "err").showAndWait();
 					}
 					
 				}

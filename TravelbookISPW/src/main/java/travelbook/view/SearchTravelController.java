@@ -22,15 +22,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
@@ -45,6 +40,7 @@ import javafx.scene.text.Text;
 import main.java.travelbook.controller.ControllerSearch;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.SearchTrip;
+import main.java.travelbook.util.SetImage;
 
 public class SearchTravelController {
 	private BorderPane mainPane;
@@ -530,18 +526,7 @@ public class SearchTravelController {
             	Pane travelPic = new Pane();
             	travelPic.setPrefHeight(sfondo.getPrefHeight()*180/625);
             	travelPic.setPrefWidth(sfondo.getPrefWidth()*265/1280);
-            	try {
-            		Image myPhoto = item.getPathImage();
-            		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-            		Background mybg1 = new Background(bgPhoto);
-            		travelPic.setBackground(mybg1);
-            	}catch(IllegalArgumentException | NullPointerException e) {
-            		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), rad, in);
-                	
-                	Background mybg1 = new Background(bgcc1);
-                	travelPic.setBackground(mybg1);
-            	}
-            	travelPic.setStyle("-fx-shape: \"M 350 900 L 350 795 C 350 780 360 770 375 770 L 438 770 C 453 770 463 780 463 795 L 463 900 Z\"");
+            	new SetImage(travelPic, item.getPathImage(), true);
             	VBox vBox = new VBox();
             	HBox hBox = new HBox();
             	vBox.setPrefWidth(sfondo.getPrefWidth()*265/1280);

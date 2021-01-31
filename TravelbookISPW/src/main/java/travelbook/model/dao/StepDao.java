@@ -18,11 +18,11 @@ public class StepDao implements PersistanceDAO {
 	private StepEntity myEntity;
 	@Override
 	public void update(Entity step) {
-		//TODO
+		throw new UnsupportedOperationException();
 	}
 	@Override
 	public void delete(Entity step) {
-		//TODO
+		throw new UnsupportedOperationException();
 	}
 	@Override
 	public void setData() throws DBException{
@@ -30,8 +30,7 @@ public class StepDao implements PersistanceDAO {
 			this.connection=AllQuery.getInstance().getConnection();
 			AllQuery.getInstance().requestRegistrationStep(connection,myEntity);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DBException("connection lost, could't retrieve steps");
 		}
 	}
 	@Override

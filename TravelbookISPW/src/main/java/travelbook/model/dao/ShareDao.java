@@ -43,19 +43,18 @@ public class ShareDao implements PersistanceDAO {
 		}
 	}
 	@Override
-	public void delete(Entity object) throws UnsupportedOperationException{
-		
+	public void delete(Entity object) {
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
 	public Entity getMyEntity() {
-		// TODO Auto-generated method stub
 		return this.myEntity;
 	}
 	
 	@Override
-	public void update(Entity object) throws DBException {
-		// TODO Auto-generated method stub
+	public void update(Entity object) throws DBException{
+		throw new UnsupportedOperationException();
 		
 	}
 	@Override

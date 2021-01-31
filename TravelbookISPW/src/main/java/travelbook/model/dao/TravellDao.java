@@ -93,10 +93,8 @@ public class TravellDao implements PersistanceDAO{
 				stmt.close();
 				return list;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DBException("We couldn't reach your travel");
 		}
-		return list;
 	}
 	private Connection connection;
 	@Override
@@ -127,8 +125,7 @@ public class TravellDao implements PersistanceDAO{
 			AllQuery.getInstance().setCityToTravel(connection, idTravel, this.entity.getCreatorId(), citta);
 		}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DBException("connection lost");
 		}
 		AllQuery.getInstance().updateTravelNumberForUser(connection, this.entity.getCreatorId());
 	}
@@ -151,7 +148,7 @@ public class TravellDao implements PersistanceDAO{
 
 	@Override
 	public void update(Entity object) {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
 		
 	}
 

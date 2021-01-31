@@ -28,7 +28,7 @@ public class ShortUserDao implements VisualDAO {
 	}
 
 	@Override
-	public List<Entity> getData(Entity user1) throws DBException {
+	public List<Entity> getData(Entity user1) throws DBException, SQLException {
 		ResultSet rs=null;
 		Statement stmt=null;
 		Connection connection=null;
@@ -53,16 +53,11 @@ public class ShortUserDao implements VisualDAO {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DBException("connection lost");
 		}finally {
 			if(stmt!=null)
 			{
-				try {
-					stmt.close();
-				}catch(SQLException e) {
-					e.getStackTrace();
-				}
+				stmt.close();
 				
 			}
 		}

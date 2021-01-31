@@ -1,5 +1,7 @@
 package main.java.travelbook.model.dao;
 import java.util.List;
+
+import exception.DBException;
 import main.java.travelbook.model.Entity;
 import java.util.ArrayList;
 import main.java.travelbook.controller.AllQuery;
@@ -38,16 +40,11 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 
 	}
 	@Override
-	public List<Entity> getData(Entity citta){
+	public List<Entity> getData(Entity citta) throws DBException{
 		CityEntity city=(CityEntity) citta;
 		List<Entity> results=new ArrayList<>();
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
 			Statement stmt=connection.createStatement();
 			ResultSet rs=AllQuery.getInstance().getCityByName(stmt,city );
 			while(rs.next()) {
@@ -57,16 +54,16 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 				results.add((Entity)newC);
 			}
 		}catch(SQLException e1) {
-			e1.printStackTrace();
+			throw new DBException("data unreachable");
 		}
 		return results;
 	}
 	@Override
-	public void setData() {
+	public void setData() throws DBException {
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
 		}catch(SQLException e) {
-			e.printStackTrace();
+			throw new DBException("we can't save your data, try again");
 		}
 		if(myEntity!=null)
 			AllQuery.getInstance().setCity(connection, myEntity);
@@ -78,7 +75,7 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 	}
 	@Override
 	public void update(Entity object) {
-		//E' inutile cambiare una citta'
+		throw new UnsupportedOperationException();
 	}
 	@Override
 	public Entity getMyEntity() {

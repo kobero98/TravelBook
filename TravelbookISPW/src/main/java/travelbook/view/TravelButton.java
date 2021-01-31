@@ -91,12 +91,6 @@ public class TravelButton implements Observer {
 			try {
 				url = new File("src/main/java/travelbook/view/ViewTravel.fxml").toURI().toURL();
 				loader.setLocation(url);
-			} catch (MalformedURLException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-			
-			try {
 				ViewTravelController controller;
 				AnchorPane internalPane;
 				internalPane=(AnchorPane)loader.load();
