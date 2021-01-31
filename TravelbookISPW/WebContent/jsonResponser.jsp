@@ -9,6 +9,7 @@
 <%@ page import="main.java.travelbook.model.bean.MiniTravelBean" %>
 <%@ page import="java.util.List" %>
 <%@page import="main.java.travelbook.model.bean.ShareBean" %>
+<%@ page import="main.java.travelbook.controller.TravelController" %>
 <%@ page import="java.util.ArrayList" %>
 <%
 	UserBean myUser=(UserBean)request.getSession().getAttribute("loggedBean");
@@ -96,6 +97,21 @@ if(request.getParameter("follower")!=null || request.getParameter("following")!=
 			travels.put("travels",obj);
 			response.getWriter().write(travels.toString());
 		}
+	}
+	if(request.getParameter("shareable")!=null){
+		JSONObject obj=new JSONObject();
+		JSONArray array=new JSONArray();
+		JSONObject json=new JSONObject();
+		TravelController controllerT=new TravelController();
+		List<UserBean> contacts=controllerT.getContactSharing(myUser);
+		for(UserBean us: contacts){
+			obj=new JSONObject();
+			obj.put("user",us.getName()+" "+us.getSurname());
+			obj.put("userId",us.getId());
+			array.add(obj);
+		}
+		json.put("shareable",array);
+		response.getWriter().write(json.toString());
 	}
 
 %>

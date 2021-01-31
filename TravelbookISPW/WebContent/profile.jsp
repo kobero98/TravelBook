@@ -26,6 +26,14 @@
 				</jsp:forward>
 			<%
 		}
+		if(s.startsWith("follow")){
+			String[] arg=s.split("follow");
+			%>
+				<jsp:forward page="profileOther.jsp">
+				<jsp:param name="userID" value="<%=arg[1] %>"/>
+				</jsp:forward>
+			<% 
+		}
 	}
 	if(request.getParameter("profileIm")!=null){
 		String s=(String)request.getParameter("profileIm");
