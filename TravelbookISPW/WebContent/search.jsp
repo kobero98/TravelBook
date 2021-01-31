@@ -1,5 +1,59 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-
+<%@ page import="exception.*" %>
+<%@ page import="main.java.travelbook.model.bean.*" %>
+<%@ page import="main.java.travelbook.controller.*" %>
+<%@ page import="java.util.*" %>
+<%	List<MiniTravelBean> m=null;
+	if(request.getParameter("search-button")!=null){
+		
+			int costoMin=0;
+			int costoMax=0;
+			int min=0;
+			int max=0;
+			if(request.getParameter("search")!=null){
+				String city=(String) request.getParameter("search");
+				
+				if(request.getParameter("costo")!=null){
+					String c=(String) request.getParameter("costo");
+					if(c.equals("0-300")){
+						costoMax=300;
+					}
+					if(c.equals("300-1000")){
+						costoMin=300;
+						costoMax=1000;
+					}
+					if(c.equals("1000-2000")){
+						costoMin=1000;
+						costoMax=2000;
+					}
+					if(c.equals(">2000")){
+						costoMin=2000;
+					}
+				}
+				
+				if(!request.getParameter("min").equals(""))
+					 min=Integer.parseInt(request.getParameter("min"));
+				if(!request.getParameter("max").equals(""))
+					 max=Integer.parseInt(request.getParameter("max"));
+				String[] t;
+				List <String> types=new ArrayList<>();
+				if(request.getParameter("type")!=null){
+					t=request.getParameterValues("type");
+					for(String s:t) types.add(s);
+				}
+				SearchTrip trip=new SearchTrip();
+				trip.setCity(city);
+				trip.setCostoMin(costoMin);
+				trip.setCostoMax(costoMax);
+				trip.setType(types);
+				trip.setDurationMin(min);
+				trip.setDurationMax(max);
+				m=ControllerSearch.getInstance().search(trip);
+				
+		}
+	}
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,11 +79,12 @@
              //Fetch data
              $.ajax({
                  url:"autocomplete.jsp",
-                 method:"post",
+                 method:"get",
                  dataType:"json",
                  data:{search:request.term},
                  success:function(data)
                  { 
+                	 console.log(data);
                 	 response(data);
                  },
                  select: function( event, ui ) {
@@ -74,33 +129,34 @@
             Wherever you go, go with all your heart
         </p>
     </div>
-    <form class="search-bar ui-widget" >
+    <form  action="search.jsp" method="POST">
+    <div class="search-bar ui-widget" >
         <input type="submit" name="search-button" id=search-button>
-        <input type="text" name="search" value=" " id=search class="textfield">
-    </form>
+        <input type="text" name="search" value="" id=search class="textfield">
+    </div>
     <div id=advancedSearch  hidden="true">
     	<div id=cost>
     		<p>Your budget</p>
-    		<input type="radio" value="<300" name="costo" >
-    		<input type="radio" value="300-1000" name="costo" >
-    		<input type="radio" value="1000-2000" name="costo" >
-    		<input type="radio" value=">2000" name="costo" >
+    		<input type="radio" id=test value="0-300" name="costo" >0-300<br>
+    		<input type="radio" value="300-1000" name="costo" >300-1000<br>
+    		<input type="radio" value="1000-2000" name="costo" >1000-2000<br>
+    		<input type="radio" value=">2000" name="costo" >>2000<br>
     	</div>
     	<div id=durat>
     		<p>How many days?
-    		<input type="number" min=0 value="costoMin" name="min" >
-    		<input type="number" min=0 value="costoMax" name="max" >
+    		<input type="number" min=0 value="durationMin" name="min" >
+    		<input type="number" min=0 value="durationMax" name="max" >
     	</div>
     	<div id=type>
     		<p> What do you fancy?
     		<div>
-    			<span class="dot"></span><p>Romantic Trip<br>
-    			<span class="dot"></span><p>Family Holiday<br>
-    			<span class="dot"></span><p>On The Road<br>
-    			<span class="dot"></span><p>Children Friendly<br>
-    			<span class="dot"></span><p>Travel with Friend<br>
-    			<span class="dot"></span><p>Cultural Travel<br>
-    			<span class="dot"></span><p>Relaxing Holiday<br>
+    			<span class="dot"></span><input type="checkbox" name="type" value="Romantic Trip">Romantic Trip<br>
+    			<span class="dot"></span><input type="checkbox" name="type" value="Family Holiday">Family Holiday<br>
+    			<span class="dot"></span><input type="checkbox" name="type" value="On The Road">On The Road<br>
+    			<span class="dot"></span><input type="checkbox" name="type" value="Children Friendly">Children Friendly<br>
+    			<span class="dot"></span><input type="checkbox" name="type" value="Travel with Friend">Travel with Friend<br>
+    			<span class="dot"></span><input type="checkbox" name="type" value="Cultural Travel">Cultural Travel<br>
+    			<span class="dot"></span><input type="checkbox" name="type" value="Relaxing Holiday">Relaxing Holiday<br>
     		</div>
     		<div>
     			
@@ -109,6 +165,7 @@
     		</div>
     	</div>
     </div>
+    </form>
     <div id=d class="anchor">
         <input type="button" id="back" name="back" value="back" onclick="tornaIndietro()" class="back-button">
         <div class="panel l-panel">
@@ -122,6 +179,35 @@
                 <p id=para class="write">
                     This is what we have found
                 </p>
+                <%
+                	if(m!=null){
+                		int i=0;
+                		for(MiniTravelBean trip:m)
+                		{	
+                			String buttonName="travel"+trip.getId();
+	    					byte[] bytes=Base64.getEncoder().encode(trip.getArray());
+	    					String encoded=new String(bytes,"UTF-8");
+	    					String path="data:image/gif;base64,"+bytes;
+	    					out.println(bytes);
+                			%>
+                			<div id=<%=i %>>
+								<img id="travImg"src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" class="image" />
+								<div>
+									<form action="profile.jsp" method="POST">
+										<p class=text>
+									 	<%=trip.getNameTravel() %>
+										 <%=trip.getDescriptionTravel() %>
+										 </p>
+										 <input type="submit" name=<%=buttonName %> id=<%=trip.getId() %>/>
+									</form>
+								</div>
+							</div>
+                			
+                			<%
+                			i++;
+                		}
+                	}
+                %>
             </div>
         </div>
         <div class="panel suggestion">

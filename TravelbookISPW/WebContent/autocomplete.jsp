@@ -9,10 +9,9 @@
 <%
     try
     {
-    	ControllerSearch controller=ControllerSearch.getInstance();
-    	String query = (String)request.getParameter("search");
-		List <String> l=controller.getCitiesPredictions(query);
-        JSONObject o=new JSONObject();
+    	String query = (String) request.getParameter("search");
+		List <String> l=ControllerSearch.getInstance().getCitiesPredictions(query);
+		JSONObject o=new JSONObject();
 		int i=0;
 		while(i<l.size()){ 
 			o.put("citta"+i, l.get(i));
@@ -21,6 +20,7 @@
 		out.print(o);
     } catch(Exception e1)
       {
+    	System.out.println(e1.getMessage());
       out.println(e1);
       }
 
