@@ -57,7 +57,7 @@ if(request.getParameter("follower")!=null || request.getParameter("following")!=
 		List<Bean> travs=new ArrayList<>();
 		List<Bean> sh;
 		if(request.getParameter("travel")!=null){
-			travs=controller.getFav(myUser.getFav());
+			travs=controller.getTravel(myUser.getFav());
 		}
 		else{
 			sh=controller.getShared(myUser.getId());

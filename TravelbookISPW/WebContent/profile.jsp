@@ -293,7 +293,11 @@
         </div>
         <div class="panel" id="right-panel">
 			<%
-				List<MiniTravelBean> travel=controller.getTravel(myUser.getTravel());
+				List<Bean> myTravel=controller.getTravel(myUser.getTravel());
+				List<MiniTravelBean> travel = new ArrayList<>();
+				for(Bean i: travel){
+					travel.add((MiniTravelBean)i);
+				}
 				int i=0;
 				if(travel!=null){
 				for(MiniTravelBean trav: travel){

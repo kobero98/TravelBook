@@ -81,7 +81,7 @@ body{
 	grid-auto-rows: minmax(20px,auto);*/
 	
 }
-#buttons{
+.buttons{
 	display:flex;
 	justify-content: space-between;
 	padding-left: 5em;
@@ -95,24 +95,34 @@ body{
 #registerTable{
 	display:flex;
 	flex-direction: column;
-	width: 28em;
-	height: 23.125em;
-	justify-content: space-evenly;
+		width: 28em;
+	height: 27.125em;
+	justify-content: space-between;
 	align-items:stretch;
 }
 
 #registrazione{
-	display: flex;
+	
 	opacity: 0;
+	position: absolute;
+	top: 10em;
+	left:22em;
 	align-items: center;
-	border: 2px solid #FF0000;
+	background: var(--Dcolor);
+	border-radius: 0px 50px;
+	padding: 1.5em;
+	
 }
-#code{
+#codice{
 	display: flex;
-	opacity: 0;
+	flex-direction: column;
+	/*opacity: 0;*/
 	align-items: center;
-	border: 2px solid #FF0000;
+	justify-content: space-evenly;
+	padding-top: 20em;
+	
 }
+
 
 .textfield{
 	background-color: #FDFDFD;
@@ -124,8 +134,7 @@ body{
   	font-size: 1.75em;
 }
 
-.form-button
-{
+.form-button{
 	width: 8.5em;
 	height: 3em;
 	background-color: var(--Mcolor);
@@ -197,4 +206,12 @@ a:active{
 .write{
     color: var(--Dcolor);
 	font: bold 1.5em "Arial";
+}
+.date-picker{
+	
+	background-color: #FDFDFD;
+    border-radius: 2em;
+    border: none;
+    font-family: "Arial";
+    color: var(--textColorL);
 }

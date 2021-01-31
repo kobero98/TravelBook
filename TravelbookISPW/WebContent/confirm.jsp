@@ -30,12 +30,12 @@
 <title>Travelbook</title>
 </head>
 <body>
-	<div id=code>
-			<form action="confirm.jsp" method="POST">
-				<input id="code" type="text" name="code" value="insert code here">
-				<input id="closeCode" type="button" name="closeCode" value="close">
-				<input id="confirm" type="submit" name="confirm" value="confirm">
+			<form action="confirm.jsp" method="POST" id="codice">
+				<input id="code" type="text" name="code" value="insert code here" class="textfield">
+				<div class="buttons">
+				<input id="closeCode" type="button" name="closeCode" value="close" class="form-button">
+				<input id="confirm" type="submit" name="confirm" value="confirm" class="form-button">
+				</div>
 			</form>
-	</div>
 </body>
 </html>

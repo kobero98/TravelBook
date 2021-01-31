@@ -11,8 +11,10 @@
 
 <%	
 	if (request.getParameter("accedi")!=null){
+		System.out.println("ciao");
 		ControllerLogin controller=new ControllerLogin();
 		UserBean logged=controller.signIn(user.getUsername(), user.getPassword());
+		System.out.println(logged.getName());
 		request.getSession().setAttribute("loggedBean",logged);
 %>
 			<jsp:forward page="explore.jsp"/>
@@ -34,6 +36,7 @@
 		
 		UserBean logged=controller.facebookLogin(request.getParameter("token"));
 		request.getSession().setAttribute("loggedBean",logged);
+		
 		%>
 			<jsp:forward page="explore.jsp"/>
 		<% 
@@ -105,7 +108,7 @@
 			<form action="login.jsp" id="loginTable" method="POST">
 				<input id="username" type="text" name="username" class="textfield" required>
 				<input id="pswd" type="password" name="password" class="textfield" required>
-				<div id=buttons>
+				<div class=buttons>
 				<input type="button" value="registrati" class="form-button" onclick="apriRegistrazione()">
 				<input type="submit" value="accedi" name="accedi" class="form-button">
 			</div>
@@ -122,20 +125,23 @@
 	</div>
 	<div id=registrazione>
 			<form action="login.jsp" method="POST" id="registerTable">
-				<input id="username" type="text" name="username" required>
-				<input type="password" name="password" required>
-				<input type="email" name="email" required>
-				<input type="text" id="name" name="name" required>
-				<input id="surname" type="text" name="surname" required>
+				<input id="username" type="text" name="username" class="textfield" required>
+				<input type="password" name="password" class="textfield" required>
+				<input type="email" name="email" class="textfield" required>
+				<input type="text" id="name" name="name" class="textfield" required>
+				<input type="date" name="birthDate" class="date-picker" required>
+				<div>
 				 <input type="radio" id="male" name="gender" value="male" required>
 					<label for="male">Male</label><br>
 				<input type="radio" id="female" name="gender" value="female" required>
 					<label for="female">Female</label><br>
 				<input type="radio" id="other" name="gender" value="other" required>
 					<label for="other">Other</label> 
-				<input type="date" name="birthDate" required>
-				<input type="submit" name="signup" value="signup" required>
-				<input type="button" name="close" value="close" onclick="closeRegistration()">
+					</div>
+				<div class="buttons">
+				<input type="submit" name="signup" value="signup" class="form-button" required>
+				<input type="button" name="close" value="close" class="form-button" onclick="closeRegistration()">
+				</div>
 			</form>
 	</div>
 	
