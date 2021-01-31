@@ -4,7 +4,6 @@ package main.java.travelbook.controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import exception.DBException;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.TravelEntity;
@@ -47,20 +46,23 @@ public class ProfileController{
 	}
 	
 	
+	private UserEntity askToDB(int id) throws DBException{
+		VisualDAO shortUserDao = DaoFactory.getInstance().createVisual(DaoType.S_USER);
+		UserEntity userE = new UserEntity(id);
+		List<Entity> rs=new ArrayList<>();
+		try {
+			rs = shortUserDao.getData(userE);
+		
+		} catch (SQLException e) {
+			throw new DBException("we could't find this information");
+		}
+		return (UserEntity)rs.get(0);
+	}
 	public List<Bean> getFollow(List<Integer> l) throws DBException{
 		List<Bean> f = null;
-		VisualDAO shortUserDao = DaoFactory.getInstance().createVisual(DaoType.S_USER);
 		if(l != null) {
 			for(int i=0; i<l.size(); i++) {
-				UserEntity userE = new UserEntity(l.get(i));
-				List<Entity> rs=new ArrayList<>();
-				try {
-					rs = shortUserDao.getData(userE);
-				
-				} catch (SQLException e) {
-					throw new DBException("we could't find this information");
-				}
-				userE = (UserEntity)rs.get(0);
+				UserEntity userE = askToDB(l.get(i));
 				if(f==null) {
 					f = new ArrayList<>();
 					f.add(new UserBean(userE));
@@ -74,17 +76,9 @@ public class ProfileController{
 	}
 	public List<String> getFollowS(List<Integer> l) throws DBException{
 		List<String> f = null;
-		VisualDAO shortUserDao = DaoFactory.getInstance().createVisual(DaoType.S_USER);
 		if(l != null) {
 			for(int i=0; i<l.size(); i++) {
-				UserEntity userE = new UserEntity(l.get(i));
-				List<Entity> rs=new ArrayList<>();
-				try {
-					rs = shortUserDao.getData(userE);
-				} catch (SQLException e) {
-					throw new DBException("we could't find this information");
-				}
-				userE = (UserEntity)rs.get(0);
+				UserEntity userE = askToDB(l.get(i));
 				if(f==null) {
 					f = new ArrayList<>();
 					f.add(userE.getName()+" "+userE.getSurname());

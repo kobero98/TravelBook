@@ -315,14 +315,6 @@ public class ChatViewController {
     	}
     }
     @FXML
-    private void addHandler() {
-    	try {
-    		MenuBar.getInstance().moveToAdd(mainPane);
-    	}catch(IOException e) {
-    		e.printStackTrace();
-    	}
-    }
-    @FXML
     private void exploreHandler() {
     	try {
     		MenuBar.getInstance().moveToExplore(mainPane);
@@ -330,6 +322,15 @@ public class ChatViewController {
     		e.printStackTrace();
     	}
     }
+    @FXML
+    private void addHandler() {
+    	try {
+    		MenuBar.getInstance().moveToAdd(mainPane);
+    	}catch(IOException e) {
+    		e.printStackTrace();
+    	}
+    }
+
     @FXML
     private void sendHandler() {
     	MessageBean newMsg = new MessageBean(current.getIdUser(), MenuBar.getInstance().getLoggedUser().getId());

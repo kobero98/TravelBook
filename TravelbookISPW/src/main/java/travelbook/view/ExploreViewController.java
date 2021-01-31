@@ -265,6 +265,14 @@ public class ExploreViewController implements Observer{
     		e.printStackTrace();
     	}
     }
+	   @FXML
+	    private void chatHandler() {
+	    	try {
+	    		MenuBar.getInstance().moveToChat(mainPane);
+	    	}catch(IOException e) {
+	    		e.printStackTrace();
+	    	}
+	   }
     @FXML
     private void addHandler() {
     	try {
@@ -273,14 +281,7 @@ public class ExploreViewController implements Observer{
     		e.printStackTrace();
     	}
     }
-    @FXML
-    private void chatHandler() {
-    	try {
-    		MenuBar.getInstance().moveToChat(mainPane);
-    	}catch(IOException e) {
-    		e.printStackTrace();
-    	}
-    }
+ 
 	@FXML
 	private void advanceSearchHandler() {
 		//Redirect to search view but now simply go to stdout
