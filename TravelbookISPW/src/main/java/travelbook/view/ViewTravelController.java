@@ -2,7 +2,6 @@ package main.java.travelbook.view;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,27 +12,19 @@ import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.bean.UserBean;
+import main.java.travelbook.util.SetImage;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -123,23 +114,10 @@ public class ViewTravelController {
 		if(MenuBar.getInstance().getLoggedUser().getFav()!=null &&
 			MenuBar.getInstance().getLoggedUser().getFav().contains(myTravel.getId()))
 				favButton.getStyleClass().add("fav-selected");
-    	CornerRadii rad = new CornerRadii(0);
-    	Insets in = new Insets(0);
     	Pane travelPic = new Pane();
     	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*176/625);
     	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*278.5/1280);
-    	try {
-    		Image myPhoto = myTravel.getPathImage(); 
-    		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-    		Background mybg1 = new Background(bgPhoto);
-    		travelPic.setBackground(mybg1);
-    	}catch(IllegalArgumentException | NullPointerException e ) {
-    		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), rad, in);
-        	
-        	Background mybg1 = new Background(bgcc1);
-        	travelPic.setBackground(mybg1);
-    	}
-    	travelPic.setStyle("-fx-shape: \"M 350 900 L 350 795 C 350 780 360 770 375 770 L 438 770 C 453 770 463 780 463 795 L 463 900 Z\"");
+    	new SetImage(travelPic, myTravel.getPathImage(), true);
     	VBox vBox = new VBox();
     	HBox hBox = new HBox();
     	vBox.setPrefWidth(mainAnchor.getPrefWidth()*278.5/1280);
@@ -516,24 +494,7 @@ public class ViewTravelController {
 				contact.getStyleClass().add("text");
 				contact.setWrappingWidth(mainAnchor.getPrefWidth()*100/1280);
 				Pane contactPic = new Pane();
-				Background bg;
-				try {
-					Image photo = item.getPhoto();
-					
-					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-					bg = new Background(bgpic);
-				}catch(NullPointerException | IllegalArgumentException e) {
-					URL url=null;
-					try {
-						url = new File("src/main/resources/ProfilePageImages/travelers.png").toURI().toURL();
-					} catch (MalformedURLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					Image photo = new Image(url.toString());
-					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-					bg = new Background(bgpic);
-				}
+				new SetImage(contactPic, item.getPhoto(), false);
 				contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
 				contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
 				CheckBox check = new CheckBox();
@@ -552,8 +513,6 @@ public class ViewTravelController {
 				mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->
 					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625)
 				);
-				contactPic.setBackground(bg);
-				contactPic.getStyleClass().add("photo");
 				hBox.getChildren().add(contactPic);
 				hBox.getChildren().add(contact);
 				hBox.getChildren().add(check);

@@ -146,3 +146,11 @@
     -fx-shape: "M 5.1806931,9.0173267 7.5232674,12.170792 11.307426,4.4673266 10.091089,3.9717821 7.2980199,9.6029703 6.1267328,7.9361386 z";
     -fx-background-color: Dcolor;
 }
+.travel-pic{
+	-fx-shape: "M 350 900 L 350 795 C 350 780 360 770 375 770 L 438 770 C 453 770 463 780 463 795 L 463 900 Z"
+}
+.profile-pic{
+	-fx-shape: "M 25, 50 a 25,25 0 1,1 50,0 a 25,25 0 1,1 -50,0 Z";
+	-fx-border-color: linear-gradient(to bottom, Dcolor 0%, #FFA490 49%, Mcolor 50%, Lcolor 100%);
+	-fx-border-width: 2;
+}

@@ -30,9 +30,9 @@ public class SetImage {
 	
 	private void set(Image photo) {
 		if(travel)
-			myPane.getStyleClass().add(PROFILE_CSS);
-		else
 			myPane.getStyleClass().add(TRAVEL_CSS);
+		else
+			myPane.getStyleClass().add(PROFILE_CSS);
 		Background bg;
 		try {
 			

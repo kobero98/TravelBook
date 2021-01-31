@@ -2,7 +2,6 @@ package main.java.travelbook.view;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +11,6 @@ import exception.TriggerAlert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -34,12 +29,12 @@ import main.java.travelbook.controller.ControllerProfileOther;
 import main.java.travelbook.controller.TravelController;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.UserBean;
+import main.java.travelbook.util.SetImage;
 import	main.java.travelbook.model.bean.Bean;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 public class ProfileOtherController {
 	private BorderPane mainPane;
@@ -110,25 +105,7 @@ public class ProfileOtherController {
 		if(MenuBar.getInstance().getLoggedUser().getFollowing()!=null &&
     			MenuBar.getInstance().getLoggedUser().getFollowing().contains(user.getId()))
     				follow.getStyleClass().add(CSS);
-		if(user.getPhoto() !=null) {
-			BackgroundImage bgPhoto = new BackgroundImage(user.getPhoto(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-			Background newBg = new Background(bgPhoto);
-			profilePhoto.setBackground(newBg);
-		}
-		else {
-			try {
-				URL url = new File("src/main/resources/ProfilePageImages/travelers.png").toURI().toURL();
-				Image myPhoto = new Image(url.toString());
-				BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-				Background newBg = new Background(bgPhoto);
-				profilePhoto.setBackground(newBg);
-			}catch(IllegalArgumentException | MalformedURLException e) {
-        		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), null, null);
-            	
-            	Background mybg1 = new Background(bgcc1);
-            	profilePhoto.setBackground(mybg1);
-			}
-		}
+		new SetImage(profilePhoto, user.getPhoto(), false);
 		userName.setText(user.getName()+ " "+ user.getSurname());
 		myDescr.setText(user.getDescription());
 		followerButton.setText("Followers: "+user.getNFollower());
@@ -157,19 +134,7 @@ public class ProfileOtherController {
             	Pane travelPic = new Pane();
             	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
             	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
-            	try {
-            		Image myPhoto = item1.getPathImage();
-            		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-            		Background mybg1 = new Background(bgPhoto);
-            		travelPic.setBackground(mybg1);
-            	}catch(IllegalArgumentException | NullPointerException e) {
-            		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf("rgb(255, 162, 134)"), rad, in);
-                	
-                	Background mybg1 = new Background(bgcc1);
-                	travelPic.setBackground(mybg1);
-            	}
-            	
-            	travelPic.setStyle("-fx-shape: \"M 350 900 L 350 795 C 350 780 360 770 375 770 L 438 770 C 453 770 463 780 463 795 L 463 900 Z\"");
+            	new SetImage(travelPic, item1.getPathImage(), true);
             	VBox vBox = new VBox();
             	HBox hBox = new HBox();
             	vBox.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);

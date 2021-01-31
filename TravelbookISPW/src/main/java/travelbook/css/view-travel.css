@@ -181,11 +181,3 @@
 	-fx-border-width: 0 0 2 0;
 	-fx-border-color: lightGrey;
 }
-
-.photo{
-	
-	-fx-shape: "M 25, 50 a 25,25 0 1,1 50,0 a 25,25 0 1,1 -50,0 Z";
-	-fx-border-color: textColorL;
-	-fx-border-width: 2;
-	
-}

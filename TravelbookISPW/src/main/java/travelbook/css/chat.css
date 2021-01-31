@@ -80,13 +80,7 @@
 .h-box-selected{
 	-fx-background-color: Dcolor;
 }
-.photo{
-	
-	-fx-shape: "M 25, 50 a 25,25 0 1,1 50,0 a 25,25 0 1,1 -50,0 Z";
-	-fx-border-color: textColorL;
-	-fx-border-width: 2;
-	
-}
+
 .v-box{
 	-fx-background-color: #FDFDFD;
 }

@@ -106,8 +106,7 @@ public class ProfileViewController implements Observer{
 	private Button logOutButton;
 	@FXML
 	private Label errorMsg;
-	private static final String DEFAULT_IMG ="src/main/resources/ProfilePageImages/travelers.png";
-	private static final String DAFAULT_IMG_COLOR="rgb(255, 162, 134)"; 
+
 	
 	UserBean user=MenuBar.getInstance().getLoggedUser();
 	MyProfileController myController = new MyProfileController();
@@ -160,18 +159,7 @@ public class ProfileViewController implements Observer{
             	Pane travelPic = new Pane();
             	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
             	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
-            	try {
-            		Image myPhoto = item1.getPathImage();
-            		BackgroundImage bgPhoto = new BackgroundImage(myPhoto, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-            		Background mybg1 = new Background(bgPhoto);
-            		travelPic.setBackground(mybg1);
-            	}catch(IllegalArgumentException | NullPointerException e) {
-            		BackgroundFill bgcc1 = new BackgroundFill(Paint.valueOf(DAFAULT_IMG_COLOR), rad, in);
-                	
-                	Background mybg1 = new Background(bgcc1);
-                	travelPic.setBackground(mybg1);
-            	}
-            	travelPic.setStyle("-fx-shape: \"M 350 900 L 350 795 C 350 780 360 770 375 770 L 438 770 C 453 770 463 780 463 795 L 463 900 Z\"");
+            	new SetImage(travelPic, item1.getPathImage(), true);
             	VBox vBox = new VBox();
             	HBox hBox = new HBox();
             	vBox.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
@@ -464,28 +452,9 @@ public class ProfileViewController implements Observer{
             	if(myUser!=null)  creator = new Label(myUser.getName()+" "+myUser.getSurname());
             	creator.getStyleClass().add("text2");
             	Pane contactPic = new Pane();
-				Background bg;
-				try {
-					Image photo = myTravel.getPathImage();
-					
-					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-					bg = new Background(bgpic);
-				}catch(NullPointerException | IllegalArgumentException e) {
-					URL url=null;
-					try {
-						url = new File(DEFAULT_IMG).toURI().toURL();
-					} catch (MalformedURLException e1) {
-						//TODO
-					}
-					Image photo=null;
-					if(url!=null) photo = new Image(url.toString());
-					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-					bg = new Background(bgpic);
-				}
-					contactPic.setBackground(bg);
-					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
-					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
-					contactPic.getStyleClass().add("profile-pic");
+				new SetImage(contactPic, myTravel.getPathImage(), false);
+				contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
+				contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
             	hBox.setOnMouseClicked(e->
             		moveToView(myItem.getTravelShared()));
             	vBox.getChildren().add(title);
@@ -567,29 +536,9 @@ public class ProfileViewController implements Observer{
             	UserBean myItem = (UserBean)item;
             	HBox hBox = new HBox();
             	Pane contactPic = new Pane();
-				Background bg;
-				try {
-					Image photo = myItem.getPhoto();
-					
-					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-					bg = new Background(bgpic);
-				}catch(NullPointerException | IllegalArgumentException e) {
-					URL url=null;
-					try {
-						url = new File(DEFAULT_IMG).toURI().toURL();
-					} catch (MalformedURLException e1) {
-
-						e1.printStackTrace();
-					}
-					Image photo=null;
-					if(url !=null)  photo = new Image(url.toString());
-					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-					bg = new Background(bgpic);
-				}
-					contactPic.setBackground(bg);
+				new SetImage(contactPic, myItem.getPhoto(),false);
 					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
 					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
-					contactPic.getStyleClass().add("profile-pic");
 					Label name = new Label(myItem.getName()+" "+myItem.getSurname());
 					name.getStyleClass().add("text1");
 					hBox.getChildren().add(contactPic);
@@ -603,7 +552,7 @@ public class ProfileViewController implements Observer{
 						AnchorPane internalPane=(AnchorPane)loader.load();
 						mainPane.setCenter(internalPane);
 						ProfileOtherController controller=loader.getController();
-						controller.setMainPane(mainPane, 4, 0);
+						controller.setMainPane(mainPane, 3, 0);
 					} catch (IOException e2) {
 						e2.printStackTrace();
 					}
@@ -622,18 +571,7 @@ public class ProfileViewController implements Observer{
             	MiniTravelBean myItem = (MiniTravelBean)item;
             	HBox hBox = new HBox();
             	Pane contactPic = new Pane();
-				Background bg;
-				try {
-					Image photo = myItem.getPathImage();
-					
-					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-					bg = new Background(bgpic);
-					}catch(NullPointerException | IllegalArgumentException e) {
-						BackgroundFill bgfill = new BackgroundFill(Paint.valueOf(DAFAULT_IMG_COLOR), null, null);
-						bg = new Background(bgfill);
-					}
-					
-					contactPic.setBackground(bg);
+				new SetImage(contactPic, myItem.getPathImage(), false);
 					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
 					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
 					contactPic.getStyleClass().add("profile-pic");

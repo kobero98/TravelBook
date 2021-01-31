@@ -1,9 +1,6 @@
 package main.java.travelbook.view;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.Instant;
 import java.util.List;
 
@@ -22,14 +19,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -40,6 +31,7 @@ import exception.TriggerAlert;
 import main.java.travelbook.model.bean.MessageBean;
 import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.util.Chat;
+import main.java.travelbook.util.SetImage;
 
 public class ChatViewController {
 	private Object[] array1=new Object[15];
@@ -192,24 +184,7 @@ public class ChatViewController {
 				contact.getStyleClass().add("text");
 				contact.setWrappingWidth(mainAnchor.getPrefWidth()*150/1280);
 				Pane contactPic = new Pane();
-				Background bg;
-				try {
-					Image photo = item.getUser().getPhoto();
-					
-					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-					bg = new Background(bgpic);
-				}catch(NullPointerException | IllegalArgumentException e) {
-					URL url=null;
-					try {
-						url = new File("src/main/resources/ProfilePageImages/travelers.png").toURI().toURL();
-					} catch (MalformedURLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					Image photo = new Image(url.toString());
-					BackgroundImage bgpic = new BackgroundImage(photo, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-					bg = new Background(bgpic);
-				}
+				new SetImage(contactPic, item.getUser().getPhoto(), false);
 				contactPic.setPrefHeight(mainAnchor.getPrefHeight()*70/625);
 				contactPic.setPrefWidth(mainAnchor.getPrefWidth()*70/1280);
 				mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
@@ -220,8 +195,7 @@ public class ChatViewController {
 				mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->
 					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*70/625)
 				);
-				contactPic.setBackground(bg);
-				contactPic.getStyleClass().add("photo");
+				
 				hBox.getChildren().add(contactPic);
 				hBox.getChildren().add(contact);
 				item.setSpecialIndicator("");
