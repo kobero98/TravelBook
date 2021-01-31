@@ -1004,10 +1004,7 @@ public class AddViewController implements Observer{
 	    		view.setFitHeight(standardImageHeight);
 	    		view.setFitWidth(standardImageWidth);
 	    		view.setImage(im);
-	    		view.setOnMouseClicked((MouseEvent e)->{
-	    			//Se clicchi sulla foto la apre in "grande"
-	    			openImage(e);
-	    		});
+	    		view.setOnMouseClicked(this::openImage);
 	    		while(!imageGridPane.isValid(nextRow,nextCol)) {
 	    			nextCol++;
 	    			if(nextCol==5) {
@@ -1305,10 +1302,7 @@ public class AddViewController implements Observer{
     		    		view.setFitHeight(standardImageHeight);
     		    		view.setFitWidth(standardImageWidth);
     		    		view.setImage(image);
-    		    		view.setOnMouseClicked((MouseEvent e)->{
-    		    			//Se clicchi sulla foto la apre in "grande"
-    		    			openImage(e);
-    		    		});
+    		    		view.setOnMouseClicked(this::openImage);
     		    		
     		    		this.dayImagePane.get(i).get(step).add(view, nextCol, nextRow);
     		    		updateGridIndex();

@@ -17,22 +17,22 @@ import javafx.scene.paint.Paint;
 public class SetImage {
 	private Pane myPane = new Pane();
 	private boolean travel;
-	private static final String PROFILE = "profile-pic";
-	private static  String TRAVEL= "travel-pic";
+	private static final String PROFILE_CSS = "profile-pic";
+	private static final String TRAVEL_CSS= "travel-pic";
 	private static final String DEFAULT_IMG ="src/main/resources/ProfilePageImages/travelers.png";
 	private static final String DEFAULT_IMG_COLOR="rgb(255, 162, 134)"; 
 	
 	public SetImage(Pane myPane, Image myPhoto, boolean travel) {
 		this.myPane=myPane;
-		
+		this.travel=travel;
 		set(myPhoto);
 	}
 	
 	private void set(Image photo) {
 		if(travel)
-			myPane.getStyleClass().add(PROFILE);
+			myPane.getStyleClass().add(PROFILE_CSS);
 		else
-			myPane.getStyleClass().add(TRAVEL);
+			myPane.getStyleClass().add(TRAVEL_CSS);
 		Background bg;
 		try {
 			
