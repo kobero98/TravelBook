@@ -198,20 +198,8 @@ public class AddViewController implements Observer{
 		imageGridPane=new ImageGridPane();
 		dayNumber=0;
 		stepNumber=0;
-		startDate.valueProperty().addListener((observable,oldValue,newValue)->{
-			saved=false;
-			startDate.setStyle("");
-			DateUtil util=new DateUtil();
-			if(!util.isAfter(dataFinale,dataIniziale)) {
-				startDate.setValue(null);
-			}
-			else {
-				
-				//riesamina il numero di giorni del viaggio.
-				numOfDays=util.numOfDaysBetween(startDate.getValue(), endDate.getValue());
-				changeListOfDays();
-			}
-		});
+		startDate.valueProperty().addListener((observable,oldValue,newValue)->
+				startDateListener(dataFinale, dataIniziale));
 		this.viewPresentation.setOnMouseClicked((MouseEvent e)->{
 			if(this.viewPresentation.getImage()!=null) {
 			//Show the image 
@@ -225,22 +213,8 @@ public class AddViewController implements Observer{
 			}
 			//else do nothing
 		});
-		endDate.valueProperty().addListener((observable,oldValue,newValue)->{
-			saved=false;
-			endDate.setStyle("");
-			DateUtil util=new DateUtil();
-			if(!util.isAfter(endDate.getValue(),startDate.getValue())) {
-					endDate.setValue(null);
-					//then show an error message
-				}
-			else {
-				if(startDate.getValue()!=null && endDate.getValue()!=null) {
-				//riesamina il numero di giorni del viaggio
-				numOfDays=util.numOfDaysBetween(startDate.getValue(),endDate.getValue())+1;
-				changeListOfDays();
-				}
-			}
-		});
+		endDate.valueProperty().addListener((observable,oldValue,newValue)->
+				endDateListener());
 		dayBox.valueProperty().addListener((observable,oldValue,newValue)->{
 			String valore=dayBox.getValue();
 			dayNumber=Integer.parseInt(valore);
@@ -257,17 +231,8 @@ public class AddViewController implements Observer{
 			button.fire();
 			
 		});
-		this.practicalInformation.textProperty().addListener(e->{
-			if(this.practicalInformation.getText()!=null) {
-			if(this.practicalInformation.getText().length()>500) {
-				this.practicalInformation.setText(this.practicalInformation.getText().substring(0,500));
-			}
-			else {
-			this.saved=false;
-			this.stepByDay.get(dayNumber).get(stepNumber).setPrecisionInformation(this.practicalInformation.getText());
-			}
-			}
-		});
+		this.practicalInformation.textProperty().addListener(e->
+			infListener());
 		TextField text=new TextField();
 		text.setPrefHeight(26);
 		text.setPrefWidth(378);
@@ -287,17 +252,8 @@ public class AddViewController implements Observer{
 			}
 			
 		});
-		this.stopDescription.textProperty().addListener((observable,oldValue,newValue)->{
-			if(this.stopDescription.getText()!=null) {
-			if(this.stopDescription.getText().length()>300) {
-				this.stopDescription.setText(this.stopDescription.getText().substring(0,300));
-			}
-			else {
-			saved=false;
-			this.stepByDay.get(dayNumber).get(stepNumber).setDescriptionStep(stopDescription.getText());
-			}
-			}
-		});
+		this.stopDescription.textProperty().addListener((observable,oldValue,newValue)->
+			descrListener());
 		this.travelName.textProperty().addListener((observable,oldValue,newValue)->{
 			if(travelName.getText().length()>20) {
 				this.travelName.setText(this.travelName.getText().substring(0,20));
@@ -332,6 +288,58 @@ public class AddViewController implements Observer{
 			saved=false;
 			this.costField.setStyle("");
 		});
+	}
+	private void descrListener() {
+		if(this.stopDescription.getText()!=null) {
+			if(this.stopDescription.getText().length()>300) {
+				this.stopDescription.setText(this.stopDescription.getText().substring(0,300));
+			}
+			else {
+			saved=false;
+			this.stepByDay.get(dayNumber).get(stepNumber).setDescriptionStep(stopDescription.getText());
+			}
+		}
+	}
+	private void infListener() {
+		if(this.practicalInformation.getText()!=null) {
+		if(this.practicalInformation.getText().length()>500) {
+			this.practicalInformation.setText(this.practicalInformation.getText().substring(0,500));
+		}
+		else {
+		this.saved=false;
+		this.stepByDay.get(dayNumber).get(stepNumber).setPrecisionInformation(this.practicalInformation.getText());
+		}
+		}
+	}
+	private void endDateListener() {
+		saved=false;
+		endDate.setStyle("");
+		DateUtil util=new DateUtil();
+		if(!util.isAfter(endDate.getValue(),startDate.getValue())) {
+				endDate.setValue(null);
+				//then show an error message
+			}
+		else {
+			if(startDate.getValue()!=null && endDate.getValue()!=null) {
+			//riesamina il numero di giorni del viaggio
+			numOfDays=util.numOfDaysBetween(startDate.getValue(),endDate.getValue())+1;
+			changeListOfDays();
+			}
+		}
+	}
+	private void startDateListener(LocalDate dataFinale, LocalDate dataIniziale) {
+		saved=false;
+		startDate.setStyle("");
+		DateUtil util=new DateUtil();
+		if(!util.isAfter(dataFinale,dataIniziale)) {
+			startDate.setValue(null);
+		}
+		else {
+			
+			//riesamina il numero di giorni del viaggio.
+			numOfDays=util.numOfDaysBetween(startDate.getValue(), endDate.getValue());
+			changeListOfDays();
+		}
 	}
 	@Override
 	public void update(Observable bar, Object notify) {
@@ -815,33 +823,32 @@ public class AddViewController implements Observer{
 	    		}
 	    	if(listOfErrors.isEmpty()&&incompleteSteps.isEmpty()) {
 	    		
-	    		new Thread(()->{
-	    			
-	    			Platform.runLater(()->{
-	    				double indeterminate=ProgressIndicator.INDETERMINATE_PROGRESS;
-	    				progressBar.setProgress(indeterminate);
-	    				});
-	    			//Call the controller applicativo
-	    			try {
-	    				if(travelId!=null) {
-	    					AddTravel.getIstance().saveAndDelete(travel, travelId);
-	    				}
-	    				else {
-	    			AddTravel.getIstance().saveTravel(travel);
-	    				}
-	    			saved=true;
-	    			Platform.runLater(()->{
-	    				progressBar.setProgress(1);
-	    				//when done activate the close button
-	    		    	closeProgressBar.setVisible(true);
-	    			});
-	    			}catch(Exception e) {
-	    				e.printStackTrace();
-	    			}
-	    			
-	    		}).start();
+	    		new Thread(this::progressBar).start();
 	    		
 	    	}	
+	    }
+	    private void progressBar() {
+			Platform.runLater(()->{
+				double indeterminate=ProgressIndicator.INDETERMINATE_PROGRESS;
+				progressBar.setProgress(indeterminate);
+				});
+			//Call the controller applicativo
+			try {
+				if(travelId!=null) {
+					AddTravel.getIstance().saveAndDelete(travel, travelId);
+				}
+				else {
+			AddTravel.getIstance().saveTravel(travel);
+				}
+			saved=true;
+			Platform.runLater(()->{
+				progressBar.setProgress(1);
+				//when done activate the close button
+		    	closeProgressBar.setVisible(true);
+			});
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 	    }
 	    private void modifyColor(List<Object> listOfErrors) {
 	    	for(int i=0;i<listOfErrors.size();i++) {
@@ -880,34 +887,35 @@ public class AddViewController implements Observer{
 	    	}
 	    }
 	    private void setTravelSteps(TravelBean travel, List<StepBean> incompleteSteps) {
-	    	for(int day=0;day<this.stepByDay.size();day++) {
-	    		List<StepBean> steps=stepByDay.get(day);
-	    		for(int stepN=0;stepN<steps.size();stepN++) {
-	    			//for each step
-	    			StepBean step=steps.get(stepN);
-	    			if(step.getPlace()!=null &&!step.getPlace().isEmpty()) {
-	    				step.setListPhoto(new ArrayList<>());
+	    	try {	    	
+	    		for(int day=0;day<this.stepByDay.size();day++) {
+	    			List<StepBean> steps=stepByDay.get(day);
+	    			for(int stepN=0;stepN<steps.size();stepN++) {
+	    				//for each step
+	    				StepBean step=steps.get(stepN);
+	    				if(step.getPlace()!=null &&!step.getPlace().isEmpty()) {
+	    					step.setListPhoto(new ArrayList<>());
 	    				
-	    				for(int im=0;im<dayImagePane.get(day).get(stepN).getGridPane().getChildren().size();im++) {
-	    					ImageView view=(ImageView)dayImagePane.get(day).get(stepN).getGridPane().getChildren().get(im);
-	    					BufferedImage bImage = SwingFXUtils.fromFXImage(view.getImage(), null);
-	    					ByteArrayOutputStream s = new ByteArrayOutputStream();
-	    					try {
-	    					ImageIO.write(bImage, "png", s);
-	    					}catch(IOException e) {
-	    						e.printStackTrace();
+	    					for(int im=0;im<dayImagePane.get(day).get(stepN).getGridPane().getChildren().size();im++) {
+	    						ImageView view=(ImageView)dayImagePane.get(day).get(stepN).getGridPane().getChildren().get(im);
+	    						BufferedImage bImage = SwingFXUtils.fromFXImage(view.getImage(), null);
+	    						ByteArrayOutputStream s = new ByteArrayOutputStream();
+	    					
+	    						ImageIO.write(bImage, "png", s);
+
+	    						step.getBytes().add(s);
 	    					}
-	    					step.getBytes().add(s);
+	    					travel.getListStep().add(step);
 	    				}
-	    				travel.getListStep().add(step);
-	    			}
-	    			else {
-	    				incompleteSteps.add(step);
-	    				
+	    				else {
+	    					incompleteSteps.add(step);
+	    				}
+	    		
 	    			}
 	    		
-	    		}
-	    		
+	    		}	    					
+	    	}catch(IOException e) {
+	    		new TriggerAlert().triggerAlertCreate("Problem while loading step", "warn");
 	    	}
 	    }
 	    @FXML

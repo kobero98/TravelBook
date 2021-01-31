@@ -86,7 +86,7 @@ public class ExploreViewController implements Observer{
 		//In this example use Empty image as Pane and Some strings a cazzo di cane.
 		MenuBar.getInstance().setNewThread();
 		MenuBar.getInstance().addObserver(this);
-		
+		String myText = "my-text";
 		int i=0;
 		List<TravelButton> selectionGroup;
 		List<TravelButton> topTenGroup;
@@ -99,8 +99,8 @@ public class ExploreViewController implements Observer{
 			istance=new TravelButton(136,190.4,i,travel);
 			istance.getStack().getStyleClass().add("tile");
 			istance.getPane().getStyleClass().add("pane");
-			istance.getTitle().getStyleClass().add("my-text");
-			istance.getSubtitle().getStyleClass().addAll("my-text", "subtitle");
+			istance.getTitle().getStyleClass().add(myText);
+			istance.getSubtitle().getStyleClass().addAll(myText, "subtitle");
 			topTenGroup.add(istance);
 			topTenBar.getButtons().add(istance.getStack());
 			
@@ -112,8 +112,8 @@ public class ExploreViewController implements Observer{
 			istance=new TravelButton(136,190.4,i,travel);
 			istance.getStack().getStyleClass().add("tile");
 			istance.getPane().getStyleClass().add("pane");
-			istance.getTitle().getStyleClass().add("my-text");
-			istance.getSubtitle().getStyleClass().addAll("my-text", "subtitle");
+			istance.getTitle().getStyleClass().add(myText);
+			istance.getSubtitle().getStyleClass().addAll(myText, "subtitle");
 			selectionGroup.add(istance);
 			selectionBar.getButtons().add(istance.getStack());
 
@@ -257,14 +257,7 @@ public class ExploreViewController implements Observer{
     	anim.setSpeed(1);
     	anim.start();
 	}
-	@FXML
-    private void profileHandler(){
-    	try {
-    	MenuBar.getInstance().moveToProfile(mainPane);
-    	}catch(IOException e) {
-    		e.printStackTrace();
-    	}
-    }
+
 	   @FXML
 	    private void chatHandler() {
 	    	try {
@@ -273,6 +266,14 @@ public class ExploreViewController implements Observer{
 	    		e.printStackTrace();
 	    	}
 	   }
+		@FXML
+	    private void profileHandler(){
+	    	try {
+	    	MenuBar.getInstance().moveToProfile(mainPane);
+	    	}catch(IOException e) {
+	    		e.printStackTrace();
+	    	}
+	    }
     @FXML
     private void addHandler() {
     	try {

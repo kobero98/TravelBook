@@ -107,7 +107,7 @@ public class ProfileViewController implements Observer{
 	@FXML
 	private Label errorMsg;
 
-	
+	private static final String TEXT_CSS = "text1";
 	UserBean user=MenuBar.getInstance().getLoggedUser();
 	MyProfileController myController = new MyProfileController();
 	public void initialize() {
@@ -447,7 +447,7 @@ public class ProfileViewController implements Observer{
             	VBox vBox = new VBox();
             	Label title=null;
             	title = new Label(myTravel.getNameTravel());
-            	title.getStyleClass().add("text1");
+            	title.getStyleClass().add(TEXT_CSS);
             	Label creator =null;
             	if(myUser!=null)  creator = new Label(myUser.getName()+" "+myUser.getSurname());
             	creator.getStyleClass().add("text2");
@@ -540,7 +540,7 @@ public class ProfileViewController implements Observer{
 					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
 					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
 					Label name = new Label(myItem.getName()+" "+myItem.getSurname());
-					name.getStyleClass().add("text1");
+					name.getStyleClass().add(TEXT_CSS);
 					hBox.getChildren().add(contactPic);
 					hBox.getChildren().add(name);
 					hBox.setOnMouseClicked(e1->{
@@ -576,7 +576,7 @@ public class ProfileViewController implements Observer{
 					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
 					contactPic.getStyleClass().add("profile-pic");
 					Label name = new Label(myItem.getNameTravel());
-					name.getStyleClass().add("text1");
+					name.getStyleClass().add(TEXT_CSS);
 					hBox.getChildren().add(contactPic);
 					hBox.getChildren().add(name);
 					hBox.setOnMouseClicked(e1->
