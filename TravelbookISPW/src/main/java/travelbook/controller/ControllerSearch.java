@@ -66,9 +66,10 @@ public class ControllerSearch {
 		return ritorno;
 			
 	}
-	private CityEntity convertCity(String s) {
+	private CityEntity convertCity(String s) throws DBException {
 		CityEntity citta=new CityEntity();
 		int i=s.indexOf(",");
+		if(i==-1 || i==s.length()-1) throw new DBException("Erroe citta non presente");
 		citta.setNameC(s.substring(0, i));
 		citta.setState(s.substring(i+1));
 		return citta;
@@ -79,6 +80,7 @@ public class ControllerSearch {
 		search.setType(setTypeOrder(trip.getType()));
 		search.setCity(convertCity(trip.getCity()));
 		search.setMinDay(trip.getDurationMin());
+		if(trip.getDurationMax()<trip.getDurationMin() && trip.getDurationMax()<=0) throw new DBException("durata min < durataMax");
 		if(trip.getDurationMax()!=0) search.setMaxDay(trip.getDurationMax());
 		else search.setMaxDay(null);
 		search.setMinCost(trip.getCostoMin());

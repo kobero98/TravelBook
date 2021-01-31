@@ -512,7 +512,7 @@ public class SearchTravelController {
             super.updateItem(item, empty);
             if(!empty) {
             	HBox travel = new HBox();
-            	travel.setPrefWidth(sfondo.getPrefWidth()*530/1280);
+            	travel.setPrefWidth(sfondo.getPrefWidth()*835/1280);
         		travel.setPrefHeight(sfondo.getPrefHeight()*180/625);
             	travel.setMaxWidth(USE_PREF_SIZE);
             	travel.setMinWidth(USE_PREF_SIZE);
