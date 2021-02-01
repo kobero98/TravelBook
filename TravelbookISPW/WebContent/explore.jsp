@@ -37,16 +37,16 @@
 <html>
 <head>
 	<meta charset="ISO-8859-1">
-<<<<<<< .mine
+
     <link rel="stylesheet" href="css/loginCss.css">
     <link rel="stylesheet" href="css/explore.css">
-||||||| .r269
+
     <link rel="stylesheet" href="loginCss.css">
     <link rel="stylesheet" href="explore.css">
-=======
+
     <link rel="stylesheet" href="css\loginCss.css">
     <link rel="stylesheet" href="css\explore.css">
->>>>>>> .r304
+
 	<title>Travelbook</title>
 	<Script>
 	function spostamentoSearch(){
@@ -101,14 +101,14 @@
                 <p id = "searchWrite">
                     Looking for something more specific? Try our research tool, narrowing your desires with a lot of different options
                 </p>
-<<<<<<< .mine
+
                 <input type="submit" id="searchButton" name="searchButton" path="M12 8V4l8 8-8 8v-4H4V8z">
                 </form>
-||||||| .r269
+
                 <input type="button", id="searchButton", name="searchButton",path="M12 8V4l8 8-8 8v-4H4V8z">
-=======
+
                 <input type="button" id="searchButton" name="searchButton" onclick="spostamentoSearch()"path="M12 8V4l8 8-8 8v-4H4V8z">
->>>>>>> .r304
+
             </div>
             
         </div>

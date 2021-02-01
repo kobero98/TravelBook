@@ -9,7 +9,7 @@
 <%@ page import="main.java.travelbook.model.bean.UserBean" %>
 <%
 	UserBean myUser=(UserBean)request.getSession().getAttribute("loggedBean");
-	
+	System.out.println(request.getParameterMap().keySet());
 	Integer id=Integer.valueOf(request.getParameter("travelID"));
 	TravelController controller=new TravelController();
 	TravelBean myTravel=controller.getTravel(id);
@@ -21,13 +21,25 @@
 		<% 
 	}
 	if(request.getParameter("chat")!=null){
-		%>
-			<jsp:forward page="chat.jsp"/>
-		<% 
+		response.sendRedirect("chat.jsp");
 	}
 	if(request.getParameter("fav")!=null){
+		if(myUser.getFav()==null)
+			myUser.setFav(new ArrayList<>());
+		myUser.getFav().add(myTravel.getId());
 		controller.updateFav(myUser);
 	}
+	if(request.getParameter("userToBeShared[]")!=null){
+		String shareable=request.getParameter("userToBeShared[]");
+		System.out.println(shareable);
+		String[] users=shareable.split(",");
+		List<Integer> ids=new ArrayList<>();
+		for(String s: users){
+			ids.add(Integer.valueOf(s));
+		}
+		controller.shareTravel(ids, id, myTravel.getIdCreator(), myUser.getId());
+	}
+
 %>
 <!DOCTYPE html>
 <html>
@@ -38,6 +50,7 @@
     <script src="js\jquery.min.js"></script>
 	<title>Travelbook</title>
 	<script>
+			var travelId=<%=myTravel.getId()%>
 			class StepJS{
 				constructor(groupDay,numberInDay,descriptionStep,place,precision){
 					this.groupDay=groupDay;
@@ -81,7 +94,6 @@
 							byte[] byteEncod=Base64.getEncoder().encode(tobe);
 							System.out.println(byteEncod);
 							String s=new String(byteEncod,"UTF-8");
-							System.out.println(s);
 							encoded.add(s);
 						}
 						%>
@@ -128,7 +140,6 @@
 				var img;
 				for(i=0;i<step.photo.length;i++){
 					img=document.createElement("img");
-					console.log("data:image/gif;base64,"+step.photo[i]);
 					img.setAttribute("src","data:image/gif;base64,"+step.photo[i]);
 					img.setAttribute("style","width: 5em; height: 5em;");
 					fotoDiv.appendChild(img);
@@ -153,32 +164,114 @@
 				var checkBox;
 				var label;
 				var div;
+				var newDiv;
+				var img;
 				$.each(dataO,function(index,element){
-					checkBox=document.createElement("checkbox");
+					checkBox=document.createElement("input");
+					checkBox.setAttribute("type","checkbox");
 					checkBox.setAttribute("id","checkbox"+dataO[index].userId);
 					checkBox.setAttribute("value","checkbox"+dataO[index].userId);
 					checkBox.setAttribute("name","checkbox"+dataO[index].userId);
-					checkBox.setAttribute("style","margin-left: 1em; border:1px solid; width:10em;");
+					newDiv=document.createElement("div");
+					newDiv.setAttribute("class","shareableElements");
 					label=document.createElement("label");
 					label.setAttribute("for","checkbox"+dataO[index].userId);
 					label.innerHTML=dataO[index].user;
+					img=document.createElement("img");
+					if(dataO[index].image)
+						img.setAttribute("src","data:image/*;base64,"+dataO[index].image);
+					else
+						img.setAttribute("src","resource/travelers.png");
+					img.setAttribute("style","width: 2em; height: 2em;");
+					newDiv.appendChild(img);
 					div=document.getElementById("shareDiv");
-					div.appendChild(checkBox);
-					div.appendChild(label);
+					newDiv.appendChild(checkBox);
+					newDiv.appendChild(label);
+					div.appendChild(newDiv);
 				});
 				div=document.getElementById("shareDiv");
 				div.style.opacity=1;
 			}
 		});
-	
+	}
+	function shareTravel(){
+		var div=document.getElementById("shareDiv");
+		var array=div.childNodes;
+		var i;
+		var users=new Array();
+		var text;
+		var j=0;
+		var checked = $("input[type=checkbox]:checked");
+		for(i=0;i<checked.length;i++){
+			text=checked[i].id.split("checkbox");
+			users[i]=text[1];
+		}
 		
+		jQuery.ajax({
+			url:"viewTravel.jsp",
+			type: "POST",
+			data:{"userToBeShared":users, "travelID":travelId},
+			error: function(xhr,ajaxOptions,thrownError){
+				console.log(xhr.responseText);
+				alert(xhr.status);
+		         alert(thrownError);
+			},
+			success: function(){
+				alert("Shared!");
+			}
+		});
 	}
 	function closeShare(){
 		var div=document.getElementById("shareDiv");
 		div.style.opacity=0;
 		while( div.lastChild )
 			div.removeChild( div.lastChild );
-		div.innerHTML='<form action="viewTravel.jsp" method="POST" id="formShare"><input type="submit" id="condividi" name="share" class="bb-button"><input type="button" value="close" onclick="closeShare()"></form>'
+		div.innerHTML='<form action="viewTravel.jsp" method="POST" id="formShare"><input type="button" id="condividi" name="share" value="share" onclick="shareTravel()"><input type="button" value="close" onclick="closeShare()"></form>'
+	}
+	function addFav(){
+		jQuery.ajax({
+			url: "viewTravel.jsp",
+			data:{"travelID":travelId,"fav":"true"},
+			type:"POST",
+			error: function(xhr,ajaxOptions,thrownError){
+				console.log(xhr.responseText);
+				alert(xhr.status);
+		         alert(thrownError);
+			},
+			success: function(){
+				//ADD HERE CHANGE BUTTON COLOR
+			}
+		});
+	}
+	function goChat(userId){
+		jQuery.ajax({
+			url: "viewTravel.jsp",
+			data:{"travelID":travelId,"chat":"true"},
+			type:"POST",
+			error: function(xhr,ajaxOptions,thrownError){
+				console.log(xhr.responseText);
+				alert(xhr.status);
+		         alert(thrownError);
+			},
+			success: function(){
+				document.location.href="http://localhost:8080/TravelbookISPW/chat.jsp";
+			}
+		});
+	}
+	function goProfile(userId){
+		jQuery.ajax({
+			url: "viewTravel.jsp",
+			data:{"travelID":travelId,"profile":"true"},
+			type:"POST",
+			error: function(xhr,ajaxOptions,thrownError){
+				console.log(xhr.responseText);
+				alert(xhr.status);
+		         alert(thrownError);
+			},
+			success: function(){
+				document.location.href="http://localhost:8080/TravelbookISPW/profileOther.jsp?user="+userId;
+			}
+		})
 	}
 	</script>
 
@@ -218,18 +311,14 @@
                 </div>
                 <div class="bb">
                 	<form action="viewTravel.jsp" method="POST">
-                    <input type="submit" id="profile" name="profile" class="bb-button">
-                    <input type="submit" id="chat" name="chat" class="bb-button">
-                    <input type="submit" id="fav" name="fav" class="bb-button">
+                    <input type="button" id="profile" name="profile" class="bb-button" value="goProfile(<%=myUser.getId()%>)">
+                    <input type="button" id="chat" name="chat" class="bb-button" value="chat" onclick="goChat(<%=myUser.getId()%>)">
+                    <input type="button" id="fav" name="fav" class="bb-button" value="fav" onclick="addFav()">
                     <input type="button" id="share" class="bb-button" onclick="showFav(<%=myUser.getId()%>)" name="shareButton">
+                  
                     </form>
                 </div>
-                <div id="shareDiv" class="share">
-                	<form action="viewTravel.jsp" method="POST" id="formShare">
-                		<input type="submit" id="condividi" name="share" class="bb-button">
-                		<input type="button" value="close" onclick="closeShare()">
-                	</form>
-                </div>
+               
             </div>
             <div class="bot">
 			<div class="days">
@@ -268,3 +357,11 @@
         <div class="panel" id="right-panel">
         	
         </div>
+         <div id="shareDiv" class="share">
+                	<form action="viewTravel.jsp" method="POST" id="formShare">
+                		<input type="button" id="condividi" name="share"  value="share" onclick="shareTravel()">
+                		<input type="button" value="close" onclick="closeShare()">
+                	</form>
+         </div>
+</body>
+</html>

@@ -26,6 +26,9 @@
     height:11em;
     display: flex;
 }
+.fotoDiv{
+	display: inline;
+}
 .days{
 	overflow: hidden;
 	border: 1px solid #ccc;
@@ -42,6 +45,16 @@
 }
 .share {
 	opacity: 0;
+	background-color: rgba(252, 220, 200, 0.5);
+	
+	
+	position: absolute;
+	left: 30em;
+	top: 15em;
+	display: block;
+}
+.shareableElements{
+	display: inline;
 }
 .days button:hover{
 	background-color: #ddd;

@@ -108,6 +108,13 @@ if(request.getParameter("follower")!=null || request.getParameter("following")!=
 			obj=new JSONObject();
 			obj.put("user",us.getName()+" "+us.getSurname());
 			obj.put("userId",us.getId());
+			byte[] foto=us.getArray();
+			if(foto!=null){
+				String encoded;
+				foto=Base64.getEncoder().encode(foto);
+				encoded=new String(foto,"UTF-8");
+				obj.put("image",encoded);
+			}
 			array.add(obj);
 		}
 		json.put("shareable",array);

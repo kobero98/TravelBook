@@ -253,7 +253,7 @@
             		byte[] bytes=Base64.getEncoder().encode(userB);
 					String encoded=new String(bytes,"UTF-8");
             		%>
-            			<img src="data:image/*;base64,<%=encoded%>" id="profileIm" style="width: 12.5em; height: 12.5em;" class="image">/>
+            			<img src="data:image/*;base64,<%=encoded%>" id="profileIm" style="width: 12.5em; height: 12.5em;" class="image">
             		<% 
             	}
             	else{
@@ -303,7 +303,9 @@
 			<%
 				List<Bean> myTravel=controller.getTravel(myUser.getTravel());
 				List<MiniTravelBean> travel = new ArrayList<>();
-				for(Bean i: travel){
+				if(myTravel==null)
+					myTravel=new ArrayList<>();
+				for(Bean i:myTravel){
 					travel.add((MiniTravelBean)i);
 				}
 				int i=0;
