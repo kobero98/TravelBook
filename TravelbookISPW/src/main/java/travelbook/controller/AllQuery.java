@@ -569,7 +569,7 @@ public class AllQuery {
 		ResultSet rs=null;
 		if(nameSurname.length>1)
 			surname=nameSurname[2];
-		String query="SELECT idUser, NameUser, Surname,Username,ProfileImage from User where NameUser like '"+name+"%' and Surname like '"+surname+"%' and idUser != "+MenuBar.getInstance().getLoggedUser().getId()+" order by char_length(NameUser),char_length(Surname)";
+		String query="SELECT idUser, NameUser, Surname,Username,ProfileImage from User where NameUser like '"+name+"%' and Surname like '"+surname+"%' order by char_length(NameUser),char_length(Surname)";
 		try {
 			rs=stmt.executeQuery(query);
 		} catch (SQLException e) {

@@ -15,8 +15,7 @@ public class SearchUserTextField extends AutocompleteTextField<UserBean>{
 	}
 	@Override
 	protected List<UserBean> getPredictions(String text) {
-		
-		return new ChatController().getUserPredictions(text);
+		return new ChatController().getUserPredictions(text,MenuBar.getInstance().getLoggedUser().getId());
 	}
 	
 }

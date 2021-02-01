@@ -101,15 +101,16 @@ public class ChatController {
 		mexE.setLastTimeStamp(mex.getTime());
 		dao.update(mexE);
 	}
-	public List<UserBean> getUserPredictions(String text) {
+	public List<UserBean> getUserPredictions(String text,int id) {
 		PredictableDAO dao= DaoFactory.getInstance().createPredictable(DaoType.USER);
 		List<UserBean> results=new ArrayList<>();
 		List<Entity> predictions=dao.getPredictions(text);
+		
 		UserBean singleResult;
 		for(Entity user: predictions) {
 			UserEntity entity=(UserEntity) user;
 			singleResult=new UserBean(entity);
-			results.add(singleResult);
+			if(singleResult.getId()!=id)results.add(singleResult);
 		}
 		return results;
 	}
