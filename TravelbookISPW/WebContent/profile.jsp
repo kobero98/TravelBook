@@ -27,10 +27,19 @@
 			<%
 		}
 		if(s.startsWith("follow")){
-			String[] arg=s.split("follow");
+			String[] arg;
+			System.out.println(s);
+			if(s.startsWith("follower")){
+				arg=s.split("follower");
+			
+			}
+			else{
+				arg=s.split("following");
+			}
 			%>
 				<jsp:forward page="profileOther.jsp">
-				<jsp:param name="userID" value="<%=arg[1] %>"/>
+				<jsp:param name="user" value="<%=arg[1] %>"/>
+				<jsp:param name="inizio" value="true"/>
 				</jsp:forward>
 			<% 
 		}
@@ -54,8 +63,10 @@
     <link rel="stylesheet" href="css/loginCss.css">
     <link rel="stylesheet" href="css/profile.css">
     <script src="js\jquery.min.js"></script>
+    <script src="js\jsonReader.js"></script>
 	<title>Travelbook</title>
 	<script>
+	var userID=<%=myUser.getId()%>
 	function init(){
 		document.getElementById("fotoFile").addEventListener("mouseover",function(){
 			$("#chooseIm").animate({opacity: '1'},"slow");
@@ -92,132 +103,13 @@
 		}
 	}
 	
-	function readTravel(data,type){
-    	var dataO=data.travels;
-    	var divInt=document.createElement("div");
-    	document.body.appendChild(divInt);
-    	if(dataO[0].title.localeCompare("not found")!=0){
-    		console.log(dataO);
-    		$.each(dataO,function(index,element){
-    		var text=document.createTextNode(dataO[index].title);
-    		var btn=document.createElement("button");
-    		var img=document.createElement("img");
-    		var div=document.createElement("div");
-    		var form=document.createElement("form");
-    		form.setAttribute("action","profile.jsp");
-    		form.setAttribute("method","POST");
-    		btn=document.createElement("button");
-    		btn.setAttribute("type","submit");
-    		btn.setAttribute("name",type+dataO[index].id);
-    		div.setAttribute("id",type+dataO[index].id);
-    		div.setAttribute("class","followPanel");
-    		if(dataO[index].image.localeCompare("")==0){
-    			img.setAttribute("src","resource/travelers.png");
-    		}
-    		else{
-    			img.setAttribute("src","data:image/gif;base64,"+dataO[index].image);
-    		}
-    		img.setAttribute("style","width: 5em; height: 5em;");
-    		img.setAttribute("class","image");
-    		form.appendChild(btn);
-    		div.appendChild(form);
-    		div.appendChild(text);
-    		div.appendChild(img);
-    		divInt.appendChild(div);
-    	});
-    	}
-	}
-	function readUsers(data,textStatus,jqXHR,type){
-    	var users;
-    	var btn;
-    	var div;
-    	var text;
-    	var form;
-    	var img;
-    	var dataO=data.users;
-    	var divInt=document.createElement("div");
-    	document.body.appendChild(divInt);
-    	$.each(dataO,function(index,element){
-    		form=document.createElement("form");
-    		form.setAttribute("action","profile.jsp");
-    		form.setAttribute("method","POST");
-    		btn=document.createElement("button");
-    		btn.setAttribute("type","submit");
-    		btn.setAttribute("name",type+dataO[index].id);
-    		div=document.createElement("div");
-    		div.setAttribute("id",type+dataO[index].id);
-    		div.setAttribute("class","followPanel");
-    		text=document.createTextNode(dataO[index].name+" "+dataO[index].surname);
-    		img=document.createElement("img");
-    		if(dataO[index].image.localeCompare("")==0){
-    			img.setAttribute("src","resource/travelers.png");
-    		}
-    		else{
-    			img.setAttribute("src","data:image/gif;base64,"+dataO[index].image);
-    		}
-    		img.setAttribute("style","width: 5em; height: 5em;");
-    		img.setAttribute("class","image");
-    		form.appendChild(btn);
-    		div.appendChild(text);
-    		div.appendChild(img);
-    		div.appendChild(form);
-    		divInt.appendChild(div);
-    	});
-    	}
-			function showFollowing(){
-				jQuery.ajax({
-					url:"jsonResponser.jsp",
-					type: "GET",
-					data:{"following": 'true'},
-					dataType:"json",
-					error:function(xhr,ajaxOptions,thrownError){
-						console.log(xhr.responseText);
-						alert(xhr.status);
-				         alert(thrownError);
-					},
-					success: function(data,textStatus,jqXHR){
-				    	readUsers(data,textStatus,jqXHR,"following");
-				    }
-				});
-			}
-			function showFollower(){
-				jQuery.ajax({
-					url: "jsonResponser.jsp",
-					type: "GET",
-					data:{"follower": 'true'},
-					dataType:"json",
-					error: function(xhr,ajaxOptions,thrownError){
-						console.log(xhr.responseText);
-						alert(xhr.status);
-				         alert(thrownError);
-				       },
-				    success: function(data,textStatus,jqXHR){
-				    	readUsers(data,textStatus,jqXHR,"follower");
-				    }
-				});
-			}
-			function showFav(){
-				jQuery.ajax({
-					url:"jsonResponser.jsp",
-					type:"GET",
-					data:{"travel":'true'},
-					dataType:"json",
-					error: function(xhr,ajaxOptions,thrownError){
-						console.log(xhr.responseText);
-						alert(xhr.status);
-				         alert(thrownError);
-				       },
-				    success: function(data){
-				    	readTravel(data,"fav");
-						}
-				    
-				});
-			}
+
+			
 			function showShared(){
 				jQuery.ajax({
 					url:"jsonResponser.jsp",
 					type:"GET",
-					data:{"shared":'true'},
+					data:{"shared":'true',"userID":userID},
 					dataType:"json",
 					error: function(xhr,ajaxOptions,thrownError){
 						console.log(xhr.responseText);
@@ -287,9 +179,13 @@
                     <input type="button" class="profile-button" value="Follower:<%=myUser.getNFollower() %>" onclick="showFollower()">
                     <input type="button" class="profile-button" value="Following:<%=myUser.getNFollowing()%>" onclick="showFollowing()">
                     <input type="button" class="profile-button fav-button" onclick="showFav()">
-                    <input type="button" class="profile-button fav-button" onclick="showShared()">
+                    
                     <p class="text">
                         Your favourite travels
+                    </p>
+                    <input type="button" class="profile-button fav-button" onclick="showShared()">
+                    <p class="text">
+                    Your shared travels
                     </p>
                 </div>
                 <div class="map">
@@ -313,13 +209,20 @@
 				for(MiniTravelBean trav: travel){
 					String buttonName="travel"+trav.getId();
 					byte[] bytes=Base64.getEncoder().encode(trav.getArray());
-					String encoded=new String(bytes,"UTF-8");
-					String path="data:image/gif;base64,"+bytes;
-					out.println(bytes);
-					
+					String encoded;
+					if(bytes!=null){
+						encoded=new String(bytes,"UTF-8");
+						String path="data:image/gif;base64,"+bytes;
+					}
 					%>
 						<div id=<%=i %>>
+						<% 
+						if(bytes!=null){
+							%>
 							<img id="travImg"src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" class="image" />
+							<%
+						}
+							%>
 							<div>
 								<form action="profile.jsp" method="POST">
 									<p class=text>

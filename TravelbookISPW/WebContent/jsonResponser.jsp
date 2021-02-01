@@ -10,9 +10,11 @@
 <%@ page import="java.util.List" %>
 <%@page import="main.java.travelbook.model.bean.ShareBean" %>
 <%@ page import="main.java.travelbook.controller.TravelController" %>
+<%@ page import="main.java.travelbook.controller.ControllerProfileOther" %>
 <%@ page import="java.util.ArrayList" %>
 <%
-	UserBean myUser=(UserBean)request.getSession().getAttribute("loggedBean");
+	ControllerProfileOther con=new ControllerProfileOther();
+	UserBean myUser=con.getUser(Integer.valueOf(request.getParameter("userID")));
 	MyProfileController controller=new MyProfileController();
 if(request.getParameter("follower")!=null || request.getParameter("following")!=null){
 	JSONObject json;

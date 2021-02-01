@@ -273,6 +273,9 @@
 			}
 		})
 	}
+	function goBack() {
+		  window.history.back();
+		}
 	</script>
 
 </head>
@@ -287,7 +290,7 @@
     </div>
     <div class="anchor">
         <div class="panel panel2">
-            <input type="button" id="back-button" class="back-button back2">
+            <input type="button" id="back-button" class="back-button back2" onclick="goBack()">
             <div class="top">
                 
                 <div id="travel">
