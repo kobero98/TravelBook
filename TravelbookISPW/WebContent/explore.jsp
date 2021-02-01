@@ -2,9 +2,9 @@
     pageEncoding="ISO-8859-1"%>
 <%@page import="main.java.travelbook.model.bean.UserBean" %>
 <%
+	UserBean log=null;
 	if(request.getSession().getAttribute("loggedBean")!=null){
-		UserBean log=(UserBean)request.getSession().getAttribute("loggedBean");
-		
+		log=(UserBean)request.getSession().getAttribute("loggedBean");
 		out.println(log.getName());
 	}
 	if(request.getParameter("profile")!=null){
@@ -36,22 +36,29 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="js\jquery.min.js"></script> 
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>  
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<meta charset="ISO-8859-1">
-
-    <link rel="stylesheet" href="css/loginCss.css">
-    <link rel="stylesheet" href="css/explore.css">
-
-    <link rel="stylesheet" href="loginCss.css">
-    <link rel="stylesheet" href="explore.css">
-
-    <link rel="stylesheet" href="css\loginCss.css">
+	<link rel="stylesheet" href="css\loginCss.css">
     <link rel="stylesheet" href="css\explore.css">
 
 	<title>Travelbook</title>
 	<Script>
 	function spostamentoSearch(){
 		location.replace("search.jsp");
-	}
+	}		
+	var worker = new Worker ('ThreadNewMessage.js');
+	worker.postMessage (<%=log.getId()%>);
+	$.ajax({
+         url:"ChatThread.jsp",
+         method:"get",
+         data:{id:<%=log.getId()%>},
+         success:function(data)
+         { 
+        	 console.log("yes");
+         }
+     });
 	</Script>
 
 </head>

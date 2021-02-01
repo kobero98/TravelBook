@@ -15,7 +15,7 @@
 <%@ page import="java.io.ByteArrayInputStream" %>
 <%
 	ProfileController controller=new ProfileController();
-	UserBean myUser=(UserBean)request.getSession().getAttribute("loggedBean");
+	UserBean myUser=(UserBean) request.getSession().getAttribute("loggedBean");
 	Set<String> params=request.getParameterMap().keySet();
 	for(String s: params){
 		if(s.startsWith("travel")){
