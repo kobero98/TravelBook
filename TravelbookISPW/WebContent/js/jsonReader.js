@@ -1,9 +1,17 @@
 /**
  * 
  */
+
 function readTravel(data,type){
     	var dataO=data.travels;
     	var divInt=document.createElement("div");
+    	var title=document.createElement("div");
+    	var backButton=document.createElement("button");
+    	backButton.setAttribute("class","s-back-button");
+    	divInt.setAttribute("class","show");
+    	title.setAttribute("class", "show-title");
+    	title.appendChild(backButton);
+    	divInt.appendChild(title);
     	document.body.appendChild(divInt);
     	if(dataO[0].title.localeCompare("not found")!=0){
     		console.log(dataO);
@@ -36,7 +44,7 @@ function readTravel(data,type){
     	});
     	}
 	}
-		function readUsers(data,textStatus,jqXHR,type){
+	function readUsers(data,textStatus,jqXHR,type){
     	var users;
     	var btn;
     	var div;
@@ -45,6 +53,13 @@ function readTravel(data,type){
     	var img;
     	var dataO=data.users;
     	var divInt=document.createElement("div");
+    	var title=document.createElement("div");
+    	var backButton=document.createElement("button");
+    	backButton.setAttribute("class","s-back-button");
+    	title.setAttribute("class", "show-title");
+    	title.appendChild(backButton);
+    	divInt.appendChild(title);
+    	divInt.setAttribute("class","show");
     	document.body.appendChild(divInt);
     	$.each(dataO,function(index,element){
     		form=document.createElement("form");
