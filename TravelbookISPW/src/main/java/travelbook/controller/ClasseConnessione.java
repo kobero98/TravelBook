@@ -19,6 +19,6 @@ public class ClasseConnessione {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return DriverManager.getConnection(myUrl,"root","root");
+		return DriverManager.getConnection(myUrl,"root","Sara.d-19");
 	}
 }

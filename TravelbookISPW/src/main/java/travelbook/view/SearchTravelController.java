@@ -477,18 +477,7 @@ public class SearchTravelController {
 		if(trip.getDurationMin()>trip.getDurationMax()) return;
 		trip.setCostoMax(0);
 		trip.setCostoMin(0);
-		if(budjet1.isSelected()) trip.setCostoMax(300);
-		if(budjet2.isSelected()) {
-				trip.setCostoMax(1000);
-				trip.setCostoMin(300);
-		}
-		if(budjet3.isSelected()) {
-				trip.setCostoMax(2000);
-				trip.setCostoMin(1000);
-		}
-		if(budjet4.isSelected()) {
-				trip.setCostoMin(2000);
-		}
+		setBudget(trip);
 		List <String> s=new ArrayList<>();
 		for(int i=0;i<typeChoose.size();i++) s.add(typeChoose.get(i).getType());
 		if(s.isEmpty()) s=null;
@@ -505,7 +494,20 @@ public class SearchTravelController {
 			lista.setCellFactory(list->new TravelCell());
 		}
 	}
-	
+	private void setBudget(SearchTrip trip) {
+		if(budjet1.isSelected()) trip.setCostoMax(300);
+		if(budjet2.isSelected()) {
+				trip.setCostoMax(1000);
+				trip.setCostoMin(300);
+		}
+		if(budjet3.isSelected()) {
+				trip.setCostoMax(2000);
+				trip.setCostoMin(1000);
+		}
+		if(budjet4.isSelected()) {
+				trip.setCostoMin(2000);
+		}
+	}
 	class TravelCell extends ListCell<MiniTravelBean>{
 		@Override
         public void updateItem(MiniTravelBean item, boolean empty) {

@@ -42,10 +42,9 @@
     background-color: var(--Mcolor);
     overflow: scroll;
     border-radius:  1.875em;
-    opacity: 0.5;
 }
 .map{
-    background-image: url(resource/cartina-no-sfondo.png);
+    background-image: url(../WebContent/resource/cartina-no-sfondo.png);
     width: 17.8125em;
     height: 10em;
     background-size: cover;
@@ -113,3 +112,40 @@
     height: 3.125em;
     border-radius: 3.125em;
 }
+
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input {
+  width: 2em;
+  height:2em;
+  top:-7.5em;
+  margin-left: 1.5em;
+  background: var(--Mcolor);
+  border: 1px solid var(--textColorL);
+
+}
+.followPanel{
+	border-bottom: 1px solid var(--lightGrey);
+	display:flex;
+	width:20em;
+}
+.show{
+	background: var(--Mcolor);
+	position: absolute;
+	display:flex;
+	flex-direction: column;
+	height: 38.9375em;
+	top: 6em;
+}
+.show-title{
+	border-bottom: 2px solid var(--lightGrey);
+	height: 3em;
+}
+.s-back-button{
+	margin: 0.5em;
+	width: 2.5em;
+	height:2em;
+}
+
+

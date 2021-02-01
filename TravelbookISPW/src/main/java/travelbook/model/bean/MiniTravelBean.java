@@ -13,16 +13,16 @@ public class MiniTravelBean implements Bean{
 	private String nameTravel;
 	private String descriptionTravel;
 	private Image pathBackground;
-	private InputStream imageStream;
+	private InputStream picStream;
 	private byte[] array;
 	public byte[] getArray() {
-		if(this.imageStream==null)
-			return null;		//serve array vuoto ma non voglio incasinarti le cose demago
+		if(this.picStream==null)
+			return new byte[0];		
 		try {
 			ByteArrayOutputStream buffer= new ByteArrayOutputStream();
 			int nRead;
 			byte[] targetArray=new byte[16384];
-			while((nRead=imageStream.read(targetArray,0,targetArray.length))!=-1) {
+			while((nRead=picStream.read(targetArray,0,targetArray.length))!=-1) {
 				buffer.write(targetArray,0,nRead);
 			}
 			this.array=buffer.toByteArray();
@@ -37,11 +37,11 @@ public class MiniTravelBean implements Bean{
 	}
 
 	public InputStream getImageStream() {
-		return imageStream;
+		return picStream;
 	}
 
 	public void setImageStream(InputStream imageStream) {
-		this.imageStream = imageStream;
+		this.picStream = imageStream;
 	}
 
 	public MiniTravelBean() {}
@@ -51,7 +51,7 @@ public class MiniTravelBean implements Bean{
 		this.id = travel.getIdTravel();
 		this.nameTravel=travel.getNameTravel();
 		if (travel.getImage() != null) {
-			this.imageStream=travel.getImage();
+			this.picStream=travel.getImage();
 		}
 		this.descriptionTravel=travel.getDescriptionTravel();
 		
@@ -68,10 +68,10 @@ public class MiniTravelBean implements Bean{
 		return this.id;
 	}
 	public Image getPathImage() {
-		if(this.imageStream==null)
+		if(this.picStream==null)
 			return null;
 		if(this.pathBackground==null)
-			this.pathBackground=new Image(this.imageStream);
+			this.pathBackground=new Image(this.picStream);
 		return this.pathBackground;
 	}
 }

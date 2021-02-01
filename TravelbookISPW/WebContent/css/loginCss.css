@@ -106,7 +106,7 @@ body{
 	opacity: 0;
 	position: absolute;
 	top: 10em;
-	left:50em;
+	left:42em;
 	align-items: center;
 	background: var(--Dcolor);
 	border-radius: 0px 50px;
@@ -214,4 +214,8 @@ a:active{
     border: none;
     font-family: "Arial";
     color: var(--textColorL);
+}
+.travel-tile{
+	display: flex;
+	padding: 1em;
 }

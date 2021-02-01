@@ -11,10 +11,8 @@
 
 <%	
 	if (request.getParameter("accedi")!=null){
-		System.out.println("ciao");
 		ControllerLogin controller=new ControllerLogin();
 		UserBean logged=controller.signIn(user.getUsername(), user.getPassword());
-		System.out.println(logged.getName());
 		request.getSession().setAttribute("loggedBean",logged);
 %>
 			<jsp:forward page="explore.jsp"/>
@@ -79,14 +77,14 @@
 			}
 			function apriRegistrazione(){
 				$("#login").animate({opacity: '0.1'},"slow");
-				$("#registrazione").animate({opacity: '0.9'},"slow");
+				$("#registrazione").animate({opacity: '1'},"slow");
 			}
 			function closeRegistration(){
 				$("#login").animate({opacity: '1'},"slow");
 				$("#registrazione").animate({opacity: '0'},"slow");
 			}
 			function closeCode(){
-				$("#registrazione").animate({opacity:'0.9'},"slow");
+				$("#registrazione").animate({opacity:'1'},"slow");
 				$("#code").animate({opacity:'0'},"slow");
 			}
 			

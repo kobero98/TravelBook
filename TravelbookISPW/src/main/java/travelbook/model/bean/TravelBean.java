@@ -60,7 +60,7 @@ public class TravelBean extends Observable implements Bean{
 	}
 	public byte[] getArray() {
 		if(this.imageStream==null)
-			return null;
+			return new byte[0];
 		try {
 			ByteArrayOutputStream buffer= new ByteArrayOutputStream();
 			int nRead;
