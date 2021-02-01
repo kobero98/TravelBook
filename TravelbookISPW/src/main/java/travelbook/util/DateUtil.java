@@ -57,6 +57,8 @@ public class DateUtil {
 			return 0;
 	}
 	public boolean isFuture(LocalDate a) {
+		if(a.equals(LocalDate.now()))
+			return false;
 		return this.isAfter(a,LocalDate.now());
 	}
 }
