@@ -6,6 +6,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import exception.DBException;
+import exception.MissingPageException;
+import exception.TriggerAlert;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -487,7 +489,7 @@ public class SearchTravelController {
 		try {
 			l = ControllerSearch.getInstance().search(trip);
 		} catch (DBException e) {
-			e.printStackTrace();
+			new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn");
 		}
 		if(l!=null) for(int i=0;i<l.size();i++) {
 			lista.setItems(FXCollections.observableArrayList(l));
@@ -539,19 +541,11 @@ public class SearchTravelController {
             	descr.setWrappingWidth(sfondo.getPrefWidth()*265/1280);
             	hBox.setAlignment(Pos.BOTTOM_RIGHT);
             	travel.setOnMouseClicked(e->{
-            		FXMLLoader loader=new FXMLLoader();
-            		ViewTravelController controller;
-            		AnchorPane internalPane;
             		try {
             			MenuBar.getInstance().setIdTravel(item.getId());
-            			URL url = new File("src/main/java/travelbook/view/ViewTravel.fxml").toURI().toURL();
-            			loader.setLocation(url);
-            			internalPane=(AnchorPane)loader.load();
-            			mainPane.setCenter(internalPane);
-            			controller=loader.getController();
-            			controller.setMainPane(mainPane,4);
-            		}catch(IOException exc) {
-            			exc.printStackTrace();
+            			MenuBar.getInstance().moveToView(mainPane, 4);
+            		}catch(MissingPageException exc) {
+            			exc.exit();
             		}
             	});
             	vBox.getChildren().add(name);

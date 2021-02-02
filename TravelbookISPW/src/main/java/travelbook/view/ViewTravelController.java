@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exception.DBException;
+import exception.MissingPageException;
 import main.java.travelbook.controller.TravelController;
 import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;
@@ -374,64 +375,51 @@ public class ViewTravelController {
 		case 1:
 			try {
 				MenuBar.getInstance().moveToExplore(mainPane);
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (MissingPageException e) {
+				e.exit();
 			}
 			break;
 		case 2:
 			try {
     		MenuBar.getInstance().moveToProfile(mainPane);
-			}catch(IOException e) {
-    		e.printStackTrace();
+			} catch (MissingPageException e) {
+				e.exit();
 			}
 			break;
 		case 3:
-			try {
-				
 				profileButtonHandler();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 			break;
 		case 4:
 			try {
-				FXMLLoader loader =new FXMLLoader();
-				URL url = new File("src/main/java/travelbook/view/SerchPage.fxml").toURI().toURL();
-				loader.setLocation(url);
-				AnchorPane internalPane=(AnchorPane)loader.load();
-				mainPane.setCenter(internalPane);
-				SearchTravelController controller=loader.getController();
-				controller.setMainPane(mainPane);
-			}catch(IOException e) {
-				e.printStackTrace();
+				MenuBar.getInstance().moveToSearch(mainPane);
+			} catch (MissingPageException e) {
+				e.exit();
 			}
 			break;
 		default:
 			try {
 				MenuBar.getInstance().moveToExplore(mainPane);
-			}catch(IOException e) {
-				e.printStackTrace();
+			} catch (MissingPageException e) {
+				e.exit();
 			}
 		}
 	}
 	@FXML
-	private void profileButtonHandler()throws IOException {
+	private void profileButtonHandler() {
 			MenuBar.getInstance().setIdUser(myTravel.getIdCreator());
-			FXMLLoader loader =new FXMLLoader();
-			URL url = new File("src/main/java/travelbook/view/ProfileUserViewOther.fxml").toURI().toURL();
-			loader.setLocation(url);
-			AnchorPane internalPane=(AnchorPane)loader.load();
-			mainPane.setCenter(internalPane);
-			ProfileOtherController controller=loader.getController();
-			controller.setMainPane(mainPane, Integer.parseInt("1"+goBack), myTravel.getId());
+			try {
+				MenuBar.getInstance().moveToProfileOther(mainPane, Integer.parseInt("1"+goBack), myTravel.getId());
+			} catch (MissingPageException e) {
+				e.exit();
+			}
 			
 	}
 	@FXML
 	private void chatButtonHandler() {
 		try {
 			MenuBar.getInstance().moveToChat(mainPane);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (MissingPageException e) {
+			e.exit();
 		}
 	}
 	@FXML

@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.sql.Date;import java.util.Optional;
 import exception.LoginPageException;
+import exception.MissingPageException;
 import exception.TriggerAlert;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
@@ -313,8 +314,8 @@ public class LoginViewController {
 					MenuBar.getInstance().setUser(user);
 			        MenuBar.getInstance().moveToExplore(this.mainPane);
 
-			}catch(IOException e) {
-				e.printStackTrace();
+			}catch(MissingPageException e) {
+				e.exit();
 			}
 
 			}

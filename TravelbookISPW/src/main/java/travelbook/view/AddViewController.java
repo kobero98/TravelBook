@@ -26,6 +26,7 @@ import javafx.application.Platform;
 import main.java.travelbook.model.bean.TravelBean;
 import javafx.scene.input.MouseEvent;
 import main.java.travelbook.controller.AddTravel;
+import exception.MissingPageException;
 import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.util.DateUtil;
@@ -711,8 +712,8 @@ public class AddViewController implements Observer{
 			 if(exit) {
 	    	try {
 	    	MenuBar.getInstance().moveToProfile(mainPane);
-	    	}catch(IOException e) {
-	    		e.printStackTrace();
+	    	}catch(MissingPageException e) {
+	    		e.exit();
 	    	}
 			 }
 	    }
@@ -725,8 +726,8 @@ public class AddViewController implements Observer{
 	    	if(exit) {
 	    	try {
 	    		MenuBar.getInstance().moveToExplore(mainPane);
-	    	}catch(IOException e) {
-	    		e.printStackTrace();
+	    	}catch(MissingPageException e) {
+	    		e.exit();
 	    	}}
 	    }
 	    @FXML
@@ -738,8 +739,8 @@ public class AddViewController implements Observer{
 	    	if(exit) {
 	    	try {
 	    		MenuBar.getInstance().moveToChat(mainPane);
-	    	}catch(IOException e) {
-	    		e.printStackTrace();
+	    	}catch(MissingPageException e) {
+	    		e.exit();
 	    	}}
 	    }
 	    @FXML

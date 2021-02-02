@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import exception.DBException;
+import exception.MissingPageException;
 import exception.TriggerAlert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -174,13 +175,20 @@ public class ProfileViewController implements Observer{
             	edit.setPrefWidth(mainAnchor.getPrefWidth()*35/1280);
             	edit.setPrefHeight(mainAnchor.getPrefHeight()*35/625);
             	edit.getStyleClass().add("edit");
-            	travel.setOnMouseClicked(e->moveToView(item1.getId()));
+            	travel.setOnMouseClicked(e->{
+					try {
+						MenuBar.getInstance().setIdTravel(item1.getId());
+						MenuBar.getInstance().moveToView(mainPane,2);
+					} catch (MissingPageException e1) {
+						e1.exit();
+					}
+				});
             	edit.setOnMouseClicked(e->{
             		try {
             			MenuBar.getInstance().setIdTravel(item1.getId());
             			MenuBar.getInstance().moveToAddTravel(mainPane); //aggiungere id viaggio dopo aver sistemato add
-            		}catch(IOException exc) {
-            			exc.printStackTrace();
+            		}catch(MissingPageException exc) {
+            			exc.exit();
             		}
             	});
             	hBox.getChildren().add(edit);
@@ -208,23 +216,7 @@ public class ProfileViewController implements Observer{
 		}
 	}
 	
-	private void moveToView(int id) {
-   		FXMLLoader loader=new FXMLLoader();
-		
-		ViewTravelController controller;
-		AnchorPane internalPane;
-		try {
-			URL url = new File("src/main/java/travelbook/view/ViewTravel.fxml").toURI().toURL();
-			MenuBar.getInstance().setIdTravel(id);
-			loader.setLocation(url);
-			internalPane=(AnchorPane)loader.load();
-			mainPane.setCenter(internalPane);
-			controller=loader.getController();
-			controller.setMainPane(mainPane,2);
-		}catch(IOException exc) {
-			exc.printStackTrace();
-		}
-	}
+
 	public void setMainPane(BorderPane main) {
 
 		this.mainPane=main;
@@ -455,8 +447,13 @@ public class ProfileViewController implements Observer{
 				new SetImage(contactPic, myTravel.getPathImage(), false);
 				contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
 				contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
-            	hBox.setOnMouseClicked(e->
-            		moveToView(myItem.getTravelShared()));
+            	hBox.setOnMouseClicked(e->{
+            	try {
+            		MenuBar.getInstance().setIdTravel(myItem.getTravelShared());
+					MenuBar.getInstance().moveToView(mainPane,2);
+				} catch (MissingPageException e1) {
+					e1.exit();
+				}});
             	vBox.getChildren().add(title);
             	vBox.getChildren().add(creator);
             	hBox.getChildren().add(contactPic);
@@ -545,17 +542,11 @@ public class ProfileViewController implements Observer{
 					hBox.getChildren().add(name);
 					hBox.setOnMouseClicked(e1->{
 						MenuBar.getInstance().setIdUser(myItem.getId());
-						FXMLLoader loader =new FXMLLoader();
 						try {
-							URL url1 = new File("src/main/java/travelbook/view/ProfileUserViewOther.fxml").toURI().toURL();
-						loader.setLocation(url1);
-						AnchorPane internalPane=(AnchorPane)loader.load();
-						mainPane.setCenter(internalPane);
-						ProfileOtherController controller=loader.getController();
-						controller.setMainPane(mainPane, 3, 0);
-					} catch (IOException e2) {
-						e2.printStackTrace();
-					}
+							MenuBar.getInstance().moveToProfileOther(mainPane, 3, 0);
+						} catch (MissingPageException e) {
+							e.exit();
+						}
 					});
 					setGraphic(hBox);
 				
@@ -579,8 +570,14 @@ public class ProfileViewController implements Observer{
 					name.getStyleClass().add(TEXT_CSS);
 					hBox.getChildren().add(contactPic);
 					hBox.getChildren().add(name);
-					hBox.setOnMouseClicked(e1->
-						moveToView(myItem.getId()));
+					hBox.setOnMouseClicked(e1->{
+					try {
+						MenuBar.getInstance().setIdTravel(myItem.getId());
+						MenuBar.getInstance().moveToView(mainPane,2);
+					} catch (MissingPageException e) {
+						e.exit();
+					}
+					});
 					setGraphic(hBox);
 				
             }
@@ -595,45 +592,34 @@ public class ProfileViewController implements Observer{
 	@FXML
 	private void logOut() {
 		MenuBar.getInstance().initialize();
-		FXMLLoader loader=new FXMLLoader();
 		try {
-			URL url = new File("src/main/java/travelbook/view/LoginView.fxml").toURI().toURL();
-			loader.setLocation(url);
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-		}
-		LoginViewController controller = new LoginViewController();
-		try {
-			AnchorPane loginPane=(AnchorPane)loader.load();
-			mainPane.setCenter(loginPane);
-			controller=loader.getController();
-			controller.setMain(mainPane);
-		}catch(IOException e) {
-			e.printStackTrace();
+			MenuBar.getInstance().moveToLogin(mainPane);
+		} catch (MissingPageException e) {
+			e.exit();
 		}
 	}
 	@FXML
     private void chatHandler(){
     	try {
     	MenuBar.getInstance().moveToChat(mainPane);
-    	}catch(IOException e) {
-    		e.printStackTrace();
-    	}
+    	} catch (MissingPageException e) {
+			e.exit();
+		}
     }
     @FXML
     private void addHandler() {
     	try {
     		MenuBar.getInstance().moveToAdd(mainPane);
-    	}catch(IOException e) {
-    		e.printStackTrace();
-    	}
+    	} catch (MissingPageException e) {
+			e.exit();
+		}
     }
     @FXML
     private void exploreHandler() {
     	try {
     		MenuBar.getInstance().moveToExplore(mainPane);
-    	}catch(IOException e) {
-    		e.printStackTrace();
-    	}
+    	} catch (MissingPageException e) {
+			e.exit();
+		}
     }
 }

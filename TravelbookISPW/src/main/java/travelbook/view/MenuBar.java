@@ -2,10 +2,13 @@ package main.java.travelbook.view;
 import javafx.fxml.FXMLLoader;
 import main.java.travelbook.util.Chat;
 import java.util.List;
+
+import exception.MissingPageException;
 import main.java.travelbook.model.bean.UserBean;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javafx.scene.layout.BorderPane;
@@ -77,52 +80,130 @@ public class MenuBar extends Observable implements Observer{
 	}
 	
 	AnchorPane internalPane;
-	public void moveToExplore(BorderPane mainPane)throws IOException {
+	public void moveToExplore(BorderPane mainPane) throws MissingPageException{
 			loader=new FXMLLoader();
-			URL url = new File("src/main/java/travelbook/view/ExplorePage.fxml").toURI().toURL();
+			URL url;
+			try {
+				url = new File("src/main/java/travelbook/view/ExplorePage.fxml").toURI().toURL();
+			
+				loader.setLocation(url);
+				internalPane=(AnchorPane)loader.load();
+				mainPane.setCenter(internalPane);
+				ExploreViewController controller=loader.getController();
+				controller.setMainPane(mainPane);
+			} catch (IOException e) {
+				throw new MissingPageException();
+			}
+	}
+	public void moveToProfile(BorderPane mainPane) throws MissingPageException{
+		loader=new FXMLLoader();
+		URL url;
+		try {
+			url = new File("src/main/java/travelbook/view/ProfileUserView.fxml").toURI().toURL();
+		
 			loader.setLocation(url);
 			internalPane=(AnchorPane)loader.load();
 			mainPane.setCenter(internalPane);
-			ExploreViewController controller=loader.getController();
+			ProfileViewController controller=loader.getController();
 			controller.setMainPane(mainPane);
+		} catch (IOException e) {
+			throw new MissingPageException();
+		}
 	}
-	public void moveToProfile(BorderPane mainPane)throws IOException{
+	public void moveToChat(BorderPane mainPane) throws MissingPageException{
 		loader=new FXMLLoader();
-		URL url = new File("src/main/java/travelbook/view/ProfileUserView.fxml").toURI().toURL();
-		loader.setLocation(url);
-		internalPane=(AnchorPane)loader.load();
-		mainPane.setCenter(internalPane);
-		ProfileViewController controller=loader.getController();
-		controller.setMainPane(mainPane);
-	}
-	public void moveToChat(BorderPane mainPane)throws IOException{
-		loader=new FXMLLoader();
+		try {
 		URL url = new File("src/main/java/travelbook/view/ChatView.fxml").toURI().toURL();
-		loader.setLocation(url);
-		internalPane=(AnchorPane)loader.load();
-		mainPane.setCenter(internalPane);
-		ChatViewController controller=loader.getController();
-		controller.setMainPane(mainPane);
+			loader.setLocation(url);
+			internalPane=(AnchorPane)loader.load();
+			mainPane.setCenter(internalPane);
+			ChatViewController controller=loader.getController();
+			controller.setMainPane(mainPane);
+		} catch (IOException e) {
+			throw new MissingPageException();
+		}
 	}
-	public void moveToAdd(BorderPane mainPane)throws IOException{
+	public void moveToAdd(BorderPane mainPane)throws MissingPageException{
 		loader=new FXMLLoader();
-		URL url = new File("src/main/java/travelbook/view/AddView.fxml").toURI().toURL();
-		loader.setLocation(url);
-		internalPane=(AnchorPane)loader.load();
-		mainPane.setCenter(internalPane);
-		AddViewController controller=loader.getController();
-		controller.setMain(mainPane);
+		try {	
+			URL url = new File("src/main/java/travelbook/view/AddView.fxml").toURI().toURL();
+			loader.setLocation(url);
+			internalPane=(AnchorPane)loader.load();
+			mainPane.setCenter(internalPane);
+			AddViewController controller=loader.getController();
+			controller.setMain(mainPane);
+		} catch (IOException e) {
+			throw new MissingPageException();
+		}
 	}
-	public void moveToAddTravel(BorderPane mainPane) throws IOException{
+	public void moveToAddTravel(BorderPane mainPane) throws MissingPageException{
 		loader=new FXMLLoader();
-		URL url = new File("src/main/java/travelbook/view/AddView.fxml").toURI().toURL();
-		loader.setLocation(url);
-		internalPane=(AnchorPane)loader.load();
-		mainPane.setCenter(internalPane);
-		AddViewController controller=loader.getController();
-		controller.setMain(mainPane);
-		controller.modfiyTravelMode(travelId);
+		try {
+			URL url = new File("src/main/java/travelbook/view/AddView.fxml").toURI().toURL();
+			loader.setLocation(url);
+			internalPane=(AnchorPane)loader.load();
+			mainPane.setCenter(internalPane);
+			AddViewController controller=loader.getController();
+			controller.setMain(mainPane);
+			controller.modfiyTravelMode(travelId);
+		} catch (IOException e) {
+			throw new MissingPageException();
+		}	
 	}
+	public void moveToProfileOther(BorderPane mainPane, int back, int travelId)throws MissingPageException{
+		loader=new FXMLLoader();
+		try {	
+			URL url = new File("src/main/java/travelbook/view/ProfileUserViewOther.fxml").toURI().toURL();
+			loader.setLocation(url);
+			internalPane=(AnchorPane)loader.load();
+			mainPane.setCenter(internalPane);
+			ProfileOtherController controller=loader.getController();
+			controller.setMainPane(mainPane,back,travelId);
+		} catch (IOException e) {
+			throw new MissingPageException();
+		}
+	}
+	public void moveToView(BorderPane mainPane, int back)throws MissingPageException{
+		loader=new FXMLLoader();
+		try {	
+			URL url = new File("src/main/java/travelbook/view/ViewTravel.fxml").toURI().toURL();
+			loader.setLocation(url);
+			internalPane=(AnchorPane)loader.load();
+			mainPane.setCenter(internalPane);
+			ViewTravelController controller=loader.getController();
+			controller.setMainPane(mainPane,back);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new MissingPageException();
+		}
+	}
+	public void moveToSearch(BorderPane mainPane)throws MissingPageException{
+		loader=new FXMLLoader();
+		try {	
+			URL url = new File("src/main/java/travelbook/view/SerchPage.fxml").toURI().toURL();
+			loader.setLocation(url);
+			internalPane=(AnchorPane)loader.load();
+			mainPane.setCenter(internalPane);
+			SearchTravelController controller=loader.getController();
+			controller.setMainPane(mainPane);
+		} catch (IOException e) {
+			throw new MissingPageException();
+		}
+	}
+	public void moveToLogin(BorderPane mainPane)throws MissingPageException{
+		loader=new FXMLLoader();
+		try {	
+			URL url = new File("src/main/java/travelbook/view/LoginView.fxml").toURI().toURL();
+			loader.setLocation(url);
+			internalPane=(AnchorPane)loader.load();
+			mainPane.setCenter(internalPane);
+			LoginViewController controller=loader.getController();
+			controller.setMain(mainPane);
+		} catch (IOException e) {
+			throw new MissingPageException();
+		}
+	}
+	
 	public static MenuBar getInstance() {
 		if(istance==null) {
 			istance=new MenuBar();

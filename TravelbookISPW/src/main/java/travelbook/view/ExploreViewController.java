@@ -3,6 +3,9 @@ import main.java.travelbook.view.animation.SlideImageAnimationHR;
 import main.java.travelbook.model.bean.TravelBean;
 import javafx.scene.input.KeyCode;
 import java.util.List;
+
+import exception.MissingPageException;
+
 import java.util.ArrayList;
 import javafx.scene.input.KeyEvent;
 import main.java.travelbook.view.animation.SlideImageAnimationHL;
@@ -262,29 +265,29 @@ public class ExploreViewController implements Observer{
 	    private void chatHandler() {
 	    	try {
 	    		MenuBar.getInstance().moveToChat(mainPane);
-	    	}catch(IOException e) {
-	    		e.printStackTrace();
+	    	}catch(MissingPageException e) {
+	    		e.exit();
 	    	}
 	   }
 		@FXML
 	    private void profileHandler(){
 	    	try {
 	    	MenuBar.getInstance().moveToProfile(mainPane);
-	    	}catch(IOException e) {
-	    		e.printStackTrace();
+	    	}catch(MissingPageException e) {
+	    		e.exit();
 	    	}
 	    }
     @FXML
     private void addHandler() {
     	try {
     		MenuBar.getInstance().moveToAdd(mainPane);
-    	}catch(IOException e) {
-    		e.printStackTrace();
+    	}catch(MissingPageException e) {
+    		e.exit();
     	}
     }
  
 	@FXML
-	private void advanceSearchHandler() {
+	private void advanceSearchHandler() {//credo non venga mai usato e sia da togliere
 		//Redirect to search view but now simply go to stdout
 	}
 	@FXML
@@ -332,14 +335,12 @@ public class ExploreViewController implements Observer{
 		);
 	}
 	@FXML
-	public void moveToSearch()throws IOException {
-		FXMLLoader loader=new FXMLLoader();
-		URL url = new File("src/main/java/travelbook/view/SerchPage.fxml").toURI().toURL();
-		loader.setLocation(url);
-		AnchorPane internalPane=(AnchorPane)loader.load();
-		mainPane.setCenter(internalPane);
-		SearchTravelController controller=loader.getController();
-		controller.setMainPane(mainPane);
+	public void moveToSearch() {
+		try {
+			MenuBar.getInstance().moveToSearch(mainPane);
+		} catch (MissingPageException e) {
+			e.exit();
+		}
 	}
 	
 	

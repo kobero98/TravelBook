@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.List;
 
 import exception.DBException;
+import exception.MissingPageException;
 import javafx.scene.input.KeyCode;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -311,24 +312,24 @@ public class ChatViewController {
     private void profileHandler(){
     	try {
     	MenuBar.getInstance().moveToProfile(mainPane);
-    	}catch(IOException e) {
-    		e.printStackTrace();
+    	}catch(MissingPageException e) {
+    		e.exit();
     	}
     }
     @FXML
     private void exploreHandler() {
     	try {
     		MenuBar.getInstance().moveToExplore(mainPane);
-    	}catch(IOException e) {
-    		e.printStackTrace();
+    	}catch(MissingPageException e) {
+    		e.exit();
     	}
     }
     @FXML
     private void addHandler() {
     	try {
     		MenuBar.getInstance().moveToAdd(mainPane);
-    	}catch(IOException e) {
-    		e.printStackTrace();
+    	}catch(MissingPageException e) {
+    		e.exit();
     	}
     }
 

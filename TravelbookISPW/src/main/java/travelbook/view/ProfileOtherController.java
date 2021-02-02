@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exception.DBException;
+import exception.MissingPageException;
 import exception.TriggerAlert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -158,16 +159,9 @@ public class ProfileOtherController {
             				fav.getStyleClass().add(CSS);
             	travel.setOnMouseClicked(e->{
             			try {
-            				URL url = new File(viewTravel).toURI().toURL();
-            				MenuBar.getInstance().setIdTravel(item1.getId());
-            				FXMLLoader loader=new FXMLLoader();
-            				loader.setLocation(url);
-            				internalPane=(AnchorPane)loader.load();
-            				mainPane.setCenter(internalPane);
-            				controller=loader.getController();
-            				controller.setMainPane(mainPane,3);
-            		}catch(IOException exc) {
-            			exc.printStackTrace();
+            				MenuBar.getInstance().moveToView(mainPane, 3);
+            		}catch(MissingPageException exc) {
+            			exc.exit();
             		}
             	});
             	fav.setOnMouseClicked(e->addToFav(item1,fav));
@@ -320,7 +314,6 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 				fav = FXCollections.observableList(myController.getFollowS(user.getFollower()));
 				show.setItems(fav);
 			} catch (DBException e) {
-				e.printStackTrace();
 				errorMsg.setVisible(true);
 			}
 			
@@ -338,7 +331,6 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 				fav = FXCollections.observableList(myController.getFollowS(user.getFollowing()));
 				show.setItems(fav);
 			} catch (DBException e) {
-				e.printStackTrace();
 				errorMsg.setVisible(true);
 			}
 			
@@ -350,8 +342,8 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		if(follow.getStyleClass().contains(CSS)) {
 			follow.getStyleClass().remove(CSS);
 			
-			user.getFollower().remove(me.getId());
-			me.getFollowing().remove(user.getId());
+			user.getFollower().remove((Integer)me.getId());
+			me.getFollowing().remove((Integer)user.getId());
 		}
 		else {
 			follow.getStyleClass().add(CSS);
@@ -379,46 +371,40 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		MenuBar.getInstance().setIdTravel(travelId);
 		switch (goBack){
 		case 11:	
-			moveToView(1);
+			try {
+				MenuBar.getInstance().moveToView(mainPane, 1);
+			} catch (MissingPageException e) {
+				e.exit();
+			}
 			break;
 		case 14:
-			moveToView(4);
+			try {
+				MenuBar.getInstance().moveToView(mainPane, 4);
+			} catch (MissingPageException e) {
+				e.exit();
+			}
 			break;
 		case 2:
 			try {
 				MenuBar.getInstance().moveToChat(mainPane);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			}catch(MissingPageException e) {
+	    		e.exit();
+	    	}
 			break;
 		case 3:
 			try {
 				MenuBar.getInstance().moveToProfile(mainPane);
-			}catch(IOException e) {
-				e.printStackTrace();
-			}
+			}catch(MissingPageException e) {
+	    		e.exit();
+	    	}
 			break;
 		default:
 			try {
 				MenuBar.getInstance().moveToExplore(mainPane);
-			} catch(IOException e) {
-				e.printStackTrace();
-			}
+			}catch(MissingPageException e) {
+	    		e.exit();
+	    	}
 		}
 	}
-	private void moveToView(int i) {
-		try {
-			FXMLLoader loader=new FXMLLoader();
-			URL url = new File(viewTravel).toURI().toURL();
-			
-			loader.setLocation(url);
-		
-			internalPane=(AnchorPane)loader.load();
-			mainPane.setCenter(internalPane);
-			controller=loader.getController();
-				controller.setMainPane(mainPane,i);
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
+
 }
