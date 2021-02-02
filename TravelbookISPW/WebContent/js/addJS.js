@@ -10,13 +10,17 @@ class StepJS{
 					this.precision=precision;
 					this.photo=new Array();
 				}
-			
+				isComplete(){
+					return (this.descriptionStep!=undefined && this.place!=undefined && this.precision!=undefined);
+				}
 			}
+var travelName;
+var travelDescription;
 var startDate;
 var endDate;
 var dayNumber=0;
 var arrayStep=new Array();
-var actualDay;
+var actualDay=0;
 var actualStep;
 var background;
 function startDateListener(){
@@ -45,6 +49,8 @@ function setStep(evt){
 	var inf=document.getElementById("step-inf");
 	var divFoto=document.getElementById("photo-grid");
 	var step=arrayStep[actualDay][actualStep];
+	var place=document.getElementById("searchPlace");
+	place.value=step.place;
 	desc.value=step.descriptionStep;
 	inf.value=step.precision;
 	while(divFoto.lastChild)
@@ -68,6 +74,7 @@ function precisionListener(){
 	var text=prec.value;
 	arrayStep[actualDay][actualStep].precision=text;
 }
+
 function fileLoaded(frEvnt){
 		var sFBody = frEvnt.target.result;
 		var sBodyBase64 = btoa(sFBody);
@@ -97,7 +104,7 @@ function fileLoadedStep(frEvnt){
 	img.setAttribute("src","data:image/gif;base64,"+sBodyBase64);
 	img.setAttribute("style","width: 10em; height: 10em;");
 	div.appendChild(img);
-	arrayStep[actualDay][actualStep].photo[arrayStep[actualDay][actualStep].photo.length-1]=sBodyBase64;
+	arrayStep[actualDay][actualStep].photo[arrayStep[actualDay][actualStep].photo.length]=sBodyBase64;
 }
 function loadMultipleImage(){
 	
@@ -110,8 +117,9 @@ function loadMultipleImage(){
 	}
 }
 function addButton(){
-	arrayStep[actualDay][arrayStep[actualDay].length]=new StepJS();
+	arrayStep[actualDay][arrayStep[actualDay].length]=new StepJS(actualDay,arrayStep[actualDay].length);
 	var btn=document.createElement("input");
+	btn.setAttribute("class","stepButton");
 	btn.setAttribute("type","button");
 	btn.setAttribute("onclick","setStep(event)");
 	btn.setAttribute("id",actualDay+";"+arrayStep[actualDay].length);
@@ -119,9 +127,21 @@ function addButton(){
 	div.appendChild(btn);
 }
 function removeButton(){
-	arrayStep[actualDay][actualStep]=undefined;
+	console.log(actualDay,actualStep);
+		/*	for(j=i;j<arrayStep[actualDay].length-1;j++){
+				prec=arrayStep[actualDay][j+1];
+				arrayStep[actualDay][j+1]=arrayStep[actualDay][j];
+				arrayStep[actualDay][j]=prec;
+			}*/
+	arrayStep[actualDay].splice(actualStep,1);
+	var j;
+	for(j=actualStep;j<arrayStep[actualDay].length;j++){
+		var button=document.getElementById(actualDay+";"+(j+2));
+		if(button!=undefined)
+			button.id=actualDay+";"+j;
+	}
 	var div=document.getElementById("steps");
-	var btn=document.getElementById(actualDay+";"+actualStep);
+	var btn=document.getElementById(actualDay+";"+(actualStep+1));
 	div.removeChild(btn);
 }
 function changeDay(){
@@ -133,12 +153,16 @@ function changeDay(){
 	var i;
 	for(i=0;i<arrayStep[actualDay].length;i++){
 		var btn=document.createElement("input");
+		btn.setAttribute("class","stepButton");
 		btn.setAttribute("type","button");
 		btn.setAttribute("onclick","setStep(event)");
-		btn.setAttribute("id",actualDay+";"+arrayStep[actualDay].length);
+		btn.setAttribute("id",actualDay+";"+(i+1));
 		var div=document.getElementById("steps");
 		div.appendChild(btn);
 	}
+	btn=document.getElementById(actualDay+";"+(1));
+	if(btn!=null)
+		btn.click();
 }
 function changeDayNumber(num){
 	console.log(num);
@@ -156,7 +180,8 @@ function changeDayNumber(num){
 			addButton();
 		}
 		dayNumber=num;
-		select.value=1;
+		select.value=0;
+		changeDay();
 	}
 	else{
 		arrayStep.length=num;
@@ -179,4 +204,99 @@ function compareDate(start,end){
 		return true;
 		}
 	return false;
+}
+function travelNameListener(){
+	document.getElementById("travelName").className.replace("errorElements","");
+	travelName=document.getElementById("travelName").value;
+}
+function travelDescriptionListener(){
+	travelDescription=document.getElementById("descr").value;
+}
+function onlyNumber(string){
+	var i;
+	if (! /^[0-9]+$/.test(string)) {
+    return false;
+}
+return true;
+}
+function post(){
+	var cost=document.getElementById("costTravel").value;
+	var requestJSON;
+	var elements=new Array();
+	var actual=0;
+	var types=new Array();
+	var checked= $("input[type=checkbox]:checked");
+	var i;
+	for(i=0;i<checked.length;i++){
+		types[i]=checked[i].value;
+	}
+	if(types.length==0){
+		elements[actual]=document.getElementById("check-box");
+		actual++;
+	}
+	if(travelName==undefined || travelName==""){
+		elements[actual]=document.getElementById("travelName");
+		actual++;
+	}
+	if(travelDescription==undefined || travelDescription==""){
+		elements[actual]=document.getElementById("descr");
+		actual++;
+	}
+	if(background==undefined){
+		elements[actual]=document.getElementById("presentation");
+		actual++;
+	}
+	if(startDate==undefined){
+		elements[actual]=document.getElementById("s-date");
+		actual++;
+	}
+	if(endDate==undefined){
+		elements[actual]=document.getElementById("e-date");
+		actual++;
+	}
+	if(cost==undefined || !onlyNumber(cost)){
+		elements[actual]=document.getElementById("costTravel");
+		actual++;
+	}
+	var j;
+	var actualElem=0;
+	var steps=new Array();
+	var stepJSON;
+	var step;
+	for(i=0;i<arrayStep.length;i++){
+		for(j=0;j<arrayStep[i].length;j++){
+			step=arrayStep[i][j];
+			if(step.isComplete()){
+				stepJSON={"groupDay": step.groupDay, "numberInDay": step.numberInDay, "description": step.descriptionStep, "precision": step.precision,"photo":step.photo,"place": step.place}
+				steps[actualElem]=stepJSON;
+				actualElem++;
+			}
+			else{
+				alert("STEP INCOMPLETI IMPOSSIBILE PROCEDERE");
+				return;
+			}
+		}
+	}
+	if(elements.length==0){
+		requestJSON={"travelName":travelName,"travelDescription":travelDescription,"tipi":types,"foto":background,"dateS":startDate,"dateE":endDate,"steps":steps}
+		jQuery.ajax({
+			url:"add.jsp",
+			type:"POST",
+			data:{"POSTTRAVEL":JSON.stringify(requestJSON)},
+			error:function(xhr,ajaxOptions,thrownError){
+						console.log(xhr.responseText);
+						alert(xhr.status);
+				         alert(thrownError);
+					},
+			success:function(data){
+				//STOP ALLA PROGRESS BAR
+			}
+		});
+	}
+	else{
+		//DAI BORDO ROSSO A TUTTI GLI ELEMENTS
+		for(i=0;i<elements.length;i++){
+			elements[i].className+=" errorElements";
+		}
+	}
 }

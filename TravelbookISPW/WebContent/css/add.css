@@ -14,7 +14,12 @@
     font: normal normal 1em "Arial";
 	color: var(--textColorL);
 }
-
+.stepButton{
+	/*classe css degli step button*/
+}
+.errorElements{
+	border: 0.2em solid red;
+}
 .add-text{
     width:14.9375em;
     height: 2.125em;

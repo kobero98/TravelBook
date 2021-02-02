@@ -5,7 +5,9 @@
 <%@page language="java" %>
 <%@page import="java.util.*" %>
 <%@ page import="main.java.travelbook.controller.*" %>
+<%@ page import="main.java.travelbook.util.PlaceAdapter" %>
 <%
+	if(request.getParameter("search")!=null){
     try
     {
     	String query = (String) request.getParameter("search");
@@ -22,5 +24,22 @@
     	System.out.println(e1.getMessage());
       out.println(e1);
       }
+	}
+	if(request.getParameter("place")!=null){
+		try{
+		String query=(String) request.getParameter("place");
+		PredictionController controller=new PredictionController();
+		List<JSONObject> result=controller.getPredictions(query);
+		JSONObject obj=new JSONObject();
+		for(int i=0;i<result.size();i++){
+			PlaceAdapter place=new PlaceAdapter(result.get(i));
+			obj.put("place"+i,place.toString());
+		}
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
+	}catch(MapboxException e){
+		throw new MapboxException(e.getMessage());
+	}
+	}
 
 %>

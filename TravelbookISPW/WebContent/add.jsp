@@ -3,15 +3,122 @@
 <%@ page import="main.java.travelbook.model.bean.TravelBean" %>
 <%@ page import="main.java.travelbook.model.bean.UserBean" %>
 <%@ page import="main.java.travelbook.controller.AddTravel" %>
+<%@ page import="org.json.simple.*" %>
+<%@ page import="org.json.simple.parser.*" %>
+<%@ page import="main.java.travelbook.model.bean.StepBean" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Base64" %>
+<%@ page import="java.io.InputStream" %>
+<%@ page import="java.io.ByteArrayOutputStream" %>
+<%
+	UserBean loggedUser=(UserBean)request.getSession().getAttribute("loggedBean");
+	if(request.getParameter("POSTTRAVEL")!=null){
+		System.out.println(request.getParameterMap().keySet());
+		JSONParser parser=new JSONParser();
+		JSONObject obj=(JSONObject)parser.parse(request.getParameter("POSTTRAVEL"));
+		System.out.println(obj);
+		TravelBean travel=new TravelBean();
+		travel.setNameTravel(obj.get("travelName").toString());
+		travel.setDescriptionTravel(obj.get("travelDescription").toString());
+		travel.setStartTravelDate(obj.get("dateS").toString());
+		travel.setEndTravelDate(obj.get("dateE").toString());
+		List<String> types=new ArrayList<>();
+		JSONArray array=(JSONArray)obj.get("tipi");
+		for(int i=0;i<array.size();i++){
+			types.add(array.get(i).toString());
+		}
+		String s1=(String)obj.get("foto");
+		byte[] bytesB641=s1.getBytes();
+		byte[] bytes1=Base64.getDecoder().decode(bytesB641);
+		travel.setArray(bytes1);
+		travel.setType(types);
+		travel.setListStep(new ArrayList<>());
+		StepBean stepBean;
+		JSONArray steps=(JSONArray)obj.get("steps");
+		for(int i=0;i<steps.size();i++){
+			stepBean=new StepBean();
+			JSONObject step=(JSONObject)steps.get(i);
+			stepBean.setNumberInDay(Integer.valueOf(step.get("numberInDay").toString()));
+			stepBean.setGroupDay(Integer.valueOf(step.get("groupDay").toString()));
+			stepBean.setPrecisionInformation(step.get("precision").toString());
+			stepBean.setDescriptionStep(step.get("description").toString());
+			stepBean.setPlace(step.get("place").toString());
+			stepBean.setBytes(new ArrayList<>());
+			travel.getListStep().add(stepBean);
+			JSONArray images=(JSONArray)step.get("photo");
+			for(int j=0;j<images.size();j++){
+				String s=(String)images.get(j);
+				byte[] bytesB64=s.getBytes();
+				byte[] bytes=Base64.getDecoder().decode(bytesB64);
+				ByteArrayOutputStream is=new ByteArrayOutputStream();
+				is.writeBytes(bytes);
+				stepBean.getBytes().add(is);
+			}
+		}
+		AddTravel.getIstance().saveTravel(travel,loggedUser.getId());
+	}
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="ISO-8859-1">
     <link rel="stylesheet" href="css/loginCss.css">
     <link rel="stylesheet" href="css/add.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
     <script src="js/addJS.js"></script>
+    <script src="js/jquery.min.js"></script> 
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>  
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<title>Travelbook</title>
-	
+<script>
+$(function()
+        {
+         $('#searchPlace').autocomplete(
+         {
+        	 position:{ my: "left top", at: "left bottom", collision: "none" },
+       	 minlength:1,
+         source:function(request,response)
+         {
+        
+         //Fetch data
+         $.ajax({
+             url:"autocomplete.jsp",
+             method:"get",
+             dataType:"json",
+             data:{place:request.term},
+             success:function(data)
+             { 
+            	 console.log(data);
+            	 response(data);
+             },
+             
+               open: function() {
+                 $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+               },
+               close: function() {
+                 $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+               }
+         });
+         },
+        	 select: function( event, ui ) {
+                 log( ui.item ?
+                    ui.item.value:
+                   "nothing");
+               }
+         });   
+        }); 
+        function log(message){
+        	if(message.localeCompare("nothing")==0){
+        		 $( this ).value="";
+        	}
+        	else{
+        		arrayStep[actualDay][actualStep].place=message;
+        	}
+        }
+
+</script>
 
 </head>
 <body>
@@ -40,7 +147,7 @@
                     <p class="text">
                         Give us a name for your travel:
                     </p>
-                    <input type="text" name="name" class="add-text">
+                    <input type="text" name="name" class="add-text" id="travelName" onchange="travelNameListener()">
                 </div>
                 <div class="line">
                     <p class="text">
@@ -53,13 +160,13 @@
                     <p class="text">
                         Add a description:
                     </p>
-                    <textarea class="add-text area" id="descr" wrap="hard"></textarea>
+                    <textarea class="add-text area" id="descr" wrap="hard" onchange="travelDescriptionListener()"></textarea>
                 </div>
                 <div class="line">    
                     <p class="text">
                         What about the cost?
                     </p>
-                    <input type="text" name="cost" class="add-text">
+                    <input id="costTravel" type="text" name="cost" class="add-text">
                 </div> 
                 <div class="line">   
                     <p class="text">
@@ -74,7 +181,7 @@
                     What type of trip?
                 </p>
                 <div class="line">
-                    <div class="check-box">
+                    <div class="check-box" id="check-box">
                         <input type="checkbox" id="check1" name="check1" value="Romantic Trip" class="check">
                         <label for="check1" class="text"> Romantic Trip</label>
                         <input type="checkbox" id="check2" name="check2" value="Family Holiday" class="check">
@@ -91,8 +198,8 @@
                         <label for="check7" class="text"> Relaxing Holiday</label><br>
                     </div>
                     <div class="submit">    
-                        <input type="submit" name="save" class="add-button" value="Save as draft">  
-                        <input type="submit" name="post" class="add-button" value="All done! Post"> 
+                        <input type="button" name="saveButton" class="add-button" value="Save as draft">  
+                        <input type="button" name="postButton" class="add-button" value="All done! Post" onclick="post()"> 
                     </div>    
                 </div>                              
             </form>
@@ -114,7 +221,9 @@
                     <p class="text">
                         Select your stops:
                     </p>
-                    <input type="text" name="searchPlace" id="searchPlace"/> 
+                    <div>
+                    <input type="text" name="searchPlace" id="searchPlace" class="ui-widget" /> 
+                    </div>
                     <a href="map.jsp" class="vom">View on maps</a>
 
                 </div>
@@ -141,7 +250,7 @@
                     <p class="text">
                         Upload some photos:
                     </p>
-                    <input type="file" name="img-choose" id="img-choose" class="add-button"  accept="image/jpg, image/png" onchange="loadMultipleImage()">
+                    <input type="file" name="img-choose" id="img-choose" class="add-button"  accept="image/jpg, image/png" onchange="loadMultipleImage()" multiple>
                     <progress>0%</progress>
                 </div>
                 <div class="photo-grid" id="photo-grid">
