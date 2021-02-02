@@ -167,7 +167,8 @@ function changeDay(){
 function changeDayNumber(num){
 	console.log(num);
 	if(num>=dayNumber){
-		for(x=dayNumber;x<num;x++){
+		var x;
+		for(x=dayNumber;x<num;x++){     //secondo sc questo è un ciclo infinito, a me non pare
 			arrayStep[x]=new Array();
 			actualDay=x;
 			var choice=document.createElement("option");
@@ -213,7 +214,7 @@ function travelDescriptionListener(){
 	travelDescription=document.getElementById("descr").value;
 }
 function onlyNumber(string){
-	var i;
+	
 	if (! /^[0-9]+$/.test(string)) {
     return false;
 }

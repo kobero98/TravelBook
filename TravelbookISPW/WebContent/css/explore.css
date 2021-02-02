@@ -29,6 +29,6 @@
 }
 #search{
     margin-left: 2.5em;
-    font: normal normal 1em "Arial";
+    font: normal normal 1em Arial, Sans-serif;
     color: var(--textColorD);
 }

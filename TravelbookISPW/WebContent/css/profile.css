@@ -27,10 +27,10 @@
 }
 .us{
     color: #3b3b3b;
-	font: normal normal 2em "Arial";
+	font: normal normal 2em Arial, Sans-serif;
 }
 .ds{
-    font: normal italic 1em "Arial";
+    font: normal italic 1em Arial, Sans-serif;
 }
 #p-menubar{
     position: relative;
@@ -42,6 +42,7 @@
     background-color: var(--Mcolor);
     overflow: scroll;
     border-radius:  1.875em;
+    align-items: center;
 }
 .map{
     background-image: url(../WebContent/resource/cartina-no-sfondo.png);
@@ -68,12 +69,9 @@
 	left: -10em;
 	opacity: 0;
 }
-.followPanel{
-	display:flex;
-	
-}
+
 .text{
-    font: normal normal 1em "Arial";
+    font: normal normal 1em Arial,Sans-serif;
     color: var(--textColorD);
     width: 10em;
 }

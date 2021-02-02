@@ -19,8 +19,17 @@
 }
 .advanced-search{
     display:flex;
+    width: 10em;
     align-items: center;
     justify-content: space-evenly;
+}
+#advancedSearch{
+	display: flex;
+	justify-content: space-evenly;
+	align-items: flex-start;
+}
+#advancedSearch .hidden{
+	display:none;
 }
 .found{
     background-color:rgba(252, 220, 200, 0.5);
@@ -37,9 +46,14 @@
     overflow: scroll;
     justify-content: flex-start;
 }
+.t{
+	font: bold normal 1.1em Arial, Sans-serif;
+	color: var(--Dcolor);
+}
 .dot{
-		display: inline;
+		border: 2px solid green;
 	  	height: 25px;
  		width: 25px;
+ 		background: red;
   		border-radius: 50%;
 }

@@ -41,7 +41,7 @@
 }
 #write-bar{
     overflow: scroll;
-    font: normal normal 1em "Arial";
+    font: normal normal 1em Arial, Sans-serif;
     width:27.875em;
     height:2.375em;
     border-radius: 0px;

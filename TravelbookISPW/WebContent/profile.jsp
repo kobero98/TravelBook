@@ -155,7 +155,7 @@
             	}
             %>
               
-                <input type="file" id=chooseIm name="profileImage" accept="image/jpg, image/png" class="fotoButton" onchange="loadImage()"/>
+                <input type="file" id=chooseIm name="profileImage" accept="image/jpg, image/png" class="custom-file-input" onchange="loadImage()"/>
                 </div>
                 <div class="v">
                     <p class="us">
@@ -209,13 +209,13 @@
 				for(MiniTravelBean trav: travel){
 					String buttonName="travel"+trav.getId();
 					byte[] bytes=Base64.getEncoder().encode(trav.getArray());
-					String encoded;
+					String encoded="";
 					if(bytes!=null){
 						encoded=new String(bytes,"UTF-8");
 						String path="data:image/gif;base64,"+bytes;
 					}
 					%>
-						<div id=<%=i %>>
+						<div id=<%=i %> class="travel-tile">
 						<% 
 						if(bytes!=null){
 							%>

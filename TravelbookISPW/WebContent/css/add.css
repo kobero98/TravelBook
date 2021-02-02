@@ -11,12 +11,10 @@
     border-radius: 2em;
 }
 .text{
-    font: normal normal 1em "Arial";
+    font: normal normal 1em Arial, Sans-serif;
 	color: var(--textColorL);
 }
-.stepButton{
-	/*classe css degli step button*/
-}
+
 .errorElements{
 	border: 0.2em solid red;
 }

@@ -135,21 +135,27 @@
         <input type="submit" name="search-button" id=search-button>
         <input type="text" name="search" value="" id=search class="textfield">
     </div>
+     <div class="advanced-search">
+                <input type="button" onclick="spostamento()" id="expand">
+                <p id=test class="as-text">
+                    advanced search
+                </p>
+            </div>
     <div id=advancedSearch  hidden="true">
     	<div id=cost>
-    		<p>Your budget</p>
+    		<p class="t">Your budget</p>
     		<input type="radio" id=test value="0-300" name="costo" >0-300<br>
     		<input type="radio" value="300-1000" name="costo" >300-1000<br>
     		<input type="radio" value="1000-2000" name="costo" >1000-2000<br>
     		<input type="radio" value=">2000" name="costo" >>2000<br>
     	</div>
     	<div id=durat>
-    		<p>How many days?
+    		<p class="t">How many days?</p>
     		<input type="number" min=0 value="durationMin" name="min" >
     		<input type="number" min=0 value="durationMax" name="max" >
     	</div>
     	<div id=type>
-    		<p> What do you fancy?
+    		<p class="t"> What do you fancy?</p>
     		<div>
     			<span class="dot"></span><input type="checkbox" name="type" value="Romantic Trip">Romantic Trip<br>
     			<span class="dot"></span><input type="checkbox" name="type" value="Family Holiday">Family Holiday<br>
@@ -170,12 +176,7 @@
     <div id=d class="anchor">
         <input type="button" id="back" name="back" value="back" onclick="tornaIndietro()" class="back-button">
         <div class="panel l-panel">
-            <div>
-                <input type="button" onclick="spostamento()" id="expand">
-                <p id=test class="as-text">
-                    advanced search
-                </p>
-            </div>
+           
             <div id=found class="found">
                 <p id=para class="write">
                     This is what we have found
