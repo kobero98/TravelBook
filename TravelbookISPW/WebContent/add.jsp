@@ -12,6 +12,7 @@
 <%@ page import="java.io.InputStream" %>
 <%@ page import="java.io.ByteArrayOutputStream" %>
 <%
+	TravelBean myTravel;
 	UserBean loggedUser=(UserBean)request.getSession().getAttribute("loggedBean");
 	if(request.getParameter("POSTTRAVEL")!=null){
 		System.out.println(request.getParameterMap().keySet());
@@ -29,9 +30,11 @@
 			types.add(array.get(i).toString());
 		}
 		String s1=(String)obj.get("foto");
-		byte[] bytesB641=s1.getBytes();
-		byte[] bytes1=Base64.getDecoder().decode(bytesB641);
-		travel.setArray(bytes1);
+		if(s1!=null){
+			byte[] bytesB641=s1.getBytes();
+			byte[] bytes1=Base64.getDecoder().decode(bytesB641);
+			travel.setArray(bytes1);
+		}
 		travel.setType(types);
 		travel.setListStep(new ArrayList<>());
 		StepBean stepBean;
@@ -47,6 +50,7 @@
 			stepBean.setBytes(new ArrayList<>());
 			travel.getListStep().add(stepBean);
 			JSONArray images=(JSONArray)step.get("photo");
+			if(images!=null){
 			for(int j=0;j<images.size();j++){
 				String s=(String)images.get(j);
 				byte[] bytesB64=s.getBytes();
@@ -55,10 +59,13 @@
 				is.writeBytes(bytes);
 				stepBean.getBytes().add(is);
 			}
+			}
 		}
 		AddTravel.getIstance().saveTravel(travel,loggedUser.getId());
 	}
-
+	if(request.getParameter("modifyTravel")!=null){
+		myTravel=(TravelBean)request.getParameter("modifyTravel");
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -117,7 +124,66 @@ $(function()
         		arrayStep[actualDay][actualStep].place=message;
         	}
         }
-
+	
+<%
+	if(myTravel!=null){
+		//ModifyTravelMode
+		List<StepBean> steps=myTravel.getListStep();
+		%>
+			startDate=<%=myTravel.getStartDate()%>;
+			endDate=<%=myTravel.getEndDate()%>;
+			compareDate(startDate,endDate);
+			arrayStep=new Array();
+		<%
+		for(StepBean step: steps){
+		%>
+			if(arrayStep[<%=step.getGroupDay()%>]==undefined){
+				arrayStep[<%=step.getGroupDay()%>]=new Array();
+			}
+			arrayStep[<%=step.getGroupDay()%>][<%=step.getNumberInDay()%>]=new StepJS(<%=step.getGroupDay()%>,<%=step.getNumberInDay()%>,<%=step.getDescriptionStep()%>,<%=step.getPrecisionInformation()%>);
+		<%
+			if(step.getArray()!=null){
+				String encoded;
+				List<byte[]> bytes=step.getArray();
+				int i=0;
+				for(byte[] bytes1: bytes){
+					bytes1=Base64.getEncoder().encode(bytes1);
+					encoded=new String(bytes1,"UTF-8");
+					%>
+						arrayStep[<%=step.getGroupDay()%>][<%=step.getNumberInDay()%>].photo[<%=i%>]=<%=encoded%>;
+					<%
+					i++;
+				}
+			}
+		}
+		if(myTravel.getNameTravel()!=null){
+			%>
+				travelName=<%=myTravel.getNameTravel()%>
+			<%
+		}
+		else{
+			%>
+				travelName=undefined;
+			<%
+		}
+		if(myTravel.getDescriptionTravel()!=null){
+			%>
+				travelDescription=<%=myTravel.getDescriptionTravel()%>
+			<%
+		}
+		else{
+			%>
+				travelDescription=undefined;
+			<%
+		}
+		if(myTravel.getStartDate()!=null && myTravel.getEndDate()!=null){
+		%>
+			var select=document.getElementById("days");
+			select.value=0;
+		<%
+		}
+	}
+%>
 </script>
 
 </head>

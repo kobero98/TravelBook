@@ -95,6 +95,7 @@ function loadImage(){
 			fReader.readAsBinaryString(oFile);
 		}
 	}
+
 function fileLoadedStep(frEvnt){
 	
 	var sFBody = frEvnt.target.result;
@@ -125,6 +126,7 @@ function addButton(){
 	btn.setAttribute("id",actualDay+";"+arrayStep[actualDay].length);
 	var div=document.getElementById("steps");
 	div.appendChild(btn);
+	return btn;
 }
 function removeButton(){
 	console.log(actualDay,actualStep);
@@ -139,6 +141,7 @@ function removeButton(){
 		var button=document.getElementById(actualDay+";"+(j+2));
 		if(button!=undefined)
 			button.id=actualDay+";"+j;
+		arrayStep[actualDay][j].numberInDay=arrayStep[actualDay][j].numberInDay-1;
 	}
 	var div=document.getElementById("steps");
 	var btn=document.getElementById(actualDay+";"+(actualStep+1));
@@ -214,13 +217,13 @@ function travelDescriptionListener(){
 	travelDescription=document.getElementById("descr").value;
 }
 function onlyNumber(string){
-	
+
 	if (! /^[0-9]+$/.test(string)) {
     return false;
 }
 return true;
 }
-function post(){
+function post(blocked=true){
 	var cost=document.getElementById("costTravel").value;
 	var requestJSON;
 	var elements=new Array();
@@ -278,7 +281,7 @@ function post(){
 			}
 		}
 	}
-	if(elements.length==0){
+	if(elements.length==0 || !blocked){
 		requestJSON={"travelName":travelName,"travelDescription":travelDescription,"tipi":types,"foto":background,"dateS":startDate,"dateE":endDate,"steps":steps}
 		jQuery.ajax({
 			url:"add.jsp",
@@ -300,4 +303,7 @@ function post(){
 			elements[i].className+=" errorElements";
 		}
 	}
+}
+function save(){
+	post(false);
 }
