@@ -73,7 +73,7 @@ public class PredictionController {
         }
 	}
 	public JSONObject getPlaceByName(String name) throws MapboxException {
-		String s = "place-name";
+		String s = "place_name";
 		List<String> types=new ArrayList<>();
 		types.add("place");
 		types.add("locality");

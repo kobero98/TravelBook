@@ -31,7 +31,9 @@ public class TravelBean extends Observable implements Bean{
 	public void setPathFile(File pathFile) {
 		this.pathFile = pathFile;
 	}
-
+	public void setArray(byte[] array) {
+		this.array=array;
+	}
 	private Image pathBackground;
 	private boolean share;
 	private List<String> type;
@@ -59,8 +61,12 @@ public class TravelBean extends Observable implements Bean{
 		
 	}
 	public byte[] getArray() {
-		if(this.imageStream==null)
-			return new byte[0];
+		if(this.imageStream==null) {
+			if(this.array==null)
+				return new byte[0];
+			return array;
+		}
+			
 		try {
 			ByteArrayOutputStream buffer= new ByteArrayOutputStream();
 			int nRead;

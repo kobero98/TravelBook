@@ -783,8 +783,17 @@ public class AddViewController implements Observer{
 	    		listOfErrors.add(travelDescription);
 	    	}
 	    	if(viewPresentation.getImage()!=null) {
+	    		try {
 	    		travel.setPathBackground(viewPresentation.getImage());
 	    		travel.setPathFile(this.travelFileFoto);
+	    		BufferedImage bImage = SwingFXUtils.fromFXImage(viewPresentation.getImage(), null);
+				ByteArrayOutputStream s = new ByteArrayOutputStream();
+			
+				ImageIO.write(bImage, "png", s);
+				this.travel.setArray(s.toByteArray());
+	    		}catch(Exception e) {
+	    			e.printStackTrace();
+	    		}
 	    		incrementProgress();
 	    	}
 	    	else {
@@ -835,10 +844,10 @@ public class AddViewController implements Observer{
 			//Call the controller applicativo
 			try {
 				if(travelId!=null) {
-					AddTravel.getIstance().saveAndDelete(travel, travelId);
+					AddTravel.getIstance().saveAndDelete(travel, travelId,MenuBar.getInstance().getLoggedUser().getId());
 				}
 				else {
-			AddTravel.getIstance().saveTravel(travel);
+			AddTravel.getIstance().saveTravel(travel,MenuBar.getInstance().getLoggedUser().getId());
 				}
 			saved=true;
 			Platform.runLater(()->{
@@ -965,7 +974,7 @@ public class AddViewController implements Observer{
     				});
     			//Call the controller applicativo
     			try {
-    			AddTravel.getIstance().saveTravel(travel);
+    			AddTravel.getIstance().saveTravel(travel,MenuBar.getInstance().getLoggedUser().getId());
     			saved=true;
     			Platform.runLater(()->{
     				progressBar.setProgress(1);

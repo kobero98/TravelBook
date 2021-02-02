@@ -16,8 +16,11 @@ import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.CityEntity;
 import main.java.travelbook.view.MenuBar;
 import main.java.travelbook.model.Entity;
-import java.io.FileInputStream;
+
+import java.io.ByteArrayInputStream;
+
 import java.io.FileNotFoundException;
+
 import java.sql.Date;
 import java.sql.SQLException;
 
@@ -33,23 +36,23 @@ public class AddTravel {
 			istance=new AddTravel();
 		return istance;
 	}
-	public void saveAndDelete(TravelBean travel, int travelId) throws DBException, MapboxException, FileNotFoundException{
+	public void saveAndDelete(TravelBean travel, int travelId,int userId) throws DBException, MapboxException, FileNotFoundException{
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity travelE=new TravelEntity();
 		travelE.setIdTravel(travelId);
 		dao.delete((Entity)travelE);
-		saveTravel(travel);
+		saveTravel(travel,userId);
 	}
-	public void saveTravel(TravelBean travel) throws DBException,FileNotFoundException, MapboxException{
+	public void saveTravel(TravelBean travel,Integer userId) throws DBException,FileNotFoundException, MapboxException{
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity myTravel=new TravelEntity();
 		
 		myTravel.setDescriptionTravel(travel.getDescriptionTravel());
 		if(travel.getPathFile()!=null)
-			myTravel.setBackground(new FileInputStream(travel.getPathFile()));
+			myTravel.setBackground(new ByteArrayInputStream(travel.getArray()));
 		if(travel.getCostTravel()!=null)
 			myTravel.setCostTravel(travel.getCostTravel());
-		myTravel.setCreatorTravel(MenuBar.getInstance().getLoggedUser().getId());
+		myTravel.setCreatorTravel(userId);
 		DateUtil util=new DateUtil();
 		myTravel.setEndTravelDate(Date.valueOf(util.toLocalDate(travel.getEndDate())));
 		myTravel.setStartTravelDate(Date.valueOf(util.toLocalDate(travel.getStartDate())));
@@ -78,7 +81,7 @@ public class AddTravel {
 			stepE.setGroupDay(step.getGroupDay());
 			stepE.setNumberOfDay(step.getNumberInDay());
 			stepE.setPlace(step.getPlace());
-			stepE.setUserId(MenuBar.getInstance().getLoggedUser().getId());
+			stepE.setUserId(userId);
 			stepE.setListPhoto(step.getImageFile());
 			stepE.setBytes(step.getBytes());
 			stepE.setNumber(i);
