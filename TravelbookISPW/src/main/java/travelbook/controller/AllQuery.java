@@ -20,7 +20,6 @@ import main.java.travelbook.model.ShareEntity;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
-import main.java.travelbook.view.MenuBar;
 
 public class AllQuery {
 	private static AllQuery instance=null;

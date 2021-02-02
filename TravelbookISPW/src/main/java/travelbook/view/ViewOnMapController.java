@@ -49,10 +49,7 @@ public class ViewOnMapController {
 			URL myUrl=null;
 			try {
 				myUrl = new File("src/main/java/travelbook/view/mapView.html").toURI().toURL();
-			} catch (MalformedURLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 			String url= myUrl.toString();
 			engine.getLoadWorker().stateProperty().addListener((observable,oldValue,newValue)->{
 				if(newValue==Worker.State.SUCCEEDED) {
@@ -71,5 +68,8 @@ public class ViewOnMapController {
 				}
 			});
 			engine.load(url);
+			} catch (MalformedURLException e1) {
+				new TriggerAlert().triggerAlertCreate("error while reaching our map", "err");
+			}
 	}
 }

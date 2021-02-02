@@ -1,8 +1,6 @@
 package main.java.travelbook.view;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +13,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
@@ -41,8 +38,6 @@ public class ProfileOtherController {
 	private BorderPane mainPane;
 	private int goBack;
 	private int travelId;
-	private ViewTravelController controller;
-	private AnchorPane internalPane;
 	private UserBean user;
 	@FXML
 	private AnchorPane mainAnchor;

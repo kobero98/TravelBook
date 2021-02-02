@@ -14,7 +14,6 @@ import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.StepEntity;
 import main.java.travelbook.model.CityEntity;
-import main.java.travelbook.view.MenuBar;
 import main.java.travelbook.model.Entity;
 
 import java.io.ByteArrayInputStream;
@@ -43,7 +42,7 @@ public class AddTravel {
 		dao.delete((Entity)travelE);
 		saveTravel(travel,userId);
 	}
-	public void saveTravel(TravelBean travel,Integer userId) throws DBException,FileNotFoundException, MapboxException{
+	public void saveTravel(TravelBean travel,Integer userId) throws DBException, MapboxException{
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity myTravel=new TravelEntity();
 		
