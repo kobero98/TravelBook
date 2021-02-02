@@ -17,7 +17,7 @@ function readTravel(data,type){
     		console.log(dataO);
     		$.each(dataO,function(index,element){
     		var text=document.createTextNode(dataO[index].title);
-    		var btn=document.createElement("button");
+    		var btn;
     		var img=document.createElement("img");
     		var div=document.createElement("div");
     		var form=document.createElement("form");
@@ -45,7 +45,6 @@ function readTravel(data,type){
     	}
 	}
 	function readUsers(data,textStatus,jqXHR,type){
-    	var users;
     	var btn;
     	var div;
     	var text;

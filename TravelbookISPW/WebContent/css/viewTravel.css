@@ -46,8 +46,6 @@
 .share {
 	opacity: 0;
 	background-color: rgba(252, 220, 200, 0.5);
-	
-	
 	position: absolute;
 	left: 30em;
 	top: 15em;
@@ -69,9 +67,7 @@
 	border-top: none;
 	position: absolute;
 }
-.fotoDiv{
-	display:flex;
-}
+
 #label{
     width:17.40625em;
     height:8.375em;

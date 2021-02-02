@@ -60,21 +60,7 @@
 					this.precision=precision;
 					this.photo=new Array();
 				}
-				/*get description(){
-					return this.descriptionStep;
-				}
-				get place(){
-					return this.place;
-				}
-				get precision(){
-					return this.precision;
-				}
-				get photo(){
-					return this.photo;
-				}
-				set photo(array){
-					this.photo=array;
-				}*/
+			
 			}
 			var array=new Array();
 			<%
