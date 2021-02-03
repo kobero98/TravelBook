@@ -21,10 +21,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import main.java.travelbook.controller.ChatController;
 import exception.TriggerAlert;
@@ -64,6 +67,7 @@ public class ChatViewController {
 	private ChatController myController = new ChatController();
 	private SearchUserTextField searchFieldAuto;
 	private Chat current = null;
+	private ObservableList<MyItem> contacts;
 	
 	class MyItem {
 		private StringProperty specialIndicator;
@@ -71,6 +75,7 @@ public class ChatViewController {
         MyItem(UserBean name) {
             this.contact = name;
             this.specialIndicator = new SimpleStringProperty();
+            this.setSpecialIndicator("");
         }
 
         public UserBean getUser() {
@@ -106,7 +111,7 @@ public class ChatViewController {
 	try {
 		tryContacts = myController.getContacts(myChats,MenuBar.getInstance().getLoggedUser().getId());
 	
-		ObservableList<MyItem> contacts = FXCollections.observableArrayList();
+		 contacts = FXCollections.observableArrayList();
 	 for(UserBean u: tryContacts) {
 		 contacts.add(new MyItem(u));
 	 }
@@ -131,6 +136,10 @@ public class ChatViewController {
 	
 	private void select(MyItem user) {
 		user.setSpecialIndicator("selected");
+		for(MyItem u: contacts) {
+			if(u!=user)
+				u.setSpecialIndicator("");
+		}
 		contactList.refresh();
 		int i = 0;
 		current = null;
@@ -178,8 +187,8 @@ public class ChatViewController {
 				hBox.setSpacing(mainAnchor.getPrefWidth()*30/1280);
 				hBox.getStyleClass().add("h-box");
 				hBox.setAlignment(Pos.CENTER);
-				if("selected".equalsIgnoreCase(item.getSpecialIndicator())) {
-					System.out.println("hey");
+				
+				if(item.getSpecialIndicator().equalsIgnoreCase("selected")) {
 					hBox.getStyleClass().add("h-box-selected");
 				}
 				Text contact = new Text(item.getUser().getName()+" "+item.getUser().getSurname());
@@ -200,7 +209,6 @@ public class ChatViewController {
 				
 				hBox.getChildren().add(contactPic);
 				hBox.getChildren().add(contact);
-				item.setSpecialIndicator("");
 				setGraphic(hBox);
 			}
 			else {

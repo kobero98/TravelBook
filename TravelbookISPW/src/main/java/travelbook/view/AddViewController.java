@@ -6,8 +6,6 @@ import javafx.embed.swing.SwingFXUtils;
 import java.io.ByteArrayOutputStream;
 import main.java.travelbook.util.Observer;
 import java.time.LocalDate;
-
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.control.Hyperlink;
 import java.util.Collections;
@@ -60,7 +58,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 public class AddViewController implements Observer{
 	private Integer travelId;
 	private File travelFileFoto;
