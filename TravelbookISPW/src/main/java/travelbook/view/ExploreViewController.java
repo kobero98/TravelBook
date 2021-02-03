@@ -86,6 +86,8 @@ public class ExploreViewController implements Observer{
 		//In this example use Empty image as Pane and Some strings a cazzo di cane.
 		MenuBar.getInstance().addObserver(this);
 		MenuBar.getInstance().setNewThread();
+		if(MenuBar.getInstance().getNotified())
+			this.update(MenuBar.getInstance());
 		String myText = "my-text";
 		int i=0;
 		List<TravelButton> selectionGroup;

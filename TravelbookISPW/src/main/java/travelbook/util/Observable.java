@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.ArrayList;
 public class Observable {
 	private List<Observer> observers=new ArrayList<>();
+	private boolean changed=false;
 	public void notifyObservers() {
 		for(Observer obs: observers) {
 			System.out.println("NOTIFICATO by"+this);
@@ -24,7 +25,14 @@ public class Observable {
 		this.observers.remove(o);
 	}
 	public void setChanged() {
+		this.changed=true;
 		this.notifyObservers();
+	}
+	public boolean isChanged() {
+		return this.changed;
+	}
+	public void setRead() {
+		this.changed=false;
 	}
 	public boolean isObserved() {
 		return !(this.observers.isEmpty());

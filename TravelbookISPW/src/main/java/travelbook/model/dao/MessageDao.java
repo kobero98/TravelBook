@@ -24,17 +24,21 @@ public class MessageDao implements PersistanceDAO {
 			this.connection = AllQuery.getInstance().getConnection();
 		
 			Statement stmt=connection.createStatement();
-			ResultSet rs=AllQuery.getInstance().getMessage(stmt, messaggio);
+			ResultSet rs=AllQuery.getInstance().getMessage(stmt, messaggio,connection);
 			while(rs.next()) {
 				MessageEntity newM=new MessageEntity(rs.getInt("idmessaggio"),rs.getInt("Mittente"),rs.getInt("Destinatario"));
 				newM.setText(rs.getString("Testo"));
+				System.out.println("Testo:"+rs.getString("Testo")+" timestamp"+rs.getTimestamp("data"));
 				newM.setTime(rs.getTimestamp("data").toInstant());
 				newM.setType(rs.getString("NomeViaggio"));
 				newM.setRead(rs.getInt("letto")==1);
 				results.add((Entity)newM);
 			}
+			stmt.close();
+			connection.close();
 		} catch (SQLException e) {
-			throw new DBException("we can't reach your messages");
+			e.printStackTrace();
+			//throw new DBException("we can't reach your messages");
 		}
 		return results;
 	}

@@ -115,4 +115,7 @@ public class MessagePollingThread extends Thread {
 					}
 				}
 		}
+		public void setTimeStampNull() {
+			this.lastTime=null;
+		}
 }

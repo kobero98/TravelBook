@@ -617,21 +617,15 @@ public class AllQuery {
 		}
 		
 	}
-	public ResultSet getMessage(Statement stmt, MessageEntity message) {
+	public ResultSet getMessage(Statement stmt, MessageEntity message,Connection con) throws SQLException {
 		ResultSet rs=null;
 		StringBuilder query=new StringBuilder();
-		
+		PreparedStatement prep=con.prepareStatement("SELECT * FROM messaggio where Destinatario=? and letto=0 and data>=?");
 		if(message.getIdMittente()==0) {
-			if(message.getSoloNuovi()) {
-				
-				query.append("SELECT * FROM messaggio where Destinatario="+message.getIdDestinatario()+" and letto="+0);
-				if(message.getLastTimeStamp()!=null) {
-						query.append(" and data>'"+Timestamp.from(message.getLastTimeStamp())+"'");
-					}
-			}
-			else {
+			
+			
 			query.append("SELECT * FROM messaggio where Destinatario="+message.getIdDestinatario());
-			}
+			
 		}
 		else {
 			//Legge solo i messaggi inviati!!
@@ -640,7 +634,14 @@ public class AllQuery {
 			
 		}
 		try {
+			if(message.getSoloNuovi()) {
+				prep.setInt(1, message.getIdDestinatario());
+				prep.setTimestamp(2, Timestamp.from(message.getLastTimeStamp()));
+				rs=prep.executeQuery();
+				return rs;
+			}
 			rs=stmt.executeQuery(query.toString());
+			System.out.println(rs.isLast());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

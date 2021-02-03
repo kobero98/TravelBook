@@ -112,6 +112,8 @@ public class ProfileViewController implements Observer{
 	public void initialize() {
 		MenuBar.getInstance().setNewThread();
 		MenuBar.getInstance().addObserver(this);
+		if(MenuBar.getInstance().getNotified())
+			this.update(MenuBar.getInstance());
 		new Thread(()->{
 			ObservableList<Bean> data;
 			try {

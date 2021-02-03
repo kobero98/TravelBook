@@ -46,8 +46,6 @@ public class MenuBar extends Observable implements Observer{
 	private  UserBean loggedUser;
 	public  void  setUser(UserBean user) {
 		loggedUser=user;
-		myThread=new MessagePollingThread();
-		myThread.start();
 	}
 	private int travelId = 0;
 	public void setIdTravel(int id) {
@@ -218,5 +216,7 @@ public class MenuBar extends Observable implements Observer{
 	public void initialize() {
 		this.myChat = new ArrayList<>();
 		this.notify = false;
+		this.myThread.kill();
+		this.myThread=null;
 	}
 }

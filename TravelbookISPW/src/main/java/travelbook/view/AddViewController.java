@@ -193,6 +193,8 @@ public class AddViewController implements Observer{
 	private void initialize() {
 		MenuBar.getInstance().setNewThread();
 		MenuBar.getInstance().addObserver(this);
+		if(MenuBar.getInstance().getNotified())
+			this.update(MenuBar.getInstance());
 		//set travel and the first day and the first step by default.
 		LocalDate dataFinale=endDate.getValue();
 		LocalDate dataIniziale=startDate.getValue();
