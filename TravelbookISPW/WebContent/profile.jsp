@@ -121,7 +121,9 @@
 				    	}
 				    });
 			}
-			
+			function modifyTravel(id){
+				document.location.href="http://localhost:8080/TravelbookISPW/add.jsp?modifyTravel="+id;
+			}
 	</script>
 
 </head>
@@ -230,6 +232,7 @@
 									 <%=trav.getDescriptionTravel() %>
 									 </p>
 									 <input type="submit" name=<%=buttonName %> id=<%=trav.getId() %>/>
+									 <input type="button"  onclick="modifyTravel(<%=trav.getId()%>)"/>
 								</form>
 							</div>
 						</div>

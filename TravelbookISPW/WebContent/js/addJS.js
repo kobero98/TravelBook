@@ -307,3 +307,32 @@ function post(blocked=true){
 function save(){
 	post(false);
 }
+function apriMappa(){
+	var i;
+	var arg=new Array();
+	var c=0;
+	var j;
+	var step;
+	for(i=0;i<arrayStep.length;i++){
+		for(j=0;j<arrayStep[i].length;j++){
+			step=arrayStep[i][j];
+			arg[c]={"groupDay": step.groupDay, "numberInDay": step.numberInDay, "description": step.descriptionStep, "precision": step.precision,"photo":step.photo,"place": step.place};
+			c++;
+			}
+			}
+			var places={"places":arg};
+			jQuery.ajax({
+				url:"add.jsp",
+				data:{"forward":JSON.stringify(places)},
+				type:"POST",
+				error:function(xhr,ajaxOptions,thrownError){
+						console.log(xhr.responseText);
+						alert(xhr.status);
+				         alert(thrownError);
+					},
+			success:function(data){
+				window.open("http://localhost:8080/TravelbookISPW/map.jsp");
+			}
+			});
+	
+}

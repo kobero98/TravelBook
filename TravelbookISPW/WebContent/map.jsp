@@ -9,6 +9,7 @@
  %>
  <%@ page import="java.util.ArrayList"
   %>
+  <%@ page import="main.java.travelbook.model.bean.TravelBean" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +33,8 @@ function init(token){
     L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11').addTo(map);
     <%
 	List<StepBean> list=new ArrayList<>();
-    list=request.getParameter("travel").getListStep();
+    TravelBean trav=(TravelBean)request.getSession().getAttribute("travelOnMap");
+    list=trav.getListStep();
 	/*StepBean step=new StepBean();
 	step.setPlace("Roma, Rome, Italy");
 	list.add(step);*/

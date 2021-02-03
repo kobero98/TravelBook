@@ -12,7 +12,7 @@
 <%@ page import="java.io.InputStream" %>
 <%@ page import="java.io.ByteArrayOutputStream" %>
 <%
-	TravelBean myTravel;
+	TravelBean myTravel=null;
 	UserBean loggedUser=(UserBean)request.getSession().getAttribute("loggedBean");
 	if(request.getParameter("POSTTRAVEL")!=null){
 		System.out.println(request.getParameterMap().keySet());
@@ -64,7 +64,26 @@
 		AddTravel.getIstance().saveTravel(travel,loggedUser.getId());
 	}
 	if(request.getParameter("modifyTravel")!=null){
-		myTravel=(TravelBean)request.getParameter("modifyTravel");
+		myTravel=AddTravel.getIstance().getTravelById(Integer.valueOf(request.getParameter("modifyTravel")));
+	}
+	if(request.getParameter("forward")!=null){
+		JSONParser parser=new JSONParser();
+		JSONObject obj=(JSONObject)parser.parse(request.getParameter("forward"));
+		JSONArray array=(JSONArray)obj.get("places");
+		List<StepBean> steps=new ArrayList<>();
+		for(int i=0;i<array.size();i++){
+			JSONObject step=(JSONObject)array.get(i);
+			StepBean stepBean=new StepBean();
+			stepBean.setNumberInDay(Integer.valueOf(step.get("numberInDay").toString()));
+			stepBean.setGroupDay(Integer.valueOf(step.get("groupDay").toString()));
+			stepBean.setPrecisionInformation(step.get("precision").toString());
+			stepBean.setDescriptionStep(step.get("description").toString());
+			stepBean.setPlace(step.get("place").toString());
+			steps.add(stepBean);
+		}
+		TravelBean travel=new TravelBean();
+		travel.setListStep(steps);
+		request.getSession().setAttribute("travelOnMap",travel);
 	}
 %>
 <!DOCTYPE html>
@@ -124,23 +143,25 @@ $(function()
         		arrayStep[actualDay][actualStep].place=message;
         	}
         }
-	
+	function init(){
 <%
 	if(myTravel!=null){
 		//ModifyTravelMode
 		List<StepBean> steps=myTravel.getListStep();
 		%>
-			startDate=<%=myTravel.getStartDate()%>;
-			endDate=<%=myTravel.getEndDate()%>;
+			startDate="<%=myTravel.getStartDate()%>";
+			endDate="<%=myTravel.getEndDate()%>";
 			compareDate(startDate,endDate);
 			arrayStep=new Array();
+			document.getElementById("s-date").value=startDate;
+			document.getElementById("e-date").value=endDate;
 		<%
 		for(StepBean step: steps){
 		%>
 			if(arrayStep[<%=step.getGroupDay()%>]==undefined){
 				arrayStep[<%=step.getGroupDay()%>]=new Array();
 			}
-			arrayStep[<%=step.getGroupDay()%>][<%=step.getNumberInDay()%>]=new StepJS(<%=step.getGroupDay()%>,<%=step.getNumberInDay()%>,<%=step.getDescriptionStep()%>,<%=step.getPrecisionInformation()%>);
+			arrayStep[<%=step.getGroupDay()%>][<%=step.getNumberInDay()%>]=new StepJS(<%=step.getGroupDay()%>,<%=step.getNumberInDay()%>,"<%=step.getDescriptionStep()%>","<%=step.getPlace()%>","<%=step.getPrecisionInformation()%>");
 		<%
 			if(step.getArray()!=null){
 				String encoded;
@@ -158,7 +179,8 @@ $(function()
 		}
 		if(myTravel.getNameTravel()!=null){
 			%>
-				travelName=<%=myTravel.getNameTravel()%>
+				travelName="<%=myTravel.getNameTravel()%>";
+				document.getElementById("travelName").value=travelName;
 			<%
 		}
 		else{
@@ -168,7 +190,8 @@ $(function()
 		}
 		if(myTravel.getDescriptionTravel()!=null){
 			%>
-				travelDescription=<%=myTravel.getDescriptionTravel()%>
+				travelDescription="<%=myTravel.getDescriptionTravel()%>";
+				document.getElementById("descr").value=travelDescription;
 			<%
 		}
 		else{
@@ -182,12 +205,26 @@ $(function()
 			select.value=0;
 		<%
 		}
+		byte[] background=myTravel.getArray();
+		if(background!=null){
+			background=Base64.getEncoder().encode(background);
+			String encodedB=new String(background,"UTF-8");
+			%>
+				var div=document.getElementById("presentation");
+				background="<%=encodedB%>";
+				var fotoSfondo=document.createElement("img");
+				fotoSfondo.setAttribute("src","data:image/gif;base64,"+background);
+				fotoSfondo.setAttribute("style","width: 35em; height: 10em;");
+				div.appendChild(fotoSfondo);
+			<%
+		}
 	}
 %>
+	}
 </script>
 
 </head>
-<body>
+<body onload="init()">
     <div class="header">
         <p class="title">
             Travelbook
@@ -200,10 +237,12 @@ $(function()
          
         <div class="panel">
             <div class="menu-bar">
-                <input type="button" class="button" name="profile" value="PROFILE">
-                <input type="button" class="button p-button" name="add" value="ADD">
-                <input type="button" class="button" name="explore" value="EXPLORE">
-                <input type="button" class="button" name="chat" value="CHAT">
+            <form action="explore.jsp" method="POST">
+                <input type="submit" class="button" name="profile" value="PROFILE">
+                <input type="submit" class="button p-button" name="add" value="ADD">
+                <input type="submit" class="button" name="explore" value="EXPLORE">
+                <input type="submit" class="button" name="chat" value="CHAT">
+                </form>
             </div>
             <p class=write>
                 Hi, so glad you decided to share your travels
@@ -290,7 +329,7 @@ $(function()
                     <div>
                     <input type="text" name="searchPlace" id="searchPlace" class="ui-widget" /> 
                     </div>
-                    <a href="map.jsp" class="vom">View on maps</a>
+                    <input type="button" class="vom" onclick="apriMappa()">
 
                 </div>
                 <div class="line">  
@@ -324,3 +363,6 @@ $(function()
                 </div>
             </form>
         </div>
+        </div>
+        </body>
+        </html>
