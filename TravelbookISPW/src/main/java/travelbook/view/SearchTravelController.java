@@ -24,6 +24,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -75,27 +76,17 @@ public class SearchTravelController {
 	@FXML
 	private Label scritta1;
 	@FXML
-	private Label scritta2;
-	@FXML
 	private Label scritta3;
 	@FXML
 	private Label scritta4;
 	@FXML
 	private Label scritta5;
 	@FXML
-	private Label scritta6;
-	@FXML
-	private ScrollPane consigliati;
-	@FXML
 	private Pane ricerca;
 	@FXML
 	private ListView <MyTypes> type;
 	@FXML
 	private VBox tipiSelezionati; 
-	@FXML
-	private AnchorPane consigliatiAnchor;
-	@FXML
-	private VBox consigliatiVbox;
 	@FXML
 	private Line ricercaLine;
 	@FXML 
@@ -106,6 +97,8 @@ public class SearchTravelController {
 	private Line lineaVerticaleGrande;
 	@FXML
 	private ScrollPane scrollSelezionati;
+	@FXML
+	private ImageView image;
 	
 	private List <MyTypes> typeChoose=new ArrayList<>();
 	class MyTypes{
@@ -263,13 +256,9 @@ public class SearchTravelController {
 	    });
 	    //then define the resize logic
 		this.sfondo.heightProperty().addListener((observable,oldValue,newValue)->{
-			consigliati.setPrefHeight(sfondo.getHeight()*465/625);
-			consigliati.setLayoutY(sfondo.getHeight()*160/625);
 			
-			consigliatiAnchor.setPrefHeight(sfondo.getHeight()*890/625);
-			
-			consigliatiVbox.setPrefHeight(sfondo.getHeight()*800/625);
-			consigliatiVbox.setLayoutY(sfondo.getHeight()*6/625);
+			image.setFitHeight(sfondo.getHeight()*463/625);
+			image.setLayoutY(sfondo.getHeight()*133/625);
 			
 			turnBack.setPrefHeight(sfondo.getHeight()*40/625);
 			turnBack.setLayoutY(sfondo.getPrefHeight()*30/625);
@@ -311,7 +300,6 @@ public class SearchTravelController {
 			lineaVerticaleGrande.setStartY(sfondo.getHeight()*3/625);
 			lineaVerticaleGrande.setEndY(sfondo.getHeight()*484/625);
 			
-			scritta2.setLayoutY(sfondo.getHeight()*120/625);
 			
 			advanced.setPrefHeight(sfondo.getHeight()*13/625);
 			advanced.setLayoutY(sfondo.getHeight()*114/625);
@@ -352,13 +340,10 @@ public class SearchTravelController {
 		});
 		this.sfondo.widthProperty().addListener((observable,oldValue,newValue)->{
 			
-			consigliati.setPrefWidth(sfondo.getWidth()*316/1280);
-			consigliati.setLayoutX(sfondo.getWidth()*964/1280);
 			
-			consigliatiAnchor.setPrefWidth(sfondo.getWidth()*380/1280);
 			
-			consigliatiVbox.setPrefWidth(sfondo.getWidth()*190/1280);
-			consigliatiVbox.setLayoutX(sfondo.getWidth()*43/1280);
+			image.setFitWidth(sfondo.getWidth()*241/1280);
+			image.setLayoutX(sfondo.getWidth()*1005/1280);
 			
 			turnBack.setPrefWidth(sfondo.getWidth()*40/1280);
 			turnBack.setLayoutX(sfondo.getWidth()*34/1280);
@@ -382,7 +367,7 @@ public class SearchTravelController {
 			
 			lineaVerticaleGrande.setLayoutX(sfondo.getWidth()*953/1280);
 			
-			scritta2.setLayoutX(sfondo.getWidth()*972/1280);
+			
 			
 			advanced.setPrefWidth(sfondo.getWidth()*15/1280);
 			advanced.setLayoutX(sfondo.getWidth()*27/1280);

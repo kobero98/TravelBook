@@ -26,6 +26,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import main.java.travelbook.util.Observer;
+import main.java.travelbook.util.Notification;
 import main.java.travelbook.util.Observable;
 public class ExploreViewController implements Observer{
 	private Object[] array1=new Object[15];
@@ -206,24 +207,12 @@ public class ExploreViewController implements Observer{
 	public void update(Observable bar, Object notify) {
 		boolean value=(Boolean)notify;
 		if(value) {
-			Platform.runLater(()->{
-				Circle dot = new Circle(6);
-				dot.setFill(Color.DARKSALMON);
-				mainAnchor.getChildren().add(dot);
-				dot.setLayoutX(510);
-				dot.setLayoutY(30);
-				mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->
-					dot.setLayoutY(mainAnchor.getHeight()*30/625));
-				mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
-					dot.setLayoutX(mainAnchor.getWidth()*510/1280));
-			});
+			Platform.runLater(()->
+				new Notification(mainAnchor,30));
 			
 		}
 	}
-	@Override
-	public void update(Observable bar) {
-		this.update(bar,true);
-	}
+	
 	@FXML
 	private void topTenScrollRightHandler() {
 
@@ -231,6 +220,10 @@ public class ExploreViewController implements Observer{
     	anim.setScrollAndMax(topTenScroll, topTenScroll.getHvalue()+0.42);
     	anim.setSpeed(2);
     	anim.start();
+	}
+	@Override
+	public void update(Observable bar) {
+		this.update(bar,true);
 	}
 	@FXML
 	private void topTenScrollLeftHandler() {

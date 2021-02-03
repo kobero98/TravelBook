@@ -18,8 +18,6 @@ import main.java.travelbook.model.Entity;
 
 import java.io.ByteArrayInputStream;
 
-import java.io.FileNotFoundException;
-
 import java.sql.Date;
 import java.sql.SQLException;
 

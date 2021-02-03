@@ -22,7 +22,7 @@ public class MessagePollingThread extends Thread {
 			//Non c'e' bisogno di sincronizzarsi sulla chat perche' il thread che scrive e' uno solo
 		List<Chat> chats=MenuBar.getInstance().getMyChat();
 		while(!MenuBar.getInstance().isObserved()) {
-			
+			//aspettare che questa condizione diventi vera
 		}
 		if(lastTime!=null) {
 			updateMessage(chats);

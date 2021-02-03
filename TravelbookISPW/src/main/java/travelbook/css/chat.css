@@ -77,10 +77,10 @@
 	-fx-border-width: 0 0 2 0;
 	-fx-border-color: lightGrey;
 }
+.v-box{
+	-fx-background-color: #FDFDFD;
+}
 .h-box-selected{
 	-fx-background-color: Dcolor;
 }
 
-.v-box{
-	-fx-background-color: #FDFDFD;
-}

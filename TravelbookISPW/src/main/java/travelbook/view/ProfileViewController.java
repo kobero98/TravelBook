@@ -45,6 +45,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import main.java.travelbook.util.Notification;
 import main.java.travelbook.util.Observable;
 import main.java.travelbook.util.Observer;
 import main.java.travelbook.util.SetImage;
@@ -321,27 +322,19 @@ public class ProfileViewController implements Observer{
 	this.mainAnchor.setPrefWidth(mainPane.getWidth());
 	}
 	@Override
-	public void update(Observable bar, Object notify) {
-		boolean value=(Boolean)notify;
-		if(value) {
-			Platform.runLater(()->{
-				Circle dot = new Circle(6);
-				dot.setFill(Color.DARKSALMON);
-				mainAnchor.getChildren().add(dot);
-				dot.setLayoutX(510);
-				dot.setLayoutY(530);
-				mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->
-					dot.setLayoutY(mainAnchor.getHeight()*30/625));
-				mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
-					dot.setLayoutX(mainAnchor.getWidth()*510/1280));
-			});
-			
-		}
-	}
-	@Override
 	public void update(Observable bar) {
 		this.update(bar,true);
 	}
+	@Override
+	public void update(Observable bar, Object notify) {
+		boolean value=(Boolean)notify;
+		if(value) {
+			Platform.runLater(()->
+				new Notification(mainAnchor,330));
+			
+		}
+	}
+	
 	@FXML
 	private void photoHandler(){
 		FileChooser dialog=new FileChooser();

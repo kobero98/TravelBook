@@ -30,6 +30,7 @@ import exception.MissingPageException;
 import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.util.DateUtil;
+import main.java.travelbook.util.Notification;
 import main.java.travelbook.util.PlaceAdapter;
 import javafx.event.ActionEvent;
 import javafx.scene.control.DatePicker;
@@ -346,17 +347,8 @@ public class AddViewController implements Observer{
 	public void update(Observable bar, Object notify) {
 		boolean value=(Boolean)notify;
 		if(value) {
-			Platform.runLater(()->{
-				Circle dot = new Circle(6);
-				dot.setFill(Color.DARKSALMON);
-				mainAnchor.getChildren().add(dot);
-				dot.setLayoutX(510);
-				dot.setLayoutY(30);
-				mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->
-					dot.setLayoutY(mainAnchor.getHeight()*30/625));
-				mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
-					dot.setLayoutX(mainAnchor.getWidth()*510/1280));
-			});
+			Platform.runLater(()->
+				new Notification(mainAnchor, 30));
 			
 		}
 	}

@@ -118,7 +118,7 @@ public class ChatController {
 		MessageEntity myEntity = new MessageEntity(m.getIdMittente(),m.getIdDestinatario());
 		myEntity.setText(m.getText());
 		myEntity.setRead(false);
-		myEntity.setTime(m.getTime());
+		myEntity.setLastTimeStamp(m.getTime());
 		msgDao.setMyEntity(myEntity);
 		msgDao.setData();
 	}

@@ -179,6 +179,7 @@ public class ChatViewController {
 				hBox.getStyleClass().add("h-box");
 				hBox.setAlignment(Pos.CENTER);
 				if("selected".equalsIgnoreCase(item.getSpecialIndicator())) {
+					System.out.println("hey");
 					hBox.getStyleClass().add("h-box-selected");
 				}
 				Text contact = new Text(item.getUser().getName()+" "+item.getUser().getSurname());
