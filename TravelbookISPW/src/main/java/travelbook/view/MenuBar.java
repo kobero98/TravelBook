@@ -20,7 +20,7 @@ public class MenuBar extends Observable implements Observer{
 	//This class want to manage MenuBar operation. Use these methods in the button handler.
 	private FXMLLoader loader;
 	private  boolean notify = false;  //this information will be in logged user
-	private static MenuBar istance=null;
+	private static MenuBar istance=new MenuBar();
 	private MenuBar() {
 		
 	}
@@ -202,7 +202,7 @@ public class MenuBar extends Observable implements Observer{
 		}
 	}
 	
-	public static MenuBar getInstance() {
+	public  static synchronized MenuBar getInstance() {
 		if(istance==null) {
 			istance=new MenuBar();
 		}

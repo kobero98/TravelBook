@@ -83,8 +83,8 @@ public class ExploreViewController implements Observer{
 		//And load it into the button 
 		//The controller must return a Collection of TravelBean compilated and these travelBean must be passed in constructButton
 		//In this example use Empty image as Pane and Some strings a cazzo di cane.
-		MenuBar.getInstance().setNewThread();
 		MenuBar.getInstance().addObserver(this);
+		MenuBar.getInstance().setNewThread();
 		String myText = "my-text";
 		int i=0;
 		List<TravelButton> selectionGroup;

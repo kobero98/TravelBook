@@ -17,11 +17,13 @@ public class MessagePollingThread extends Thread {
 	}
 	@Override
 	public void run() {
-		
 		while(goOn) {
 		try {
 			//Non c'e' bisogno di sincronizzarsi sulla chat perche' il thread che scrive e' uno solo
 		List<Chat> chats=MenuBar.getInstance().getMyChat();
+		while(!MenuBar.getInstance().isObserved()) {
+			
+		}
 		if(lastTime!=null) {
 			updateMessage(chats);
 		}
@@ -85,7 +87,8 @@ public class MessagePollingThread extends Thread {
 						messaggi.add(message);
 						Chat nuovaChat=new Chat(message.getIdMittente(),messaggi);
 						MenuBar.getInstance().newChat(nuovaChat);
-						nuovaChat.setChanged();
+						if(!message.getRead())
+							nuovaChat.setChanged();
 					}
 				}
 			

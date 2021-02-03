@@ -5,6 +5,7 @@ public class Observable {
 	private List<Observer> observers=new ArrayList<>();
 	public void notifyObservers() {
 		for(Observer obs: observers) {
+			System.out.println("NOTIFICATO by"+this);
 			obs.update(this);
 		}
 	}
@@ -24,5 +25,8 @@ public class Observable {
 	}
 	public void setChanged() {
 		this.notifyObservers();
+	}
+	public boolean isObserved() {
+		return !(this.observers.isEmpty());
 	}
 }

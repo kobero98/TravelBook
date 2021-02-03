@@ -657,7 +657,7 @@ public class AllQuery {
         insertMex.execute();
 	}
 	public void setReadMex(Statement stmt, MessageEntity message)throws SQLException{
-		String query="UPDATE messaggio SET letto=1 where idMessaggio="+message.getIdMessaggio();
+		String query="UPDATE messaggio SET letto=1 where idmessaggio="+message.getIdMessaggio();
 		stmt.execute(query);
 	}
 	public void deleteMex(Statement stmt, MessageEntity message)throws SQLException{

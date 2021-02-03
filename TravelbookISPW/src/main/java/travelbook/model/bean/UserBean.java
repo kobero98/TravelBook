@@ -30,6 +30,8 @@ public class UserBean implements Bean{
 	private byte[] array;
 	public byte[] getArray() {
 		if(this.photoStream==null) {
+			if(this.array!=null)
+				return this.array;
 			return new byte[0];
 		}
 		try {
