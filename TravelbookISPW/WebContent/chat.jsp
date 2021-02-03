@@ -27,20 +27,20 @@
     	
     }
 	if(request.getParameter("invioMex")!=null)
-	{
-		if(request.getSession().getAttribute("selettore")!=null)
-		{
-			int index= (Integer) request.getSession().getAttribute("selettore");
-			int id=tryContacts.get(index).getId();
-			MessageBean messagge= new MessageBean(id,log.getId());
-	        
-	        StringBuffer text = new StringBuffer(request.getParameter("mex"));
-	        
+	{	        
+			StringBuffer text = new StringBuffer(request.getParameter("mex"));
 	        int loc = (new String(text)).indexOf('\n');
 	        while(loc > 0){
 	            text.replace(loc, loc+1, "<BR>");
 	            loc = (new String(text)).indexOf('\n');
 	       }
+		if(request.getSession().getAttribute("selettore")!=null && !text.toString().isBlank() )
+		{
+			int index= (Integer) request.getSession().getAttribute("selettore");
+			int id=tryContacts.get(index).getId();
+			MessageBean messagge= new MessageBean(id,log.getId());
+	        
+
 	       messagge.setText(text.toString()); 
 	       messagge.setRead(false);
 		   messagge.setTime(Instant.now());
@@ -57,7 +57,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
 	<script type="text/javascript">
-	var selected=0;
+	var selected;
 
 	function goToExplore()
 	{
@@ -73,17 +73,12 @@
 	}
 	function createChat()
 	{
-		
+		if(selected!=null)
+			{
+				console.log(selected.id);
+			}
 	}
-	function log( message ) {
-			 $('#contact').append(
-					    $('<div>').prop({
-					      id: 'innerdiv',
-					      innerHTML: message,
-					      className: 'border pad'
-					    })
-					  );
-			    }
+	var id={};
 	 $(function(){
 		 
 		 $('#search-bar').autocomplete(
@@ -99,13 +94,25 @@
 			                 data:{search:request.term},
 			                 success:function(data)
 			                 {
-			                	 response(data);
-			                	 log(data.user0);
+			                	 id=data;
+								 var temp={}
+								 for (i = 0; i < data.length; i++) {
+									  temp[i]=data[i].nome;
+									}
+			                	 response(temp);
 			                 }
 		             		});
-		             }
+		             },
+		             select: function( event, ui ) {
+		            	 for(i=0;i<id.length;i++){
+		            		 if(ui.item.value==id[i].nome){
+		            			 selected=id[i];
+		            		 }
+		            	 }
+	                   }
 	             });   
             }); 
+	 
 	</script>
 	<meta charset="ISO-8859-1">
     <link rel="stylesheet" href="css/loginCss.css">
@@ -149,10 +156,10 @@
 					
 				
             </div>
-            <div class="search ui-widget">
+            <form class="search ui-widget" action=chat.jsp method="post">
                 <input type="search" class="textfield" id=search-bar>
-                <input type="Button" id=invia onclick=createChat() >
-            </div>
+                <input type="submit" id=invia onclick=createChat() >
+            </form>
         </div>
         <div class="panel chat-panel">
             <div class="chat">

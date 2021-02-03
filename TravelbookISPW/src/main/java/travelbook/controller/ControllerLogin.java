@@ -136,7 +136,7 @@ public class ControllerLogin {
 		return null;
 	}
 	private String passwordHash(String pswd) throws GeneralSecurityException{
-		MessageDigest hasher=MessageDigest.getInstance("SHA-1");
+		MessageDigest hasher=MessageDigest.getInstance("SHA-256");
 		hasher.update(pswd.getBytes(StandardCharsets.UTF_8));
 		return toHex(hasher.digest());
 	}

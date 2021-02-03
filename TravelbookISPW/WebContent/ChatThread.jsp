@@ -15,6 +15,7 @@
 	int id=Integer.valueOf(request.getParameter("id"));
 	System.out.println(id);
 	Instant lastTime=null;
+	Instant lastLocalTime;
 	List<Chat>chats=new ArrayList<>();
 	while(goon)
 	{
@@ -22,7 +23,6 @@
 		
 		if(lastTime!=null) {
 					boolean found=false;
-					Instant lastLocalTime;
 					lastLocalTime=lastTime;
 					List<MessageEntity> messages=myController.getNewMessage(id,lastLocalTime);
 					if(!messages.isEmpty())
@@ -49,8 +49,10 @@
 					
 		}
 		else {
+			System.out.println("sto vedendo se ci sono nuovi messaggi");
 			boolean found;
 			lastTime = Instant.now();
+			
 			List<MessageBean> messages = myController.getMessagesThread(0,id);
 			for(MessageBean message: messages) {
 				found=false;

@@ -12,13 +12,16 @@
     	UserBean log=(UserBean)request.getSession().getAttribute("loggedBean");
     	String query = (String) request.getParameter("search");
 		List <UserBean> l=new ChatController().getUserPredictions(query,log.getId());
-		JSONObject o=new JSONObject();
+		JSONArray array=new JSONArray();
 		int i=0;
 		while(i<l.size()){
-			o.put("user"+i, l.get(i).toString());
+			JSONObject o=new JSONObject();
+			o.put("id",l.get(i).getId());
+			o.put("nome", l.get(i).toString());
+			array.add(o);
 			i++;
      	 }
-		out.print(o);
+		out.print(array);
     } catch(Exception e1)
       {
     	System.out.println(e1.getMessage());
