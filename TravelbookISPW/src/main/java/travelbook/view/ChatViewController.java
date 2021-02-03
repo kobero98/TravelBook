@@ -2,10 +2,14 @@ package main.java.travelbook.view;
 
 import java.time.Instant;
 import java.util.List;
+import main.java.travelbook.util.Observer;
+
+import main.java.travelbook.util.Observable;
 
 import exception.DBException;
 import exception.MissingPageException;
 import javafx.scene.input.KeyCode;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -21,13 +25,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import main.java.travelbook.controller.ChatController;
 import exception.TriggerAlert;
@@ -36,7 +37,7 @@ import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.util.Chat;
 import main.java.travelbook.util.SetImage;
 
-public class ChatViewController {
+public class ChatViewController implements Observer{
 	private Object[] array1=new Object[15];
 	private Button button;
 	private BorderPane mainPane;
@@ -100,6 +101,7 @@ public class ChatViewController {
     }
 	
 	public void initialize() {
+		MenuBar.getInstance().addObserver(this);
 	contactList.setItems(null);
 	searchFieldAuto = new SearchUserTextField(searchField);
 	searchFieldAuto.getLastSelectedItem().addListener((observable,oldValue,newValue)->{
@@ -190,6 +192,9 @@ public class ChatViewController {
 				
 				if(item.getSpecialIndicator().equalsIgnoreCase("selected")) {
 					hBox.getStyleClass().add("h-box-selected");
+				}
+				if(item.getSpecialIndicator().equalsIgnoreCase("changed")) {
+					hBox.setStyle("-fx-border-color:red;");
 				}
 				Text contact = new Text(item.getUser().getName()+" "+item.getUser().getSurname());
 				contact.getStyleClass().add("text");
@@ -388,6 +393,37 @@ public class ChatViewController {
 	  	}
     	
     }
+
+@Override
+public void update(Observable bar, Object notify) {
+	boolean value=(Boolean)notify;
+	if(value) {
+		Platform.runLater(()->{
+			for(Chat c: myChats) {
+				if(c.isChanged()) {
+					notified(c);
+				}
+			}
+		});
+		
+	}
+	
+}
+public void notified(Chat c) {
+	for(MyItem u: contacts) {
+		if(u.getUser().getId()==c.getIdUser())
+			u.setSpecialIndicator("changed");
+	}
+	if(current == c){
+		changeChat();
+	}
+}
+
+@Override
+public void update(Observable bar) {
+	this.update(bar,true);
+	
+}
 
 
 }

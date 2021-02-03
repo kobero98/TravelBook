@@ -6,7 +6,6 @@ public class Observable {
 	private boolean changed=false;
 	public void notifyObservers() {
 		for(Observer obs: observers) {
-			System.out.println("NOTIFICATO by"+this);
 			obs.update(this);
 		}
 	}
