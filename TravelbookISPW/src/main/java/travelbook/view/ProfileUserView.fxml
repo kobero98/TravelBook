@@ -158,6 +158,8 @@
             <Font size="20.0" />
          </font>
       </Text>
+      <ListView fx:id="showTravel" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="297.0" styleClass="lists" visible="false" />
+      <ListView fx:id="showShared" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="297.0" styleClass="lists" visible="false" />
       <ListView fx:id="show" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="297.0" styleClass="lists" visible="false" />
       <StackPane fx:id="listTitle" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="297.0" styleClass="list-titles" visible="false">
          <children>

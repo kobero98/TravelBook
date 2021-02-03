@@ -74,6 +74,10 @@ public class ProfileViewController implements Observer{
 	@FXML
 	private ListView<Bean> show;
 	@FXML
+	private ListView<Bean> showTravel;
+	@FXML
+	private ListView<Bean> showShared;
+	@FXML
 	private Button favButton;
 	@FXML
 	private ImageView favIcon;
@@ -227,10 +231,14 @@ public class ProfileViewController implements Observer{
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
 			followerButton.setPrefHeight(mainAnchor.getHeight()*57/625);
 			followerButton.setLayoutY(mainAnchor.getHeight()*410/625);
+			showTravel.setPrefHeight(mainAnchor.getHeight()*575/625);
+			showTravel.setLayoutY(mainAnchor.getHeight()*50/625);
 			followingButton.setPrefHeight(mainAnchor.getHeight()*57/625);
 			followingButton.setLayoutY(mainAnchor.getHeight()*410/625);
 			favButton.setPrefHeight(mainAnchor.getHeight()*50/625);
 			favButton.setLayoutY(mainAnchor.getHeight()*499/625);
+			showShared.setPrefHeight(mainAnchor.getHeight()*575/625);
+			showShared.setLayoutY(mainAnchor.getHeight()*50/625);
 			favIcon.setFitHeight(mainAnchor.getHeight()*27.5/625);
 			favText.setLayoutY(mainAnchor.getHeight()*519/625);
 			shButton.setPrefHeight(mainAnchor.getHeight()*50/625);
@@ -275,10 +283,12 @@ public class ProfileViewController implements Observer{
 		this.mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
 			followerButton.setPrefWidth(mainAnchor.getWidth()*123/1280);
 			followerButton.setLayoutX(mainAnchor.getWidth()*29/1280);
+			showShared.setPrefWidth(mainAnchor.getWidth()*297/1280);
 			followingButton.setPrefWidth(mainAnchor.getWidth()*123/1280);
 			followingButton.setLayoutX(mainAnchor.getWidth()*158/1280);
 			favButton.setPrefWidth(mainAnchor.getWidth()*50/1280);
 			favButton.setLayoutX(mainAnchor.getWidth()*41/1280);
+			showTravel.setPrefWidth(mainAnchor.getWidth()*297/1280);
 			favIcon.setFitWidth(mainAnchor.getWidth()*30/1280);
 			favText.setLayoutX(mainAnchor.getWidth()*95/1280);
 			shButton.setPrefWidth(mainAnchor.getWidth()*50/1280);
@@ -394,17 +404,17 @@ public class ProfileViewController implements Observer{
 	}
 	@FXML
 	private void sharedList(){
-		show.setVisible(true);
+		showShared.setVisible(true);
 		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText("Check out this travels");
-		show.getItems().clear();
-		show.setCellFactory(list->new ShCell());
+		showShared.getItems().clear();
+		showShared.setCellFactory(list->new ShCell());
 		try {
 			List<Bean> sh = myController.getShared(user.getId());
 			if(sh!=null && !sh.isEmpty()) {
 				ObservableList<Bean> fav = FXCollections.observableList(sh);
-				show.setItems(fav);
+				showShared.setItems(fav);
 				
 			}
 		} catch (DBException e) {
@@ -422,21 +432,22 @@ public class ProfileViewController implements Observer{
 				try {
 					myTravel = myController.getTravel(myItem.getTravelShared());
 					myUser = myController.getUser(myItem.getWhoShare());
-				} catch (DBException e) {
-					new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
-				}
+				
 				HBox hBox = new HBox();
             	VBox vBox = new VBox();
             	Label title=null;
             	title = new Label(myTravel.getNameTravel());
             	title.getStyleClass().add(TEXT_CSS);
             	Label creator =null;
-            	if(myUser!=null)  creator = new Label(myUser.getName()+" "+myUser.getSurname());
-            	creator.getStyleClass().add("text2");
+            	if(myUser!=null)  {
+            		creator = new Label(myUser.getName()+" "+myUser.getSurname());
+            		creator.getStyleClass().add("text2");
+            		}
             	Pane contactPic = new Pane();
 				new SetImage(contactPic, myTravel.getPathImage(), false);
 				contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
 				contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
+				
             	hBox.setOnMouseClicked(e->{
             	try {
             		MenuBar.getInstance().setIdTravel(myItem.getTravelShared());
@@ -449,6 +460,11 @@ public class ProfileViewController implements Observer{
             	hBox.getChildren().add(contactPic);
             	hBox.getChildren().add(vBox);
             	setGraphic(hBox);
+				} catch (DBException e) {
+					new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
+				}catch(NullPointerException e1) {
+					new TriggerAlert().triggerAlertCreate("Error while loading", "warn");
+				}
             }
             else
             	setGraphic(null);
@@ -456,19 +472,19 @@ public class ProfileViewController implements Observer{
 	}
 	@FXML
 	private void favouriteList(){
-		show.setVisible(true);
+		showTravel.setVisible(true);
 		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText("Your favourite travels");
-		show.getItems().clear();
-		show.setCellFactory(list-> new FavCell());
+		showTravel.getItems().clear();
+		showTravel.setCellFactory(list-> new FavCell());
 		if(user.getFav()!=null && !user.getFav().isEmpty()) {
 			ObservableList<Bean> fav;
 			try {
 				List<Bean> l =myController.getTravel(user.getFav());
 				fav = FXCollections.observableList(l);
-				show.setCellFactory(list-> new FavCell());
-				show.setItems(fav);
+				showTravel.setCellFactory(list-> new FavCell());
+				showTravel.setItems(fav);
 				
 			} catch (DBException e) {
 				errorMsg.setVisible(true);
@@ -578,6 +594,8 @@ public class ProfileViewController implements Observer{
 		show.setVisible(false);
 		listTitle.setVisible(false);
 		errorMsg.setVisible(false);
+		showTravel.setVisible(false);
+		showShared.setVisible(false);
 	}
 	@FXML
 	private void logOut() {

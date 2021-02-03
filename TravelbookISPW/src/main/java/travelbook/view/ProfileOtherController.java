@@ -77,7 +77,6 @@ public class ProfileOtherController {
 	private Button follow;
 	@FXML
 	private Label errorMsg;
-	private String viewTravel = "src/main/java/travelbook/view/ViewTravel.fxml";
 	private ControllerProfileOther myController = new ControllerProfileOther();
 	private static final String CSS = "fav-selected";
 	
@@ -221,18 +220,20 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
 			followerButton.setPrefHeight(mainAnchor.getHeight()*57/625);
 			followerButton.setLayoutY(mainAnchor.getHeight()*410/625);
-			followingButton.setPrefHeight(mainAnchor.getHeight()*57/625);
-			followingButton.setLayoutY(mainAnchor.getHeight()*410/625);
+			
 			favButton.setPrefHeight(mainAnchor.getHeight()*50/625);
 			favButton.setLayoutY(mainAnchor.getHeight()*513/625);
-			favIcon.setFitHeight(mainAnchor.getHeight()*27.5/625);
-			favText.setLayoutY(mainAnchor.getHeight()*534/625);
+			
 			map.setFitHeight(mainAnchor.getHeight()*160/625);
 			map.setLayoutY(mainAnchor.getHeight()*434/625);
+			followingButton.setPrefHeight(mainAnchor.getHeight()*57/625);
+			followingButton.setLayoutY(mainAnchor.getHeight()*410/625);
 			placeVisited.setPrefHeight(mainAnchor.getHeight()*160/625);
 			placeVisited.setLayoutY(mainAnchor.getHeight()*419/625);
 			profilePhoto.setPrefHeight(mainAnchor.getHeight()*200/625);
 			profilePhoto.setLayoutY(mainAnchor.getHeight()*90/625);
+			favIcon.setFitHeight(mainAnchor.getHeight()*27.5/625);
+			favText.setLayoutY(mainAnchor.getHeight()*534/625);
 			userName.setLayoutY(mainAnchor.getHeight()*150/625);
 			myDescr.setLayoutY(mainAnchor.getHeight()*200/625);
 			show.setPrefHeight(mainAnchor.getHeight()*575/625);
@@ -250,21 +251,22 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 		this.mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
 			followerButton.setPrefWidth(mainAnchor.getWidth()*123/1280);
 			followerButton.setLayoutX(mainAnchor.getWidth()*29/1280);
-			followingButton.setPrefWidth(mainAnchor.getWidth()*123/1280);
-			followingButton.setLayoutX(mainAnchor.getWidth()*158/1280);
 			favButton.setPrefWidth(mainAnchor.getWidth()*50/1280);
 			favButton.setLayoutX(mainAnchor.getWidth()*41/1280);
-			favIcon.setFitWidth(mainAnchor.getWidth()*30/1280);
-			favText.setLayoutX(mainAnchor.getWidth()*95/1280);
-			favText.setWrappingWidth(mainAnchor.getWidth()*152/1280);
+			
 			map.setFitWidth(mainAnchor.getWidth()*285/1280);
 			map.setLayoutX(mainAnchor.getWidth()*307/1280);
+			followingButton.setPrefWidth(mainAnchor.getWidth()*123/1280);
+			followingButton.setLayoutX(mainAnchor.getWidth()*158/1280);
 			placeVisited.setPrefWidth(mainAnchor.getWidth()*270/1280);
 			placeVisited.setLayoutX(mainAnchor.getWidth()*317/1280);
 			profilePhoto.setPrefWidth(mainAnchor.getWidth()*200/1280);
 			profilePhoto.setLayoutX(mainAnchor.getWidth()*65/1280);
 			userName.setLayoutX(mainAnchor.getWidth()*269/1280);
 			userName.setWrappingWidth(mainAnchor.getWidth()*326/1280);
+			favIcon.setFitWidth(mainAnchor.getWidth()*30/1280);
+			favText.setLayoutX(mainAnchor.getWidth()*95/1280);
+			favText.setWrappingWidth(mainAnchor.getWidth()*152/1280);
 			myDescr.setLayoutX(mainAnchor.getWidth()*269/1280);
 			myDescr.setWrappingWidth(mainAnchor.getWidth()*326/1280);
 			show.setPrefWidth(mainAnchor.getWidth()*297/1280);

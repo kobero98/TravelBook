@@ -29,6 +29,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import main.java.travelbook.controller.ChatController;
 import exception.TriggerAlert;
@@ -69,7 +71,7 @@ public class ChatViewController implements Observer{
 	private SearchUserTextField searchFieldAuto;
 	private Chat current = null;
 	private ObservableList<MyItem> contacts;
-	
+	private String changed = "changed";
 	class MyItem {
 		private StringProperty specialIndicator;
 		private UserBean contact;
@@ -116,8 +118,11 @@ public class ChatViewController implements Observer{
 		 contacts = FXCollections.observableArrayList();
 	 for(UserBean u: tryContacts) {
 		 contacts.add(new MyItem(u));
+		 
 	 }
-	 
+	 for(Chat c:myChats)
+		 if(c.isChanged())
+			 notified(c);
     
 	contactList.setItems(contacts);
 	} catch (DBException e) {
@@ -139,7 +144,7 @@ public class ChatViewController implements Observer{
 	private void select(MyItem user) {
 		user.setSpecialIndicator("selected");
 		for(MyItem u: contacts) {
-			if(u!=user)
+			if(u!=user && !u.getSpecialIndicator().equalsIgnoreCase(changed))
 				u.setSpecialIndicator("");
 		}
 		contactList.refresh();
@@ -186,16 +191,14 @@ public class ChatViewController implements Observer{
 			super.updateItem(item, empty);
 			if(!empty) {
 				HBox hBox = new HBox();
-				hBox.setSpacing(mainAnchor.getPrefWidth()*30/1280);
+				hBox.setSpacing(mainAnchor.getPrefWidth()*10/1280);
 				hBox.getStyleClass().add("h-box");
 				hBox.setAlignment(Pos.CENTER);
 				
 				if(item.getSpecialIndicator().equalsIgnoreCase("selected")) {
 					hBox.getStyleClass().add("h-box-selected");
 				}
-				if(item.getSpecialIndicator().equalsIgnoreCase("changed")) {
-					hBox.setStyle("-fx-border-color:red;");
-				}
+				
 				Text contact = new Text(item.getUser().getName()+" "+item.getUser().getSurname());
 				contact.getStyleClass().add("text");
 				contact.setWrappingWidth(mainAnchor.getPrefWidth()*150/1280);
@@ -205,7 +208,7 @@ public class ChatViewController implements Observer{
 				contactPic.setPrefWidth(mainAnchor.getPrefWidth()*70/1280);
 				mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
 					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*70/1280);
-					hBox.setSpacing(mainAnchor.getPrefWidth()*50/1280);
+					hBox.setSpacing(mainAnchor.getPrefWidth()*10/1280);
 					contact.setWrappingWidth(mainAnchor.getPrefWidth()*170/1280);
 				});
 				mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->
@@ -214,6 +217,9 @@ public class ChatViewController implements Observer{
 				
 				hBox.getChildren().add(contactPic);
 				hBox.getChildren().add(contact);
+				if(item.getSpecialIndicator().equalsIgnoreCase(changed)) {
+					hBox.getChildren().add(new Circle(5, Paint.valueOf("rgb(255, 162, 134)")));
+				}
 				setGraphic(hBox);
 			}
 			else {
@@ -402,6 +408,9 @@ public void update(Observable bar, Object notify) {
 			for(Chat c: myChats) {
 				if(c.isChanged()) {
 					notified(c);
+					if(current == c){
+						changeChat();
+					}
 				}
 			}
 		});
@@ -413,9 +422,6 @@ public void notified(Chat c) {
 	for(MyItem u: contacts) {
 		if(u.getUser().getId()==c.getIdUser())
 			u.setSpecialIndicator("changed");
-	}
-	if(current == c){
-		changeChat();
 	}
 }
 
