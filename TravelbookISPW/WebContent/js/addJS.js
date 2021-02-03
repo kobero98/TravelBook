@@ -42,7 +42,6 @@ function endDateListener(){
 	}
 }
 function setStep(evt){
-	alert("FUNZIONE");
 	console.log(evt.currentTarget.id);
 	actualStep=evt.currentTarget.id.split(";")[1]-1;
 	var desc=document.getElementById("step-descr");
@@ -50,9 +49,18 @@ function setStep(evt){
 	var divFoto=document.getElementById("photo-grid");
 	var step=arrayStep[actualDay][actualStep];
 	var place=document.getElementById("searchPlace");
-	place.value=step.place;
-	desc.value=step.descriptionStep;
-	inf.value=step.precision;
+	if(step.place!=undefined && step.place.length>0)
+		place.value=step.place;
+	else
+		place.value="";
+	if(step.descriptionStep!=undefined && step.descriptionStep.length>0)
+		desc.value=step.descriptionStep;
+	else
+		desc.value="";
+	if(step.precision!=undefined && step.precision.length>0)
+		inf.value=step.precision;
+	else
+		inf.value="";
 	while(divFoto.lastChild)
 		divFoto.removeChild(divFoto.lastChild);
 	var arrayFoto=step.photo;
@@ -204,6 +212,7 @@ function compareDate(start,end){
 	var data2=new Date(array2[0],array2[1],array2[2]);
 	if(data1.getTime<=data2.getTime){
 		//Devo passare da millisecondi a giorni quindi divido per quel bestione
+		document.getElementById("stepPanel").style="opacity:1;"
 		changeDayNumber((data2.getTime()-data1.getTime())/86400000+1);
 		return true;
 		}

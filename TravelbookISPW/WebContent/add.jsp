@@ -309,7 +309,7 @@ $(function()
                 </div>                              
             </form>
         </div>
-        <div class="panel">
+        <div class="panel" id="stepPanel" style="opacity:0;">
             <form id="add-step" class="add-travel">
                 <p class="write">
                     Now give us something more specific
