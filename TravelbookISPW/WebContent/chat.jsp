@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+     <%@page errorPage="errorpage.jsp" %>
 <%@ page import="main.java.travelbook.util.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.time.Instant"%>
@@ -7,8 +8,14 @@
 <%@ page import="main.java.travelbook.model.*" %>
 <%@ page import="main.java.travelbook.controller.ChatController" %>
 <%
+	ChatController myController=new ChatController();
 	List <Chat> c=new ArrayList<>();
-	if(request.getSession().getAttribute("ChatList")!=null) c=(List<Chat>) request.getSession().getAttribute("ChatList");	
+	UserBean log=(UserBean)request.getSession().getAttribute("loggedBean");
+	List<UserBean> tryContacts=new ArrayList<>();
+	if(request.getSession().getAttribute("ChatList")!=null){ 
+		c=(List<Chat>) request.getSession().getAttribute("ChatList");	
+		tryContacts = myController.getContacts(c,log.getId());
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -20,6 +27,14 @@
     
 	<script type="text/javascript">
 	var selected=0;
+	var myMap = new Map();
+	<%
+		for(Chat chat:c){
+		%>
+			myMap.set(<%=chat.getIdUser()%>,{"")
+		<%
+		}
+	%>
 	function goToExplore()
 	{
 		  location.replace("explore.jsp");
@@ -34,8 +49,7 @@
 	}
 	function createChat()
 	{
-		console.log(selected);
-		selected=0;
+		
 	}
 	function log( message ) {
 			 $('#contact').append(
@@ -94,15 +108,19 @@
             </form>
             <div class="contact" id=contact>
 				<%
-				for(Chat s:c)
+				for(UserBean contact:tryContacts)
 				{
+					int idC=contact.getId();
 					%>
-					<Div id=<%=s.getIdUser() %> Style="background-color:red">
-						<p><%=s.getIdUser() %><br>
-					</Div>
-				<% 
-				}
+					<div id=<%=idC %>>
+						<p><%=contact.getName()%> <%=contact.getSurname()%><br>
+					</div>			
+				
+				
+			<% }
 				%>
+					
+				
             </div>
             <div class="search ui-widget">
                 <input type="search" class="textfield" id=search-bar>
@@ -111,9 +129,9 @@
         </div>
         <div class="panel chat-panel">
             <div class="chat">
-
             </div>
             <div class="write">
                 <textarea class="textfield" id="write-bar" wrap="hard"></textarea>
             </div>
         </div>
+   </div>

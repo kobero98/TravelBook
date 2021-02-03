@@ -17,10 +17,10 @@
 
 <AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.ChatViewController">
    <children>
-      <AnchorPane fx:id="chatAnchor" layoutX="350.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="904.0">
+      <AnchorPane fx:id="chatAnchor" layoutX="350.0" layoutY="96.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="517.0" prefWidth="904.0">
          <children>
-            <ListView fx:id="sentList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="904.0" styleClass="chat-view" />
-            <StackPane fx:id="writeBar" layoutY="498.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="904.0">
+            <ListView fx:id="sentList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="904.0" styleClass="chat-view" />
+            <StackPane fx:id="writeBar" layoutY="432.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="904.0">
                <children>
                   <Button fx:id="send" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#sendHandler" prefHeight="30.0" prefWidth="40.0" StackPane.alignment="CENTER_RIGHT">
                      <cursor>
@@ -30,7 +30,7 @@
                         <Insets right="20.0" />
                      </StackPane.margin>
                   </Button>
-                  <TextArea fx:id="write" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="750.0" promptText="Write something..." wrapText="true" StackPane.alignment="CENTER">
+                  <TextArea fx:id="write" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="52.0" prefWidth="750.0" promptText="Write something..." wrapText="true" StackPane.alignment="CENTER">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor></TextArea>

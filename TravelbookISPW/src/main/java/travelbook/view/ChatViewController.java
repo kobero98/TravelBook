@@ -104,7 +104,7 @@ public class ChatViewController {
 	 sentList.setCellFactory(list -> new MessageCell());
 	 List<UserBean> tryContacts;
 	try {
-		tryContacts = myController.getContacts(myChats);
+		tryContacts = myController.getContacts(myChats,MenuBar.getInstance().getLoggedUser().getId());
 	
 		ObservableList<MyItem> contacts = FXCollections.observableArrayList();
 	 for(UserBean u: tryContacts) {

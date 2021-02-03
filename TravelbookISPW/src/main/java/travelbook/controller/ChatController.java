@@ -15,7 +15,6 @@ import main.java.travelbook.model.dao.PredictableDAO;
 import main.java.travelbook.model.dao.VisualDAO;
 import main.java.travelbook.util.Chat;
 import main.java.travelbook.util.DateComparator;
-import main.java.travelbook.view.MenuBar;
 import main.java.travelbook.model.MessageEntity;
 import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.MessageBean;
@@ -36,7 +35,7 @@ public class ChatController {
 		msg.sort(new DateComparator());
 		return msg;
 	}
-	public List<UserBean> getContacts(List<Chat> c) throws DBException{
+	public List<UserBean> getContacts(List<Chat> c,int id) throws DBException{
 		VisualDAO cDao = DaoFactory.getInstance().createVisual(DaoType.S_USER);
 		List<UserBean> ul = new ArrayList<>();
 		for(Chat i: c) {
@@ -46,7 +45,7 @@ public class ChatController {
 			} catch (SQLException e) {
 				throw new DBException("We couldn't find your contacts");
 			}
-			if(userE.getId()!=MenuBar.getInstance().getLoggedUser().getId()) {
+			if(userE.getId()!=id) {
 				UserBean u = new UserBean(userE.getId());
 				u.setName(userE.getName());
 				u.setSurname(userE.getSurname());
