@@ -248,12 +248,12 @@ public class ChatViewController {
 		);
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
 	
-			chatAnchor.setPrefHeight(mainAnchor.getPrefHeight()*588/625);
-			chatAnchor.setLayoutY(mainAnchor.getPrefHeight()*25/625);
-			sentList.setPrefHeight(mainAnchor.getPrefHeight()*498/625);
+			chatAnchor.setPrefHeight(mainAnchor.getPrefHeight()*517/625);
+			chatAnchor.setLayoutY(mainAnchor.getPrefHeight()*96/625);
+			sentList.setPrefHeight(mainAnchor.getPrefHeight()*433/625);
 			
-			writeBar.setPrefHeight(mainAnchor.getPrefHeight()*90/625);
-			writeBar.setLayoutY(mainAnchor.getPrefHeight()*498/625);
+			writeBar.setPrefHeight(mainAnchor.getPrefHeight()*85/625);
+			writeBar.setLayoutY(mainAnchor.getPrefHeight()*432/625);
 			write.setPrefHeight(mainAnchor.getPrefHeight()*70/625);
 			send.setPrefHeight(mainAnchor.getHeight()*30/625);
 			contactList.setPrefHeight(mainAnchor.getHeight()*450/625);
