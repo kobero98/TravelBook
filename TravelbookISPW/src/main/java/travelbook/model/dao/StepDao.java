@@ -34,13 +34,13 @@ public class StepDao implements PersistanceDAO {
 		}
 	}
 	@Override
-	public List<Entity> getData(Entity step){
+	public List<Entity> getData(Entity step) throws DBException{
 		StepEntity entity=(StepEntity) step;
 		List<Entity> stepFound=new ArrayList<>();
 		try{
 			this.connection=AllQuery.getInstance().getConnection();
 		}catch(SQLException e) {
-			e.printStackTrace();
+			throw new DBException("Error while loading travel");
 		}
 		try {
 			Statement stmt=connection.createStatement();
@@ -68,7 +68,7 @@ public class StepDao implements PersistanceDAO {
 				localStep.setStreamFoto(images);
 			}
 		}catch(SQLException e1) {
-			e1.printStackTrace();
+			throw new DBException("Error while loading travel");
 		}
 		return stepFound;
 	}

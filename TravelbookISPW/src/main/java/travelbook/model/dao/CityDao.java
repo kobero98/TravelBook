@@ -11,13 +11,13 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 	private Connection connection;
 	private CityEntity myEntity;
 	@Override
-	public List<Entity> getPredictions(String text){
+	public List<Entity> getPredictions(String text) throws DBException{
 
 		List<Entity> predictions=new ArrayList<>();
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
 		}catch(SQLException e4) {
-			e4.printStackTrace();
+			throw new DBException("servers unreacheable");
 		}
 		try {
 		
@@ -34,7 +34,7 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 		}
 		}
 		}catch(SQLException e1) {
-			e1.printStackTrace();
+			throw new DBException("we can't reach our servers");
 		}
 		return predictions;
 

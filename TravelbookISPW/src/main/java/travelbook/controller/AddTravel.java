@@ -35,7 +35,7 @@ public class AddTravel {
 			istance=new AddTravel();
 		return istance;
 	}
-	public void saveAndDelete(TravelBean travel, int travelId,int userId) throws DBException, MapboxException, FileNotFoundException{
+	public void saveAndDelete(TravelBean travel, int travelId,int userId) throws DBException, MapboxException{
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity travelE=new TravelEntity();
 		travelE.setIdTravel(travelId);

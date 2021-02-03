@@ -99,7 +99,7 @@ public class ControllerSearch {
 		}
 		return list;
 	}
-	public List<String> getCitiesPredictions(String text) {
+	public List<String> getCitiesPredictions(String text) throws DBException {
 		PredictableDAO dao= DaoFactory.getInstance().createPredictable(DaoType.CITY);
 		List<String> results=new ArrayList<>();
 		List<Entity> predictions=dao.getPredictions(text);

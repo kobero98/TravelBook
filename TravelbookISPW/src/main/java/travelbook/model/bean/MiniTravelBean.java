@@ -27,7 +27,7 @@ public class MiniTravelBean implements Bean{
 			}
 			this.array=buffer.toByteArray();
 			}catch(IOException e) {
-				e.printStackTrace();
+				return new byte[0];
 			}
 		return array;
 	}

@@ -2,7 +2,12 @@ package main.java.travelbook.view;
 import javafx.geometry.Side;
 import javafx.scene.control.TextField;
 import main.java.travelbook.controller.ControllerSearch;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import exception.DBException;
+import exception.TriggerAlert;
 public class SearchCityTextField extends AutocompleteTextField<String> {
 	public SearchCityTextField() {
 		super();
@@ -14,7 +19,12 @@ public class SearchCityTextField extends AutocompleteTextField<String> {
 	}
 	@Override
 	public List<String> getPredictions(String text){
-		return ControllerSearch.getInstance().getCitiesPredictions(text);
+		try {
+			return ControllerSearch.getInstance().getCitiesPredictions(text);
+		} catch (DBException e) {
+			new TriggerAlert().triggerAlertCreate(e.getMessage(),"warn").showAndWait();
+			return new ArrayList<>();
+		}
 		
 	}
 }

@@ -2,6 +2,8 @@ package main.java.travelbook;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+
+import exception.MissingPageException;
 import main.java.travelbook.view.LoginViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.application.Application;
@@ -18,10 +20,14 @@ public class MainApp extends Application {
 	public void start(Stage rootStage) {
 		this.rootStage=rootStage;
 		this.rootStage.setTitle("Travelbook");
-		initRootLayout();
+		try {
+			initRootLayout();
+		} catch (MissingPageException e) {
+			e.exit();
+		}
 		controller.setMain(rootLayout);
 	}
-	private void initRootLayout() {
+	private void initRootLayout() throws MissingPageException {
 		try {
 		AnchorPane exploreLayout;
 		URL url = new File("src/main/java/travelbook/view/RootLayout.fxml").toURI().toURL();
@@ -36,7 +42,7 @@ public class MainApp extends Application {
 		this.rootStage.show();
 		controller=loader2.getController();	
 	}catch (IOException e){
-		e.printStackTrace();
+		throw new MissingPageException();
 	}
 	}
 	public BorderPane getPane() {

@@ -1,5 +1,4 @@
 package main.java.travelbook.view;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -8,11 +7,8 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
-import java.io.File;
-import java.net.URL;
-
+import exception.MissingPageException;
 import javafx.scene.layout.BorderPane;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -85,21 +81,12 @@ public class TravelButton implements Observer {
 		TravelBean myTravel;
 		myTravel=(TravelBean) o;
 		this.stack.setOnMouseClicked(e->{
-			FXMLLoader loader=new FXMLLoader();
-			URL url;
 			try {
-				url = new File("src/main/java/travelbook/view/ViewTravel.fxml").toURI().toURL();
-				loader.setLocation(url);
-				ViewTravelController controller;
-				AnchorPane internalPane;
-				internalPane=(AnchorPane)loader.load();
-				mainPane.setCenter(internalPane);
-				controller=loader.getController();
-				MenuBar.getInstance().setIdTravel(myTravel.getId());
-				controller.setMainPane(mainPane, 1);
 				
-			}catch(Exception e1) {
-				e1.printStackTrace();
+				MenuBar.getInstance().setIdTravel(myTravel.getId());
+				MenuBar.getInstance().moveToView(mainPane, 1);
+			} catch (MissingPageException e1) {
+				e1.exit();
 			}
 		});
 		//Carica la foto nel pane

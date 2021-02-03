@@ -100,7 +100,7 @@ public class ChatController {
 		mexE.setLastTimeStamp(mex.getTime());
 		dao.update(mexE);
 	}
-	public List<UserBean> getUserPredictions(String text,int id) {
+	public List<UserBean> getUserPredictions(String text,int id) throws DBException {
 		PredictableDAO dao= DaoFactory.getInstance().createPredictable(DaoType.USER);
 		List<UserBean> results=new ArrayList<>();
 		List<Entity> predictions=dao.getPredictions(text);

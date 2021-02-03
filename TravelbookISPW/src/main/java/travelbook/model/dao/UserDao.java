@@ -158,13 +158,13 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		}
 	}
 	@Override
-	public List<Entity> getPredictions(String text){
+	public List<Entity> getPredictions(String text) throws DBException{
 		List<Entity> predictions=new ArrayList<>();
 		ResultSet rs;
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DBException("no suggestion avaiable");
 		}
 		try {
 			Statement stmt=connection.createStatement();
@@ -181,7 +181,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DBException("no suggestion avaiable");
 		}
 		return predictions;
 	}

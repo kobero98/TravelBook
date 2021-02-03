@@ -348,7 +348,7 @@ public class LoginViewController {
 			redirecturi=URLEncoder.encode(redirect,"UTF8");
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			new TriggerAlert().triggerAlertCreate("feature temporarily unavaiable", "err");
 		}
 		String appId="1332279647110748";
 		String request="https://www.facebook.com/v9.0/dialog/oauth?client_id="+appId+"&response_type=token"+"&redirect_uri="+redirecturi+ "&state=\'{st=state123abc,ds=123456789}\'&auth_type=rerequest&scope=email,user_photos,user_gender,user_birthday";

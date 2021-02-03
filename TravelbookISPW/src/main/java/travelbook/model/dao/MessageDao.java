@@ -55,13 +55,13 @@ public class MessageDao implements PersistanceDAO {
 		
 	}
 	@Override
-	public void update(Entity obj)  {
+	public void update(Entity obj) throws DBException  {
 		MessageEntity entityToBeUpdated=(MessageEntity) obj;
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
 		AllQuery.getInstance().setReadMex(this.connection.createStatement(), entityToBeUpdated);
 		}catch(SQLException e) {
-			e.printStackTrace();
+			throw new DBException("we couldn't update your information");
 		}
 	}
 	@Override

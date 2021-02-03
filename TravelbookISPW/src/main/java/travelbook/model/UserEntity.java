@@ -42,7 +42,7 @@ public class UserEntity extends OtherUserEntity implements Entity{
 			try {
 				super.photo=new FileInputStream(photo);
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+				super.photo = null;
 			}
 		else super.photo=null;
 	}

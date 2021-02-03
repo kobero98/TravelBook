@@ -43,7 +43,6 @@ public class OtherUserDao implements VisualDAO {
 			try {
 				connection = AllQuery.getInstance().getConnection();
 			} catch (SQLException e1) {
-				e1.printStackTrace();
 				throw new LoginPageException("we couldn't reach our servers");
 			}
 			try {

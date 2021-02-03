@@ -37,8 +37,6 @@ public class StepBean implements Bean{
 		this.isL = is;
 	}
 	public List<byte[]> getArray() {
-	/*	if(this.isL==null)
-			return new ArrayList<>();*/
 		
 		try {
 			for(InputStream is:isL) {
@@ -49,10 +47,9 @@ public class StepBean implements Bean{
 				buffer.write(targetArray,0,nRead);
 			}
 			this.array.add(buffer.toByteArray());
-			System.out.println(buffer.toByteArray());
 			}
 			}catch(IOException e) {
-				e.printStackTrace();
+				return new ArrayList<>();
 			}
 		
 		return this.array;

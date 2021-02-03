@@ -793,7 +793,7 @@ public class AddViewController implements Observer{
 				ImageIO.write(bImage, "png", s);
 				this.travel.setArray(s.toByteArray());
 	    		}catch(Exception e) {
-	    			e.printStackTrace();
+	    			new TriggerAlert().triggerAlertCreate("we couldn't load your photo", "warn");
 	    		}
 	    		incrementProgress();
 	    	}
@@ -857,7 +857,7 @@ public class AddViewController implements Observer{
 		    	closeProgressBar.setVisible(true);
 			});
 			}catch(Exception e) {
-				e.printStackTrace();
+				progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
 			}
 	    }
 	    private void modifyColor(List<Object> listOfErrors) {
@@ -983,7 +983,7 @@ public class AddViewController implements Observer{
     		    	closeProgressBar.setVisible(true);
     			});
     			}catch(Exception e) {
-    				e.printStackTrace();
+    				progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
     			}
     			
     		}).start();
@@ -1278,7 +1278,7 @@ public class AddViewController implements Observer{
 	    		this.dayBox.setValue("1");
 	    	}
 	    	}catch(Exception e) {
-	    		e.printStackTrace();
+	    		new TriggerAlert().triggerAlertCreate("error while loading travel", "err");
 	    	}
 	    	
 	    }

@@ -14,11 +14,11 @@ public class ClasseConnessione {
 		
 		String myUrl="jdbc:mysql://localhost:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		try {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		
-		}catch(Exception e) {
-			e.printStackTrace();
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			throw new SQLException();
 		}
-		return DriverManager.getConnection(myUrl,"root","root");
+		
+		return DriverManager.getConnection(myUrl,"root","Sara.d-19");
 	}
 }

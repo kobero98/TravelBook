@@ -76,7 +76,7 @@ public class TravelBean extends Observable implements Bean{
 			}
 			this.array=buffer.toByteArray();
 			}catch(IOException e) {
-				e.printStackTrace();
+				return new byte[0];
 			}
 		return array;
 	}
