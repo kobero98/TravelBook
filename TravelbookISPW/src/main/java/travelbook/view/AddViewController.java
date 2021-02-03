@@ -848,7 +848,8 @@ public class AddViewController implements Observer{
 		    	closeProgressBar.setVisible(true);
 			});
 			}catch(Exception e) {
-				progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+				new TriggerAlert().triggerAlertCreate("Sometimes go bad "+e.getMessage(), "err").showAndWait();
+				this.progressBarDoneHandler();
 			}
 	    }
 	    private void modifyColor(List<Object> listOfErrors) {
