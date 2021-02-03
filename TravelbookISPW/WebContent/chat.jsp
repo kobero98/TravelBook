@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-     <%@page errorPage="errorpage.jsp" %>
+     <!-- <%@page errorPage="errorpage.jsp" %> -->
 <%@ page import="main.java.travelbook.util.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.time.Instant"%>
@@ -16,6 +16,37 @@
 		c=(List<Chat>) request.getSession().getAttribute("ChatList");	
 		tryContacts = myController.getContacts(c,log.getId());
 	}
+	int selettore=-1;
+	
+	for(int j=0;j<tryContacts.size();j++)
+    {
+    	if(request.getParameter("contatto"+j)!=null) {
+    		selettore=j;
+    		request.getSession().setAttribute("selettore",j);
+    	}
+    	
+    }
+	if(request.getParameter("invioMex")!=null)
+	{
+		if(request.getSession().getAttribute("selettore")!=null)
+		{
+			int index= (Integer) request.getSession().getAttribute("selettore");
+			int id=tryContacts.get(index).getId();
+			MessageBean messagge= new MessageBean(id,log.getId());
+	        
+	        StringBuffer text = new StringBuffer(request.getParameter("mex"));
+	        
+	        int loc = (new String(text)).indexOf('\n');
+	        while(loc > 0){
+	            text.replace(loc, loc+1, "<BR>");
+	            loc = (new String(text)).indexOf('\n');
+	       }
+	       messagge.setText(text.toString()); 
+	       messagge.setRead(false);
+		   messagge.setTime(Instant.now());
+		   myController.sendMessage(messagge);
+		}
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -27,14 +58,7 @@
     
 	<script type="text/javascript">
 	var selected=0;
-	var myMap = new Map();
-	<%
-		for(Chat chat:c){
-		%>
-			myMap.set(<%=chat.getIdUser()%>,{"")
-		<%
-		}
-	%>
+
 	function goToExplore()
 	{
 		  location.replace("explore.jsp");
@@ -108,16 +132,19 @@
             </form>
             <div class="contact" id=contact>
 				<%
+				int i=0;
 				for(UserBean contact:tryContacts)
 				{
 					int idC=contact.getId();
 					%>
-					<div id=<%=idC %>>
+					<form id=<%=idC %> action="chat.jsp" method="post">
+						<input type="submit" name=contatto<%=String.valueOf(i)%>>
 						<p><%=contact.getName()%> <%=contact.getSurname()%><br>
-					</div>			
-				
-				
-			<% }
+					</form>			
+			
+				<%
+				i++;
+				}
 				%>
 					
 				
@@ -129,9 +156,44 @@
         </div>
         <div class="panel chat-panel">
             <div class="chat">
+            <%
+				if(request.getSession().getAttribute("selettore")!=null)
+				{	
+					selettore=(Integer) request.getSession().getAttribute("selettore");
+					int j=0;
+					int x=0;
+					for(Chat chat:c)
+					{
+						if(chat.getIdUser()== tryContacts.get(selettore).getId()) x=j;
+						j++;
+					}
+					List<MessageBean> msgS=  c.get(x).getSend();
+					List<MessageBean> msgR= c.get(x).getReceive();
+					List<MessageBean> m= myController.getMessages(msgR, msgS);
+					for(MessageBean messaggio:m)
+					{
+						if(messaggio.getIdDestinatario()==c.get(x).getIdUser()){
+							%>
+							<div>
+								<p Style="background-color:red"><%=messaggio.getText()%><br>
+							</div>
+							<%
+						}
+						else{
+							%>
+							<div>
+								<p Style="background-color:blue"><%=messaggio.getText()%><br>
+							</div>
+							<%
+						}
+					}
+					
+				}
+		%>
             </div>
-            <div class="write">
-                <textarea class="textfield" id="write-bar" wrap="hard"></textarea>
-            </div>
+            <form class="write" action="chat.jsp" method="get">
+                <textarea class="textfield" name=mex id=write-bar wrap="hard"></textarea>
+                <input type="submit" name=invioMex>
+            </form>
         </div>
    </div>
