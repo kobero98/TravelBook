@@ -352,24 +352,30 @@ public class ChatViewController {
     }
   @FXML
     private void searchHandler() {
-	  	if(searchFieldAuto.getTextField().getText()!= null) {
-		  	MyItem i = new MyItem(searchedUser);
-		  	searchFieldAuto.getTextField().setText(null);
-		  	int j=0;
-		  	boolean found = false;
-		  	while(j<contactList.getItems().size() && !found) {
-		  		if(contactList.getItems().get(j).getUser().getId()==i.getUser().getId()) {
-		  			contactList.getSelectionModel().select(contactList.getItems().get(j));
-		  			contactList.scrollTo(contactList.getItems().get(j));
-		  			found = true;
-		  		}
-		  		j++;
+	  	  try{
+	  		  	if(searchFieldAuto.getTextField().getText()!= null) {
+		
+		  		MyItem i = new MyItem(searchedUser);
+		  
+			  	searchFieldAuto.getTextField().setText(null);
+			  	int j=0;
+			  	boolean found = false;
+			  	while(j<contactList.getItems().size() && !found) {
+			  		if(contactList.getItems().get(j).getUser().getId()==i.getUser().getId()) {
+			  			contactList.getSelectionModel().select(contactList.getItems().get(j));
+			  			contactList.scrollTo(contactList.getItems().get(j));
+			  			found = true;
+			  		}
+			  		j++;
+			  	}
+			  	if(!found) {
+			  		contactList.getItems().add(i);
+			  		contactList.getSelectionModel().select(i);
+			  		contactList.scrollTo(i);
+			  	}	
 		  	}
-		  	if(!found) {
-		  		contactList.getItems().add(i);
-		  		contactList.getSelectionModel().select(i);
-		  		contactList.scrollTo(i);
-		  	}
+	  	}catch(NullPointerException e) {
+	  		new TriggerAlert().triggerAlertCreate("Select a valid User from Autocomplete", "warn").showAndWait();
 	  	}
     	
     }
