@@ -49,6 +49,7 @@
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/util/ProfilePollingThread.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/view/ViewOnMapController.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/view/ProfileOtherController.java
+/Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/exception/MissingPageException.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/util/MessagePollingThread.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/dao/UserDao.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/dao/ShortTravelDao.java

@@ -105,7 +105,8 @@
 				}
 				tablinks=document.getElementsByClassName("tablinks");
 				for(i=0;i<tablinks.length;i++){
-					tablinks[i].className.replace("active","");
+					console.log("prova");
+					tablinks[i].className="tablinks";
 				}
 				document.getElementById("day"+dayNumber).style.display="block";
 				event.currentTarget.className+=" active";
@@ -138,7 +139,7 @@
 		jQuery.ajax({
 			url: "jsonResponser.jsp",
 			dataType: "json",
-			data: {"shareable":"true"},
+			data: {"shareable":"true", "userID":idUser},
 			type: "GET",
 			error:function(xhr,ajaxOptions,thrownError){
 				console.log(xhr.responseText);

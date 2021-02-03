@@ -72,6 +72,7 @@ main/java/travelbook/view/SearchTravelController$TipoListaGraphic.class
 main/java/travelbook/controller/ChatController.class
 main/java/travelbook/model/ShareEntity.class
 main/java/travelbook/model/bean/Bean.class
+exception/MissingPageException.class
 main/java/travelbook/util/ProfilePollingThread.class
 main/java/travelbook/view/SearchPlaceTextField.class
 main/java/travelbook/model/StepEntity.class

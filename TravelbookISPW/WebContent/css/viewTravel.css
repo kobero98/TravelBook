@@ -8,6 +8,7 @@
 	position:absolute;
 	top:9em;
 	left:2em;
+	
 }
 .back2{
 	position:absolute;
@@ -34,12 +35,8 @@
 .fotoDiv{
 	display: inline;
 }
-.days{
-	overflow: hidden;
-	border: 1px solid #ccc;
-	background-color: #f1f1f1;
-}
-.days button{
+
+.tablinks{
 	background-color: inherit;
 	float: left;
 	border: none;
@@ -64,11 +61,12 @@
 .days{
 	background: #FDFDFD;
 }
-.days button:hover{
+.tablinks:hover{
 	background-color: var(--Mcolor);
 }
-.days button.active{
+.tablinks.active{
 	background-color: var(--Dcolor);
+	overflow: hidden;
 }
 .tabcontent{
 	display: none;
