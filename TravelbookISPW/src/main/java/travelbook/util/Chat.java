@@ -22,13 +22,13 @@ public class Chat extends Observable{
 		return send;
 	}
 	public void setSend(List<MessageBean> send) {
-		this.send = send;
+		if(send!=null)this.send = send;
 	}
 	public List<MessageBean> getReceive() {
 		return receive;
 	}
 	public void setReceive(List<MessageBean> receive) {
-		this.receive = receive;
+		if(receive!=null)this.receive = receive;
 	}
 	public int getIdUser() {
 		return idUser;

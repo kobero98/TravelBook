@@ -210,13 +210,15 @@ public class ChatViewController {
 	
 	private void changeChat() {
 		List<MessageBean>  myMessages;
-		for(MessageBean m:current.getReceive()) {
-			if(!m.getRead()) {
-				m.setRead(true);
-				try {
-					myController.setReadMex(m);
-				} catch (DBException e) {
-					new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
+		if(current.getReceive()!=null) {
+			for(MessageBean m:current.getReceive()) {
+				if(!m.getRead()) {
+					m.setRead(true);
+					try {
+						myController.setReadMex(m);
+					} catch (DBException e) {
+						new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
+					}
 				}
 			}
 		}
