@@ -56,15 +56,7 @@ public class ViewOnMap {
 				popupContent.append("No description yet<br>");
 			}
 			script.append("\"<p>"+popupContent+"</p>\",");
-			String icon=null;
-			
-			//Ho scoperto maki ma sfortunatamente non funziona come vorrei
-			if(category!=null && step.getFullPlace().getIcon()!=null) {
-					icon=step.getFullPlace().getIcon();
-			}
-				else {
-					icon=this.foundIcon(category);
-				}
+			String icon=getIcon(step, category);
 			script.append("\""+icon+"\",");
 			script.append(start);
 			scripts.add("addMarker("+script+");");
@@ -74,6 +66,18 @@ public class ViewOnMap {
 		forPath.replace(forPath.length()-1, forPath.length(), "]");
 		scripts.add("drawPath("+forPath+");");
 		return scripts;
+	}
+	private String getIcon(StepBean step, String category) {
+		String icon=null;
+		
+		//Ho scoperto maki ma sfortunatamente non funziona come vorrei
+		if(category!=null && step.getFullPlace().getIcon()!=null) {
+				icon=step.getFullPlace().getIcon();
+		}
+			else {
+				icon=foundIcon(category);
+			}
+		return icon;
 	}
 	private String foundIcon (String category) {
 		String icon=null;

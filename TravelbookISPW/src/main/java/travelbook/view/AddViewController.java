@@ -822,13 +822,13 @@ public class AddViewController implements Observer{
 	    			internalPane.setOpacity(1);
 	    			progressPane.setVisible(false);
 	    		}
-	    	if(listOfErrors.isEmpty()&&incompleteSteps.isEmpty()) {
-	    		
-	    		new Thread(this::progressBar).start();
-	    		
-	    	}	
+	    		progressBar(listOfErrors, incompleteSteps);
+	    			
 	    }
-	    private void progressBar() {
+	    private void progressBar(List<Object> listOfErrors, List<StepBean> incompleteSteps) {
+	    	
+	    new Thread(()->{
+	    	if(listOfErrors.isEmpty()&&incompleteSteps.isEmpty()) {
 			Platform.runLater(()->{
 				double indeterminate=ProgressIndicator.INDETERMINATE_PROGRESS;
 				progressBar.setProgress(indeterminate);
@@ -854,6 +854,8 @@ public class AddViewController implements Observer{
 				});
 				
 			}
+	    }
+	    }).start();
 	    }
 	    private void modifyColor(List<Object> listOfErrors) {
 	    	for(int i=0;i<listOfErrors.size();i++) {

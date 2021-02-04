@@ -80,7 +80,7 @@ public class ControllerSearch {
 		search.setType(setTypeOrder(trip.getType()));
 		search.setCity(convertCity(trip.getCity()));
 		search.setMinDay(trip.getDurationMin());
-		if(trip.getDurationMax()<trip.getDurationMin() && trip.getDurationMax()<=0) throw new DBException("durata min < durataMax");
+		if(trip.getDurationMax()<trip.getDurationMin() || trip.getDurationMax()<0) throw new DBException("durata min > durataMax");
 		if(trip.getDurationMax()!=0) search.setMaxDay(trip.getDurationMax());
 		else search.setMaxDay(null);
 		search.setMinCost(trip.getCostoMin());
