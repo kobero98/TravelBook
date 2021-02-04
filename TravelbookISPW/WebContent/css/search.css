@@ -10,7 +10,7 @@
 }
 .as-text{
     color:var(--textColorD);
-    font: normal normal 0.75em "Arial";
+    font: normal normal 0.75em Arial,Sans-serif;
 }
 .l-panel{
     width:58.3125em;

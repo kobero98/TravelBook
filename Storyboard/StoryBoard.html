@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="ISO-8859-1">
+        <title>Travelbook's storyboard</title>
+        <script>
+            window.onload = function(){
+                var img = document.getElementById('image');
+                img.setAttribute("src", "explore.jpg");
+                img.setAttribute("alt", "explore-page");
+            }
+            function moveTo(src,alt,id){
+                var img = document.getElementById('image');
+                    img.setAttribute("src", src);
+                    img.setAttribute("alt", alt);
+            }
+        </script>
+    </head>
+    <body>
+        <img id=image>
+        <div style="display: flex; background: darksalmon; width:1280px; justify-content: space-evenly;">
+            <input type="button"  id=profile value="Go to profile" onclick="moveTo('profile.jpg','profile-page',this.id)">
+            <input type="button"  id=add value="Go to add" onclick="moveTo('add.jpg','add-page',this.id)">
+            <input type="button"  id=explore value="Go to explore" onclick="moveTo('explore.jpg','explore-page',this.id)">
+            <input type="button"  id=chat value="Go to chat" onclick="moveTo('chat.jpg','chat-page',this.id)">
+            <input type="button"  id=view value="Go to view" onclick="moveTo('post.jpg','view-page',this.id)">
+            <input type="button"  id=search value="Go to search" onclick="moveTo('search.jpg','search-page',this.id)">
+        </div>
+    </body>
+</html>

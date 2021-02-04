@@ -1088,7 +1088,7 @@ public class AddViewController implements Observer{
             	if(stepsBar.getButtons().get(i)==e.getTarget()) {
             		this.stepNumber=stepsBar.getButtons().size()-i-1;
             		Button actual=(Button)stepsBar.getButtons().get(stepsBar.getButtons().size()-stepNumber-1);
-            		actual.setStyle("-fx-border-color: lightGrey;-fx-background-color: Dcolor;-fx-background-insets: -16 -8 0 -8;-fx-border-insets: -16 -8 0 -8;");
+            		actual.setStyle("-fx-border-color: -fx-light-grey;-fx-background-color: -fx-dcolor;-fx-background-insets: -16 -8 0 -8;-fx-border-insets: -16 -8 0 -8;");
             		break;
             	}
             }
