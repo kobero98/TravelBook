@@ -46,10 +46,7 @@ public class ChatController {
 				throw new DBException("We couldn't find your contacts");
 			}
 			if(userE.getId()!=id) {
-				UserBean u = new UserBean(userE.getId());
-				u.setName(userE.getName());
-				u.setSurname(userE.getSurname());
-				u.setPhoto(userE.getPhoto());
+				UserBean u = new UserBean(userE);
 				ul.add(u);
 			}
 		}

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-     <!-- <%@page errorPage="errorpage.jsp" %> -->
+ <%@page errorPage="errorpage.jsp" %> 
 <%@ page import="main.java.travelbook.util.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.time.Instant"%>
@@ -13,11 +13,20 @@
 	UserBean log=(UserBean)request.getSession().getAttribute("loggedBean");
 	List<UserBean> tryContacts=new ArrayList<>();
 	if(request.getSession().getAttribute("ChatList")!=null){ 
-		c=(List<Chat>) request.getSession().getAttribute("ChatList");	
+		c=(List<Chat>) request.getSession().getAttribute("ChatList");				
 		tryContacts = myController.getContacts(c,log.getId());
 	}
-	int selettore=-1;
 	
+	int selettore=-1;
+	if(request.getParameter("invia")!=null)
+	{
+					System.out.println("ciao1");
+					String s= (String) request.getParameter("invia");
+					int nuovoId=Integer.valueOf(s);
+					Chat newChat=new Chat(nuovoId);
+					c.add(newChat);
+					tryContacts = myController.getContacts(c,log.getId());
+		}
 	for(int j=0;j<tryContacts.size();j++)
     {
     	if(request.getParameter("contatto"+j)!=null) {
@@ -34,17 +43,24 @@
 	            text.replace(loc, loc+1, "<BR>");
 	            loc = (new String(text)).indexOf('\n');
 	       }
+	        
 		if(request.getSession().getAttribute("selettore")!=null && !text.toString().isBlank() )
 		{
 			int index= (Integer) request.getSession().getAttribute("selettore");
 			int id=tryContacts.get(index).getId();
 			MessageBean messagge= new MessageBean(id,log.getId());
-	        
-
-	       messagge.setText(text.toString()); 
-	       messagge.setRead(false);
-		   messagge.setTime(Instant.now());
-		   myController.sendMessage(messagge);
+	        messagge.setText(text.toString()); 
+	       	messagge.setRead(false);
+		    messagge.setTime(Instant.now());
+		    myController.sendMessage(messagge);
+		    for(Chat l:c)
+		    {
+		    	if(l.getIdUser()==id)
+		    	{
+		    		l.getSend().add(messagge);
+		    	}
+		    }
+		    
 		}
 	}
 %>
@@ -79,24 +95,30 @@
 			}
 	}
 	var id={};
-	 $(function(){
-		 
-		 $('#search-bar').autocomplete(
+		function getData() { 
+			document.getElementById("invia").value = selected.id;
+		}
+		
+		$(function(){
+			$('#search-bar').autocomplete(
 	             {
 		           	 position:{ my: "left top", at: "left bottom", collision: "none" },
 		           	 minlength:1,
+		           	 async: true,
 		             source:function(request,response)
 		             {
 			          		$.ajax({
 			                 url:"autocompleteUser.jsp",
 			                 method:"get",
 			                 dataType:"json",
+			                 
 			                 data:{search:request.term},
 			                 success:function(data)
 			                 {
+			                	 console.log(data);
 			                	 id=data;
 								 var temp={}
-								 for (i = 0; i < data.length; i++) {
+									 for (i = 0; i < data.length; i++) {
 									  temp[i]=data[i].nome;
 									}
 			                	 response(temp);
@@ -110,9 +132,8 @@
 		            		 }
 		            	 }
 	                   }
-	             });   
-            }); 
-	 
+	             }); 
+	            });
 	</script>
 	<meta charset="ISO-8859-1">
     <link rel="stylesheet" href="css/loginCss.css">
@@ -140,25 +161,44 @@
             <div class="contact" id=contact>
 				<%
 				int i=0;
+
 				for(UserBean contact:tryContacts)
 				{
 					int idC=contact.getId();
 					%>
 					<form id=<%=idC %> action="chat.jsp" method="post">
-						<input type="submit" name=contatto<%=String.valueOf(i)%>>
+					<%
+					System.out.println("prima dell'immagine");
+					byte[] userB=contact.getArray();
+	            	if(userB.length!=0){
+	            		byte[] bytes=Base64.getEncoder().encode(userB);
+						String encoded=new String(bytes,"UTF-8");
+						System.out.println("valroe: "+encoded);
+					%>
+					 <img src="data:image/*;base64,<%=encoded%>" id="profileIm" style="width: 12.5em; height: 12.5em;" class="image" alt="Profile picture">
+            		<% 
+            	}
+            	else{
+            		%>
+            		  <img src="resource/travelers.png" id="profileIm" style="width: 12.5em; height: 12.5em;" class="image" alt="default profile picture">
+            		<% 
+            	}
+            %>
+						<input type="submit" name=contatto<%=String.valueOf(i)%> onclick=avvioThread()>
 						<p><%=contact.getName()%> <%=contact.getSurname()%><br>
 					</form>			
 			
 				<%
 				i++;
 				}
+				
 				%>
 					
 				
             </div>
             <form class="search ui-widget" action=chat.jsp method="post">
                 <input type="search" class="textfield" id=search-bar>
-                <input type="submit" id=invia onclick=createChat() >
+                <input type="submit" id=invia name=invia onclick=getData() >
             </form>
         </div>
         <div class="panel chat-panel">

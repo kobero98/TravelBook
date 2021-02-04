@@ -358,10 +358,12 @@ public class LoginViewController {
 						String url=engine.getLocation();
 						try {
 							if (url.startsWith(redirect)) {
+								System.out.println(url);
 								String accessToken=url.substring(redirect.length());
 								this.mainAnchor.getChildren().remove(view);
 								ControllerLogin controller=new ControllerLogin();
 								UserBean u=controller.facebookLogin(accessToken);
+								
 								MenuBar.getInstance().setUser(u);
 						      	MenuBar.getInstance().moveToExplore(this.mainPane);
 							}

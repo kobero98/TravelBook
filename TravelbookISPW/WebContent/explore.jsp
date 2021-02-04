@@ -48,8 +48,6 @@
 	function spostamentoSearch(){
 		location.replace("search.jsp");
 	}		
-	var worker = new Worker ('ThreadNewMessage.js');
-	worker.postMessage (<%=log.getId()%>);
 	$.ajax({
          url:"ChatThread.jsp",
          method:"get",

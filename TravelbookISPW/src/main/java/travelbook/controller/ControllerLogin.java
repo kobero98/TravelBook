@@ -33,7 +33,7 @@ public class ControllerLogin {
 	private RegistrationBean createRegisterBeanFromFacebook(String accessToken,String id) throws IOException, ParseException
 	{
 		RegistrationBean user=new RegistrationBean();
-		String url = "https://graph.facebook.com/v9.0/"+id+"?fields=name,first_name,last_name,email,gender,birthday&access_token="+accessToken;
+		String url = "https://graph.facebook.com/v8.0/"+id+"?fields=name,first_name,last_name,email,gender,birthday&access_token="+accessToken;
 		HttpClient client=HttpClientBuilder.create().build();
 		HttpGet request=new HttpGet(url);
 		HttpResponse response = client.execute(request);
@@ -54,7 +54,7 @@ public class ControllerLogin {
 	}
 	private void controlloAutorizzazioni(String accessToken,String id) throws LoginPageException, IOException, ParseException
 	{
-		String url = "https://graph.facebook.com/v9.0/"+id+"/permissions?access_token="+accessToken;
+		String url = "https://graph.facebook.com/v8.0/"+id+"/permissions?access_token="+accessToken;
 		HttpClient client=HttpClientBuilder.create().build();
 		HttpGet request=new HttpGet(url);
 		HttpResponse response = client.execute(request);
@@ -97,14 +97,14 @@ public class ControllerLogin {
 				controlloAutorizzazioni(accessToken, id);
 				if(user==null)
 				{
-					url = "https://graph.facebook.com/v2.7/"+id+"?fields=email&access_token="+accessToken;
+					url = "https://graph.facebook.com/v9.0/"+id+"?fields=email&access_token="+accessToken;
 					client=HttpClientBuilder.create().build();
 					request=new HttpGet(url);
 					response = client.execute(request);
 					json = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
 					parser = new JSONParser();
 		            resultObject = parser.parse(json);
-		            obj=(JSONObject)resultObject;
+		            obj=(JSONObject) resultObject;
 		            String email= obj.get("email").toString();
 		            int idUtente=AllQuery.getInstance().getVerifiedEmail(email);
 		            if(idUtente!=0) {
@@ -161,8 +161,7 @@ public class ControllerLogin {
 			userE.setUsername(username);
 			userE.setPassword(this.passwordHash(password)); 
 			List<Entity> list = userDao.getData(userE);
-			MyIdentity.getInstance().setMyEntity((UserEntity) list.get(0));
-			user=new UserBean(MyIdentity.getInstance().getMyEntity());
+			user=new UserBean((UserEntity) list.get(0));
 			return user;
 		}catch(LoginPageException e) {
 			throw e;

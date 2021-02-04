@@ -12,7 +12,7 @@
 }
 .chat{
     overflow: scroll;
-    background-image: url(resource/sfondo.png);
+    background-image: url(../resource/sfondo.png);
     width:56.5em;
     height: 31.125em;
     align-items: stretch;
