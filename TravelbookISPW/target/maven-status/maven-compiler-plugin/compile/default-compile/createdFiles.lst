@@ -29,6 +29,7 @@ main/java/travelbook/controller/ViewOnMap.class
 main/java/travelbook/view/AddViewController.class
 main/java/travelbook/view/animation/SlideImageAnimationHL.class
 main/java/travelbook/view/SearchTravelController.class
+main/java/travelbook/model/dao/ExploreDao.class
 main/java/travelbook/view/ProfileViewController$TravelCell.class
 main/java/travelbook/model/dao/StepDao.class
 main/java/travelbook/view/MenuBar.class
@@ -95,6 +96,7 @@ main/java/travelbook/view/ViewTravelController$ContactCell.class
 main/java/travelbook/model/bean/PhotoStepBean.class
 exception/DBException.class
 main/java/travelbook/model/dao/ShortUserDao.class
+main/java/travelbook/controller/ExploreController.class
 main/java/travelbook/view/ViewTravelController.class
 main/java/travelbook/model/dao/CityDao.class
 main/java/travelbook/model/dao/DaoFactory.class

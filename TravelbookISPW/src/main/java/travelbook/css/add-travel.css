@@ -1,20 +1,20 @@
 .label{
 	-fx-font: normal normal 1em "Arial";
-	-fx-text-fill: textColorL;
+	-fx-text-fill: -fx-text-lcolor;
 }
 .titles{
 	-fx-font: bolder normal 1.25em "Arial";
-	-fx-text-fill: Dcolor;
+	-fx-text-fill: -fx-dcolor;
 }
 .line{
-	-fx-stroke: Mcolor;
+	-fx-stroke: -fx-mcolor;
 }
 /*text-field */
 .text-field{
 	-fx-background-color: transparent;
-	-fx-border-color: lightGrey;
+	-fx-border-color: -fx-light-grey;
 	-fx-border-radius: 30;
-	-fx-text-fill: textColorL;
+	-fx-text-fill: -fx-text-lcolor;
 	-fx-background-radius: 30;
 	-fx-font-size: 1em;
 }
@@ -37,7 +37,7 @@
 }
 .date-picker > .arrow-button{
 	-fx-background-color: transparent;
-	-fx-border-color: Mcolor;
+	-fx-border-color: -fx-mcolor;
 	-fx-border-width: 0 0 0 2;
 	-fx-background-radius: 0 30 30 0;
 }
@@ -45,30 +45,30 @@
  .date-picker .cell {
 -fx-background-color: -fx-lcolor;
 -fx-background-radius: 25;
--fx-border-color: Mcolor;
--fx-text-fill: textColorD;
+-fx-border-color: -fx-mcolor;
+-fx-text-fill: -fx-text-dcolor;
 -fx-border-radius:20;
 -fx-border-insets: 1;
 }
 .date-picker .cell:hover {
--fx-background-color: lightGrey;
+-fx-background-color: -fx-light-grey;
 }
 
 .date-picker .cell:focused {
--fx-background-color:Dcolor;
+-fx-background-color:-fx-dcolor;
  }
 
 .date-picker-popup {
-     -fx-background-color: Dcolor;
+     -fx-background-color: -fx-dcolor;
     -fx-background-insets: 0, 1;
     -fx-background-radius: 20;
     -fx-alignment: CENTER; /* VBox */
     -fx-spacing: 0; /* VBox */
     -fx-padding: 0.083333em; /* 1 1 1 1 */
-    -fx-effect: dropshadow( gaussian , shadow , 4, 0.0 , -4 , -4 );
+    -fx-effect: dropshadow( gaussian , -fx-shadow , 4, 0.0 , -4 , -4 );
 }
  .date-picker-popup .month-year-pane{
- 	-fx-background-color: Dcolor;
+ 	-fx-background-color: -fx-dcolor;
  	-fx-background-radius: 20;
  	-fx-text-fill: #626262;
  	-fx-padding: 5;
@@ -85,14 +85,14 @@
     -fx-background-radius: 0 0 20 20;
 }
 .date-picker-popup > * > .week-number-cell {
-	-fx-text-fill: textColorD;
+	-fx-text-fill: -fx-text-dcolor;
 	-fx-padding: 0;
 }
 /*text-area */
 .text-area{
 	-fx-background-color: null;
-	-fx-border-color: lightGrey;
-	-fx-text-fill: textColorL;
+	-fx-border-color: -fx-light-grey;
+	-fx-text-fill: -fx-text-lcolor;
 }
 .text-area > .scroll-pane{
 	-fx-background-color: null;
@@ -115,50 +115,50 @@
 	-fx-background-color: transparent;
 }
 .itinerary .button{
-	-fx-background-color: Dcolor;
+	-fx-background-color: -fx-dcolor;
 	-fx-background-radius: 0;
-	-fx-effect: dropshadow(three-pass-box, shadow, 0, 0, 0, 0); 
+	-fx-effect: dropshadow(three-pass-box, -fx-shadow, 0, 0, 0, 0); 
 	-fx-shape: "M18.509 0.918137C10.7066 0.918137 4.39612 6.50857 4.39612 13.4207C4.39612 22.7976 18.509 36.6397 18.509 36.6397C18.509 36.6397 32.6219 22.7976 32.6219 13.4207C32.6219 6.50857 26.3115 0.918137 18.509 0.918137ZM18.509 17.8859C15.7268 17.8859 13.4687 15.8855 13.4687 13.4207C13.4687 10.9559 15.7268 8.95549 18.509 8.95549C21.2913 8.95549 23.5494 10.9559 23.5494 13.4207C23.5494 15.8855 21.2913 17.8859 18.509 17.8859Z";
 }
 .itinerary-line{
-	-fx-stroke: Dcolor;
+	-fx-stroke: -fx-dcolor;
 	-fx-stroke-width: 3;
 }
 .itinerary .button:hover{
-	-fx-border-color: lightGrey;
-	-fx-background-color: Dcolor;
+	-fx-border-color: -fx-light-grey;
+	-fx-background-color: -fx-dcolor;
 	-fx-background-insets: -16 -8 0 -8;
 	-fx-border-insets: -16 -8 0 -8;
 }
 .itinerary .button:focused{
-	-fx-border-color: lightGrey;
+	-fx-border-color: -fx-light-grey;
 	-fx-background-insets: -16 -8 0 -8;
 	-fx-border-insets: -16 -8 0 -8;
 }
 
 /*my-buttons*/
 .button{
-	-fx-background-color: Mcolor;
-	-fx-text-fill: textColorL;
-	-fx-effect: innershadow(three-pass-box, shadow, 4,0,0,-4);
+	-fx-background-color: -fx-mcolor;
+	-fx-text-fill: -fx-text-lcolor;
+	-fx-effect: innershadow(three-pass-box, -fx-shadow, 4,0,0,-4);
 	-fx-background-radius: 25;
 	-fx-font-size: 1.25em; 
 	-fx-border-radius:25;
 }
 
 .button:hover {
-	-fx-effect: innershadow(three-pass-box, shadow, 4, 0, 0, 4);
-    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, -fx-lcolor, Dcolor);
+	-fx-effect: innershadow(three-pass-box, -fx-shadow, 4, 0, 0, 4);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, -fx-lcolor, -fx-dcolor);
 }
 .button:pressed {
-	-fx-background-color: radial-gradient(center 50% 50%, radius 100%, Dcolor, -fx-lcolor);
-    -fx-effect: innershadow(three-pass-box, shadow, 10, 0, 0, 6);
-    -fx-border-color: lightGrey;
+	-fx-background-color: radial-gradient(center 50% 50%, radius 100%, -fx-dcolor, -fx-lcolor);
+    -fx-effect: innershadow(three-pass-box, -fx-shadow, 10, 0, 0, 6);
+    -fx-border-color: -fx-light-grey;
     -fx-border-width: 1.5;
 }
 .buttons{
-	-fx-background-color: textColorL;
-	-fx-effect: dropshadow(three-pass-box, shadow, 4, 0, -4, 4);
+	-fx-background-color: -fx-text-lcolor;
+	-fx-effect: dropshadow(three-pass-box, -fx-shadow, 4, 0, -4, 4);
 }
 .add{
 	-fx-shape: "M22.2857 11.2143H32.5V13.7857H22.2857H21.7857V14.2857V24.5H19.2143V14.2857V13.7857H18.7143H8.5V11.2143H18.7143H19.2143V10.7143V0.5H21.7857V10.7143V11.2143H22.2857Z";
@@ -170,34 +170,34 @@
     -fx-background-color: #FDFDFD;
     -fx-background-insets: 0;
     -fx-padding: 0;/* 2 4 2 4;*/
-    -fx-border-color: lightGrey;
-    -fx-mark-color: Dcolor;
+    -fx-border-color: -fx-light-grey;
+    -fx-mark-color: -fx-dcolor;
 }
 .choice-box .context-menu{
 	-fx-background-color: #FDFDFD;
-	-fx-border-color: lightGrey;
+	-fx-border-color: -fx-light-grey;
 	-fx-padding: 0;
 	-fx-background-insets: 0;
 }
 .choice-box .menu-item:focused { 
-	-fx-background-color: Dcolor;
+	-fx-background-color: -fx-dcolor;
 	
 } 
 .choice-box .menu-item > .label{
-	-fx-text-fill: textColorL;
+	-fx-text-fill: -fx-text-lcolor;
 }
 .choice-box .menu-item:focused > .label{
 	-fx-text-fill: white;
 }
 .choice-box .menu-item .mark{
-	-fx-background-color: Dcolor;
+	-fx-background-color: -fx-dcolor;
 	-fx-shape: "M22.2857 11.2143H32.5V13.7857H22.2857H21.7857V14.2857V24.5H19.2143V14.2857V13.7857H18.7143H8.5V11.2143H18.7143H19.2143V10.7143V0.5H21.7857V10.7143V11.2143H22.2857Z";
 }
 .choice-box .menu-item .mark:focused{
 	-fx-background-color: White;
 }
 .hyperlink{
-	-fx-text-fill: Dcolor;
+	-fx-text-fill: -fx-dcolor;
 	-fx-border-color: transparent;
 	-fx-border-width: 0;
 }

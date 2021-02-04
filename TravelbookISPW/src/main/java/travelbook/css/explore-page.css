@@ -3,7 +3,7 @@
 	-fx-background-radius: 30;
 }
 .my-label{
-	-fx-text-fill: Dcolor;
+	-fx-text-fill: -fx-dcolor;
 	-fx-font: bold 1.5em "Arial";
 }
 .second-text{
@@ -11,7 +11,7 @@
 }
 .my-text{
 	-fx-font-size: 0.75em;
-	-fx-fill: textColorD;
+	-fx-fill: -fx-text-dcolor;
 }
 .tile-button-bar{
 	-fx-background-color: transparent;
@@ -24,7 +24,7 @@
 	-fx-background-color: transparent;
 }
 .tile{
-	-fx-background-color: Dcolor;
+	-fx-background-color: -fx-dcolor;
 	-fx-background-radius: 25;
 }
  .subtitle{
@@ -40,19 +40,19 @@
 	-fx-background-color: transparent;
 }
 .line{
-	-fx-fill: Mcolor;
-	-fx-stroke: Mcolor;
+	-fx-fill: -fx-mcolor;
+	-fx-stroke: -fx-mcolor;
 }
 .search-button{
 	-fx-shape: "M12 8V4l8 8-8 8v-4H4V8z";
-	-fx-background-color: textColorD;
-	-fx-effect: dropshadow(three-pass-box, shadow, 4, 0, -4, 4);
+	-fx-background-color: -fx-text-dcolor;
+	-fx-effect: dropshadow(three-pass-box, -fx-shadow, 4, 0, -4, 4);
 }
 .left-button{
-	-fx-background-color: lightGrey;
+	-fx-background-color: -fx-light-grey;
 	-fx-shape: "M7.4446 1.87975L6.11689 0.552368L0.467041 6.20082L6.11689 11.8493L7.4446 10.5219L3.13189 6.20082L7.4446 1.87975Z"
 }
 .right-button{
-	-fx-background-color: lightGrey;
+	-fx-background-color: -fx-light-grey;
 	-fx-shape: "M1.34987 0.200775L0.0220947 1.52817L4.335 5.84926L0.0220947 10.1704L1.34987 11.4978L6.99996 5.84926L1.34987 0.200775Z" 
 }

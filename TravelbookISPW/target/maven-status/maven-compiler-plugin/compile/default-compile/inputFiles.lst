@@ -11,6 +11,7 @@
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/util/SetImage.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/bean/UserBean.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/view/animation/SlideImageAnimationHL.java
+/Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/dao/ExploreDao.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/bean/PhotoStepBean.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/bean/ShareBean.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/util/Observable.java
@@ -49,6 +50,7 @@
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/dao/PersistanceDAO.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/util/ProfilePollingThread.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/view/ViewOnMapController.java
+/Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/controller/ExploreController.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/view/ProfileOtherController.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/exception/MissingPageException.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/util/MessagePollingThread.java

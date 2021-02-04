@@ -1,23 +1,23 @@
 .text{
-	-fx-fill:textColorD;
+	-fx-fill:-fx-text-dcolor;
 }
 .write-bar{
 	-fx-background-radius: 0 0 50 50;
 }
 .search-bar{
-	-fx-effect: dropshadow(three-pass-box, shadow, 7, 0, 0, -2);
-	-fx-background-color: Dcolor;
+	-fx-effect: dropshadow(three-pass-box, -fx-shadow, 7, 0, 0, -2);
+	-fx-background-color: -fx-dcolor;
 	-fx-padding: 0.2em;
 }
 .search-bar .button{
-	-fx-effect: dropshadow(three-pass-box, shadow, 4, 0, 0, 4);
-	-fx-background-color: lightGrey;
+	-fx-effect: dropshadow(three-pass-box, -fx-shadow, 4, 0, 0, 4);
+	-fx-background-color: -fx-light-grey;
 	-fx-shape:"M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z";
 }
 .text-area{
 	-fx-background-color: -fx-lcolor;
-	-fx-border-color: lightGrey;
-	-fx-text-fill: textColorL;
+	-fx-border-color: -fx-light-grey;
+	-fx-text-fill: -fx-text-lcolor;
 }
 .text-area > .scroll-pane{
 	-fx-background-color: null;
@@ -45,42 +45,42 @@
 	 
 }
 .write-bar .button:hover, .write-bar .button:pressed{
-	-fx-effect: dropshadow(three-pass-box, shadow, 4, 0, 0, 1); 
+	-fx-effect: dropshadow(three-pass-box, -fx-shadow, 4, 0, 0, 1); 
 } 
 .scroll-pane > .viewport{
 	-fx-background-radius: 30 0 0 0;
 }
 .chat-button{
 	-fx-background-color: transparent;
-	-fx-border-color: lightGrey;
+	-fx-border-color: -fx-light-grey;
 	-fx-border-width: 0 0 1 0;
 	-fx-border-insets: 0.0 35 0.0 10;
 }
 .chat-view{
 	-fx-background-image: url("../../../resources/ChatPageImages/sfondo.png");
-	-fx-border-color: Mcolor;
+	-fx-border-color: -fx-mcolor;
 	-fx-background-size: cover;
 }
 
 
 .label{
-	-fx-background-color: Dcolor;
-	-fx-text-fill: textColorD;
+	-fx-background-color: -fx-dcolor;
+	-fx-text-fill: -fx-text-dcolor;
 	-fx-background-radius: 30;
 	-fx-padding: 1em 2em 1em 2em;
 }
 .contact{
-	-fx-background-color: Mcolor;
+	-fx-background-color: -fx-mcolor;
 }
 .h-box{
 	-fx-background-color: null;
 	-fx-border-width: 0 0 2 0;
-	-fx-border-color: lightGrey;
+	-fx-border-color: -fx-light-grey;
 }
 .v-box{
 	-fx-background-color: #FDFDFD;
 }
 .h-box-selected{
-	-fx-background-color: Dcolor;
+	-fx-background-color: -fx-dcolor;
 }
 
