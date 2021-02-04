@@ -2,6 +2,7 @@ package main.java.travelbook.model;
 
 import java.io.InputStream;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import main.java.travelbook.model.bean.MessageBean;
@@ -20,8 +21,8 @@ public class OtherUserEntity implements Entity{
 	private int nPlace=0;
 	private List <Integer> travel = null;
 	private List <Integer> favourite = null;
-	private List <Integer> follower = null;
-	private List <Integer> following = null;
+	private List <Integer> follower = new ArrayList<>();
+	private List <Integer> following = new ArrayList<>();
 	private List <MessageBean> message = null;
 	
 	public OtherUserEntity(int codice)
@@ -101,11 +102,15 @@ public class OtherUserEntity implements Entity{
 	}
 	public int getNFollower()
 	{
-		return this.follower.size();
+		if(this.follower!=null)
+			return this.follower.size();
+		return 0;
 	}
 	public int getNFollowing()
 	{
-		return this.following.size();
+		if(this.following!=null)
+			return this.following.size();
+		return 0;
 	}
 	public int getNTrip()
 	{

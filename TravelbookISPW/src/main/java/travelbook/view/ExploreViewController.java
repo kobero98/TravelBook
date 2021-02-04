@@ -123,7 +123,7 @@ public class ExploreViewController implements Observer{
 		try {
 		controller.setSuggests(travelSuggest, MenuBar.getInstance().getLoggedUser());
 		}catch(DBException e) {
-			new TriggerAlert().triggerAlertCreate("IMPOSSIBILE PROSEGUIRE","err").showAndWait();
+			new TriggerAlert().triggerAlertCreate("IMPOSSIBILE PROSEGUIRE " +e.getMessage(),"err").showAndWait();
 		}
 	}
 

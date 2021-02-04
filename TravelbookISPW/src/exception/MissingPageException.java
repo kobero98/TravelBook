@@ -12,6 +12,7 @@ public class MissingPageException extends IOException{
 	public MissingPageException() {
 		super();
 	}
+
 	public void exit() {
 		new TriggerAlert().triggerAlertCreate("An unexpected problem occurred, the application will be closed", "err").showAndWait();
 		Platform.exit();

@@ -8,6 +8,8 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.InputStream;
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import exception.ExceptionLogin;
@@ -686,27 +688,35 @@ public class AllQuery {
 		return rs;
 	}
 	public ResultSet getTravels(Connection conn,UserEntity user) throws SQLException{
+		
 		ResultSet rs=null;
 		boolean prep=false;
 		String query="";
-		PreparedStatement stmt1;
-		ResultSet rs1;
-
+		String query2="";
 		Integer userId=user.getId();
 
 		if(user.getNFollower()!=0 || user.getNFollowing()!=0) {
-			query="SELECT distinct idTrip from trip join follow on (CreatorTrip=Follower or CreatorTrip=Following) where Follower=? or Following=? order by dataCreazione desc";
+			query="SELECT distinct idTrip from trip join follow on (CreatorTrip=Follower or CreatorTrip=Following) where (Follower=? or Following=?) and CreatorTrip!=? order by dataCreazione desc";
 			prep=true;
 		}
 		else {
-			query="SELECT idTrip from trip order by dataCreazione desc";
+			query2="SELECT idTrip from trip  where CreatorTrip!=? order by dataCreazione desc";
 		}
-		PreparedStatement stmt=conn.prepareStatement(query);
+		PreparedStatement stmt;
+		
 		if(prep) {
+			stmt=conn.prepareStatement(query);
 			stmt.setInt(1, userId);
 			stmt.setInt(2, userId);
+			stmt.setInt(3,userId);
 		}
+		else {
+			stmt=conn.prepareStatement(query2);
+			stmt.setInt(1, userId);
+		}
+		
 		rs=stmt.executeQuery();
+		
 		return rs;
 	}
 }

@@ -16,6 +16,7 @@ public class ExploreDao implements VisualDAO {
 	public List<Entity> getData(Entity object) throws DBException, SQLException {
 		// TODO Auto-generated method stub
 		ResultSet rs;
+		ResultSet rs2;
 		List<Entity> travels=new ArrayList<>();
 		UserEntity user=(UserEntity)object;
 		Connection conn=AllQuery.getInstance().getConnection();
@@ -24,7 +25,19 @@ public class ExploreDao implements VisualDAO {
 		while(rs.next()) {
 			travelId.add(rs.getInt(1));
 		}
+		
 		int count=0;
+		if(travelId.size()<15) {
+			user.setFollower(0);
+			user.setFollowing(0);
+			rs2=AllQuery.getInstance().getTravels(conn, user);
+			while(rs.next()) {
+				Integer val=rs2.getInt(1);
+				if(!travelId.contains(val)) {
+					travelId.add(val);
+				}
+			}
+		}
 		for(Integer id: travelId) {
 			if(count==15)
 				break;
