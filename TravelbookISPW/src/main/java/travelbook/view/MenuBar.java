@@ -89,6 +89,7 @@ public class MenuBar extends Observable implements Observer{
 				ExploreViewController controller=loader.getController();
 				controller.setMainPane(mainPane);
 			} catch (IOException e) {
+				e.printStackTrace();
 				throw new MissingPageException();
 			}
 	}

@@ -19,6 +19,6 @@ public class ClasseConnessione {
 			throw new SQLException();
 		}
 		
-		return DriverManager.getConnection(myUrl,"root","Sara.d-19");
+		return DriverManager.getConnection(myUrl,"root","root");
 	}
 }

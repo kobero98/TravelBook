@@ -26,6 +26,7 @@ public class Observable {
 	public void setChanged() {
 		this.changed=true;
 		this.notifyObservers();
+		System.out.println("HO :"+this.observers.size());
 	}
 	public boolean isChanged() {
 		return this.changed;

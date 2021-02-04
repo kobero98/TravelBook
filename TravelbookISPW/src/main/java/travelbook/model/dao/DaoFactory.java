@@ -33,6 +33,8 @@ public class DaoFactory {
 		return dao;
 	}
 	public VisualDAO createVisual(DaoType tipo) {
+		if(tipo.compareTo(DaoType.EXPLORE)==0)
+			return new ExploreDao();
 		if(tipo.compareTo(DaoType.S_TRAVEL)==0) 
 			return new ShortTravelDao();
 		if(tipo.compareTo(DaoType.S_USER)==0)

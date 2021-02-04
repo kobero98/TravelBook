@@ -685,4 +685,28 @@ public class AllQuery {
 		rs=stmt.executeQuery(query);
 		return rs;
 	}
+	public ResultSet getTravels(Connection conn,UserEntity user) throws SQLException{
+		ResultSet rs=null;
+		boolean prep=false;
+		String query="";
+		PreparedStatement stmt1;
+		ResultSet rs1;
+
+		Integer userId=user.getId();
+
+		if(user.getNFollower()!=0 || user.getNFollowing()!=0) {
+			query="SELECT distinct idTrip from trip join follow on (CreatorTrip=Follower or CreatorTrip=Following) where Follower=? or Following=? order by dataCreazione desc";
+			prep=true;
+		}
+		else {
+			query="SELECT idTrip from trip order by dataCreazione desc";
+		}
+		PreparedStatement stmt=conn.prepareStatement(query);
+		if(prep) {
+			stmt.setInt(1, userId);
+			stmt.setInt(2, userId);
+		}
+		rs=stmt.executeQuery();
+		return rs;
+	}
 }

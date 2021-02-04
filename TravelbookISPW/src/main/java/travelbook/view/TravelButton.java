@@ -6,13 +6,13 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-
+import javafx.scene.image.Image;
 import exception.MissingPageException;
 import javafx.scene.layout.BorderPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import main.java.travelbook.model.bean.TravelBean;
+import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.util.Observer;
 import main.java.travelbook.util.Observable;
 public class TravelButton implements Observer {
@@ -22,6 +22,9 @@ public class TravelButton implements Observer {
 	private Label title;
 	private Label subtitle;
 	private BorderPane mainPane;
+	public void setMainPane(BorderPane p) {
+		this.mainPane=p;
+	}
 	public Pane getPane() {
 		return pane;
 	}
@@ -40,7 +43,7 @@ public class TravelButton implements Observer {
 	public void setSubtitle(Label subtitle) {
 		this.subtitle = subtitle;
 	}
-	public TravelButton(double width, double height, Integer i, TravelBean travel) {
+	public TravelButton(double width, double height, Integer i, MiniTravelBean travel) {
 		// the real constructor take a TravelBean as third parameter
 		travel.addObserver(this);
 		stack=new StackPane();
@@ -78,8 +81,8 @@ public class TravelButton implements Observer {
 	}
 	@Override
 	public void update(Observable o) {
-		TravelBean myTravel;
-		myTravel=(TravelBean) o;
+		MiniTravelBean myTravel;
+		myTravel=(MiniTravelBean) o;
 		this.stack.setOnMouseClicked(e->{
 			try {
 				
@@ -89,10 +92,17 @@ public class TravelButton implements Observer {
 				e1.exit();
 			}
 		});
+		this.title.setText(myTravel.getNameTravel());
+		this.subtitle.setText(myTravel.getDescriptionTravel());
 		//Carica la foto nel pane
-		BackgroundImage bgPhoto = new BackgroundImage(myTravel.getPathImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
-		Background newBg = new Background(bgPhoto);
-		this.pane.setBackground(newBg);
+		Image img=myTravel.getPathImage();
+		if(img!=null) {
+			System.out.println("STO METTENDO BG");
+			BackgroundImage bgPhoto = new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+			Background newBg = new Background(bgPhoto);
+			this.pane.getStyleClass().clear();
+			this.pane.setBackground(newBg);
+		}
 	}
 	@Override
 	public void update(Observable o,Object arg) {

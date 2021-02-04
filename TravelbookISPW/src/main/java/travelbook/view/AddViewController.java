@@ -848,8 +848,11 @@ public class AddViewController implements Observer{
 		    	closeProgressBar.setVisible(true);
 			});
 			}catch(Exception e) {
-				new TriggerAlert().triggerAlertCreate("Sometimes go bad "+e.getMessage(), "err").showAndWait();
-				this.progressBarDoneHandler();
+				Platform.runLater(()->{
+					new TriggerAlert().triggerAlertCreate("Sometimes go bad "+e.getMessage(), "err").showAndWait();
+					this.progressBarDoneHandler();
+				});
+				
 			}
 	    }
 	    private void modifyColor(List<Object> listOfErrors) {
@@ -1056,7 +1059,7 @@ public class AddViewController implements Observer{
 	    	
 	    	step.setGroupDay(dayNumber);
 	    	stepByDay.get(dayNumber).add(step);
-	    	
+	    	step.setNumberInDay(stepNumber);
 	    	
 	    	Button button=makeButton();
 	    	stepsBar.getButtons().add(button);

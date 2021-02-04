@@ -1,11 +1,11 @@
 package main.java.travelbook.view;
 import main.java.travelbook.view.animation.SlideImageAnimationHR;
-import main.java.travelbook.model.bean.TravelBean;
+import main.java.travelbook.model.bean.MiniTravelBean;
 import javafx.scene.input.KeyCode;
 import java.util.List;
 
 import exception.MissingPageException;
-
+import exception.DBException;
 import java.util.ArrayList;
 import javafx.scene.input.KeyEvent;
 import main.java.travelbook.view.animation.SlideImageAnimationHL;
@@ -15,10 +15,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-
+import exception.TriggerAlert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.layout.AnchorPane;
-
+import main.java.travelbook.controller.ExploreController;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.layout.BorderPane;
@@ -27,6 +27,8 @@ import main.java.travelbook.util.Observer;
 import main.java.travelbook.util.Notification;
 import main.java.travelbook.util.Observable;
 public class ExploreViewController implements Observer{
+	private List<TravelButton> selectionGroup;
+	private List<TravelButton> topTenGroup;
 	private Object[] array1=new Object[15];
 	private BorderPane mainPane;
 	private Button button;
@@ -56,8 +58,6 @@ public class ExploreViewController implements Observer{
 	private StackPane selectionStack;
 	@FXML
 	private StackPane topTenStack;
-	
-	
 	@FXML
 	private ScrollPane selectionScroll;
 	@FXML
@@ -88,14 +88,14 @@ public class ExploreViewController implements Observer{
 			this.update(MenuBar.getInstance());
 		String myText = "my-text";
 		int i=0;
-		List<TravelButton> selectionGroup;
-		List<TravelButton> topTenGroup;
+		
 		TravelButton istance;
 		topTenGroup=new ArrayList<>(10);
 		selectionGroup=new ArrayList<>(15);
+		List<MiniTravelBean> travelSuggest=new ArrayList<>();
 		//Now create some buttons 10 for tt and 15 for travelSelection.
 		while(i<10) {
-			TravelBean travel=new TravelBean();
+			MiniTravelBean travel=new MiniTravelBean();
 			istance=new TravelButton(136,190.4,i,travel);
 			istance.getStack().getStyleClass().add("tile");
 			istance.getPane().getStyleClass().add("pane");
@@ -108,7 +108,7 @@ public class ExploreViewController implements Observer{
 		}
 		i=0;
 		while(i<15) {
-			TravelBean travel=new TravelBean();
+			MiniTravelBean travel=new MiniTravelBean();
 			istance=new TravelButton(136,190.4,i,travel);
 			istance.getStack().getStyleClass().add("tile");
 			istance.getPane().getStyleClass().add("pane");
@@ -116,15 +116,23 @@ public class ExploreViewController implements Observer{
 			istance.getSubtitle().getStyleClass().addAll(myText, "subtitle");
 			selectionGroup.add(istance);
 			selectionBar.getButtons().add(istance.getStack());
-
+			travelSuggest.add(travel);
 			i++;
+		}
+		ExploreController controller=new ExploreController();
+		try {
+		controller.setSuggests(travelSuggest, MenuBar.getInstance().getLoggedUser());
+		}catch(DBException e) {
+			new TriggerAlert().triggerAlertCreate("IMPOSSIBILE PROSEGUIRE","err").showAndWait();
 		}
 	}
 
 	public void setMainPane(BorderPane main) {
 		this.mainPane=main;
 		//then define the resize logic
-		
+		for(int i=0;i<15;i++) {
+			this.selectionGroup.get(i).setMainPane(main);
+		}
 		
 		
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{

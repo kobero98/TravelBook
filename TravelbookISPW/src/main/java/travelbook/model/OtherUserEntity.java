@@ -101,11 +101,11 @@ public class OtherUserEntity implements Entity{
 	}
 	public int getNFollower()
 	{
-		return this.nFollower;
+		return this.follower.size();
 	}
 	public int getNFollowing()
 	{
-		return this.nFollowing;
+		return this.following.size();
 	}
 	public int getNTrip()
 	{

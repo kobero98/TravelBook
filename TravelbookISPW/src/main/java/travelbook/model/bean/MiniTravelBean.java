@@ -1,6 +1,7 @@
 package main.java.travelbook.model.bean;
 
 import javafx.scene.image.Image;
+import main.java.travelbook.util.Observable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -8,13 +9,25 @@ import java.io.InputStream;
 
 import main.java.travelbook.model.TravelEntity;
 
-public class MiniTravelBean implements Bean{
+public class MiniTravelBean extends Observable implements Bean{
 	private Integer id;
 	private String nameTravel;
 	private String descriptionTravel;
 	private Image pathBackground;
 	private InputStream picStream;
 	private byte[] array;
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setNameTravel(String nameTravel) {
+		this.nameTravel = nameTravel;
+	}
+
+	public void setDescriptionTravel(String descriptionTravel) {
+		this.descriptionTravel = descriptionTravel;
+	}
+
 	public byte[] getArray() {
 		if(this.picStream==null)
 			return new byte[0];		
@@ -68,10 +81,14 @@ public class MiniTravelBean implements Bean{
 		return this.id;
 	}
 	public Image getPathImage() {
-		if(this.picStream==null)
+		if(this.picStream==null) {
+			System.out.println("HERE");
 			return null;
-		if(this.pathBackground==null)
+		}
+		if(this.pathBackground==null) {
 			this.pathBackground=new Image(this.picStream);
+			System.out.println("FOUND");
+		}
 		return this.pathBackground;
 	}
 }
