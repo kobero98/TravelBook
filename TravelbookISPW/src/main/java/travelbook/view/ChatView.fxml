@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1280.0" stylesheets="@../css/chat.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.ChatViewController">
+<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.travelbook.view.ChatViewController">
    <children>
       <AnchorPane fx:id="chatAnchor" layoutX="350.0" layoutY="96.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="517.0" prefWidth="904.0">
          <children>
@@ -42,13 +43,13 @@
          </children>
       </AnchorPane>
       <ListView fx:id="contactList" layoutX="33.0" layoutY="107.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="300.0" styleClass="contact" />
-      <ButtonBar fx:id="menuBar" buttonMinWidth="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="592.0" style="-fx-background-color: fdfdfd; -fx-effect: dropshadow(three-pass-box,rgba(0,0,0,0.25),10,0,0,4); -fx-border-radius: 25;">
+      <ButtonBar fx:id="menuBar" buttonMinWidth="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="592.0">
          <buttons>
             <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#profileHandler" prefHeight="56.35" prefWidth="147.37" text="PROFILE">
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/profile.png" />
+                        <Image url="@../../../resources/ExplorePageImages/profile.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -63,7 +64,7 @@
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/add.png" />
+                        <Image url="@../../../resources/ExplorePageImages/add.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -78,7 +79,7 @@
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/explore.png" />
+                        <Image url="@../../../resources/ExplorePageImages/explore.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -93,7 +94,7 @@
                <graphic>
                   <ImageView fitHeight="31.58" fitWidth="31.58" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../resource/ExplorePageImages/chat.png" />
+                        <Image url="@../../../resources/ExplorePageImages/chat.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -114,4 +115,8 @@
          </children>
       </StackPane>
    </children>
+   <stylesheets>
+      <URL value="@../css/project.css" />
+      <URL value="@../css/chat.css" />
+   </stylesheets>
 </AnchorPane>

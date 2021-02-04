@@ -193,7 +193,7 @@
 	    					out.println(bytes);
                 			%>
                 			<div id=<%=i %>>
-								<img id="travImg"src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" class="image" />
+								<img id="travImg"src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" class="image" alt="travel picture"/>
 								<div>
 									<form action="profile.jsp" method="POST">
 										<p class=text>
@@ -212,10 +212,8 @@
                 %>
             </div>
         </div>
-        <div class="panel suggestion">
-            <p class="write">
-                Our suggestions
-            </p>
-        </div>
+        
+            <img src="resource/Search-image.png" alt="quote" />
+       
     </div>
      

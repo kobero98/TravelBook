@@ -641,7 +641,6 @@ public class AllQuery {
 				return rs;
 			}
 			rs=stmt.executeQuery(query.toString());
-			System.out.println(rs.isLast());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

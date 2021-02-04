@@ -113,11 +113,11 @@
 			</form>
 			<div id=fb>
 			<a href="https://www.facebook.com/v3.2/dialog/oauth?client_id=1332279647110748&response_type=token&redirect_uri=http://localhost:8080/TravelbookISPW/login.jsp&state=\'{st=state123abc,ds=123456789}\'">Accedi con facebook</a>
-			<img src="resource\logoFacebook.png">
+			<img src="resource\logoFacebook.png" alt="FB logo">
 		</div>
 		</div>
 		<div id="immagine">
-			<img src="resource\mondo.png">
+			<img src="resource\mondo.png" alt="logo">
 		</div>
 		
 	</div>

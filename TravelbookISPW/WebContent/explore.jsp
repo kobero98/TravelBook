@@ -99,7 +99,7 @@
             <p class = "write">
                 Where do you want to go?
             </p>
-            <img src= "resource/cartina-no-sfondo.png" style="width:36.25em;height:16.8125em;">
+            <img src= "resource/cartina-no-sfondo.png" style="width:36.25em;height:16.8125em;" alt="cartina">
             <p id = "search" title>
                 ADVANCED SEARCH
             </p>

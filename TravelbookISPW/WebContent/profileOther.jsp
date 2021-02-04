@@ -104,12 +104,12 @@
             		byte[] bytes=Base64.getEncoder().encode(userB);
 					String encoded=new String(bytes,"UTF-8");
             		%>
-            			<img src="data:image/*;base64,<%=encoded%>" id="profileIm" style="width: 12.5em; height: 12.5em;" class="image">
+            			<img src="data:image/*;base64,<%=encoded%>" id="profileIm" style="width: 12.5em; height: 12.5em;" class="image" alt="profile picture">
             		<% 
             	}
             	else{
             		%>
-            		  <img src="resource/travelers.png" id="profileIm" style="width: 12.5em; height: 12.5em;" class="image">
+            		  <img src="resource/travelers.png" id="profileIm" style="width: 12.5em; height: 12.5em;" class="image" alt="default profile picture">
             		<% 
             	}
             %>
@@ -162,7 +162,7 @@
 						<% 
 						if(bytes!=null){
 							%>
-							<img id="travImg"src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" class="image" />
+							<img id="travImg"src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" class="image" alt="travel picture"/>
 							<%
 						}
 						%>

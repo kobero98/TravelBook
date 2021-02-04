@@ -131,6 +131,7 @@ public class ControllerLogin {
 		}catch (LoginPageException e) {
 			throw e;
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new LoginPageException("errore pagina di Login");
 		}
 		return null;

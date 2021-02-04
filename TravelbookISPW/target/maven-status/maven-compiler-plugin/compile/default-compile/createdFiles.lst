@@ -61,6 +61,7 @@ main/java/travelbook/view/ChatViewController$MessageCell.class
 main/java/travelbook/model/dao/VisualDAO.class
 main/java/travelbook/controller/ProfileController.class
 main/java/travelbook/view/SearchTravelController$MyTypes.class
+main/java/travelbook/util/Notification.class
 main/java/travelbook/controller/ControllerLogin.class
 main/java/travelbook/model/MessageEntity.class
 main/java/travelbook/model/dao/DaoType.class

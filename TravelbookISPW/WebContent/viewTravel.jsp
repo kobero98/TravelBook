@@ -286,7 +286,7 @@
             		byte[] bytes=Base64.getEncoder().encode(travB);
 					String encoded=new String(bytes,"UTF-8");
                 %>
-				<img src="data:image/*;base64,<%=encoded%>" id="background" style="width: 12.5em; height: 12.5em;"/>
+				<img src="data:image/*;base64,<%=encoded%>" id="background" style="width: 12.5em; height: 12.5em;" alt="travel picture"/>
 				<p><%=myTravel.getNameTravel() %></p>
                 </div>
                 <div id="label">

@@ -28,7 +28,6 @@ public class MessageDao implements PersistanceDAO {
 			while(rs.next()) {
 				MessageEntity newM=new MessageEntity(rs.getInt("idmessaggio"),rs.getInt("Mittente"),rs.getInt("Destinatario"));
 				newM.setText(rs.getString("Testo"));
-				System.out.println("Testo:"+rs.getString("Testo")+" timestamp"+rs.getTimestamp("data"));
 				newM.setTime(rs.getTimestamp("data").toInstant());
 				newM.setType(rs.getString("NomeViaggio"));
 				newM.setRead(rs.getInt("letto")==1);
@@ -37,8 +36,7 @@ public class MessageDao implements PersistanceDAO {
 			stmt.close();
 			connection.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			//throw new DBException("we can't reach your messages");
+			throw new DBException("we can't reach your messages");
 		}
 		return results;
 	}
