@@ -1,4 +1,5 @@
 package main.java.travelbook.view;
+import javafx.application.Platform;
 import javafx.geometry.Side;
 import javafx.scene.control.TextField;
 import main.java.travelbook.controller.ControllerSearch;
@@ -22,7 +23,9 @@ public class SearchCityTextField extends AutocompleteTextField<String> {
 		try {
 			return ControllerSearch.getInstance().getCitiesPredictions(text);
 		} catch (DBException e) {
+			Platform.runLater(()->{
 			new TriggerAlert().triggerAlertCreate(e.getMessage(),"warn").showAndWait();
+			});
 			return new ArrayList<>();
 		}
 		

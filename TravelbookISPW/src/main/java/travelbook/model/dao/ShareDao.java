@@ -2,11 +2,12 @@ package main.java.travelbook.model.dao;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.sql.Statement;
 import java.util.List;
 import main.java.travelbook.model.ShareEntity;
 import exception.DBException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 
@@ -16,10 +17,12 @@ public class ShareDao implements PersistanceDAO {
 	public List<Entity> getData(Entity obj) throws DBException{
 		List<Entity> condivisioni=new ArrayList<>();
 		try {
-		Statement stmt=AllQuery.getInstance().getConnection().createStatement();
 		ShareEntity user=(ShareEntity)obj;
-		
-		ResultSet rs=AllQuery.getInstance().getShared(stmt, user.getWhoReceive());
+		String query=AllQuery.getInstance().getShared(user.getWhoReceive());
+		Connection conn=AllQuery.getInstance().getConnection();
+		try(PreparedStatement stmt=conn.prepareStatement(query)){
+		stmt.setInt(1, user.getWhoReceive());
+		ResultSet rs=stmt.executeQuery();
 		while(rs.next()) {
 			ShareEntity share=new ShareEntity();
 			share.setCreator(rs.getInt(4));
@@ -27,6 +30,8 @@ public class ShareDao implements PersistanceDAO {
 			share.setWhoReceive(rs.getInt(2));
 			share.setWhoShare(rs.getInt(1));
 			condivisioni.add(share);
+		}
+		conn.close();
 		}
 		}catch(SQLException e) {
 			throw new DBException(e.getMessage());

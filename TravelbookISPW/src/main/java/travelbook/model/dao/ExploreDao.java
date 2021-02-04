@@ -1,6 +1,7 @@
 package main.java.travelbook.model.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -14,27 +15,45 @@ public class ExploreDao implements VisualDAO {
 
 	@Override
 	public List<Entity> getData(Entity object) throws DBException, SQLException {
-		// TODO Auto-generated method stub
 		ResultSet rs;
-		ResultSet rs2;
+		List<Integer> travelId=new ArrayList<>();
 		List<Entity> travels=new ArrayList<>();
 		UserEntity user=(UserEntity)object;
 		Connection conn=AllQuery.getInstance().getConnection();
-		rs=AllQuery.getInstance().getTravels(conn, user);
-		List<Integer> travelId=new ArrayList<>();
+		String query=AllQuery.getInstance().getTravels(user);
+		PreparedStatement stmt=conn.prepareStatement(query);
+		try {
+		
+		if(stmt.getParameterMetaData().getParameterCount()==1)
+			stmt.setInt(1, user.getId());
+		else {
+			stmt.setInt(1, user.getId());
+			stmt.setInt(2, user.getId());
+			stmt.setInt(3,user.getId());
+		}
+		rs=stmt.executeQuery();
+		
 		while(rs.next()) {
 			travelId.add(rs.getInt(1));
 		}
-		
+		}finally {
+			if(stmt!=null) {
+				stmt.close();
+			}
+		}
 		int count=0;
 		if(travelId.size()<15) {
 			user.setFollower(0);
 			user.setFollowing(0);
-			rs2=AllQuery.getInstance().getTravels(conn, user);
-			while(rs.next()) {
-				Integer val=rs2.getInt(1);
-				if(!travelId.contains(val)) {
-					travelId.add(val);
+			query=AllQuery.getInstance().getTravels(user);
+			try(PreparedStatement stmt1=conn.prepareStatement(query)){
+				stmt1.setInt(1, user.getId());
+				rs=stmt1.executeQuery();
+				while(rs.next()) {
+					Integer val=rs.getInt(1);
+					if(!travelId.contains(val)) {
+						travelId.add(val);
+					}
 				}
 			}
 		}

@@ -1,9 +1,9 @@
 package main.java.travelbook.model.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +34,11 @@ public class ShortTravelDao implements VisualDAO{
 		try {
 			connection = AllQuery.getInstance().getConnection();
 			
-			Statement stmt=connection.createStatement();
-			ResultSet rs=AllQuery.getInstance().requestShortTravel(stmt, entity.getIdTravel());
+			
+			String query=AllQuery.getInstance().requestShortTravel(entity.getIdTravel());
+		try(PreparedStatement stmt=connection.prepareStatement(query)){
+			stmt.setInt(1, entity.getIdTravel());
+			ResultSet rs=stmt.executeQuery();
 			while(rs.next())
 			{
 				TravelEntity e=convertRsToShortTravelEntity(rs);
@@ -43,6 +46,7 @@ public class ShortTravelDao implements VisualDAO{
 				l.add(e);	
 			}
 			connection.close();
+		}
 		} catch (SQLException e1) {
 			throw new DBException("we can't reach your travel");
 		}

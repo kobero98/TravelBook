@@ -1,8 +1,10 @@
 package main.java.travelbook.model.dao;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Timestamp;
+
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import java.util.List;
@@ -22,9 +24,20 @@ public class MessageDao implements PersistanceDAO {
 		
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
-		
-			Statement stmt=connection.createStatement();
-			ResultSet rs=AllQuery.getInstance().getMessage(stmt, messaggio,connection);
+			String query=AllQuery.getInstance().getMessage( messaggio);
+			try(PreparedStatement stmt=connection.prepareStatement(query)){
+			if(messaggio.getSoloNuovi()) {
+				stmt.setInt(1, messaggio.getIdDestinatario());
+				stmt.setTimestamp(2, Timestamp.from(messaggio.getLastTimeStamp()));
+			}
+			else {
+				if(messaggio.getIdMittente()!=0) {
+					stmt.setInt(1,messaggio.getIdMittente());
+				}
+				else
+					stmt.setInt(1, messaggio.getIdDestinatario());
+			}
+			ResultSet rs=stmt.executeQuery();
 			while(rs.next()) {
 				MessageEntity newM=new MessageEntity(rs.getInt("idmessaggio"),rs.getInt("Mittente"),rs.getInt("Destinatario"));
 				newM.setText(rs.getString("Testo"));
@@ -33,10 +46,11 @@ public class MessageDao implements PersistanceDAO {
 				newM.setRead(rs.getInt("letto")==1);
 				results.add((Entity)newM);
 			}
-			stmt.close();
 			connection.close();
+			}
 		} catch (SQLException e) {
-			throw new DBException("we can't reach your messages");
+			e.printStackTrace();
+			//throw new DBException("we can't reach your messages");
 		}
 		return results;
 	}
@@ -46,6 +60,7 @@ public class MessageDao implements PersistanceDAO {
 				if(this.myEntity!=null) {
 					this.connection = AllQuery.getInstance().getConnection();
 					AllQuery.getInstance().sendMessage(this.connection, this.myEntity);
+					this.connection.close();
 				}
 			} catch (SQLException e) {
 				throw new DBException("we can't send your message");
@@ -61,7 +76,8 @@ public class MessageDao implements PersistanceDAO {
 		MessageEntity entityToBeUpdated=(MessageEntity) obj;
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
-		AllQuery.getInstance().setReadMex(this.connection.createStatement(), entityToBeUpdated);
+			AllQuery.getInstance().setReadMex(this.connection, entityToBeUpdated);
+			this.connection.close();
 		}catch(SQLException e) {
 			throw new DBException("we couldn't update your information");
 		}

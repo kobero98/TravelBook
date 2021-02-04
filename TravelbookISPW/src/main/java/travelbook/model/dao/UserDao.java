@@ -1,6 +1,7 @@
 package main.java.travelbook.model.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -41,22 +42,29 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 	@Override
 	public List <Entity> getData(Entity user1) throws LoginPageException {
 		ResultSet rs=null;
-		Statement stmt=null;
 		UserEntity user=(UserEntity) user1;
 		AllQuery db=AllQuery.getInstance();
 		List <Entity> list=new ArrayList<>();
+		PreparedStatement stmt=null;
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
 		}catch (SQLException e1) {
 			throw new LoginPageException("we couldn't reach our servers");
 		}
 		try {
-			stmt=connection.createStatement();
-			rs=db.requestLogin(stmt,user.getUsername(), user.getPassword());				
+			String query=db.requestLogin(connection,user.getUsername(), user.getPassword());	
+			stmt=connection.prepareStatement(query);
+			stmt.setString(1, user.getUsername());	
+			stmt.setString(2, user.getPassword());
+			rs=stmt.executeQuery();
+			rs.next();
 			UserEntity utente=castRStoUser(rs);
 			stmt.close();
-			stmt=this.connection.createStatement();
-			rs=AllQuery.getInstance().requestListIDFavoriteTrip(stmt,utente.getId());	
+			System.out.println("AUTENTICAZIONE FATTA");
+			query=AllQuery.getInstance().requestListIDFavoriteTrip();
+			try(PreparedStatement stmt1=connection.prepareStatement(query)){
+			stmt1.setInt(1, utente.getId());
+			rs=stmt1.executeQuery();
 			List <Integer> fav=new ArrayList<>();
 			while(rs.next())
 			{
@@ -64,8 +72,12 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			}
 			utente.setFavoriteList(fav);
 			stmt.close();
-			stmt=this.connection.createStatement();
-			rs=AllQuery.getInstance().requestListFollowerUser(stmt,utente.getId());	
+			}
+			
+			query=AllQuery.getInstance().requestListFollowerUser(utente.getId());
+			stmt=connection.prepareStatement(query);
+			stmt.setInt(1, utente.getId());
+			rs=stmt.executeQuery();
 			List <Integer> follower=new ArrayList<>();
 			while(rs.next())
 			{
@@ -73,8 +85,11 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			}
 			utente.setListFollower(follower);
 			stmt.close();
-			stmt=this.connection.createStatement();
-			rs=AllQuery.getInstance().requestListFollowingUser(stmt,utente.getId());	
+			
+			query=AllQuery.getInstance().requestListFollowingUser(utente.getId());	
+			stmt=connection.prepareStatement(query);
+			stmt.setInt(1, utente.getId());
+			rs=stmt.executeQuery();
 			List <Integer> following=new ArrayList<>();
 			while(rs.next())
 			{
@@ -82,8 +97,10 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			}
 			utente.setListFollowing(following);
 			stmt.close();
-			stmt=this.connection.createStatement();
-			rs=AllQuery.getInstance().requestTripByUser(stmt, utente.getId());	
+			query=AllQuery.getInstance().requestTripByUser( utente.getId());
+			stmt=connection.prepareStatement(query);
+			stmt.setInt(1,utente.getId());
+			rs=stmt.executeQuery();
 			List <Integer> travel=new ArrayList<>();
 			while(rs.next())
 			{
@@ -91,15 +108,14 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			}
 			utente.setTravel(travel);
 			stmt.close();
-			stmt=this.connection.createStatement();
-			utente.setnPlace(AllQuery.getInstance().getPlaceVisited(stmt,utente.getId()));
+			utente.setnPlace(AllQuery.getInstance().getPlaceVisited(connection,utente.getId()));
 			stmt.close();
 			list.add((Entity) utente);
 			return list;
 		}catch(LoginPageException e){
 			throw e;
 		}catch(SQLException e){
-			throw new LoginPageException("Errore nelle funzioni di SQL");
+			throw new LoginPageException(e.getMessage());
 		}
 	}
 
@@ -110,6 +126,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			try {
 				this.connection = AllQuery.getInstance().getConnection();
 				AllQuery.getInstance().requestRegistrationUser(this.connection, this.entity);
+				this.connection.close();
 			} catch (SQLException e) {
 				throw new ExceptionRegistration("Errore registrazione");
 			}
@@ -149,9 +166,9 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 					AllQuery.getInstance().updateDescriptionUser(connection, this.entity.getId(), this.entity.getDescription());
 				if(this.entity.getPhoto()!=null)
 					AllQuery.getInstance().updatePhotoProfile(connection, this.entity.getId(), this.entity.getPhoto());
-				if(this.entity.getFavoriteList()!=null)
+				if(this.entity.getFavoriteList()!=null && !this.entity.getListFollower().isEmpty())
 					AllQuery.getInstance().updateListFavoritTravel(connection,this.entity.getId(),this.entity.getFavoriteList().get(this.entity.getFavoriteList().size()-1));
-				if(this.entity.getListFollowing()!=null) 
+				if(this.entity.getListFollowing()!=null && !this.entity.getListFollowing().isEmpty()) 
 					AllQuery.getInstance().updateListFollower(connection, this.entity.getId(), this.entity.getListFollowing().get(this.entity.getListFollowing().size()-1));
 		} catch (SQLException e) {
 			throw new DBException("errore update");

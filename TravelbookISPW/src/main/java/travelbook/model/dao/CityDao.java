@@ -20,21 +20,24 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 			throw new DBException("servers unreacheable");
 		}
 		try {
-		
-		Statement stmt=connection.createStatement();
-		ResultSet rs=AllQuery.getInstance().cityAutocompleteRequest(stmt, text);
-		if(rs!=null) {
-			CityEntity city;
+			String sql=AllQuery.getInstance().cityAutocompleteRequest();
+		try(PreparedStatement stmt=connection.prepareStatement(sql)){
+			stmt.setString(1, text+"%");
+			ResultSet rs=stmt.executeQuery();
+			if(rs!=null) {
+				CityEntity city;
 			
-		while(rs.next()) {	
+				while(rs.next()) {	
 			city=new CityEntity();
 			city.setNameC(rs.getString(1));
 			city.setState(rs.getString(2));
 			predictions.add(city);
 		}
 		}
+		}
 		}catch(SQLException e1) {
-			throw new DBException("we can't reach our servers");
+			e1.printStackTrace();
+			//throw new DBException("we can't reach our servers");
 		}
 		return predictions;
 
@@ -45,13 +48,17 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 		List<Entity> results=new ArrayList<>();
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
-			Statement stmt=connection.createStatement();
-			ResultSet rs=AllQuery.getInstance().getCityByName(stmt,city );
+			String query=AllQuery.getInstance().getCityByName();
+			try(PreparedStatement stmt=connection.prepareStatement(query)){
+				stmt.setString(1, city.getNameC());
+				stmt.setString(2, city.getState());
+				ResultSet rs=stmt.executeQuery();
 			while(rs.next()) {
 				CityEntity newC=new CityEntity();
 				newC.setNameC(rs.getString("NameC"));
 				newC.setState(rs.getString("State"));
 				results.add((Entity)newC);
+			}
 			}
 		}catch(SQLException e1) {
 			throw new DBException("data unreachable");

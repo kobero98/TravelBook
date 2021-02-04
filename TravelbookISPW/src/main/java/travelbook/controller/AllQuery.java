@@ -8,8 +8,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.io.InputStream;
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import exception.ExceptionLogin;
@@ -24,7 +23,11 @@ import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
 
 public class AllQuery {
+	private static final String CITYREQUEST="SELECT NameC,State from City where NameC=? and State=?";
+	private static final String CITYAUTOCOMPLETE="SELECT NameC,State from City where NameC like ? order by char_length(NameC),char_length(State)";
+	private static final String QUERYUSERID= "Select NameUser, Surname, BirthDate, DescriptionProfile, FollowerNumber, FollowingNumber, TripNumber, ProfileImage from User where idUser=?";
 	private static AllQuery instance=null;
+	private static final String FAVORITEID="Select CodiceTravel from Favorite where codiceUser=?";
 	private AllQuery() {}
 	public static AllQuery getInstance() {
 		if(instance==null) instance=new AllQuery();
@@ -36,113 +39,139 @@ public class AllQuery {
 	}
 	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalita";
 	
-	public ResultSet searchTrip(Statement stmt,SearchEntity entity) throws SQLException
+	public String searchTrip(SearchEntity entity) 
 	{
-		if(entity.getMaxCost()==null) {
-			Connection conn=getConnection();
-			Statement stmt1=conn.createStatement();
+		StringBuilder q=new StringBuilder();
+		q.append("Select idTrip,nome,Descriptiontravel,PhotoBackground from trip join trip_has_city on idTrip=CodiceViaggi and CreatorTrip=CodiceCreatore where Condiviso=1 and City_NameC like ? and City_State like ?  and costo>=?  and tipo like ? and DATEDIFF(EndDate,StartDate)>=?");
+		if(entity.getMaxCost()!=null) {
+			q.append( "and costo<=?");
+		/*	Connection conn=getConnection();
+			try(Statement stmt1=conn.createStatement()){
 			ResultSet rs1=stmt1.executeQuery("Select Max(costo) from trip");
 			rs1.next();
 			entity.setMaxCost(rs1.getInt(1));
 			conn.close();
+			}*/
 		}
-		if(entity.getMaxDay()==null)
+		if(entity.getMaxDay()!=null)
 		{
-			Connection conn=getConnection();
-			Statement stmt1=conn.createStatement();
+			q.append( " and DATEDIFF(EndDate,StartDate)<=?");
+		/*	Connection conn=getConnection();
+			try(Statement stmt1=conn.createStatement()){
 			ResultSet rs1=stmt1.executeQuery("Select Max( DATEDIFF(EndDate,StartDate)) from trip");
 			rs1.next();
 			entity.setMaxDay(rs1.getInt(1)+1);
 			conn.close();
+			}*/
 		}
-		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip join trip_has_city on idTrip=CodiceViaggi and CreatorTrip=CodiceCreatore where Condiviso=1 and City_NameC like'"+entity.getCity().getNameC() +"' and City_State like '"+entity.getCity().getState() +"' and Condiviso=0 and costo>="+entity.getMinCost()+" and costo<="+entity.getMaxCost()+" and tipo like '%"+entity.getType()+"%' and DATEDIFF(EndDate,StartDate)>="+(entity.getMinDay()-1)+" and DATEDIFF(EndDate,StartDate)<="+(entity.getMaxDay());
-		return stmt.executeQuery(query);
+		return q.toString();
 	}
-	public ResultSet requestLogin(Statement stmt,String username,String password) throws ExceptionLogin{
+	public String requestLogin(Connection conn,String username,String password) throws ExceptionLogin{
+		PreparedStatement stmt=null;
 		ResultSet rs=null;
+		String query="";
 			try {
-			rs = stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"'");
+			try {
+			stmt=conn.prepareStatement(userAttributeQuery+" FROM User where Username=?");
+			stmt.setString(1, username);
+			rs = stmt.executeQuery();
 			if(rs.next()) {
-				rs= stmt.executeQuery(userAttributeQuery+" FROM User where Username='"+username+"' and password='"+password+"'");
+				stmt.close();
+				query=userAttributeQuery+" FROM User where Username=? and password=?";
+				stmt=conn.prepareStatement(userAttributeQuery+" FROM User where Username=? and password=?");
+				stmt.setString(1, username);
+				stmt.setString(2, password);
+				rs= stmt.executeQuery();
 				if(!rs.next()) throw new ExceptionLogin("Errore Password");	 
+				stmt.close();
 			}
 			else {
-				 rs = stmt.executeQuery(userAttributeQuery+" FROM User where email='"+username+"'");
+				stmt.close();
+				rs.close();
+				stmt=conn.prepareStatement(userAttributeQuery+" FROM User where email=?");
+				stmt.setString(1, username);
+				 rs = stmt.executeQuery();
 				 if(rs.next()) {
-					    rs= stmt.executeQuery(userAttributeQuery+" FROM User where email='"+username+"' and password='"+password+"'");
+					 	stmt.close();
+					 	query=userAttributeQuery+" FROM User where email=? and password=?";
+					 	stmt=conn.prepareStatement(userAttributeQuery+" FROM User where email=? and password=?");
+					 	stmt.setString(1, username);
+					 	stmt.setString(2, password);
+					    rs= stmt.executeQuery();
 						if(!rs.next()) throw new ExceptionLogin("Errore Password");	 
 					}
 				 else throw new ExceptionLogin("Errore Username o password");	 
 			}
-			return rs;
+			return query;
+			}finally {
+				if(stmt!=null)
+					stmt.close();
+			}
 			}catch(SQLException e){
 				throw new ExceptionLogin("Errore Inasspettato");
 			}
 	
 	}
-	public ResultSet requestTripById(Statement stmt,int idTrip)
-	{	ResultSet rs=null;
-		try {
-			String id=String.valueOf(idTrip);
-			rs = stmt.executeQuery("SELECT idTrip,nome,costo,tipo,Nlike,StartDate,EndDate,StepNumber,PhotoBackground,DescriptionTravel,CreatorTrip,Condiviso FROM Trip where idTrip="+id);
-			return rs;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return rs;
-		}
+	public String requestTripById(int idTrip)
+	{	
+		
+			String query="SELECT idTrip,nome,costo,tipo,Nlike,StartDate,EndDate,StepNumber,PhotoBackground,DescriptionTravel,CreatorTrip,Condiviso FROM Trip where idTrip=?";
+			if(idTrip>=0)
+				return query;
+			return null;
+	
 	
 	}
-	public int getPlaceVisited(Statement stmt, int id) throws SQLException
+	public int getPlaceVisited( Connection conn,int id) throws SQLException
 	{
-		String query="Select count(*) as name from (SELECT Distinct city.NameC FROM trip_has_city join city  on City_NameC=NameC and city_State=State where codiceCreatore="+id+") as Place";
-		ResultSet rs= stmt.executeQuery(query);
+		
+		String query="Select count(*) as name from (SELECT Distinct city.NameC FROM trip_has_city join city  on City_NameC=NameC and city_State=State where codiceCreatore=?) as Place";
+		try(PreparedStatement stmt=conn.prepareStatement(query)){
+		stmt.setInt(1, id);
+		ResultSet rs= stmt.executeQuery();
 		rs.next();
 		return rs.getInt(1);
-	}
-	public ResultSet requestTripByUser(Statement stmt,int idCreator)
-	{	ResultSet rs=null;
-		try {
-			
-			rs = stmt.executeQuery("SELECT idTrip, nome, costo, tipo, Nlike , StartDate, EndDate, StepNumber, PhotoBackground, DescriptionTravel, CreatorTrip, Condiviso FROM Trip WHERE CreatorTrip="+idCreator);
-			return rs;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return rs;
 		}
+	}
+	public String requestTripByUser(int idCreator)
+	{	
+		String query="SELECT idTrip, nome, costo, tipo, Nlike , StartDate, EndDate, StepNumber, PhotoBackground, DescriptionTravel, CreatorTrip, Condiviso FROM Trip WHERE CreatorTrip=?";
+		if(idCreator>=0)
+			return query;
+		return null;
 	
 	}
 	
-	public ResultSet requestStepByTrip(Statement stmt,int idTrip)
+	public String requestStepByTrip(int idTrip)
 	{
-		ResultSet rs=null;
-		try {
-			rs = stmt.executeQuery("SELECT * FROM Step WHERE CodiceTrip="+idTrip);
-			return rs;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return rs;
-		}
+		String query="SELECT * FROM Step WHERE CodiceTrip=?";
+		if(idTrip>=0)
+			return query;
+		return null;
 	}
 	
 	public Integer getVerifiedEmail(String email)throws SQLException
 	{
-		String query="Select idUser from User where email like '"+email+"'";
+		String query="Select idUser from User where email like ?";
 		Connection conn=getConnection();
-		Statement stmt=conn.createStatement();
+	try(	PreparedStatement stmt=conn.prepareStatement(query)){
+		stmt.setString(1, email);
 		ResultSet rs=stmt.executeQuery(query);
 		if(rs.next()) return rs.getInt(1);
 		else return 0;
 	}
+	}
 	
 	public UserEntity controlloEsistenzaAccount(String id) throws SQLException
 	{
-			Statement stmt=null;
+			PreparedStatement stmt=null;
 			Connection conn=null;
 			try {	
-				String query=" Select username,password from user join facebooklogin on facebooklogin.idUser=user.idUser where idFacebookLogin = '"+id+"'";
+				String query=" Select username,password from user join facebooklogin on facebooklogin.idUser=user.idUser where idFacebookLogin = ?";
 				conn=getConnection();
-				stmt=conn.createStatement();
-				ResultSet rs=stmt.executeQuery(query);
+				stmt=conn.prepareStatement(query);
+				stmt.setString(1, id);
+				ResultSet rs=stmt.executeQuery();
 				if(rs.next()) { 
 					UserEntity user= new UserEntity();
 					user.setPassword(rs.getString(2));
@@ -157,16 +186,17 @@ public class AllQuery {
 				}
 	}
 	
-	public ResultSet requestPhotoByStep(Statement stmt,int idStep,int idTravel) throws SQLException {
-		ResultSet rs=null;
-		String query="SELECT LinkPhoto from photostep where Step_Number="+idStep+" and CodiceViaggio="+idTravel;
-		rs=stmt.executeQuery(query);
-		return rs;
+	public String requestPhotoByStep(int idStep,int idTravel)  {
+		
+		String query="SELECT LinkPhoto from photostep where Step_Number=? and CodiceViaggio=?";
+		if(idStep>=0 && idTravel>=0)
+			return query;
+		return null;
 	}
 	public UserEntity insertFacebookUser(Connection conn,String idF,int id) throws SQLException
 	{
 		PreparedStatement stmt=null;
-		Statement stmt1=null;
+		PreparedStatement stmt1=null;
 		try{
 			String query="Insert into facebooklogin(idFacebookLogin,idUser) values (?,?)";
 			stmt=conn.prepareStatement(query);
@@ -174,17 +204,25 @@ public class AllQuery {
 			stmt.setInt(2, id);
 			stmt.execute();
 			stmt.close();
-			query="select username,password from user where idUser="+id;
-			stmt1=conn.createStatement();
-			ResultSet rs=stmt1.executeQuery(query);
+			query="select username,password from user where idUser=?";
+			try {
+			stmt1=conn.prepareStatement(query);
+			stmt1.setInt(1, id);
+			ResultSet rs=stmt1.executeQuery();
 			rs.next();
 			UserEntity user=new UserEntity();
 			user.setUsername(rs.getString(1));
 			user.setPassword(rs.getString(2));
 			return user;
+			}finally {
+				if(stmt1!=null)
+					stmt1.close();
+			}
 		}finally {
-			if(stmt!=null) stmt.close();
-			if(stmt1!=null) stmt1.close();
+			if(stmt!=null) 
+				stmt.close();
+			if(stmt1!=null) 
+				stmt1.close();
 			conn.close();
 		}
 		}
@@ -297,27 +335,36 @@ public class AllQuery {
 		
 	}	
 	
-	public ResultSet requestListIDFavoriteTrip(Statement stmt,int idUser) throws SQLException {
-		String query="Select CodiceTravel from Favorite where codiceUser="+idUser;
-		return stmt.executeQuery(query);	 
+	public String requestListIDFavoriteTrip()  {
+	
+		return FAVORITEID;	 
 	}
 	
-	public ResultSet requestListFollowerUser(Statement stmt,int idUser) throws SQLException {
-		String query="Select Follower from Follow where Following="+idUser;
-		return stmt.executeQuery(query);	 
+	public String requestListFollowerUser(int idUser)  {
+		
+		String query="Select Follower from Follow where Following=?";
+		if(idUser>=0)
+			return query;
+		return null;
 	}
-	public ResultSet requestListFollowingUser(Statement stmt,int idUser) throws SQLException {
-		String query="Select Following from Follow where Follower="+idUser;
-		return stmt.executeQuery(query);	 
+	public String requestListFollowingUser(int idUser)  {
+		String query="Select Following from Follow where Follower=?";
+		if(idUser>=0)
+			return query;
+		return null; 
 	}
-	public ResultSet requestShortTravel(Statement stmt,int idTrip)throws SQLException{
-		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip where idTrip="+idTrip;
-		return stmt.executeQuery(query);
+	public String requestShortTravel(int idTrip){
+		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip where idTrip=?";
+		if(idTrip>=0)
+			return query;
+		return null;
 	}
-	public ResultSet requestCityByTravelId(Statement stmt,int idTravel) throws SQLException
+	public String requestCityByTravelId(int idTravel) 
 	{
-		String query="Select City.NameC, City.State from Trip_has_City join City on NameC=City_NameC and City_State=State where CodiceViaggi="+idTravel;
-		return stmt.executeQuery(query);
+		String query="Select City.NameC, City.State from Trip_has_City join City on NameC=City_NameC and City_State=State where CodiceViaggi=?";
+		if(idTravel>=0)
+			return query;
+		return null;
 		
 	}
 	public void setCityToTravel(Connection connessione,int idTravel,int idCrator,CityEntity entity) throws SQLException {
@@ -338,53 +385,81 @@ public class AllQuery {
 	public void updateListFavoritTravel(Connection connessione,int idUser,int idTravel) throws SQLException
 	{
 		PreparedStatement stmt1=null;
-		Statement stmt=null;
+		PreparedStatement stmt=null;
 		try {
-				stmt=connessione.createStatement();
-				
-				ResultSet rs=stmt.executeQuery("select CreatorTrip from trip where idTrip="+idTravel);
+				String query="select CreatorTrip from trip where idTrip=?";
+				stmt=connessione.prepareStatement(query);
+				stmt.setInt(1, idTravel);
+				ResultSet rs=stmt.executeQuery();
 				rs.next();
 				int cretorTrip=rs.getInt(1);
 				stmt.close();
-				stmt=connessione.createStatement();
-				rs=stmt.executeQuery("select * from favorite where CodiceUser="+idUser+" and CodiceTravel="+idTravel);
+				query="select * from favorite where CodiceUser=? and CodiceTravel=?";
+				try {
+				stmt=connessione.prepareStatement(query);
+				stmt.setInt(1, idUser);
+				stmt.setInt(2, idTravel);
+				rs=stmt.executeQuery();
+				}finally {
+					stmt.close();
+				}
 				if(!rs.next()) {
-					String query="insert into favorite (CodiceUser,codiceTravel,codiceCreatore) values( ?,?,?)";
+					try {
+					query="insert into favorite (CodiceUser,codiceTravel,codiceCreatore) values( ?,?,?)";
 					stmt1=connessione.prepareStatement(query);
 					stmt1.setInt(1,idUser );
 					stmt1.setInt(2, idTravel);
 					stmt1.setInt(3, cretorTrip);
 					stmt1.execute();
-					stmt1.close();
-					stmt=connessione.createStatement();
-					ResultSet rs1=stmt.executeQuery("Select Nlike from trip where idTrip="+idTravel);
+					}finally {
+						if(stmt1!=null)
+							stmt1.close();
+					}
+					query="Select Nlike from trip where idTrip=?";
+					stmt=connessione.prepareStatement(query);
+					ResultSet rs1=stmt.executeQuery();
 					rs1.next();
 					int i=rs1.getInt(1);
 					stmt.close();
+					try {
 					stmt1=connessione.prepareStatement("update Trip set Nlike= ? where idTrip= ?");
 					stmt1.setInt(1, i+1);
 					stmt1.setInt(2,idTravel );
 					stmt1.execute();
-					stmt1.close();
+					}finally {
+						
+							stmt1.close();
+					}
 				}
 				else {
-					stmt=connessione.createStatement();
+					
 					String s="delete from Favorite where CodiceUser=? and CodiceTravel=? ";
+					try {
 					stmt1=connessione.prepareStatement(s);
 					stmt1.setInt(1, idUser);
 					stmt1.setInt(2, idTravel);
 					stmt1.execute();
-					stmt1.close();
-					stmt=connessione.createStatement();
-					ResultSet rs1=stmt.executeQuery("Select Nlike from trip where idTrip="+idTravel);
+					}finally {
+						if(stmt1!=null)
+							stmt1.close();
+					}
+					query="Select Nlike from trip where idTrip=?";
+					stmt=connessione.prepareStatement(query);
+					stmt.setInt(1, idTravel);
+					ResultSet rs1=stmt.executeQuery();
 					rs1.next();
 					int i=rs1.getInt(1);
 					stmt.close();
+					try {
 					stmt1=connessione.prepareStatement("update Trip set Nlike= ? where idTrip= ?");
 					stmt1.setInt(1, i-1);
 					stmt1.setInt(2,idTravel );
 					stmt1.execute();
 					stmt1.close();
+					}finally {
+					
+							stmt1.close();
+					}
 					
 				}
 		}finally {
@@ -399,14 +474,16 @@ public class AllQuery {
 		PreparedStatement stmt=null;
 		String query="update User set TripNumber= ? where idUser=?";
 		try {
-			Statement stmt2=connessione.createStatement();
-			ResultSet rs=stmt2.executeQuery("Select Count(idTrip) as tripNumber from trip where CreatorTrip="+idUser);
-			rs.next();
-			stmt=connessione.prepareStatement(query);
-			stmt.setInt(1, rs.getInt(1));
-			stmt.setInt(2, idUser);
-			stmt.execute();
-		} catch (SQLException e) {
+			String q="Select Count(idTrip) as tripNumber from trip where CreatorTrip=?";
+			try(PreparedStatement stmt2=connessione.prepareStatement(q)){
+				stmt2.setInt(1, idUser);
+				ResultSet rs=stmt2.executeQuery();
+				rs.next();
+				stmt=connessione.prepareStatement(query);
+				stmt.setInt(1, rs.getInt(1));
+				stmt.setInt(2, idUser);
+				stmt.execute();
+			}} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
 			if(stmt!=null ) {
@@ -420,11 +497,15 @@ public class AllQuery {
 		}
 	}
 	public void updateListFollower(Connection connessione, Integer idFollower, Integer idFollowed) throws SQLException {
-		Statement stmt1=null;
+		PreparedStatement stmt1=null;
 		PreparedStatement stmt=null;
 		try {
-				stmt1 = connessione.createStatement();
-				ResultSet rs = stmt1.executeQuery("Select * from Follow where follower = "+idFollower+" and following = "+ idFollowed);
+				String query="Select * from Follow where follower = ? and following =?";
+				try {
+				stmt1 = connessione.prepareStatement(query);
+				stmt1.setInt(1, idFollower);
+				stmt1.setInt(2, idFollowed);
+				ResultSet rs = stmt1.executeQuery();
 				if(!rs.next()) {
 					stmt=connessione.prepareStatement("Insert Into Follow (follower,following) values (?,?)");
 					stmt.setInt(1, idFollower);
@@ -438,6 +519,10 @@ public class AllQuery {
 					stmt.setInt(2,idFollowed);
 					stmt.execute();
 					stmt.close();
+				}
+				}finally {
+					if(stmt1!=null)
+						stmt1.close();
 				}
 		}finally {
 			if(stmt!=null) stmt.close();
@@ -534,34 +619,22 @@ public class AllQuery {
 					}
 			}
 	}
-	public ResultSet requestUserbyID(Statement stmt,int id) {
-		ResultSet rs=null;
-		try {
-			 String query= "Select NameUser, Surname, BirthDate, DescriptionProfile, FollowerNumber, FollowingNumber, TripNumber, ProfileImage from User where idUser="+id;
-			 rs=stmt.executeQuery(query);
-			return rs;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rs;
+	public String requestUserbyID() {
+		
+			
+			 return QUERYUSERID;
 	}
-	public ResultSet shortUserByID(Statement stmt, int id) throws SQLException {
-		ResultSet rs=null;
-		String query = "Select idUser,NameUser,Surname, ProfileImage from User where idUser="+id;
-		rs=stmt.executeQuery(query);
-		return rs;
+	public String shortUserByID( int id)  {
+		
+		String query = "Select idUser,NameUser,Surname, ProfileImage from User where idUser=?";
+		if(id>=0)
+			return query;
+		return null;
 	
 	}
-	public ResultSet cityAutocompleteRequest(Statement stmt, String text) {
-		ResultSet rs=null;
-		String query="SELECT NameC,State from City where NameC like '"+text+"%' order by char_length(NameC),char_length(State)";
-		try {
-		 rs=stmt.executeQuery(query);
-		 
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rs;
+	public String cityAutocompleteRequest() {
+		
+		return CITYAUTOCOMPLETE;
 	}
 	public ResultSet userAutocompleteRequest(Statement stmt, String text) {
 		String[] nameSurname=text.split(" ");
@@ -578,15 +651,9 @@ public class AllQuery {
 		}
 		return rs;
 	}
-	public ResultSet getCityByName(Statement stmt, CityEntity entity) {
-		String query="SELECT NameC,State from City where NameC='"+entity.getNameC()+"' and State='"+entity.getState()+"'";
-		ResultSet rs=null;
-		try {
-			 rs=stmt.executeQuery(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rs;
+	public String getCityByName() {
+		
+		return CITYREQUEST;
 	}
 	public void setCity(Connection connect, CityEntity entity) {
 		String query="INSERT into City(NameC,State) values (?,?)";
@@ -610,57 +677,50 @@ public class AllQuery {
 	public void deleteCity(Connection connect,CityEntity entity) {
 		String query="DELETE from City where NameC=? and State=?";
 		try {
-			PreparedStatement prp=connect.prepareStatement(query);
+			try(PreparedStatement prp=connect.prepareStatement(query)){
 			prp.setString(1, entity.getNameC());
 			prp.setString(2, entity.getState());
 			prp.execute();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 	}
-	public ResultSet getMessage(Statement stmt, MessageEntity message,Connection con) throws SQLException {
-		ResultSet rs=null;
-		StringBuilder query=new StringBuilder();
-		PreparedStatement prep=con.prepareStatement("SELECT * FROM messaggio where Destinatario=? and letto=0 and data>=?");
+	public String getMessage(MessageEntity message)  {
+		String query="";
 		if(message.getIdMittente()==0) {
-			
-			
-			query.append("SELECT * FROM messaggio where Destinatario="+message.getIdDestinatario());
-			
+			if(message.getSoloNuovi())
+				query="SELECT * FROM messaggio where Destinatario=? and letto=0 and data>=?";
+			else {
+				query="SELECT * FROM messaggio where Destinatario=?";
+			}
 		}
 		else {
 			//Legge solo i messaggi inviati!!
 			
-				query.append("SELECT * FROM messaggio where  Mittente="+message.getIdMittente());
+				query="SELECT * FROM messaggio where  Mittente=?";
 			
 		}
-		try {
-			if(message.getSoloNuovi()) {
-				prep.setInt(1, message.getIdDestinatario());
-				prep.setTimestamp(2, Timestamp.from(message.getLastTimeStamp()));
-				rs=prep.executeQuery();
-				return rs;
-			}
-			rs=stmt.executeQuery(query.toString());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rs;
+		return query;
 	}
 	public void sendMessage(Connection connect, MessageEntity message)throws SQLException {
 		String query="INSERT INTO messaggio(Destinatario,Mittente,Testo,data) values (?,?,?,?)";
-		PreparedStatement insertMex=connect.prepareStatement(query);
+		try(PreparedStatement insertMex=connect.prepareStatement(query)){
         insertMex.setInt(1, message.getIdDestinatario());
         insertMex.setInt(2, message.getIdMittente());
         insertMex.setString(3, message.getText());
         insertMex.setTimestamp(4, Timestamp.from(Instant.now()));
         //Mi pare che letto � a 0 di default
         insertMex.execute();
+		}
 	}
-	public void setReadMex(Statement stmt, MessageEntity message)throws SQLException{
-		String query="UPDATE messaggio SET letto=1 where idmessaggio="+message.getIdMessaggio();
-		stmt.execute(query);
+	public void setReadMex(Connection conn, MessageEntity message)throws SQLException{
+		String query="UPDATE messaggio SET letto=1 where idmessaggio=?";
+		try(PreparedStatement stmt=conn.prepareStatement(query)){
+			stmt.setInt(1, message.getIdMessaggio());
+			stmt.execute();
+		}
 	}
 	public void deleteMex(Statement stmt, MessageEntity message)throws SQLException{
 		String query;
@@ -674,49 +734,30 @@ public class AllQuery {
 	}	
 	public void shareTravel(Connection conn, ShareEntity shared) throws SQLException {
 		String query="INSERT INTO viaggicondivisi values(?,?,?,?)";
-		PreparedStatement insert=conn.prepareStatement(query);
+		try(PreparedStatement insert=conn.prepareStatement(query)){
 		insert.setInt(1, shared.getWhoShare());
 		insert.setInt(2, shared.getWhoReceive());
 		insert.setInt(3, shared.getTravelShared());
 		insert.setInt(4, shared.getCreator());
 		insert.execute();
+		conn.close();
+		}
 	}
-	public ResultSet getShared(Statement stmt,int userId)throws SQLException{
-		ResultSet rs;
-		String query="SELECT * FROM viaggicondivisi where AchiVieneCondiviso="+userId;
-		rs=stmt.executeQuery(query);
-		return rs;
-	}
-	public ResultSet getTravels(Connection conn,UserEntity user) throws SQLException{
+	public String getShared(int userId){
 		
-		ResultSet rs=null;
-		boolean prep=false;
+		String query="SELECT * FROM viaggicondivisi where AchiVieneCondiviso=?";
+		if(userId>=0)
+			return query;
+		return null;
+	}
+	public String getTravels(UserEntity user){
 		String query="";
-		String query2="";
-		Integer userId=user.getId();
-
 		if(user.getNFollower()!=0 || user.getNFollowing()!=0) {
 			query="SELECT distinct idTrip from trip join follow on (CreatorTrip=Follower or CreatorTrip=Following) where (Follower=? or Following=?) and CreatorTrip!=? order by dataCreazione desc";
-			prep=true;
 		}
 		else {
-			query2="SELECT idTrip from trip  where CreatorTrip!=? order by dataCreazione desc";
+			query="SELECT idTrip from trip  where CreatorTrip!=? order by dataCreazione desc";
 		}
-		PreparedStatement stmt;
-		
-		if(prep) {
-			stmt=conn.prepareStatement(query);
-			stmt.setInt(1, userId);
-			stmt.setInt(2, userId);
-			stmt.setInt(3,userId);
-		}
-		else {
-			stmt=conn.prepareStatement(query2);
-			stmt.setInt(1, userId);
-		}
-		
-		rs=stmt.executeQuery();
-		
-		return rs;
+		return query;
 	}
 }

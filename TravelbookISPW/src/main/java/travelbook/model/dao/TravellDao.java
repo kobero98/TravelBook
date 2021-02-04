@@ -2,9 +2,9 @@ package main.java.travelbook.model.dao;
 
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,19 +48,24 @@ public class TravellDao implements PersistanceDAO{
 		this.entity=(TravelEntity) object;
 		List <Entity> list=new ArrayList<>();
 		ResultSet rs=null;
-		Statement stmt=null;
+		PreparedStatement stmt=null;
+		String query="";
 		try {
 				this.connection=AllQuery.getInstance().getConnection();
-				stmt=this.connection.createStatement();
+				try {
 				if(this.entity.getCreatorId()!=0) {
-					rs=AllQuery.getInstance().requestTripByUser(stmt, this.entity.getCreatorId());	
+					 query=AllQuery.getInstance().requestTripByUser( this.entity.getCreatorId());	
+					 stmt=this.connection.prepareStatement(query);
+					 stmt.setInt(1, this.entity.getCreatorId());
 				}
 				else {
-					if(this.entity.getIdTravel()!=0) {
-						
-							rs=AllQuery.getInstance().requestTripById(stmt, this.entity.getIdTravel());
-					}
+					
+							query=AllQuery.getInstance().requestTripById( this.entity.getIdTravel());
+							stmt=this.connection.prepareStatement(query);
+							stmt.setInt(1, this.entity.getIdTravel());
+					
 				}
+				rs=stmt.executeQuery();
 				if(rs!=null)
 				{
 					while(rs.next()) {
@@ -75,8 +80,11 @@ public class TravellDao implements PersistanceDAO{
 						
 						ResultSet rs1=null;
 						Connection con2=AllQuery.getInstance().getConnection();
-						Statement stmt1=con2.createStatement();
-						rs1=AllQuery.getInstance().requestCityByTravelId(stmt1, ent.getIdTravel());
+						
+						String query1=AllQuery.getInstance().requestCityByTravelId( ent.getIdTravel());
+						try(PreparedStatement stmt1=con2.prepareStatement(query1)){
+						stmt1.setInt(1, ent.getIdTravel());
+						rs1=stmt1.executeQuery();
 						List <CityEntity> l=new ArrayList<>();
 						while(rs1.next())
 						{
@@ -88,10 +96,17 @@ public class TravellDao implements PersistanceDAO{
 						ent.setCityView(l);
 						list.add((Entity) ent);
 					}
+						con2.close();
+					}
 				}
 				else list=null;
 				stmt.close();
 				return list;
+				}finally {
+					if(stmt!=null)
+						stmt.close();
+					this.connection.close();
+				}
 		} catch (SQLException e) {
 			throw new DBException("We couldn't reach your travel");
 		}

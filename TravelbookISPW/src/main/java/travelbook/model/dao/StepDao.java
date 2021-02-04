@@ -4,8 +4,9 @@ import main.java.travelbook.model.StepEntity;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.List;
 
 import exception.DBException;
@@ -29,6 +30,7 @@ public class StepDao implements PersistanceDAO {
 		try {
 			this.connection=AllQuery.getInstance().getConnection();
 			AllQuery.getInstance().requestRegistrationStep(connection,myEntity);
+			this.connection.close();
 		} catch (SQLException e) {
 			throw new DBException("connection lost, could't retrieve steps");
 		}
@@ -43,8 +45,10 @@ public class StepDao implements PersistanceDAO {
 			throw new DBException("Error while loading travel");
 		}
 		try {
-			Statement stmt=connection.createStatement();
-			ResultSet rs=AllQuery.getInstance().requestStepByTrip(stmt, entity.getIDTravel());
+			String query=AllQuery.getInstance().requestStepByTrip( entity.getIDTravel());
+			try(PreparedStatement stmt=connection.prepareStatement(query)){
+				stmt.setInt(1, entity.getIDTravel());
+				ResultSet rs=stmt.executeQuery();
 			while(rs.next()) {
 				StepEntity newStep=new StepEntity();
 				newStep.setNumber(rs.getInt("Number"));
@@ -59,17 +63,25 @@ public class StepDao implements PersistanceDAO {
 			}
 			for(Entity entit: stepFound) {
 				StepEntity localStep=(StepEntity)entit;
-				Statement stmt1=connection.createStatement();
-				ResultSet rs1=AllQuery.getInstance().requestPhotoByStep(stmt1, localStep.getNumber(), localStep.getIDTravel());
+				
+				String query1=AllQuery.getInstance().requestPhotoByStep(localStep.getNumber(), localStep.getIDTravel());
+				try(PreparedStatement stmt1=connection.prepareStatement(query1)){
+				stmt1.setInt(1, localStep.getNumber());
+				stmt1.setInt(2, localStep.getIDTravel());
+				ResultSet rs1=stmt1.executeQuery();
 				List<InputStream> images=new ArrayList<>();
 				while(rs1.next()) {
 					images.add(rs1.getBinaryStream(1));
 				}
 				localStep.setStreamFoto(images);
+				}
 			}
+			}
+			this.connection.close();
 		}catch(SQLException e1) {
 			throw new DBException("Error while loading travel");
 		}
+		
 		return stepFound;
 	}
 	@Override
