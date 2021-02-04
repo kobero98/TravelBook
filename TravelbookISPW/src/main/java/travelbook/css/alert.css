@@ -5,7 +5,7 @@
 /**Costumization of The Bar where the buttons are located**/
 .dialog-pane > .button-bar > .container {
   -fx-background-radius:0;
-	-fx-background-color:Lcolor;
+	-fx-background-color:-fx-lcolor;
 	-fx-effect: null;
 }
 
@@ -17,7 +17,7 @@
 
 /**Costumization of DialogPane Header**/
 .dialog-pane:header .header-panel {
-  -fx-background-color: Lcolor;
+  -fx-background-color: -fx-lcolor;
   -fx-border-color: textColorL;
   -fx-border-width: 0 0 1 0;
 }

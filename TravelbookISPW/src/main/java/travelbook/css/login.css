@@ -51,7 +51,7 @@
 }
 .button:hover,
 .button:pressed{ 
-	-fx-background-color: radial-gradient(center 50% 50%, radius 100%, Mcolor, Lcolor);
+	-fx-background-color: radial-gradient(center 50% 50%, radius 100%, Mcolor, -fx-lcolor);
 	-fx-border-color: lightGrey;
 }
 
@@ -76,7 +76,7 @@
 }
 
  .date-picker .cell {
--fx-background-color: Lcolor;
+-fx-background-color: -fx-lcolor;
 -fx-background-radius: 25;
 -fx-border-color: Mcolor;
 -fx-text-fill: textColorD;
@@ -113,7 +113,7 @@
     -fx-background-radius: 0;
 }
 .date-picker-popup > .calendar-grid {
-    -fx-background-color: Lcolor;
+    -fx-background-color: -fx-lcolor;
     -fx-padding: 5;
     -fx-background-radius: 0 0 20 20;
 }

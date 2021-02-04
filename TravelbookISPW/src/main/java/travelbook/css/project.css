@@ -1,12 +1,12 @@
 .root{
-	Lcolor: #FFF4F2;
+	-fx-lcolor: #FFF4F2;
 	Dcolor: #FFA286;
 	Mcolor: #FCDCC8;
 	shadow: rgba(0,0,0,0.25);
 	textColorD: #4F4F4F;
 	textColorL: #828282;
 	lightGrey: #c3c3c3;
-	-fx-background-color: Lcolor;
+	-fx-background-color: -fx-lcolor;
     -fx-font-family: "Arial", sans-serif;
 	-fx-font-weight: normal;
 	-fx-font-size: 20px;
@@ -135,7 +135,7 @@
 	-fx-text-fill: textColorL;
 }
 .check-box .box{
-	-fx-background-color: Lcolor;
+	-fx-background-color: -fx-lcolor;
 	-fx-border-color: lightGrey;
 	-fx-border-radius: 5;
 	-fx-border-width: 2;
@@ -151,6 +151,6 @@
 }
 .profile-pic{
 	-fx-shape: "M 25, 50 a 25,25 0 1,1 50,0 a 25,25 0 1,1 -50,0 Z";
-	-fx-border-color: linear-gradient(to bottom, Dcolor 0%, #FFA490 49%, Mcolor 50%, Lcolor 100%);
+	-fx-border-color: linear-gradient(to bottom, Dcolor 0%, #FFA490 49%, Mcolor 50%, -fx-lcolor 100%);
 	-fx-border-width: 2;
 }

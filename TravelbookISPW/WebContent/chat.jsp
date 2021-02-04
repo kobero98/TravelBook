@@ -49,7 +49,7 @@
 	}
 %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
     <script src="js\jquery.min.js"></script> 

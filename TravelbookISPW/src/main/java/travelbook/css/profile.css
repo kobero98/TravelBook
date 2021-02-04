@@ -33,10 +33,10 @@
 
 .button:hover {
 	-fx-effect: innershadow(three-pass-box, shadow, 4, 0, 0, 4);
-    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, Lcolor, Dcolor);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, -fx-lcolor, Dcolor);
 }
 .button:pressed {
-	-fx-background-color: radial-gradient(center 50% 50%, radius 100%, Dcolor, Lcolor);
+	-fx-background-color: radial-gradient(center 50% 50%, radius 100%, Dcolor, -fx-lcolor);
     -fx-effect: innershadow(three-pass-box, shadow, 4, 0, 0, 4);
     -fx-border-color: lightGrey;
     -fx-border-width: 1.5;
@@ -63,7 +63,7 @@
 }
 
 .lists{
-	-fx-background-color: Lcolor;
+	-fx-background-color: -fx-lcolor;
 	-fx-border-color: lightGrey;
 }
 .lists > .virtual-flow > .clipped-container > .sheet > .list-cell{
@@ -84,7 +84,7 @@
 	-fx-text-fill: textColorL;
 }
 .text-area > .scroll-pane{
-	-fx-background-color: linear-gradient(from 0px 0px to 0px 5px, derive(Lcolor, -9%), #FDFDFD);
+	-fx-background-color: linear-gradient(from 0px 0px to 0px 5px, derive(-fx-lcolor, -9%), #FDFDFD);
 	-fx-background-radius: 0;
 }
 .text-area > .scroll-pane > .viewport{
