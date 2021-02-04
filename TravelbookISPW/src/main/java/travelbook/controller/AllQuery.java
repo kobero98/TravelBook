@@ -25,7 +25,7 @@ import main.java.travelbook.model.UserEntity;
 public class AllQuery {
 	private static final String CITYREQUEST="SELECT NameC,State from City where NameC=? and State=?";
 	private static final String CITYAUTOCOMPLETE="SELECT NameC,State from City where NameC like ? order by char_length(NameC),char_length(State)";
-	private static final String QUERYUSERID= "Select NameUser, Surname, BirthDate, DescriptionProfile, FollowerNumber, FollowingNumber, TripNumber, ProfileImage from User where idUser=?";
+	private static final String QUERYUSERID= "Select NameUser, Surname, BirthDate, DescriptionProfile, TripNumber, ProfileImage from User where idUser=?";
 	private static AllQuery instance=null;
 	private static final String FAVORITEID="Select CodiceTravel from Favorite where codiceUser=?";
 	private AllQuery() {}
@@ -37,7 +37,7 @@ public class AllQuery {
 		ClasseConnessione c=new ClasseConnessione();
 		return c.getConenction();
 	}
-	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Gender,Nazionalita";
+	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,TripNumber,ProfileImage,Gender,Nazionalita";
 	
 	public String searchTrip(SearchEntity entity) 
 	{
@@ -72,13 +72,13 @@ public class AllQuery {
 		String query="";
 			try {
 			try {
-			stmt=conn.prepareStatement(userAttributeQuery+" FROM User where Username=?");
+			stmt=conn.prepareStatement("Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,TripNumber,ProfileImage,Gender,Nazionalita FROM User where Username=?");
 			stmt.setString(1, username);
 			rs = stmt.executeQuery();
 			if(rs.next()) {
 				stmt.close();
-				query=userAttributeQuery+" FROM User where Username=? and password=?";
-				stmt=conn.prepareStatement(userAttributeQuery+" FROM User where Username=? and password=?");
+				query="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,TripNumber,ProfileImage,Gender,Nazionalita FROM User where Username=? and password=?";
+				stmt=conn.prepareStatement("Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,TripNumber,ProfileImage,Gender,Nazionalita FROM User where Username=? and password=?");
 				stmt.setString(1, username);
 				stmt.setString(2, password);
 				rs= stmt.executeQuery();
@@ -88,13 +88,13 @@ public class AllQuery {
 			else {
 				stmt.close();
 				rs.close();
-				stmt=conn.prepareStatement(userAttributeQuery+" FROM User where email=?");
+				stmt=conn.prepareStatement("Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,TripNumber,ProfileImage,Gender,Nazionalita FROM User where email=?");
 				stmt.setString(1, username);
 				 rs = stmt.executeQuery();
 				 if(rs.next()) {
 					 	stmt.close();
-					 	query=userAttributeQuery+" FROM User where email=? and password=?";
-					 	stmt=conn.prepareStatement(userAttributeQuery+" FROM User where email=? and password=?");
+					 	query="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,TripNumber,ProfileImage,Gender,Nazionalita FROM User where email=? and password=?";
+					 	stmt=conn.prepareStatement("Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,TripNumber,ProfileImage,Gender,Nazionalita FROM User where email=? and password=?");
 					 	stmt.setString(1, username);
 					 	stmt.setString(2, password);
 					    rs= stmt.executeQuery();

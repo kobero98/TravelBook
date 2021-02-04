@@ -15,8 +15,6 @@ public class OtherUserEntity implements Entity{
 	protected InputStream photo=null;
 	protected Date birthDate=null;
 	protected int  id=0;
-	private int nFollower;
-	private int nFollowing;
 	private int nTrip;
 	private int nPlace=0;
 	private List <Integer> travel = null;
@@ -51,14 +49,6 @@ public class OtherUserEntity implements Entity{
 	public void setGender(String gender)
 	{
 		this.gender=gender;
-	}
-	public void setFollower(int nfollower)
-	{
-		this.nFollower=nfollower;
-	}
-	public void setFollowing(int nfollowing)
-	{
-		this.nFollowing=nfollowing;
 	}
 	public void setNTravel(int ntrip)
 	{

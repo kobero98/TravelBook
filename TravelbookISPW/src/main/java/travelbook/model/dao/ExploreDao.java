@@ -37,14 +37,12 @@ public class ExploreDao implements VisualDAO {
 			travelId.add(rs.getInt(1));
 		}
 		}finally {
-			if(stmt!=null) {
 				stmt.close();
-			}
 		}
 		int count=0;
 		if(travelId.size()<15) {
-			user.setFollower(0);
-			user.setFollowing(0);
+			//user.setFollower(0);
+			//user.setFollowing(0);
 			query=AllQuery.getInstance().getTravels(user);
 			try(PreparedStatement stmt1=conn.prepareStatement(query)){
 				stmt1.setInt(1, user.getId());

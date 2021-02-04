@@ -29,18 +29,16 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		user.setBirthDate(rs.getDate(4));
 		user.setDescription(rs.getString(5));
 		user.setEmail(rs.getString(6));
-		user.setFollower(rs.getInt(7));
-		user.setFollowing(rs.getInt(8));
-		user.setNTravel(rs.getInt(9));
-		user.setPhoto(rs.getBinaryStream(10));
-		user.setGender(rs.getString(11));
-		user.setNation(rs.getString(12));
+		user.setNTravel(rs.getInt(7));
+		user.setPhoto(rs.getBinaryStream(8));
+		user.setGender(rs.getString(9));
+		user.setNation(rs.getString(10));
 		return user;
 		
 	}
 	
 	@Override
-	public List <Entity> getData(Entity user1) throws LoginPageException {
+	public List <Entity> getData(Entity user1) throws LoginPageException, SQLException {
 		ResultSet rs=null;
 		UserEntity user=(UserEntity) user1;
 		AllQuery db=AllQuery.getInstance();
@@ -60,7 +58,6 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			rs.next();
 			UserEntity utente=castRStoUser(rs);
 			stmt.close();
-			System.out.println("AUTENTICAZIONE FATTA");
 			query=AllQuery.getInstance().requestListIDFavoriteTrip();
 			try(PreparedStatement stmt1=connection.prepareStatement(query)){
 			stmt1.setInt(1, utente.getId());
@@ -116,6 +113,10 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			throw e;
 		}catch(SQLException e){
 			throw new LoginPageException(e.getMessage());
+		}finally {
+			if(stmt!=null) {
+				stmt.close();
+			}
 		}
 	}
 

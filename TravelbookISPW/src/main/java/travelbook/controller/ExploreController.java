@@ -4,7 +4,6 @@ import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
 import main.java.travelbook.model.dao.VisualDAO;
 import java.util.List;
-import java.util.ArrayList;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.bean.UserBean;

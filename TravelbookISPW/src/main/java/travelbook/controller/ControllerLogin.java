@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 import javax.mail.MessagingException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -175,7 +175,7 @@ public class ControllerLogin {
 		int x=0;
 		for(int i=0;i<=5;i++)
 		{
-			int rand =  new Random().nextInt(9);
+			int rand =  new SecureRandom().nextInt(9);
 			x=(int) (x+rand*Math.pow(10, i));
 		}
 		return x;

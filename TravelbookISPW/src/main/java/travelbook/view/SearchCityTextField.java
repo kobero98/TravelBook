@@ -23,9 +23,8 @@ public class SearchCityTextField extends AutocompleteTextField<String> {
 		try {
 			return ControllerSearch.getInstance().getCitiesPredictions(text);
 		} catch (DBException e) {
-			Platform.runLater(()->{
-			new TriggerAlert().triggerAlertCreate(e.getMessage(),"warn").showAndWait();
-			});
+			Platform.runLater(()->
+			new TriggerAlert().triggerAlertCreate(e.getMessage(),"warn").showAndWait());
 			return new ArrayList<>();
 		}
 		

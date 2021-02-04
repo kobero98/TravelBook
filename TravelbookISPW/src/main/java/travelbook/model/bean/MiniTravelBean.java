@@ -82,12 +82,10 @@ public class MiniTravelBean extends Observable implements Bean{
 	}
 	public Image getPathImage() {
 		if(this.picStream==null) {
-			System.out.println("HERE");
 			return null;
 		}
 		if(this.pathBackground==null) {
 			this.pathBackground=new Image(this.picStream);
-			System.out.println("FOUND");
 		}
 		return this.pathBackground;
 	}

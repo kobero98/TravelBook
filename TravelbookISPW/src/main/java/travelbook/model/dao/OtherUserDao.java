@@ -24,10 +24,9 @@ public class OtherUserDao implements VisualDAO {
 			user.setSurname(rs.getString(2));
 			user.setBirthDate(rs.getDate(3));
 			user.setDescription(rs.getString(4));
-			user.setFollower(rs.getInt(5));
-			user.setFollowing(rs.getInt(6));
-			user.setNTravel(rs.getInt(7));
-			user.setPhoto(rs.getBinaryStream(8));
+			
+			user.setNTravel(rs.getInt(5));
+			user.setPhoto(rs.getBinaryStream(6));
 			return user;
 			
 		}
