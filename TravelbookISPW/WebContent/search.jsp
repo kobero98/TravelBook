@@ -142,6 +142,7 @@
                 </p>
             </div>
     <div id=advancedSearch  hidden="true">
+    <div id=advanced-style>
     	<div id=cost>
     		<p class="t">Your budget</p>
     		<input type="radio" id=test value="0-300" name="costo" >0-300<br>
@@ -157,19 +158,15 @@
     	<div id=type>
     		<p class="t"> What do you fancy?</p>
     		<div>
-    			<span class="dot"></span><input type="checkbox" name="type" value="Romantic Trip">Romantic Trip<br>
-    			<span class="dot"></span><input type="checkbox" name="type" value="Family Holiday">Family Holiday<br>
-    			<span class="dot"></span><input type="checkbox" name="type" value="On The Road">On The Road<br>
-    			<span class="dot"></span><input type="checkbox" name="type" value="Children Friendly">Children Friendly<br>
-    			<span class="dot"></span><input type="checkbox" name="type" value="Travel with Friend">Travel with Friend<br>
-    			<span class="dot"></span><input type="checkbox" name="type" value="Cultural Travel">Cultural Travel<br>
-    			<span class="dot"></span><input type="checkbox" name="type" value="Relaxing Holiday">Relaxing Holiday<br>
+    			<input type="checkbox" name="type" value="Romantic Trip">Romantic Trip<br>
+    			<input type="checkbox" name="type" value="Family Holiday">Family Holiday<br>
+    			<input type="checkbox" name="type" value="On The Road">On The Road<br>
+    			<input type="checkbox" name="type" value="Children Friendly">Children Friendly<br>
+    			<input type="checkbox" name="type" value="Travel with Friend">Travel with Friend<br>
+    			<input type="checkbox" name="type" value="Cultural Travel">Cultural Travel<br>
+    			<input type="checkbox" name="type" value="Relaxing Holiday">Relaxing Holiday<br>
     		</div>
-    		<div>
-    			
-    		</div>
-    		<div hidden=true>
-    		</div>
+    	</div>
     	</div>
     </div>
     </form>
@@ -192,8 +189,8 @@
 	    					String path="data:image/gif;base64,"+bytes;
 	    					out.println(bytes);
                 			%>
-                			<div id=<%=i %>>
-								<img id="travImg"src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" class="image" alt="travel picture"/>
+                			<div id=<%=i %> class="travel-tile">
+								<img id="travImg"src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" class="travel-tile-photo" alt="travel picture"/>
 								<div>
 									<form action="profile.jsp" method="POST">
 										<p class=text>

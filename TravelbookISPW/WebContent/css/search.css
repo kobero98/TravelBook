@@ -23,12 +23,12 @@
     align-items: center;
     justify-content: space-evenly;
 }
-#advancedSearch{
+#advanced-style{
 	display: flex;
 	justify-content: space-evenly;
 	align-items: flex-start;
 }
-#advancedSearch .hidden{
+#advancedSearch {
 	display:none;
 }
 .found{
@@ -49,11 +49,4 @@
 .t{
 	font: bold normal 1.1em Arial, Sans-serif;
 	color: var(--Dcolor);
-}
-.dot{
-		border: 2px solid green;
-	  	height: 25px;
- 		width: 25px;
- 		background: red;
-  		border-radius: 50%;
 }

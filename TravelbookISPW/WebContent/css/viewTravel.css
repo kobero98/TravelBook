@@ -32,9 +32,7 @@
     height:11em;
     display: flex;
 }
-.fotoDiv{
-	display: inline;
-}
+
 
 .tablinks{
 	background-color: inherit;
@@ -107,4 +105,30 @@
     position: absolute;
     top: 9em;
     left: 40em;
+}
+.fotoDiv{
+	background: var(--Mcolor);
+	display:flex;
+	width: 32em;
+	justify-content: space-evenly;
+	height: 10em;
+	overflow: scroll;
+	margin-left: 2em;
+	align-items: center;
+}
+#background{
+	border-radius: 30px 0px 0px 0px;
+}
+#step-title{
+	color: var(--Dcolor);
+	font: bold normal 2em Arial,Sans-serif;
+	margin-left: 2em;
+}
+.descr{
+	margin-left: 2em;
+	font: normal normal 1.25em Arial,Sans-serif;
+	color:var(--textColorD);
+}
+.prec{
+	font-weight:bold;
 }

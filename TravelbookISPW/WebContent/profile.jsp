@@ -144,7 +144,7 @@
             <div id=fotoFile>
             <%
             	byte[] userB=myUser.getArray();
-            	if(userB!=null){
+            	if(userB.length!=0){
             		byte[] bytes=Base64.getEncoder().encode(userB);
 					String encoded=new String(bytes,"UTF-8");
             		%>
@@ -222,7 +222,7 @@
 						<% 
 						if(bytes!=null){
 							%>
-							<img id="travImg"src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" class="image" alt="travel presentation picture" />
+							<img id="travImg"src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" class="travel-tile-photo" alt="travel presentation picture" />
 							<%
 						}
 							%>

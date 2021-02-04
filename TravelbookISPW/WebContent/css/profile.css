@@ -45,7 +45,7 @@
     align-items: center;
 }
 .map{
-    background-image: url(../WebContent/resource/cartina-no-sfondo.png);
+    background-image: url(../resource/cartina-no-sfondo.png);
     width: 17.8125em;
     height: 10em;
     background-size: cover;

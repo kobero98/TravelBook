@@ -42,7 +42,7 @@
 
 %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="ISO-8859-1">
     <link rel="stylesheet" href="css/loginCss.css">
@@ -113,26 +113,34 @@
 			}
 			function openStep(event,dayNumber,stepNumber){
 				var div=document.getElementById("right-panel");
-				
 				var fotoDiv=document.createElement("div");
 				fotoDiv.setAttribute("id","fotodiv");
 				fotoDiv.setAttribute("class","fotoDiv");
 				while( div.lastChild )
 					div.removeChild( div.lastChild );
 				var step=array[dayNumber][stepNumber];
-				var i;
-				var desc=document.createTextNode(step.descriptionStep);
+				var p=document.createElement("P");
+				p.setAttribute("id", "step-title");
 				
-				var prec=document.createTextNode(step.precision);
+				p.innerHTML=step.place;
+				var i;
+				var descr=document.createElement("P");
+				descr.setAttribute("class","descr");
+				descr.innerHTML=step.descriptionStep;
+				
+				var prec=document.createElement("P");
+				prec.setAttribute("class","descr prec");
+				prec.innerHTML=step.precision;
 				var img;
 				for(i=0;i<step.photo.length;i++){
 					img=document.createElement("img");
 					img.setAttribute("src","data:image/gif;base64,"+step.photo[i]);
-					img.setAttribute("style","width: 5em; height: 5em;");
+					img.setAttribute("style","width: 8em; height: 8em;");
 					fotoDiv.appendChild(img);
 				}
+				div.appendChild(p);
 				div.appendChild(fotoDiv);
-				div.appendChild(desc);
+				div.appendChild(descr);
 				div.appendChild(prec);
 			}
 	function showFav(idUser){
@@ -286,7 +294,7 @@
             		byte[] bytes=Base64.getEncoder().encode(travB);
 					String encoded=new String(bytes,"UTF-8");
                 %>
-				<img src="data:image/*;base64,<%=encoded%>" id="background" style="width: 12.5em; height: 12.5em;" alt="travel picture"/>
+				<img src="data:image/*;base64,<%=encoded%>" id="background" style="width: 17.35em; height: 11em;" alt="travel picture"/>
 				<p><%=myTravel.getNameTravel() %></p>
                 </div>
                 <div id="label">

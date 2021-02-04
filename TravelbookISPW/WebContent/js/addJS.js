@@ -132,8 +132,8 @@ function addButton(){
 	btn.setAttribute("type","button");
 	btn.setAttribute("onclick","setStep(event)");
 	btn.setAttribute("id",actualDay+";"+arrayStep[actualDay].length);
-	var div=document.getElementById("steps");
-	div.appendChild(btn);
+	var div1=document.getElementById("steps");
+	div1.appendChild(btn);
 	return btn;
 }
 function removeButton(){
@@ -269,7 +269,7 @@ function post(blocked=true){
 	}
 	if(cost==undefined || !onlyNumber(cost)){
 		elements[actual]=document.getElementById("costTravel");
-		actual++;
+		
 	}
 	var j;
 	var actualElem=0;
