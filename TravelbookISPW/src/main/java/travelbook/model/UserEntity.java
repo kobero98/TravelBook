@@ -7,7 +7,7 @@ import main.java.travelbook.model.bean.RegistrationBean;
 
 
 
-public class UserEntity extends OtherUserEntity implements Entity{
+public class UserEntity extends OtherUserEntity{
 	private String username=null;
 	private String password=null;
 	private String email=null;
