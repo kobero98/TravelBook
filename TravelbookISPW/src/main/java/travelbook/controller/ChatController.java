@@ -101,7 +101,6 @@ public class ChatController {
 		PredictableDAO dao= DaoFactory.getInstance().createPredictable(DaoType.USER);
 		List<UserBean> results=new ArrayList<>();
 		List<Entity> predictions=dao.getPredictions(text);
-		
 		UserBean singleResult;
 		for(Entity user: predictions) {
 			UserEntity entity=(UserEntity) user;

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
- <%@page errorPage="errorpage.jsp" %> 
 <%@ page import="main.java.travelbook.util.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.time.Instant"%>
@@ -14,23 +13,25 @@
 	List<UserBean> tryContacts=new ArrayList<>();
 	if(request.getSession().getAttribute("ChatList")!=null){ 
 		c=(List<Chat>) request.getSession().getAttribute("ChatList");				
-		tryContacts = myController.getContacts(c,log.getId());
+		if(c!=null) tryContacts = myController.getContacts(c,log.getId());
 	}
-	
+	Integer sel=-1;
 	int selettore=-1;
 	if(request.getParameter("invia")!=null)
 	{
-					System.out.println("ciao1");
 					String s= (String) request.getParameter("invia");
 					int nuovoId=Integer.valueOf(s);
 					Chat newChat=new Chat(nuovoId);
 					c.add(newChat);
+					request.getSession().setAttribute("ChatList",c);
 					tryContacts = myController.getContacts(c,log.getId());
 		}
 	for(int j=0;j<tryContacts.size();j++)
     {
     	if(request.getParameter("contatto"+j)!=null) {
     		selettore=j;
+    		sel=tryContacts.get(j).getId();
+    		request.getSession().setAttribute("sel",sel);
     		request.getSession().setAttribute("selettore",j);
     	}
     	
@@ -38,11 +39,12 @@
 	if(request.getParameter("invioMex")!=null)
 	{	        
 			StringBuffer text = new StringBuffer(request.getParameter("mex"));
-	        int loc = (new String(text)).indexOf('\n');
+	        /*int loc = (new String(text)).indexOf('\n');
 	        while(loc > 0){
 	            text.replace(loc, loc+1, "<BR>");
 	            loc = (new String(text)).indexOf('\n');
 	       }
+	        */
 	        
 		if(request.getSession().getAttribute("selettore")!=null && !text.toString().isBlank() )
 		{
@@ -87,17 +89,41 @@
 	{
 		  location.replace("add.jsp");
 	}
-	function createChat()
-	{
-		if(selected!=null)
-			{
-				console.log(selected.id);
-			}
-	}
 	var id={};
 		function getData() { 
 			document.getElementById("invia").value = selected.id;
 		}
+		(function poll() {
+		    setTimeout(function() {
+		        $.ajax({
+		            url: "ChatReceiveMessagge.jsp",
+		            type: "POST",
+		            dataType: "json",
+		            error:function(xhr,ajaxOptions,thrownError){
+						console.log(xhr.responseText);
+						alert(xhr.status);
+				         alert(thrownError);
+					},
+		            data:{sel:<%=sel.toString()%>},
+		            success: function(data) {
+		                if(data.text!=null)
+		                	{
+		                		console.log(data.text);
+		                		var div=document.createElement("div");
+		                		var p=document.createElement("p");
+		                		var text = document.createTextNode(data.text);
+		                		p.appendChild(text);
+		                		div.appendChild(p);
+		                		var element = document.getElementById("chat");
+		                		element.appendChild(div);
+		                	}
+		            },
+		            
+		            complete: poll,
+		            timeout: 2000
+		        })
+		    }, 5000);
+		})();
 		
 		$(function(){
 			$('#search-bar').autocomplete(
@@ -111,8 +137,12 @@
 			                 url:"autocompleteUser.jsp",
 			                 method:"get",
 			                 dataType:"json",
-			                 
 			                 data:{search:request.term},
+			                 error:function(xhr,ajaxOptions,thrownError){
+									console.log(xhr.responseText);
+									alert(xhr.status);
+							         alert(thrownError);
+								},
 			                 success:function(data)
 			                 {
 			                	 console.log(data);
@@ -168,7 +198,6 @@
 					%>
 					<form id=<%=idC %> action="chat.jsp" method="post">
 					<%
-					System.out.println("prima dell'immagine");
 					byte[] userB=contact.getArray();
 	            	if(userB.length!=0){
 	            		byte[] bytes=Base64.getEncoder().encode(userB);
@@ -202,7 +231,7 @@
             </form>
         </div>
         <div class="panel chat-panel">
-            <div class="chat">
+            <div class="chat" id=chat>
             <%
 				if(request.getSession().getAttribute("selettore")!=null)
 				{	

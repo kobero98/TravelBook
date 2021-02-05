@@ -7,22 +7,21 @@
 <%@ page import="main.java.travelbook.model.*" %>
 <%@ page import="main.java.travelbook.controller.ChatController" %>
 <%@page import="org.json.simple.JSONArray"%>
-<%@page import="org.json.simple.JSONObject"%>
 
-<%if(request.getSession().getAttribute("esiste")==null){
+<%
+	if(request.getSession().getAttribute("esiste")==null){
 		request.getSession().setAttribute("esiste",1);
 		request.getSession().setAttribute("goon",1);
 	 	ChatController myController=new ChatController();
-		int id=Integer.valueOf(request.getParameter("id"));
-		System.out.println(id);
+		
 		Instant lastTime=null;
 		Instant lastLocalTime;
 		List<Chat>chats=new ArrayList<>();
 		int goon=(Integer) request.getSession().getAttribute("goon");
 		while(goon==1)
 		{
+			int id= Integer.valueOf(request.getParameter("id"));
 			if(request.getSession().getAttribute("ChatList")!=null) chats=(List<Chat>) request.getSession().getAttribute("ChatList");
-			JSONObject o=new JSONObject();
 			if(lastTime!=null) {
 						boolean found=false;
 						lastLocalTime=lastTime;
@@ -31,6 +30,7 @@
 							lastTime=Instant.now();
 						for(MessageEntity message: messages) {
 							found=false;
+							
 							for(int i=0;i<chats.size();i++) {
 								Chat chat=chats.get(i);
 								if(chat.getIdUser()==message.getIdMittente()) {
@@ -41,23 +41,22 @@
 									}
 								
 								}
-							if(request.getSession().getAttribute("selettore")!=null){
-									int idd= (Integer) request.getSession().getAttribute("selettore");
-									if(message.getIdMittente()==idd)
-									{
-										System.out.println(idd+" "+message.getText());
-										o.put("testo",message.getText());
-										out.print(o.toString());
-									}
-								}
-								if(!found) {
+							if(!found) {
 									List<MessageBean> messaggi=new ArrayList<>();
 									messaggi.add(new MessageBean(message));
 									Chat nuovaChat=new Chat(message.getIdMittente(),messaggi);
 									chats.add(nuovaChat);
 									nuovaChat.setChanged();
 								}
-							}
+							if(request.getSession().getAttribute("selettore")!=null){
+									int index= (Integer) request.getSession().getAttribute("sel");
+									if(message.getIdMittente()==index)
+									{
+										request.getSession().setAttribute("NuovoMessaggio",new MessageBean(message));
+									}
+								}
+							
+						}
 					
 			}
 			else {
@@ -106,7 +105,7 @@
 			request.getSession().setAttribute("ChatList",chats);
 			Thread.sleep(3000);
 			goon=(Integer) request.getSession().getAttribute("goon");
-			out.print(o.toString());
 		}
 	}
 	
+%>

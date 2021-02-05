@@ -72,7 +72,7 @@
          data:{id:<%=log.getId()%>},
          success:function(data)
          { 
-        	 console.log("yes");
+        	 console.log(id);
          }
      });
 
