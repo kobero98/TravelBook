@@ -1,11 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@page errorPage="errorpage.jsp" %>
 <%@page import="main.java.travelbook.model.bean.UserBean" %>
+<%@page import="main.java.travelbook.model.bean.MiniTravelBean" %>
+<%@page import="java.util.List" %>
+<%@page import="java.util.ArrayList" %>
+<%@page import="main.java.travelbook.controller.ExploreController" %>
+<%@page import="java.util.Base64" %>
+<%@page import="java.util.Set" %>
 <%
 	UserBean log=null;
 	if(request.getSession().getAttribute("loggedBean")!=null){
 		log=(UserBean)request.getSession().getAttribute("loggedBean");
 		out.println(log.getName());
+	}
+	Set<String> params=request.getParameterMap().keySet();
+	for(String s: params){
+		if(s.startsWith("suggest")){
+			String[] arg=s.split("suggest");
+			%>
+				<jsp:forward page="viewTravel.jsp">
+				<jsp:param name="travelID" value="<%=arg[1] %>"/>
+				</jsp:forward>
+			<% 
+		}
 	}
 	if(request.getParameter("profile")!=null){
 %>
@@ -57,6 +75,7 @@
         	 console.log("yes");
          }
      });
+
 	</Script>
 
 </head>
@@ -84,7 +103,32 @@
                 Suggestions
             </p>
             <div class="scroll">
-
+			<%
+				List<MiniTravelBean> travels=new ArrayList<>();
+				for(int i=0;i<15;i++){
+					MiniTravelBean tr=new MiniTravelBean();
+					travels.add(tr);
+				}
+				ExploreController c=new ExploreController();
+				c.setSuggests(travels, log);
+				for(int i=0;i<15;i++){
+					MiniTravelBean t=travels.get(i);
+					String encoded="";
+					byte[] bytes=t.getArray();
+					bytes=Base64.getEncoder().encode(bytes);
+					encoded=new String(bytes,"UTF-8");
+					%>
+						<form action="explore.jsp" method="POST">
+						<div id="suggest<%=i %>" class="travelButton" >
+							<input type="submit" name="suggest<%=t.getId() %>" value="Vedi Viaggio"/>
+							<img src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" alt="travelImage">
+							<h1><%=t.getNameTravel() %></h1>
+							<p><%=t.getDescriptionTravel() %></p>
+						</div>
+						</form>
+					<% 
+				}
+			%>
             </div>
             <p class = "write">
                 Top ten

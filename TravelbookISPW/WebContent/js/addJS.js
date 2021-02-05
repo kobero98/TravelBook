@@ -303,6 +303,7 @@ function post(blocked=true){
 					},
 			success:function(data){
 				//STOP ALLA PROGRESS BAR
+				alert("VIAGGIO CARICATO");
 			}
 		});
 	}
