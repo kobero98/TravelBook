@@ -37,7 +37,6 @@ public class AllQuery {
 		ClasseConnessione c=new ClasseConnessione();
 		return c.getConenction();
 	}
-	private String userAttributeQuery="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,TripNumber,ProfileImage,Gender,Nazionalita";
 	
 	public String searchTrip(SearchEntity entity) 
 	{
@@ -45,24 +44,12 @@ public class AllQuery {
 		q.append("Select idTrip,nome,Descriptiontravel,PhotoBackground from trip join trip_has_city on idTrip=CodiceViaggi and CreatorTrip=CodiceCreatore where Condiviso=1 and City_NameC like ? and City_State like ?  and costo>=?  and tipo like ? and DATEDIFF(EndDate,StartDate)>=?");
 		if(entity.getMaxCost()!=null) {
 			q.append( "and costo<=?");
-		/*	Connection conn=getConnection();
-			try(Statement stmt1=conn.createStatement()){
-			ResultSet rs1=stmt1.executeQuery("Select Max(costo) from trip");
-			rs1.next();
-			entity.setMaxCost(rs1.getInt(1));
-			conn.close();
-			}*/
+
 		}
 		if(entity.getMaxDay()!=null)
 		{
 			q.append( " and DATEDIFF(EndDate,StartDate)<=?");
-		/*	Connection conn=getConnection();
-			try(Statement stmt1=conn.createStatement()){
-			ResultSet rs1=stmt1.executeQuery("Select Max( DATEDIFF(EndDate,StartDate)) from trip");
-			rs1.next();
-			entity.setMaxDay(rs1.getInt(1)+1);
-			conn.close();
-			}*/
+
 		}
 		return q.toString();
 	}
@@ -79,10 +66,7 @@ public class AllQuery {
 				stmt.close();
 				query="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,TripNumber,ProfileImage,Gender,Nazionalita FROM User where Username=? and password=?";
 				stmt=conn.prepareStatement("Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,TripNumber,ProfileImage,Gender,Nazionalita FROM User where Username=? and password=?");
-				stmt.setString(1, username);
-				stmt.setString(2, password);
-				rs= stmt.executeQuery();
-				if(!rs.next()) throw new ExceptionLogin("Errore Password");	 
+				rs=selectUser(stmt,username,password);
 				stmt.close();
 			}
 			else {
@@ -95,10 +79,7 @@ public class AllQuery {
 					 	stmt.close();
 					 	query="Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,TripNumber,ProfileImage,Gender,Nazionalita FROM User where email=? and password=?";
 					 	stmt=conn.prepareStatement("Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,TripNumber,ProfileImage,Gender,Nazionalita FROM User where email=? and password=?");
-					 	stmt.setString(1, username);
-					 	stmt.setString(2, password);
-					    rs= stmt.executeQuery();
-						if(!rs.next()) throw new ExceptionLogin("Errore Password");	 
+					 	rs=selectUser(stmt,username,password); 
 					}
 				 else throw new ExceptionLogin("Errore Username o password");	 
 			}
@@ -111,6 +92,14 @@ public class AllQuery {
 				throw new ExceptionLogin("Errore Inasspettato");
 			}
 	
+	}
+	private ResultSet selectUser(PreparedStatement stmt, String username, String password) throws SQLException, ExceptionLogin{
+		ResultSet rs=null;
+		stmt.setString(1, username);
+	 	stmt.setString(2, password);
+	    rs= stmt.executeQuery();
+		if(!rs.next()) throw new ExceptionLogin("Errore Password");	
+		return rs;
 	}
 	public String requestTripById(int idTrip)
 	{	

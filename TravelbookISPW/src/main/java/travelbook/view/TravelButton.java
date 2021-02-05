@@ -97,7 +97,6 @@ public class TravelButton implements Observer {
 		//Carica la foto nel pane
 		Image img=myTravel.getPathImage();
 		if(img!=null) {
-			System.out.println("STO METTENDO BG");
 			BackgroundImage bgPhoto = new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
 			Background newBg = new Background(bgPhoto);
 			this.pane.getStyleClass().clear();

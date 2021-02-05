@@ -49,8 +49,7 @@ public class MessageDao implements PersistanceDAO {
 			connection.close();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			//throw new DBException("we can't reach your messages");
+			throw new DBException("we can't reach your messages");
 		}
 		return results;
 	}

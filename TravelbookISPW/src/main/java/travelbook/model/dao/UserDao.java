@@ -70,7 +70,17 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			utente.setFavoriteList(fav);
 			stmt.close();
 			}
-			
+			query=AllQuery.getInstance().requestListFollowingUser(utente.getId());	
+			stmt=connection.prepareStatement(query);
+			stmt.setInt(1, utente.getId());
+			rs=stmt.executeQuery();
+			List <Integer> following=new ArrayList<>();
+			while(rs.next())
+			{
+				following.add(rs.getInt(1));
+			}
+			utente.setListFollowing(following);
+			stmt.close();
 			query=AllQuery.getInstance().requestListFollowerUser(utente.getId());
 			stmt=connection.prepareStatement(query);
 			stmt.setInt(1, utente.getId());
@@ -83,17 +93,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			utente.setListFollower(follower);
 			stmt.close();
 			
-			query=AllQuery.getInstance().requestListFollowingUser(utente.getId());	
-			stmt=connection.prepareStatement(query);
-			stmt.setInt(1, utente.getId());
-			rs=stmt.executeQuery();
-			List <Integer> following=new ArrayList<>();
-			while(rs.next())
-			{
-				following.add(rs.getInt(1));
-			}
-			utente.setListFollowing(following);
-			stmt.close();
+			
 			query=AllQuery.getInstance().requestTripByUser( utente.getId());
 			stmt=connection.prepareStatement(query);
 			stmt.setInt(1,utente.getId());
