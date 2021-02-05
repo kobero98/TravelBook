@@ -6,8 +6,11 @@ import javafx.scene.shape.Circle;
 
 public class Notification {
 	
+	Circle dot;
+	AnchorPane mainAnchor;
 	public Notification(AnchorPane mainAnchor,int height) {
-		Circle dot = new Circle(6);
+		this.dot = new Circle(6);
+		this.mainAnchor=mainAnchor;
 		dot.setFill(Color.DARKSALMON);
 		mainAnchor.getChildren().add(dot);
 		dot.setLayoutX(510);
@@ -17,6 +20,9 @@ public class Notification {
 		mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->
 			dot.setLayoutX(mainAnchor.getWidth()*510/1280));
 		
+	}
+	public void remove() {
+		mainAnchor.getChildren().remove(dot);
 	}
 
 }

@@ -29,14 +29,7 @@ public class MyProfileController extends ProfileController{
 		userDao.update(userE);
 	}
 	
-	public void updatePhoto(int id,File foto) throws DBException {
-		PersistanceDAO userDao= DaoFactory.getInstance().create(DaoType.USER);
-		UserEntity userE = new UserEntity(id);
-		userE.setPhoto(foto);
-		userDao.update(userE);
-		
-	}
-	public void updatePhotoInputStream(int id,InputStream bytes) throws DBException {
+	public void updatePhoto(int id,InputStream bytes) throws DBException {
 		PersistanceDAO userDao=DaoFactory.getInstance().create(DaoType.USER);
 		UserEntity userE=new UserEntity(id);
 		userE.setPhoto(bytes);
@@ -60,10 +53,10 @@ public class MyProfileController extends ProfileController{
 		return results;
 	}
 	
-	public MiniTravelBean getTravel(Integer l) throws DBException{
+	public MiniTravelBean getTravel(Integer id) throws DBException{
 		VisualDAO miniTravelDao = DaoFactory.getInstance().createVisual(DaoType.S_TRAVEL);
 		TravelEntity travelE = new TravelEntity();
-		travelE.setIdTravel(l);
+		travelE.setIdTravel(id);
 		TravelEntity rs;
 		try {
 			rs = (TravelEntity)miniTravelDao.getData(travelE).get(0);
@@ -73,9 +66,10 @@ public class MyProfileController extends ProfileController{
 		return new MiniTravelBean(rs);
 
 	}
-	public UserBean getUser(Integer l) throws DBException{
+	@Override
+	public UserBean getUser(Integer userId) throws DBException{
 		VisualDAO shortUserDao = DaoFactory.getInstance().createVisual(DaoType.S_USER);
-		UserEntity userE = new UserEntity(l);
+		UserEntity userE = new UserEntity(userId);
 		UserEntity rs;
 		try {
 			rs = (UserEntity)shortUserDao.getData(userE).get(0);
@@ -85,4 +79,5 @@ public class MyProfileController extends ProfileController{
 		return new UserBean(rs);
 
 	}
+
 }

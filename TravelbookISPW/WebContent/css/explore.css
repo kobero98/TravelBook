@@ -5,9 +5,23 @@
 }
 
 .travelButton{
-	
+	margin-right: 1em;
+	background: var(--Dcolor);
+	border-radius: 25px;
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	height: 10em;
+	width:8em;
 }
-
+.travel-text{
+	font: normal normal 0.75em Arial,Sans-serif;
+	color:var(--textColorD);
+	margin-top:0px;
+	margin-bottom:0px;
+	text-align: center;
+}
 .scroll{
     display: flex;
     width:  31.25em;

@@ -52,24 +52,24 @@ public class ChatController {
 		}
 		return ul;
 	}
-	public List<MessageEntity> getNewMessage( int idUser, Instant time) throws DBException {
+	public List<MessageBean> getNewMessage( int idUser, Instant time) throws DBException {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);
 		MessageEntity nuovaEntity=new MessageEntity(0,idUser);
 		if(time!=null)
 			nuovaEntity.setLastTimeStamp(time);
 		nuovaEntity.setSoloNuovi(true);
-		List<Entity> entities;
+		List<Entity> entList;
 		try {
-			entities = dao.getData(nuovaEntity);
+			entList = dao.getData(nuovaEntity);
 		} catch ( SQLException e) {
 			throw new DBException("connection lost");
 		}
-		List<MessageEntity> messaggi=new ArrayList<>();
-		for(Entity entity: entities) {
-			MessageEntity messaggio=(MessageEntity)entity;
-			messaggi.add(messaggio);
+		List<MessageBean> mess=new ArrayList<>();
+		for(Entity entity: entList) {
+			MessageBean messaggio=new MessageBean((MessageEntity)entity);
+			mess.add(messaggio);
 		}
-		return messaggi;
+		return mess;
 	}
 	public List<MessageBean> getMessagesThread(int idMe, int idUser) throws DBException{
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);

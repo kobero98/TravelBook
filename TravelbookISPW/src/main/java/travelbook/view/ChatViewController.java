@@ -103,7 +103,8 @@ public class ChatViewController implements Observer{
     }
 	
 	public void initialize() {
-		MenuBar.getInstance().addObserver(this);
+	MenuBar.getInstance().addObserver(this);
+	MenuBar.getInstance().setNotified();
 	contactList.setItems(null);
 	searchFieldAuto = new SearchUserTextField(searchField);
 	searchFieldAuto.getLastSelectedItem().addListener((observable,oldValue,newValue)->{
@@ -239,6 +240,7 @@ public class ChatViewController implements Observer{
 					} catch (DBException e) {
 						new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 					}
+					current.setRead();
 				}
 			}
 		}

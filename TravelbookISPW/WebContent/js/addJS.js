@@ -138,11 +138,6 @@ function addButton(){
 }
 function removeButton(){
 	console.log(actualDay,actualStep);
-		/*	for(j=i;j<arrayStep[actualDay].length-1;j++){
-				prec=arrayStep[actualDay][j+1];
-				arrayStep[actualDay][j+1]=arrayStep[actualDay][j];
-				arrayStep[actualDay][j]=prec;
-			}*/
 	arrayStep[actualDay].splice(actualStep,1);
 	var j;
 	for(j=actualStep;j<arrayStep[actualDay].length;j++){
@@ -158,7 +153,7 @@ function removeButton(){
 function changeDay(){
 	var select=document.getElementById("days");
 	actualDay=select.value;
-	var div=document.getElementById("steps");
+	div=document.getElementById("steps");
 	while(div.lastChild)
 		div.removeChild(div.lastChild);
 	var i;
@@ -168,7 +163,7 @@ function changeDay(){
 		btn.setAttribute("type","button");
 		btn.setAttribute("onclick","setStep(event)");
 		btn.setAttribute("id",actualDay+";"+(i+1));
-		var div=document.getElementById("steps");
+		div=document.getElementById("steps");
 		div.appendChild(btn);
 	}
 	btn=document.getElementById(actualDay+";"+(1));
@@ -179,7 +174,7 @@ function changeDayNumber(num){
 	console.log(num);
 	if(num>=dayNumber){
 		var x;
-		for(x=dayNumber;x<num;x++){     //secondo sc questo è un ciclo infinito, a me non pare
+		for(x=dayNumber;x<num;x++){    
 			arrayStep[x]=new Array();
 			actualDay=x;
 			var choice=document.createElement("option");

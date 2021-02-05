@@ -14,10 +14,10 @@ import main.java.travelbook.model.dao.VisualDAO;
 
 public class ControllerProfileOther extends ProfileController{
 	
-	
-	public UserBean getUser(int id) throws DBException {
+	@Override
+	public UserBean getUser(Integer userId) throws DBException {
 		VisualDAO userDao = DaoFactory.getInstance().createVisual(DaoType.OTHERUSER);
-		OtherUserEntity userE = new OtherUserEntity(id);
+		OtherUserEntity userE = new OtherUserEntity(userId);
 		try {
 			userE = (OtherUserEntity)userDao.getData(userE).get(0);
 		} catch ( SQLException e) {

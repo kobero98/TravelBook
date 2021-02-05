@@ -1,6 +1,14 @@
 package main.java.travelbook.view;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
 import exception.DBException;
 import exception.MissingPageException;
 import exception.TriggerAlert;
@@ -14,6 +22,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 
 import javafx.geometry.Insets;
@@ -51,6 +60,7 @@ public class ProfileViewController implements Observer{
 	private BorderPane mainPane;
 	private Object[] array1=new Object[15];
 	private Button button;
+	private Notification dot;
 	@FXML
 	private AnchorPane mainAnchor;
 	@FXML
@@ -340,8 +350,10 @@ public class ProfileViewController implements Observer{
 		boolean value=(Boolean)notify;
 		if(value) {
 			Platform.runLater(()->
-				new Notification(mainAnchor,330));
-			
+				dot=new Notification(mainAnchor,330));
+		}
+		else {
+			dot.remove();
 		}
 	}
 	
@@ -358,10 +370,13 @@ public class ProfileViewController implements Observer{
 			profilePhoto.setBackground(newBg);
 			user.setPhoto(myPhoto);
 			try {
-				myController.updatePhoto(user.getId(),selectedFile);
+				InputStream inputPhoto = new FileInputStream(selectedFile);
+				myController.updatePhoto(user.getId(),inputPhoto);
 				
 			} catch (DBException e) {
 				new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
+			} catch (FileNotFoundException e) {
+				new TriggerAlert().triggerAlertCreate("seems we couldn't find yout photo...", "warn");
 			}
 		}
 	}

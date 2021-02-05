@@ -33,4 +33,7 @@ public class ExploreController {
 			throw new DBException(e.getMessage());
 		}
 	}
+	public void setTopTen(List<MiniTravelBean> travels) {
+			//da implementare
+		}
 }

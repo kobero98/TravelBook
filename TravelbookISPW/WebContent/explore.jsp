@@ -121,9 +121,9 @@
 						<form action="explore.jsp" method="POST">
 						<div id="suggest<%=i %>" class="travelButton" >
 							<input type="submit" name="suggest<%=t.getId() %>" value="Vedi Viaggio"/>
-							<img src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" alt="travelImage">
-							<h1><%=t.getNameTravel() %></h1>
-							<p><%=t.getDescriptionTravel() %></p>
+							<img src="data:image/*;base64,<%=encoded%>" style="width: 8em; height: 6em;" alt="travelImage">
+							<h1 class="travel-text"><%=t.getNameTravel() %></h1>
+							<p class="travel-text"><%=t.getDescriptionTravel() %></p>
 						</div>
 						</form>
 					<% 

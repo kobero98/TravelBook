@@ -24,15 +24,7 @@ import java.sql.SQLException;
 import main.java.travelbook.model.dao.PersistanceDAO;
 import main.java.travelbook.util.DateUtil;
 public class AddTravel {
-	private static AddTravel istance=null;
-	private AddTravel() {
-		
-	}
-	public static AddTravel getIstance() {
-		if(istance==null)
-			istance=new AddTravel();
-		return istance;
-	}
+	
 	public void saveAndDelete(TravelBean travel, int travelId,int userId) throws DBException, MapboxException{
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
 		TravelEntity travelE=new TravelEntity();

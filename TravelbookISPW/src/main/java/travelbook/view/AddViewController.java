@@ -61,6 +61,7 @@ import javafx.scene.layout.StackPane;
 public class AddViewController implements Observer{
 	private Integer travelId;
 	private File travelFileFoto;
+	private Notification dot;
 	@FXML
 	private ButtonBar menuBar;
 	@FXML
@@ -186,6 +187,7 @@ public class AddViewController implements Observer{
 	private ImageView actualImage;
 	private int stepLimit=10;
 	private double stepInfoPaneHeight;
+	private AddTravel myController = new AddTravel();
 	@FXML
 	private void initialize() {
 		MenuBar.getInstance().setNewThread();
@@ -347,8 +349,10 @@ public class AddViewController implements Observer{
 		boolean value=(Boolean)notify;
 		if(value) {
 			Platform.runLater(()->
-				new Notification(mainAnchor, 30));
-			
+				dot=new Notification(mainAnchor, 30));
+			}
+		else {
+			dot.remove();
 		}
 	}
 	@Override
@@ -836,10 +840,10 @@ public class AddViewController implements Observer{
 			//Call the controller applicativo
 			try {
 				if(travelId!=null) {
-					AddTravel.getIstance().saveAndDelete(travel, travelId,MenuBar.getInstance().getLoggedUser().getId());
+					myController.saveAndDelete(travel, travelId,MenuBar.getInstance().getLoggedUser().getId());
 				}
 				else {
-			AddTravel.getIstance().saveTravel(travel,MenuBar.getInstance().getLoggedUser().getId());
+			myController.saveTravel(travel,MenuBar.getInstance().getLoggedUser().getId());
 				}
 			saved=true;
 			Platform.runLater(()->{
@@ -972,7 +976,7 @@ public class AddViewController implements Observer{
     				});
     			//Call the controller applicativo
     			try {
-    			AddTravel.getIstance().saveTravel(travel,MenuBar.getInstance().getLoggedUser().getId());
+    			myController.saveTravel(travel,MenuBar.getInstance().getLoggedUser().getId());
     			saved=true;
     			Platform.runLater(()->{
     				progressBar.setProgress(1);
@@ -1232,7 +1236,7 @@ public class AddViewController implements Observer{
 	    	
 	    	try {
 	    		
-	    	this.travel=AddTravel.getIstance().getTravelById(travelId);
+	    	this.travel=myController.getTravelById(travelId);
 	    	this.travelId=travelId;
 	    	if(travel.getCostTravel()!=null)
 	    		this.costField.setText(travel.getCostTravel().toString());

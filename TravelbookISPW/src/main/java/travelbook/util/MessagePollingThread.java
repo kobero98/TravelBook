@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class MessagePollingThread extends Thread {
 	private Instant lastTime=null;
 	private boolean goOn=true;
-	ChatController myController = new ChatController();
+	private ChatController myController = new ChatController();
 	public void kill() {
 		this.goOn=false;
 	}
@@ -43,15 +43,15 @@ public class MessagePollingThread extends Thread {
 			boolean found=false;
 			Instant lastLocalTime;
 			lastLocalTime=lastTime;
-			List<MessageEntity> messages=myController.getNewMessage(MenuBar.getInstance().getLoggedUser().getId(),lastLocalTime);
+			List<MessageBean> messages=myController.getNewMessage(MenuBar.getInstance().getLoggedUser().getId(),lastLocalTime);
 			if(!messages.isEmpty())
 				lastTime=Instant.now();
-			for(MessageEntity message: messages) {
+			for(MessageBean message: messages) {
 				found=false;
 				for(int i=0;i<chats.size();i++) {
 					Chat chat=chats.get(i);
 					if(chat.getIdUser()==message.getIdMittente()) {
-						chat.getReceive().add(new MessageBean(message));
+						chat.getReceive().add(message);
 						chat.setChanged();
 						found=true;
 						break;
@@ -59,7 +59,7 @@ public class MessagePollingThread extends Thread {
 					}
 					if(!found) {
 						List<MessageBean> messaggi=new ArrayList<>();
-						messaggi.add(new MessageBean(message));
+						messaggi.add(message);
 						Chat nuovaChat=new Chat(message.getIdMittente(),messaggi);
 						MenuBar.getInstance().newChat(nuovaChat);
 						nuovaChat.setChanged();

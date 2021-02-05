@@ -15,7 +15,7 @@
 <%@ page import="java.io.InputStream" %>
 <%@ page import="java.io.ByteArrayInputStream" %>
 <%
-	ProfileController controller=new ProfileController();
+	ProfileController controller=new MyProfileController();
 	UserBean myUser=(UserBean) request.getSession().getAttribute("loggedBean");
 	Set<String> params=request.getParameterMap().keySet();
 	for(String s: params){
@@ -51,7 +51,7 @@
 		byte[] bytes=Base64.getDecoder().decode(bytesB64);
 		InputStream is=new ByteArrayInputStream(bytes);
 		MyProfileController cont=new MyProfileController();
-		cont.updatePhotoInputStream(myUser.getId(),is);
+		cont.updatePhoto(myUser.getId(),is);
 	}
 	
 %>

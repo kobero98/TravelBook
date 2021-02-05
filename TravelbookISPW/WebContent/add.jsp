@@ -13,6 +13,7 @@
 <%@ page import="java.io.ByteArrayOutputStream" %>
 <%
 	TravelBean myTravel=null;
+	AddTravel myController=new AddTravel();
 	UserBean loggedUser=(UserBean)request.getSession().getAttribute("loggedBean");
 	if(request.getParameter("POSTTRAVEL")!=null){
 		System.out.println(request.getParameterMap().keySet());
@@ -61,10 +62,10 @@
 			}
 			}
 		}
-		AddTravel.getIstance().saveTravel(travel,loggedUser.getId());
+		myController.saveTravel(travel,loggedUser.getId());
 	}
 	if(request.getParameter("modifyTravel")!=null){
-		myTravel=AddTravel.getIstance().getTravelById(Integer.valueOf(request.getParameter("modifyTravel")));
+		myTravel=myController.getTravelById(Integer.valueOf(request.getParameter("modifyTravel")));
 	}
 	if(request.getParameter("forward")!=null){
 		JSONParser parser=new JSONParser();

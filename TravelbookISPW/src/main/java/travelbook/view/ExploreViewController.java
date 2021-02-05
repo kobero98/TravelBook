@@ -32,6 +32,7 @@ public class ExploreViewController implements Observer{
 	private Object[] array1=new Object[15];
 	private BorderPane mainPane;
 	private Button button;
+	private Notification dot;
 	@FXML
 	private ButtonBar selectionBar;
 	@FXML
@@ -216,8 +217,11 @@ public class ExploreViewController implements Observer{
 		boolean value=(Boolean)notify;
 		if(value) {
 			Platform.runLater(()->
-				new Notification(mainAnchor,30));
+				dot = new Notification(mainAnchor,30));
 			
+		}
+		else {
+			dot.remove();
 		}
 	}
 	
@@ -283,10 +287,7 @@ public class ExploreViewController implements Observer{
     	}
     }
  
-	@FXML
-	private void advanceSearchHandler() {//credo non venga mai usato e sia da togliere
-		//Redirect to search view but now simply go to stdout
-	}
+	
 	@FXML
 	private void selectionOnMouseEnter() {
 		selectionScroll.requestFocus();
