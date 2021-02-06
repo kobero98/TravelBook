@@ -101,6 +101,7 @@ public class SearchTravelController {
 	private ImageView image;
 	
 	private List <MyTypes> typeChoose=new ArrayList<>();
+	private ControllerSearch myController = new ControllerSearch();
 	class MyTypes{
 		private String tipo;
 		private Color colore;
@@ -472,7 +473,7 @@ public class SearchTravelController {
 		trip.setCity(r);
 		List<MiniTravelBean> l=null;
 		try {
-			l = ControllerSearch.getInstance().search(trip);
+			l = myController.search(trip);
 		} catch (DBException e) {
 			new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn");
 		}

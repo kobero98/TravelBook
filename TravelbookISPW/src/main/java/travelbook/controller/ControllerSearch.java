@@ -16,13 +16,7 @@ import main.java.travelbook.model.dao.PredictableDAO;
 import main.java.travelbook.model.dao.VisualDAO;
 
 public class ControllerSearch {
-	private static ControllerSearch instance=null;
-	private ControllerSearch() {}
-	public static ControllerSearch getInstance()
-	{
-		if(instance==null) instance= new ControllerSearch();
-		return instance;
-	}
+	
 
 	/*
 	 ordine dei Type:
@@ -41,13 +35,38 @@ public class ControllerSearch {
 		
 		for(int i=0;i<s.size();i++)
 		{
-			if(s.get(i).equals("Romantic Trip"))          v[0]=i;
+			/*if(s.get(i).equals("Romantic Trip"))          v[0]=i;
 			if(s.get(i).equals("Family Holiday"))         v[1]=i;
 			if(s.get(i).equals("On The Road"))            v[2]=i;
 			if(s.get(i).equals("Children Friendly"))      v[3]=i;
 			if(s.get(i).equals("Travel with Friend"))     v[4]=i;
 			if(s.get(i).equals("Cultural Travel"))        v[5]=i;
-			if(s.get(i).equals("Relaxing Holiday"))       v[6]=i;
+			if(s.get(i).equals("Relaxing Holiday"))       v[6]=i;*/
+			switch(s.get(i)) {
+			case "Romantic Trip":
+				v[0]=i;
+				break;
+			case "Family Holiday":
+				v[1]=i;
+				break;
+			case "On The Road":
+				v[2]=i;
+				break;
+			case "Children Friendly":
+				v[3]=i;
+				break;
+			case "Travel with Friend":
+				v[4]=i;
+				break;
+			case "Cultural Travel":
+				v[5]=i;
+				break;
+			case "Relaxing Holiday":
+				v[6]=i;
+				break;
+			default:
+				return v;	
+			}
 		}
 		return v;
 	}

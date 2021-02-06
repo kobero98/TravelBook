@@ -21,7 +21,7 @@ public class SearchCityTextField extends AutocompleteTextField<String> {
 	@Override
 	public List<String> getPredictions(String text){
 		try {
-			return ControllerSearch.getInstance().getCitiesPredictions(text);
+			return new ControllerSearch().getCitiesPredictions(text);
 		} catch (DBException e) {
 			Platform.runLater(()->
 			new TriggerAlert().triggerAlertCreate(e.getMessage(),"warn").showAndWait());
