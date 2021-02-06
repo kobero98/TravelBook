@@ -6,11 +6,7 @@
 	-fx-background-color: #FFC2A6;
 	-fx-effect: innershadow(three-pass-box, -fx-shadow, 0, 0, 0, 0);
 }
-.back-button:pressed{
-	-fx-background-color: -fx-dcolor;
-	-fx-text-fill: #FDFDFD;
-	-fx-effect:innershadow(three-pass-box, -fx-shadow, 4, 0, 0, 4);
-}
+
 .button-bar{
 	-fx-background-radius: 0 0 30 0;
 }
@@ -90,17 +86,9 @@
     -fx-background-insets: 0,2 2 0 2;
 }
 
-.tab-pane > .tab-header-area > .headers-region > .tab:selected{
-    -fx-border-color: -fx-dcolor;
-    -fx-border-width: 1 1 0 1;
-    -fx-background-color: #FDFDFD;
-    -fx-pref-height: 2em;
-}
 
-.tab-pane > .tab-header-area > .headers-region > .tab:selected .focus-indicator{
-    -fx-border-width: 0;
-    -fx-border-color: transparent;
-}
+
+
 
 .tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
     -fx-alignment: CENTER;
@@ -166,11 +154,7 @@
 	-fx-background-insets: -16 -8 0 -8;
 	-fx-border-insets: -16 -8 0 -8;
 }
-.itinerary .button-focused{
-	-fx-border-color: -fx-light-grey;
-	-fx-background-insets: -16 -8 0 -8;
-	-fx-border-insets: -16 -8 0 -8;
-}
+
 .contact{
 	-fx-background-color: -fx-mcolor;
 	-fx-background-radius: 30 30 0 0;

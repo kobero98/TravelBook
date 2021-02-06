@@ -16,13 +16,13 @@
 }
 
 /**Costumization of DialogPane Header**/
-.dialog-pane:header .header-panel {
+.dialog-pane .header-panel {
   -fx-background-color: -fx-lcolor;
   -fx-border-color: -fx-text-lcolor;
   -fx-border-width: 0 0 1 0;
 }
 
-.dialog-pane:header .header-panel .label{
+.dialog-pane .header-panel .label{
   -fx-text-fill:-fx-dcolor;
 }
 

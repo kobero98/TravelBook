@@ -36,9 +36,7 @@
 .categories-choose  > .virtual-flow > .clipped-container > .sheet > .list-cell .text{
 	-fx-fill: -fx-text-dcolor;
 }
-.categories-choose  > .virtual-flow > .clipped-container > .sheet > .list-cell:focused .text{
-	-fx-fill: -fx-text-lcolor;
-}
+
 .categories-label{
 	-fx-font-size: 0.75em
 }
