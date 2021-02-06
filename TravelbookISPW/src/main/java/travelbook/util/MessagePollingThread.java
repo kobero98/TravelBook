@@ -5,7 +5,6 @@ import main.java.travelbook.view.MenuBar;
 import java.util.List;
 
 import exception.DBException;
-import main.java.travelbook.model.MessageEntity;
 import main.java.travelbook.model.bean.MessageBean;
 import java.util.ArrayList;
 public class MessagePollingThread extends Thread {
