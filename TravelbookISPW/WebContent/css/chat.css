@@ -2,25 +2,28 @@
     width:18.75em;
 }
 .contact{
+	margin-top: 3em;
     overflow: scroll;
     background-color: rgba(252, 220, 200, 0.5);
     height: 28.125em;
     width:18.75em;
+	align-items: center;
 }
 .chat-panel{
     width:56.5em;
 }
 .chat{
+	margin-top: 3em;
     overflow: scroll;
     background-image: url(../resource/sfondo.png);
     width:56.5em;
-    height: 31.125em;
+    height: 29.125em;
     align-items: stretch;
 }
 .search{
     background-color: var(--Dcolor);
     height: 3.125em;
-    width:18.75em;
+    width:17em;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -35,7 +38,7 @@
     border-radius: 0px 0px 0px 50px;
 }
 #search-bar{
-    width:15.625em;
+    width:14.625em;
     height:2.5em;
     font-size: 1em;
 }
@@ -48,4 +51,29 @@
     overflow-wrap:break-word;
     word-break: break-all;
     
+}
+#invia{
+	width:2em;
+	height:2em;
+}
+.image{
+	border-radius:2em;
+}
+.contact-widget{
+	border-bottom: 2px solid var(--lightGrey);
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	height: 5em;
+}
+.msg-r{
+	max-width: 15em;
+	background-color: var(--Dcolor);
+	color: var(--textColorD);
+	border-radius: 25px;
+}
+.msg-s{
+	margin-left:15em;
+	max-width:15em;
+	background-color: var(--Dcolor);
 }

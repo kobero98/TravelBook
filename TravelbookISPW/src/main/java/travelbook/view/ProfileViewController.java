@@ -1,13 +1,11 @@
 package main.java.travelbook.view;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 
 import exception.DBException;
 import exception.MissingPageException;
@@ -22,7 +20,6 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 
 import javafx.geometry.Insets;

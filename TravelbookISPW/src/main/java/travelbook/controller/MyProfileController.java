@@ -1,6 +1,5 @@
 package main.java.travelbook.controller;
 
-import java.io.File;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;

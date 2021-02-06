@@ -196,7 +196,7 @@
 				{
 					int idC=contact.getId();
 					%>
-					<form id=<%=idC %> action="chat.jsp" method="post">
+					<form id=<%=idC %> action="chat.jsp" method="post" class="contact-widget">
 					<%
 					byte[] userB=contact.getArray();
 	            	if(userB.length!=0){
@@ -204,12 +204,12 @@
 						String encoded=new String(bytes,"UTF-8");
 						System.out.println("valroe: "+encoded);
 					%>
-					 <img src="data:image/*;base64,<%=encoded%>" id="profileIm" style="width: 12.5em; height: 12.5em;" class="image" alt="Profile picture">
+					 <img src="data:image/*;base64,<%=encoded%>" id="profileIm" style="width: 4em; height: 4em;" class="image" alt="Profile picture">
             		<% 
             	}
             	else{
             		%>
-            		  <img src="resource/travelers.png" id="profileIm" style="width: 12.5em; height: 12.5em;" class="image" alt="default profile picture">
+            		  <img src="resource/travelers.png" id="profileIm" style="width: 4em; height: 4em;" class="image" alt="default profile picture">
             		<% 
             	}
             %>
@@ -251,14 +251,14 @@
 						if(messaggio.getIdDestinatario()==c.get(x).getIdUser()){
 							%>
 							<div>
-								<p Style="background-color:red"><%=messaggio.getText()%><br>
+								<p class="msg-r"><%=messaggio.getText()%><br>
 							</div>
 							<%
 						}
 						else{
 							%>
 							<div>
-								<p Style="background-color:blue"><%=messaggio.getText()%><br>
+								<p class="msg-s"><%=messaggio.getText()%><br>
 							</div>
 							<%
 						}

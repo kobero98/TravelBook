@@ -25,16 +25,16 @@
 			if(lastTime!=null) {
 						boolean found=false;
 						lastLocalTime=lastTime;
-						List<MessageEntity> messages=myController.getNewMessage(id,lastLocalTime);
+						List<MessageBean> messages=myController.getNewMessage(id,lastLocalTime);
 						if(!messages.isEmpty())
 							lastTime=Instant.now();
-						for(MessageEntity message: messages) {
+						for(MessageBean message: messages) {
 							found=false;
 							
 							for(int i=0;i<chats.size();i++) {
 								Chat chat=chats.get(i);
 								if(chat.getIdUser()==message.getIdMittente()) {
-									chat.getReceive().add(new MessageBean(message));
+									chat.getReceive().add(message);
 									chat.setChanged();
 									found=true;
 									break;
@@ -43,7 +43,7 @@
 								}
 							if(!found) {
 									List<MessageBean> messaggi=new ArrayList<>();
-									messaggi.add(new MessageBean(message));
+									messaggi.add(message);
 									Chat nuovaChat=new Chat(message.getIdMittente(),messaggi);
 									chats.add(nuovaChat);
 									nuovaChat.setChanged();
@@ -52,7 +52,7 @@
 									int index= (Integer) request.getSession().getAttribute("sel");
 									if(message.getIdMittente()==index)
 									{
-										request.getSession().setAttribute("NuovoMessaggio",new MessageBean(message));
+										request.getSession().setAttribute("NuovoMessaggio",message);
 									}
 								}
 							

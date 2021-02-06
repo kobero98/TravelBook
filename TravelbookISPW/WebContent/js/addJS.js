@@ -153,7 +153,7 @@ function removeButton(){
 function changeDay(){
 	var select=document.getElementById("days");
 	actualDay=select.value;
-	div=document.getElementById("steps");
+	var div=document.getElementById("steps");
 	while(div.lastChild)
 		div.removeChild(div.lastChild);
 	var i;
