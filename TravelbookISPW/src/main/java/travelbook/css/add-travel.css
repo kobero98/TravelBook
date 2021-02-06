@@ -18,7 +18,7 @@
 	-fx-background-radius: 30;
 	-fx-font-size: 1em;
 }
-.text-field:focused .content{
+.text-field .content{
     -fx-background-color: linear-gradient(from 0px 0px to 0px 5px, derive(-fx-lcolor, -9%), #FDFDFD);
     -fx-background-insets: 0, 0, 2;
 }
@@ -54,9 +54,6 @@
 -fx-background-color: -fx-light-grey;
 }
 
-.date-picker .cell:focused {
--fx-background-color:-fx-dcolor;
- }
 
 .date-picker-popup {
      -fx-background-color: -fx-dcolor;
@@ -105,11 +102,9 @@
 .text-area .content{
 	-fx-padding: 0.25em 0.583em 0.25em 0.583em; /* 3 7 3 7 */
     -fx-cursor: text;
-    -fx-background-color: null;
+     -fx-background-color: linear-gradient(from 0px 0px to 0px 5px, derive(-fx-lcolor, -9%), #FDFDFD);
 }
-.text-area:focused .content{
-    -fx-background-color: linear-gradient(from 0px 0px to 0px 5px, derive(-fx-lcolor, -9%), #FDFDFD);
-}
+
 /*itinerary button bar */
 .itinerary{
 	-fx-background-color: transparent;
@@ -130,11 +125,7 @@
 	-fx-background-insets: -16 -8 0 -8;
 	-fx-border-insets: -16 -8 0 -8;
 }
-.itinerary .button:focused{
-	-fx-border-color: -fx-light-grey;
-	-fx-background-insets: -16 -8 0 -8;
-	-fx-border-insets: -16 -8 0 -8;
-}
+
 
 /*my-buttons*/
 .button{
@@ -150,12 +141,7 @@
 	-fx-effect: innershadow(three-pass-box, -fx-shadow, 4, 0, 0, 4);
     -fx-background-color: radial-gradient(center 50% 50%, radius 100%, -fx-lcolor, -fx-dcolor);
 }
-.button:pressed {
-	-fx-background-color: radial-gradient(center 50% 50%, radius 100%, -fx-dcolor, -fx-lcolor);
-    -fx-effect: innershadow(three-pass-box, -fx-shadow, 10, 0, 0, 6);
-    -fx-border-color: -fx-light-grey;
-    -fx-border-width: 1.5;
-}
+
 .buttons{
 	-fx-background-color: -fx-text-lcolor;
 	-fx-effect: dropshadow(three-pass-box, -fx-shadow, 4, 0, -4, 4);
@@ -179,23 +165,16 @@
 	-fx-padding: 0;
 	-fx-background-insets: 0;
 }
-.choice-box .menu-item:focused { 
-	-fx-background-color: -fx-dcolor;
-	
-} 
+
 .choice-box .menu-item > .label{
 	-fx-text-fill: -fx-text-lcolor;
 }
-.choice-box .menu-item:focused > .label{
-	-fx-text-fill: white;
-}
+
 .choice-box .menu-item .mark{
 	-fx-background-color: -fx-dcolor;
 	-fx-shape: "M22.2857 11.2143H32.5V13.7857H22.2857H21.7857V14.2857V24.5H19.2143V14.2857V13.7857H18.7143H8.5V11.2143H18.7143H19.2143V10.7143V0.5H21.7857V10.7143V11.2143H22.2857Z";
 }
-.choice-box .menu-item .mark:focused{
-	-fx-background-color: White;
-}
+
 .hyperlink{
 	-fx-text-fill: -fx-dcolor;
 	-fx-border-color: transparent;

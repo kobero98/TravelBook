@@ -30,11 +30,9 @@
 .text-area .content{
 	-fx-padding: 0.25em 0.583em 0.25em 0.583em; /* 3 7 3 7 */
     -fx-cursor: text;
-    -fx-background-color: null;
-}
-.text-area:focused .content{
     -fx-background-color: linear-gradient(from 0px 0px to 0px 10px, derive(-fx-lcolor, -9%), #FDFDFD);
 }
+
 .text-field{
 	-fx-background-radius: 30;
 	-fx-border-radius: 30;
@@ -44,7 +42,7 @@
 	-fx-shape: "M2.01 21L23 12 2.01 3 2 10l15 2-15 2z";
 	 
 }
-.write-bar .button:hover, .write-bar .button:pressed{
+.write-bar .button:hover{
 	-fx-effect: dropshadow(three-pass-box, -fx-shadow, 4, 0, 0, 1); 
 } 
 .scroll-pane > .viewport{

@@ -14,7 +14,7 @@ import main.java.travelbook.model.dao.VisualDAO;
 
 public class ControllerProfileOther extends ProfileController{
 	
-	@Override
+	//@Override
 	public UserBean getUser(Integer userId) throws DBException {
 		VisualDAO userDao = DaoFactory.getInstance().createVisual(DaoType.OTHERUSER);
 		OtherUserEntity userE = new OtherUserEntity(userId);

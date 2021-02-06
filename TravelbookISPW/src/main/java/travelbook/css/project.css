@@ -42,7 +42,7 @@
 }
 
 /* ************************ */
-.scroll-bar:vertical .thumb {
+.scroll-bar .thumb {
     -fx-background-color: #D9d9d9;
     -fx-background-radius : 30;
     -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.25), 4, 0, 0, -4);
@@ -69,11 +69,7 @@
 	-fx-background-color: #FFC2A6;
 	-fx-effect: innershadow(three-pass-box, -fx-shadow, 0, 0, 0, 0);
 }
-.button-bar  .button:pressed{
-	-fx-background-color: -fx-dcolor;
-	-fx-text-fill: #FDFDFD;
-	-fx-effect:innershadow(three-pass-box, -fx-shadow, 4, 0, 0, 4);
-}
+
 .button-bar .pressed-button{
 	-fx-background-color: -fx-dcolor;
 	-fx-text-fill: #FDFDFD;
@@ -89,23 +85,16 @@
 	-fx-padding: 0;
 	-fx-background-insets: 0;
 }
-.menu-item:focused { 
-	-fx-background-color: -fx-dcolor;
-	
-} 
+
 .menu-item > .label{
 	-fx-text-fill: -fx-text-lcolor;
 }
-.menu-item:focused > .label{
-	-fx-text-fill: white;
-}
+
 .menu-item .mark{
 	-fx-background-color: -fx-dcolor;
 	-fx-shape: "M22.2857 11.2143H32.5V13.7857H22.2857H21.7857V14.2857V24.5H19.2143V14.2857V13.7857H18.7143H8.5V11.2143H18.7143H19.2143V10.7143V0.5H21.7857V10.7143V11.2143H22.2857Z";
 }
-.menu-item .mark:focused{
-	-fx-background-color: White;
-}
+
 .radio-button{
 	-fx-text-fill: -fx-text-dcolor;
 }
@@ -128,11 +117,7 @@
 	-fx-border-width: 2;
 	-fx-background-radius: 5;
 }
-.check-box:selected > .box > .mark{
-    -fx-padding: 0.416667em 0.416667em 0.5em 0.5em;
-    -fx-shape: "M 5.1806931,9.0173267 7.5232674,12.170792 11.307426,4.4673266 10.091089,3.9717821 7.2980199,9.6029703 6.1267328,7.9361386 z";
-    -fx-background-color: -fx-dcolor;
-}
+
 .travel-pic{
 	-fx-shape: "M 350 900 L 350 795 C 350 780 360 770 375 770 L 438 770 C 453 770 463 780 463 795 L 463 900 Z"
 }

@@ -49,8 +49,7 @@
 	-fx-font-size: 1.25em; 
 	-fx-border-radius:25;
 }
-.button:hover,
-.button:pressed{ 
+.button:hover{ 
 	-fx-background-color: radial-gradient(center 50% 50%, radius 100%, -fx-mcolor, -fx-lcolor);
 	-fx-border-color: -fx-light-grey;
 }
@@ -87,9 +86,7 @@
 -fx-background-color: -fx-light-grey;
 }
 
-.date-picker .cell:focused {
--fx-background-color:-fx-dcolor;
- }
+
 
 .date-picker-popup {
      -fx-background-color: -fx-dcolor;

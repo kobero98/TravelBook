@@ -116,6 +116,6 @@ public abstract class ProfileController{
 		}
 		return f;
 	}
-	public abstract UserBean getUser(Integer userId) throws DBException;
+	//public abstract UserBean getUser(Integer userId) throws DBException;
 
 }

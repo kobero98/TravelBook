@@ -71,6 +71,7 @@ public class OtherUserDao implements VisualDAO {
 					query=AllQuery.getInstance().requestListFollowerUser(utente.getId());	
 					stmt=connection.prepareStatement(query);
 					stmt.setInt(1, utente.getId());
+					rs=stmt.executeQuery();
 					List <Integer> follower=new ArrayList<>();
 					while(rs.next())
 					{
@@ -81,6 +82,7 @@ public class OtherUserDao implements VisualDAO {
 					query=AllQuery.getInstance().requestListFollowingUser(utente.getId());
 					stmt=connection.prepareStatement(query);
 					stmt.setInt(1, utente.getId());
+					rs=stmt.executeQuery();
 					List <Integer> following=new ArrayList<>();
 					while(rs.next())
 					{
@@ -90,7 +92,7 @@ public class OtherUserDao implements VisualDAO {
 					stmt.close();
 					query=AllQuery.getInstance().requestTripByUser(utente.getId());
 					stmt=connection.prepareStatement(query);
-					stmt.setInt(1, utente.getId());;
+					stmt.setInt(1, utente.getId());
 					rs=stmt.executeQuery();
 					List <Integer> travel=new ArrayList<>();
 					while(rs.next())
@@ -108,6 +110,7 @@ public class OtherUserDao implements VisualDAO {
 				}
 				
 			}catch(SQLException e){
+				e.printStackTrace();
 				throw new LoginPageException("errore");
 			}finally {
 				if(stmt!=null)

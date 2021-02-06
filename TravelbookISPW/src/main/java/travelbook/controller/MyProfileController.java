@@ -65,7 +65,7 @@ public class MyProfileController extends ProfileController{
 		return new MiniTravelBean(rs);
 
 	}
-	@Override
+	//@Override
 	public UserBean getUser(Integer userId) throws DBException{
 		VisualDAO shortUserDao = DaoFactory.getInstance().createVisual(DaoType.S_USER);
 		UserEntity userE = new UserEntity(userId);
