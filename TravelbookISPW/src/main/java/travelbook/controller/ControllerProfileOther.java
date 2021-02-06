@@ -19,7 +19,9 @@ public class ControllerProfileOther extends ProfileController{
 		VisualDAO userDao = DaoFactory.getInstance().createVisual(DaoType.OTHERUSER);
 		OtherUserEntity userE = new OtherUserEntity(userId);
 		try {
+			System.out.println(userId);
 			userE = (OtherUserEntity)userDao.getData(userE).get(0);
+			System.out.println(userE.getId());
 		} catch ( SQLException e) {
 			throw new DBException("connection lost");
 		}

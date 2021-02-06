@@ -13,7 +13,6 @@
 		request.getSession().setAttribute("esiste",1);
 		request.getSession().setAttribute("goon",1);
 	 	ChatController myController=new ChatController();
-		
 		Instant lastTime=null;
 		Instant lastLocalTime;
 		List<Chat>chats=new ArrayList<>();

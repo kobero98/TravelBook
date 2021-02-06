@@ -350,7 +350,7 @@ public class ProfileViewController implements Observer{
 				dot=new Notification(mainAnchor,330));
 		}
 		else {
-			dot.remove();
+			if(dot!=null) dot.remove();
 		}
 	}
 	

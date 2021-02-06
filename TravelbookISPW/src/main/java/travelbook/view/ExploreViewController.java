@@ -221,7 +221,7 @@ public class ExploreViewController implements Observer{
 			
 		}
 		else {
-			dot.remove();
+			if(dot!=null) dot.remove();
 		}
 	}
 	

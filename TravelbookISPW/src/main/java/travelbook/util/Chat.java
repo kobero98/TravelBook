@@ -1,4 +1,5 @@
 package main.java.travelbook.util;
+
 import main.java.travelbook.model.bean.MessageBean;
 import java.util.List;
 import java.util.ArrayList;

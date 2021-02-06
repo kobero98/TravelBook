@@ -104,7 +104,7 @@
 						alert(xhr.status);
 				         alert(thrownError);
 					},
-		            data:{sel:<%=sel.toString()%>},
+		           
 		            success: function(data) {
 		                if(data.text!=null)
 		                	{
@@ -116,10 +116,29 @@
 		                		div.appendChild(p);
 		                		var element = document.getElementById("chat");
 		                		element.appendChild(div);
+		                		p.className = "msg-s";
+		                		var objDiv = document.getElementById("chat");
+		                		objDiv.scrollTop = objDiv.scrollHeight;
 		                	}
 		            },
 		            
 		            complete: poll,
+		            timeout: 2000
+		        })
+		    }, 5000);
+		})();
+		
+		(function poll2() {
+		    setTimeout(function() {
+		        $.ajax({
+		            url: "ChatNewChat.jsp",
+		            type: "POST",
+		            dataType: "json",
+		            success: function(data) {
+		               	console.log("polling2");
+		            },
+		            
+		            complete: poll2,
 		            timeout: 2000
 		        })
 		    }, 5000);
@@ -164,6 +183,12 @@
 	                   }
 	             }); 
 	            });
+		
+		function updateScroll(){
+			var element = document.getElementById("chat");
+		   	element.scrollTop = element.scrollHeight;
+		}
+	
 	</script>
 	<meta charset="ISO-8859-1">
     <link rel="stylesheet" href="css/loginCss.css">
@@ -171,7 +196,7 @@
 	<title>Travelbook</title>
 	
 </head>
-<body>
+<body onload=updateScroll()>
     <div class="header">
         <p class="title">
             Travelbook
@@ -231,6 +256,7 @@
             </form>
         </div>
         <div class="panel chat-panel">
+        	
             <div class="chat" id=chat>
             <%
 				if(request.getSession().getAttribute("selettore")!=null)

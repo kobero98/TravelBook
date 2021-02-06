@@ -2,7 +2,6 @@
     width:18.75em;
 }
 .contact{
-	margin-top: 3em;
     overflow: scroll;
     background-color: rgba(252, 220, 200, 0.5);
     height: 28.125em;
@@ -12,14 +11,16 @@
 .chat-panel{
     width:56.5em;
 }
+
 .chat{
+	overflow:auto;
 	margin-top: 3em;
-    overflow: scroll;
     background-image: url(../resource/sfondo.png);
     width:56.5em;
     height: 29.125em;
     align-items: stretch;
 }
+
 .search{
     background-color: var(--Dcolor);
     height: 3.125em;
@@ -66,14 +67,19 @@
 	align-items: center;
 	height: 5em;
 }
-.msg-r{
-	max-width: 15em;
-	background-color: var(--Dcolor);
-	color: var(--textColorD);
-	border-radius: 25px;
-}
 .msg-s{
-	margin-left:15em;
-	max-width:15em;
+	margin-left:1em;
+	max-width: 20em;
 	background-color: var(--Dcolor);
+	color: #222222;
+	border-radius: 25px;
+	padding:1em
+}
+.msg-r{
+	margin-left:32.5em;
+	max-width:20em;
+	background-color: var(--Dcolor);
+	color: #222222;
+	border-radius: 25px;
+	padding:1em
 }

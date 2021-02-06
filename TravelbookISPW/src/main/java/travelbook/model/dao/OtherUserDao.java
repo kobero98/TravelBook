@@ -102,7 +102,6 @@ public class OtherUserDao implements VisualDAO {
 					utente.setTravel(travel);
 					otherStmt.close();
 					
-					
 					utente.setnPlace(AllQuery.getInstance().getPlaceVisited(connection,utente.getId()));
 					
 					connection.close();

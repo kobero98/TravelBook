@@ -352,7 +352,7 @@ public class AddViewController implements Observer{
 				dot=new Notification(mainAnchor, 30));
 			}
 		else {
-			dot.remove();
+			if(dot!=null) dot.remove();
 		}
 	}
 	@Override

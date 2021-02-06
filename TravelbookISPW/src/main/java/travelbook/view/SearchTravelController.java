@@ -434,7 +434,7 @@ public class SearchTravelController {
 		}
 	}
 	@FXML
-	public void moveToExplore()throws IOException {								//credo si possa usare la menubar e non duplicare il codice(?)
+	private void moveToExplore()throws IOException {								//credo si possa usare la menubar e non duplicare il codice(?)
 		FXMLLoader loader=new FXMLLoader();
 		URL url = new File("src/main/java/travelbook/view/ExplorePage.fxml").toURI().toURL();
 		loader.setLocation(url);
@@ -445,7 +445,7 @@ public class SearchTravelController {
 	} 
 
 	@FXML
-	public void handlerReserch() {
+	private void handlerReserch() {
 		this.lista.getItems().clear();
 		String r=ricercaTextField.getText();
 		if(r.isEmpty()) return;
