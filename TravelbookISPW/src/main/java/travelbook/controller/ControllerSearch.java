@@ -32,41 +32,14 @@ public class ControllerSearch {
 	private int[] calcoloVettore(List<String>s)
 	{
 		int [] v = {-1,-1,-1,-1,-1,-1,-1};
-		
+		String [] typeVect = {"Romantic Trip", "Family Holiday", "On The Road", "Children Friendly", "Travel with Friend", "Cultural Travel", "Relaxing Holiday"}; 
 		for(int i=0;i<s.size();i++)
 		{
-			/*if(s.get(i).equals("Romantic Trip"))          v[0]=i;
-			if(s.get(i).equals("Family Holiday"))         v[1]=i;
-			if(s.get(i).equals("On The Road"))            v[2]=i;
-			if(s.get(i).equals("Children Friendly"))      v[3]=i;
-			if(s.get(i).equals("Travel with Friend"))     v[4]=i;
-			if(s.get(i).equals("Cultural Travel"))        v[5]=i;
-			if(s.get(i).equals("Relaxing Holiday"))       v[6]=i;*/
-			switch(s.get(i)) {
-			case "Romantic Trip":
-				v[0]=i;
-				break;
-			case "Family Holiday":
-				v[1]=i;
-				break;
-			case "On The Road":
-				v[2]=i;
-				break;
-			case "Children Friendly":
-				v[3]=i;
-				break;
-			case "Travel with Friend":
-				v[4]=i;
-				break;
-			case "Cultural Travel":
-				v[5]=i;
-				break;
-			case "Relaxing Holiday":
-				v[6]=i;
-				break;
-			default:
-				return v;	
+			for(int j=0;j<7;j++) {
+				if(s.get(i).equals(typeVect[j]))
+					v[j]=i;
 			}
+			
 		}
 		return v;
 	}
@@ -88,7 +61,7 @@ public class ControllerSearch {
 	private CityEntity convertCity(String s) throws DBException {
 		CityEntity citta=new CityEntity();
 		int i=s.indexOf(",");
-		if(i==-1 || i==s.length()-1) throw new DBException("Erroe citta non presente");
+		if(i==-1 || i==s.length()-1) throw new DBException("Error: city not found");
 		citta.setNameC(s.substring(0, i));
 		citta.setState(s.substring(i+1));
 		return citta;
@@ -99,7 +72,7 @@ public class ControllerSearch {
 		search.setType(setTypeOrder(trip.getType()));
 		search.setCity(convertCity(trip.getCity()));
 		search.setMinDay(trip.getDurationMin());
-		if(trip.getDurationMax()<trip.getDurationMin() || trip.getDurationMax()<0) throw new DBException("durata min > durataMax");
+		if(trip.getDurationMax()<trip.getDurationMin() || trip.getDurationMax()<0) throw new DBException("min days > max days");
 		if(trip.getDurationMax()!=0) search.setMaxDay(trip.getDurationMax());
 		else search.setMaxDay(null);
 		search.setMinCost(trip.getCostoMin());
