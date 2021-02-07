@@ -982,8 +982,13 @@ public class AddViewController implements Observer{
     				});
     			//Call the controller applicativo
     			try {
-    			myController.saveTravel(travel,MenuBar.getInstance().getLoggedUser().getId());
-    			saved=true;
+    			if(travelId!=null) {
+    				myController.saveAndDelete(travel, travelId, MenuBar.getInstance().getLoggedUser().getId());
+    			}
+    			else {
+    				myController.saveTravel(travel,MenuBar.getInstance().getLoggedUser().getId());
+    				saved=true;
+    			}
     			Platform.runLater(()->{
     				progressBar.setProgress(1);
     				//when done activate the close button
