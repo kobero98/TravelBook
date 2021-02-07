@@ -4,6 +4,7 @@
 <%@ page import="main.java.travelbook.controller.*" %>
 <%@ page import="java.util.*" %>
 <%	List<MiniTravelBean> m=null;
+	ControllerSearch myController=new ControllerSearch();
 	if(request.getParameter("search-button")!=null){
 		
 			int costoMin=0;
@@ -48,7 +49,7 @@
 				trip.setType(types);
 				trip.setDurationMin(min);
 				trip.setDurationMax(max);
-				m=ControllerSearch.getInstance().search(trip);
+				m=myController.search(trip);
 				
 		}
 	}

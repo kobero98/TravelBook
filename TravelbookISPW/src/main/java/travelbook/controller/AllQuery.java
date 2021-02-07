@@ -141,15 +141,12 @@ public class AllQuery {
 	
 	public Integer getVerifiedEmail(String email)throws SQLException
 	{
-		String query="Select idUser from User where Email like ?";
-		
 		Connection conn=getConnection();
 	try(	PreparedStatement stmt=conn.prepareStatement(query)){
-		stmt.setString(1, email);
-		
-		ResultSet rs=stmt.executeQuery();
-		if(rs.next()) return rs.getInt(1);
-		else return 0;
+			stmt.setString(1, email);
+			ResultSet rs=stmt.executeQuery();
+			if(rs.next()) return rs.getInt(1);
+			else return 0;
 	}
 	}
 	

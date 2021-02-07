@@ -9,9 +9,9 @@
 <%
 	if(request.getParameter("search")!=null){
     try
-    {
+    {	ControllerSearch myController=new ControllerSearch();
     	String query = (String) request.getParameter("search");
-		List <String> l=ControllerSearch.getInstance().getCitiesPredictions(query);
+		List <String> l=myController.getCitiesPredictions(query);
 		JSONObject o=new JSONObject();
 		int i=0;
 		while(i<l.size()){ 
