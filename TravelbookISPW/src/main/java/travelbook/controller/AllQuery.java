@@ -141,11 +141,13 @@ public class AllQuery {
 	
 	public Integer getVerifiedEmail(String email)throws SQLException
 	{
-		String query="Select idUser from User where email like ?";
+		String query="Select idUser from User where Email like ?";
+		
 		Connection conn=getConnection();
 	try(	PreparedStatement stmt=conn.prepareStatement(query)){
 		stmt.setString(1, email);
-		ResultSet rs=stmt.executeQuery(query);
+		
+		ResultSet rs=stmt.executeQuery();
 		if(rs.next()) return rs.getInt(1);
 		else return 0;
 	}
@@ -249,7 +251,7 @@ public class AllQuery {
 	public void requestRegistrationStep(Connection connessione,StepEntity step) throws SQLException {
 		PreparedStatement preparedStmt=null;
 		try {
-				  String query = " insert into Step (groupDay,place,DescriptionStep,codiceTrip,codiceCreatore,NumberDay,Number) values( ?, ?, ?, ?, ?, ?,?) ";
+				  String query = " insert into Step (groupDay,place,DescriptionStep,codiceTrip,codiceCreatore,NumberDay,Number,PrecisionInformation) values( ?, ?, ?, ?, ?, ?,?,?) ";
 			      preparedStmt = connessione.prepareStatement(query);
 			      
 			      preparedStmt.setInt (1, step.getGroupDay());
@@ -259,6 +261,8 @@ public class AllQuery {
 			      preparedStmt.setInt (5, step.getIDCreator());
 			      preparedStmt.setInt (6, step.getNumberOfDay());
 			      preparedStmt.setInt(7, step.getNumber());
+			      preparedStmt.setString(8, step.getPrecisionInformation());
+			      
 			      preparedStmt.execute();
 			      preparedStmt.close();
 			      
@@ -296,7 +300,7 @@ public class AllQuery {
 	public Integer requestRegistrationTrip(Connection connessione,TravelEntity trip) throws SQLException {
 			PreparedStatement preparedStmt=null;
 			  try{
-					  String query = " insert into Trip (nome,costo,tipo,StartDate,EndDate,PhotoBackground,DescriptionTravel,CreatorTrip)" + " values (?, ?, ?, ?, ?, ? ,? ,?)";
+					  String query = " insert into Trip (nome,costo,tipo,StartDate,EndDate,PhotoBackground,DescriptionTravel,CreatorTrip,Condiviso)" + " values (?, ?, ?, ?, ?, ? ,? ,?,?)";
 					  preparedStmt = connessione.prepareStatement(query);
 					  preparedStmt.setString (1, trip.getNameTravel());
 					  preparedStmt.setDouble (2, trip.getCostTravel());
@@ -306,6 +310,7 @@ public class AllQuery {
 					  preparedStmt.setBinaryStream(6,trip.getImage());
 					  preparedStmt.setString (7,trip.getDescriptionTravel());
 					  preparedStmt.setInt (8,trip.getCreatorId());
+					  preparedStmt.setInt(9, trip.getShare());
 					  preparedStmt.execute();
 					  preparedStmt.close();
 					  query = " select idTrip from Trip where nome= ? and CreatorTrip= ? and StartDate=? and EndDate=? ";
@@ -741,7 +746,7 @@ public class AllQuery {
 	}
 	public String getTravels(UserEntity user){
 		String query="";
-		if(user.getNFollower()!=0 || user.getNFollowing()!=0) {
+		if(!user.getListFollower().isEmpty() || !user.getListFollowing().isEmpty()) {
 			query="SELECT distinct idTrip from trip join follow on (CreatorTrip=Follower or CreatorTrip=Following) where (Follower=? or Following=?) and CreatorTrip!=? order by dataCreazione desc";
 		}
 		else {

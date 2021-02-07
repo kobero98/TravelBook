@@ -14,7 +14,12 @@ public class ViewOnMap {
 		}
 		return istance;
 	}
-	
+	private void verifyExistance(List<String> placeAdded,List<Double> coordinates,StepBean step) {
+		if(placeAdded.contains(step.getFullPlace().getPlaceName())) {
+			coordinates.set(0, coordinates.get(0)+0.0001);
+			coordinates.set(1, coordinates.get(1)+0.0001);
+		}
+	}
 	public List<String> loadTravel(List<StepBean> steps) throws MapboxException{
 		List<String> scripts=new ArrayList<>();
 		List<String> placeAdded=new ArrayList<>();
@@ -31,10 +36,7 @@ public class ViewOnMap {
 			}
 				
 			coordinates=step.getFullPlace().getCoordinates();
-			if(placeAdded.contains(step.getFullPlace().getPlaceName())) {
-				coordinates.set(0, coordinates.get(0)+0.0001);
-				coordinates.set(1, coordinates.get(1)+0.0001);
-			}
+			this.verifyExistance(placeAdded, coordinates,step);
 			forPath.append(coordinates.toString()+",");
 			script.append(coordinates.toString()+",");
 			StringBuilder popupContent=new StringBuilder();

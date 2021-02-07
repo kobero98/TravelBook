@@ -20,6 +20,7 @@ import org.json.simple.parser.ParseException;
 import exception.DBException;
 import exception.LoginPageException;
 import exception.TriggerAlert;
+import javafx.application.Platform;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.RegistrationBean;
@@ -192,7 +193,9 @@ public class ControllerLogin {
 		try {
 			s.sendMessage(email,code, "Codice Registrazione TravelBoook");
 		} catch (MessagingException e) {
-			new TriggerAlert().triggerAlertCreate("Send failed, try asking for a new code","warn").showAndWait();
+			Platform.runLater(()->{
+				new TriggerAlert().triggerAlertCreate("Send failed, try asking for a new code","warn").showAndWait();
+			});
 		}
 		return code;
 	}

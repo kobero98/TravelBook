@@ -14,6 +14,7 @@ public class ExploreController {
 	public void setSuggests(List<MiniTravelBean> travels,UserBean myUser) throws DBException {
 		VisualDAO dao=DaoFactory.getInstance().createVisual(DaoType.EXPLORE);
 		UserEntity user=new UserEntity(myUser.getId());
+		System.out.println(myUser.getFollower().size()+myUser.getFollowing().size());
 		user.setListFollower(myUser.getFollower());
 		user.setListFollowing(myUser.getFollowing());
 		user.setUsername(myUser.getUsername());

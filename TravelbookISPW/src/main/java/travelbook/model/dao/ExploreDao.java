@@ -43,6 +43,7 @@ public class ExploreDao implements VisualDAO {
 		if(travelId.size()<15) {
 			//user.setFollower(0);
 			//user.setFollowing(0);
+			user=new UserEntity(user.getId());
 			query=AllQuery.getInstance().getTravels(user);
 			try(PreparedStatement stmt1=conn.prepareStatement(query)){
 				stmt1.setInt(1, user.getId());

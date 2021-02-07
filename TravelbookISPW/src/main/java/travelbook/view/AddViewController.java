@@ -751,6 +751,23 @@ public class AddViewController implements Observer{
 	    		viewPresentation.setImage(presentationImage);
 	    	}
 	    }
+	    private void verificaInfo(TravelBean travel,List<Object> listOfErrors) {
+	    	if(!travelName.getText().isEmpty() && travelName.getText()!=null) {
+	    		travel.setNameTravel(travelName.getText());
+	    		incrementProgress();
+	    	}
+	    	else {
+	    		listOfErrors.add(travelName);
+	    	}
+	    	
+	    	if(!travelDescription.getText().isEmpty() && travelDescription.getText()!=null) {
+	    		travel.setDescriptionTravel(travelDescription.getText());
+	    		incrementProgress();
+	    	}
+	    	else {
+	    		listOfErrors.add(travelDescription);
+	    	}
+	    }
 	    @FXML
 	    private void allDoneHanlder() {
 	    	
@@ -763,21 +780,7 @@ public class AddViewController implements Observer{
 	    	internalPane.setOpacity(0.1);
 	    	this.closeProgressBar.setVisible(false);
 	    	// sostituire questo codice con invio al controller applicativo dei dati.
-	    	if(!travelName.getText().isEmpty()) {
-	    		travel.setNameTravel(travelName.getText());
-	    		incrementProgress();
-	    	}
-	    	else {
-	    		listOfErrors.add(travelName);
-	    	}
-	    	
-	    	if(!travelDescription.getText().isEmpty()) {
-	    		travel.setDescriptionTravel(travelDescription.getText());
-	    		incrementProgress();
-	    	}
-	    	else {
-	    		listOfErrors.add(travelDescription);
-	    	}
+	    	this.verificaInfo(travel, listOfErrors);
 	    	if(viewPresentation.getImage()!=null) {
 	    		try {
 	    		travel.setPathBackground(viewPresentation.getImage());
@@ -810,7 +813,7 @@ public class AddViewController implements Observer{
 	    	//then take every steps for each day
 	    	List<StepBean> incompleteSteps=new ArrayList<>();
 	    	travel.setListStep(new ArrayList<>());
-	    	this.setTravelSteps(travel, incompleteSteps);
+	    	this.setTravelSteps(travel, incompleteSteps,true);
 	    	if(!incompleteSteps.isEmpty()) {
 	    		//Vorrei gestire questa situazione in maniera diversa mostrando dove sono
 	    		//gli errori all'utente ma non so bene come
@@ -897,16 +900,16 @@ public class AddViewController implements Observer{
 	    		listOfErrors.add(endDate);
 	    	}
 	    }
-	    private void setTravelSteps(TravelBean travel, List<StepBean> incompleteSteps) {
+	    private void setTravelSteps(TravelBean travel, List<StepBean> incompleteSteps,boolean total) {
 	    	try {	    	
 	    		for(int day=0;day<this.stepByDay.size();day++) {
 	    			List<StepBean> steps=stepByDay.get(day);
 	    			for(int stepN=0;stepN<steps.size();stepN++) {
 	    				//for each step
 	    				StepBean step=steps.get(stepN);
-	    				if(step.getPlace()!=null &&!step.getPlace().isEmpty()) {
+	    				if(step.getPlace()!=null &&!step.getPlace().isEmpty() && (!total ||  (step.getDescriptionStep()!=null && !step.getDescriptionStep().isEmpty() && step.getPrecisionInformation()!=null && !step.getPrecisionInformation().isEmpty() )) ) {
 	    					step.setListPhoto(new ArrayList<>());
-	    				
+	    					
 	    					for(int im=0;im<dayImagePane.get(day).get(stepN).getGridPane().getChildren().size();im++) {
 	    						ImageView view=(ImageView)dayImagePane.get(day).get(stepN).getGridPane().getChildren().get(im);
 	    						BufferedImage bImage = SwingFXUtils.fromFXImage(view.getImage(), null);
@@ -964,7 +967,7 @@ public class AddViewController implements Observer{
 	    	}
 	    	travel.setType(filtri);
 	    	travel.setListStep(new ArrayList<>());
-	    	this.setTravelSteps(travel, new ArrayList<>());
+	    	this.setTravelSteps(travel, new ArrayList<>(),false);
 	    	//then call the controller and send data
 	    	progressPane.setOpacity(1);
 	    	internalPane.setOpacity(0);
