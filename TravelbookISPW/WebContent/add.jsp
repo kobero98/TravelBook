@@ -368,8 +368,8 @@ $(function()
         </div>
         <div id="fotoingrande">
         	<img src="" id="immagineSelezionata" alt="immagineSelezionata"/>
-        	<input type="button" value="close" id="closeImage"/>
-        	<input type="button" value="rimuovi" id="removeImage"/>
+        	<input type="button" value="close" id="closeImage" onclick="closeImg()"/>
+        	<input type="button" value="rimuovi" id="removeImage" onclick="removeImg()"/>
         </div>
         </body>
         </html>

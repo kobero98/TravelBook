@@ -111,6 +111,7 @@ function fileLoadedStep(frEvnt){
 	var div=document.getElementById("photo-grid");
 	var img=document.createElement("img");
 	img.setAttribute("src","data:image/gif;base64,"+sBodyBase64);
+	img.setAttribute("onclick","openImg("+arrayStep[actualDay][actualStep].photo.length+")");
 	img.setAttribute("style","width: 10em; height: 10em;");
 	div.appendChild(img);
 	arrayStep[actualDay][actualStep].photo[arrayStep[actualDay][actualStep].photo.length]=sBodyBase64;
@@ -234,10 +235,20 @@ function removeImg(){
 	var images=document.getElementById("photo-grid").getChildren();
 	var i;
 	for(i=0;i<images.length;i++){
-		if(images.src==src){
-			
+		if(images[i].src.localeCompare(src)==0){
+			document.getElementById("photo-grid").removeChild(images[i]);
+			arrayStep[actualDay][actualStep].remove(i);
+			break;
 		}
 	}
+}
+function openImg(s){
+	var img=document.getElementById("immagineSelezionata");
+	var src=arrayStep[actualDay][actualStep].photo[s];
+	img.setAttribute("src","data:image/gif;base64,"+src);
+	alert("DONE");
+	$("#fotoingrande").animate({opacity: '0.9'},"slow");
+	$("#addAnchor").animate({opacity: '0.1'},"slow");
 }
 function closeImg(){
 	$("#fotoingrande").animate({opacity: '0'},"slow");
