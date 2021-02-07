@@ -1,12 +1,12 @@
 package main.java.travelbook.view;
 import javafx.scene.web.WebView;
-import main.java.travelbook.controller.MapboxException;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import exception.MapboxException;
 import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.controller.PredictionController;

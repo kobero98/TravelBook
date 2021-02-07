@@ -10,8 +10,10 @@ import javafx.scene.image.ImageView;
 import main.java.travelbook.util.PlaceAdapter;
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
+
+import exception.MapboxException;
+
 import java.util.List;
-import main.java.travelbook.controller.MapboxException;
 public class SearchPlaceTextField extends AutocompleteTextField<PlaceAdapter> {
 	
 	public SearchPlaceTextField() {

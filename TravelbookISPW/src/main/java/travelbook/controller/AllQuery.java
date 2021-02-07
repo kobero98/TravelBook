@@ -142,7 +142,8 @@ public class AllQuery {
 	public Integer getVerifiedEmail(String email)throws SQLException
 	{
 		Connection conn=getConnection();
-	try(	PreparedStatement stmt=conn.prepareStatement(query)){
+		String query="selext idUser from user where email like ?";
+		try(	PreparedStatement stmt=conn.prepareStatement(query)){
 			stmt.setString(1, email);
 			ResultSet rs=stmt.executeQuery();
 			if(rs.next()) return rs.getInt(1);

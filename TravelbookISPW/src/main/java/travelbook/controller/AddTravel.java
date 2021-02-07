@@ -5,6 +5,7 @@ import main.java.travelbook.util.PlaceAdapter;
 import org.json.simple.JSONObject;
 
 import exception.DBException;
+import exception.MapboxException;
 
 import java.util.ArrayList;
 import main.java.travelbook.model.dao.DaoFactory;

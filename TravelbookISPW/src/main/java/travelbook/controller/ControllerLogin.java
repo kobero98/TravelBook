@@ -142,7 +142,7 @@ public class ControllerLogin {
 		hasher.update(pswd.getBytes(StandardCharsets.UTF_8));
 		return toHex(hasher.digest());
 	}
-	private static String toHex(byte[] data)  {
+	private String toHex(byte[] data)  {
 		StringBuilder sb = new StringBuilder();
 		for (byte b : data) {
 			String digit = Integer.toString(b & 0xFF, 16);

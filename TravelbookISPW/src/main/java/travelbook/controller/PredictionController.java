@@ -19,6 +19,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import exception.MapboxException;
 
 import java.util.ArrayList;
 public class PredictionController {
