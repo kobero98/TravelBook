@@ -941,6 +941,7 @@ public class AddViewController implements Observer{
 	    	travel.setShare(false);
 	    	String startDateString=util.toString(this.startDate.getValue());
 	    	String endDateString=util.toString(this.endDate.getValue());
+	    	
 	    	try {
 	    		travel.setCostTravel(Double.parseDouble(this.costField.getText()));
 	    		String travelCost=this.costField.getText();
@@ -950,7 +951,8 @@ public class AddViewController implements Observer{
 	    	}catch(NullPointerException e) {
 	    		travel.setCostTravel(null);
 	    	}catch(NumberFormatException e) {
-	    		new TriggerAlert().triggerAlertCreate("travel cost must be a number! This information will not be stored", "err").showAndWait();
+	    		if(this.costField.getText()!=null || !this.costField.getText().isEmpty())
+	    			new TriggerAlert().triggerAlertCreate("travel cost must be a number! This information will not be stored", "err").showAndWait();
 	    		
 	    	}
 	    	travel.setStartTravelDate(startDateString);
@@ -969,6 +971,7 @@ public class AddViewController implements Observer{
 	    	travel.setListStep(new ArrayList<>());
 	    	this.setTravelSteps(travel, new ArrayList<>(),false);
 	    	//then call the controller and send data
+	    	progressPane.setVisible(true);
 	    	progressPane.setOpacity(1);
 	    	internalPane.setOpacity(0);
 	    	new Thread(()->{
@@ -987,6 +990,10 @@ public class AddViewController implements Observer{
     		    	closeProgressBar.setVisible(true);
     			});
     			}catch(Exception e) {
+    				progressBar.setVisible(false);
+    				progressBar.setOpacity(0);
+    				internalPane.setOpacity(1);
+    				new TriggerAlert().triggerAlertCreate("An error has occured while save your travel please try again", "err").showAndWait();
     				progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
     			}
     			
