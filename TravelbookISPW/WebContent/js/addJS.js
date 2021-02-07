@@ -227,6 +227,22 @@ function onlyNumber(string){
 }
 return true;
 }
+function removeImg(){
+	var src=document.getElementById("immagineSelezionata").src;
+	$("#fotoingrande").animate({opacity: '0'},"slow");
+	$("#addAnchor").animate({opacity: '1'},"slow");
+	var images=document.getElementById("photo-grid").getChildren();
+	var i;
+	for(i=0;i<images.length;i++){
+		if(images.src==src){
+			
+		}
+	}
+}
+function closeImg(){
+	$("#fotoingrande").animate({opacity: '0'},"slow");
+	$("#addAnchor").animate({opacity: '1'},"slow");
+}
 function post(blocked=true){
 	var cost=document.getElementById("costTravel").value;
 	var requestJSON;

@@ -234,7 +234,7 @@ $(function()
             Wherever you go, go with all your heart
         </p>
     </div>
-    <div class="anchor">
+    <div class="anchor" id="addAnchor">
          
         <div class="panel">
             <div class="menu-bar">
@@ -364,6 +364,12 @@ $(function()
                 </div>
             </form>
         </div>
+        
+        </div>
+        <div id="fotoingrande">
+        	<img src="" id="immagineSelezionata" alt="immagineSelezionata"/>
+        	<input type="button" value="close" id="closeImage"/>
+        	<input type="button" value="rimuovi" id="removeImage"/>
         </div>
         </body>
         </html>
