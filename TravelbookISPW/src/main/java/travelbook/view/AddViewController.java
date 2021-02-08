@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
 import java.io.ByteArrayOutputStream;
 import main.java.travelbook.util.Observer;
+import main.java.travelbook.util.Place;
+
 import java.time.LocalDate;
 import javafx.scene.shape.Line;
 import javafx.scene.control.Hyperlink;
@@ -251,7 +253,7 @@ public class AddViewController implements Observer{
 			saved=false;
 			//Add this value to Place field for the selected StepBean
 			if(searchText.getLastSelectedItem().get()!=null) {
-			PlaceAdapter place=searchText.getLastSelectedItem().getValue();
+			Place place=searchText.getLastSelectedItem().getValue();
 			stepByDay.get(dayNumber).get(stepNumber).setPlace(place.toString());
 			stepByDay.get(dayNumber).get(stepNumber).setFullPlace(place);
 			}
