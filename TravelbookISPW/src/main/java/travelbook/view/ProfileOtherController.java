@@ -236,7 +236,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			profilePhoto.setLayoutY(mainAnchor.getHeight()*90/625);
 			favIcon.setFitHeight(mainAnchor.getHeight()*27.5/625);
 			favText.setLayoutY(mainAnchor.getHeight()*534/625);
-			userName.setLayoutY(mainAnchor.getHeight()*150/625);
+			userName.setLayoutY(mainAnchor.getHeight()*80/625);
 			myDescr.setLayoutY(mainAnchor.getHeight()*200/625);
 			show.setPrefHeight(mainAnchor.getHeight()*575/625);
 			show.setLayoutY(mainAnchor.getHeight()*50/625);
@@ -264,7 +264,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			placeVisited.setLayoutX(mainAnchor.getWidth()*317/1280);
 			profilePhoto.setPrefWidth(mainAnchor.getWidth()*200/1280);
 			profilePhoto.setLayoutX(mainAnchor.getWidth()*65/1280);
-			userName.setLayoutX(mainAnchor.getWidth()*269/1280);
+			userName.setLayoutX(mainAnchor.getWidth()*275/1280);
 			userName.setWrappingWidth(mainAnchor.getWidth()*326/1280);
 			favIcon.setFitWidth(mainAnchor.getWidth()*30/1280);
 			favText.setLayoutX(mainAnchor.getWidth()*95/1280);

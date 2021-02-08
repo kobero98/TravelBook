@@ -15,6 +15,8 @@ import javafx.scene.layout.AnchorPane;
 import main.java.travelbook.util.MessagePollingThread;
 import main.java.travelbook.util.Observable;
 import main.java.travelbook.util.Observer;
+import main.java.travelbook.util.ProfilePollingThread;
+
 import java.util.ArrayList;
 public class MenuBar extends Observable implements Observer{
 	//This class want to manage MenuBar operation. Use these methods in the button handler.
@@ -38,6 +40,7 @@ public class MenuBar extends Observable implements Observer{
 		chat.addObserver(istance);
 	}
 	private  MessagePollingThread myThread;
+	private ProfilePollingThread mySecondThread;
 	private  List<Chat> myChat=new ArrayList<>();
 	public  List<Chat> getMyChat() {
 		return myChat;
@@ -70,6 +73,10 @@ public class MenuBar extends Observable implements Observer{
 		if(myThread==null) {
 			myThread=new MessagePollingThread();
 			myThread.start();
+		}
+		if(mySecondThread==null) {
+			mySecondThread=new ProfilePollingThread();
+			mySecondThread.start();
 		}
 	}
 	public  UserBean getLoggedUser() {

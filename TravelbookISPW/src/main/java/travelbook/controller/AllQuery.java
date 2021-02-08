@@ -142,7 +142,7 @@ public class AllQuery {
 	public Integer getVerifiedEmail(String email)throws SQLException
 	{
 		Connection conn=getConnection();
-		String query="selext idUser from user where email like ?";
+		String query="select idUser from user where email like ?";
 		try(	PreparedStatement stmt=conn.prepareStatement(query)){
 			stmt.setString(1, email);
 			ResultSet rs=stmt.executeQuery();
@@ -650,11 +650,12 @@ public class AllQuery {
 	public void setCity(Connection connect, CityEntity entity) {
 		String query="INSERT into City(NameC,State) values (?,?)";
 		PreparedStatement stmt=null;
-		try {
+		try {				
+
 			 stmt=connect.prepareStatement(query);
-			stmt.setString(1, entity.getNameC());
-			stmt.setString(2, entity.getState());
-			stmt.execute();
+			 stmt.setString(1, entity.getNameC());
+		     stmt.setString(2, entity.getState());
+			 stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -669,10 +670,10 @@ public class AllQuery {
 	public void deleteCity(Connection connect,CityEntity entity) {
 		String query="DELETE from City where NameC=? and State=?";
 		try {
-			try(PreparedStatement prp=connect.prepareStatement(query)){
-			prp.setString(1, entity.getNameC());
-			prp.setString(2, entity.getState());
-			prp.execute();
+				try(PreparedStatement prp=connect.prepareStatement(query)){
+				prp.setString(1, entity.getNameC());
+				prp.setString(2, entity.getState());
+				prp.execute();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

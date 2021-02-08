@@ -259,7 +259,7 @@ public class ProfileViewController implements Observer{
 			profileAnchor.setPrefHeight(mainAnchor.getHeight()*300/625);
 			profilePhoto.setPrefHeight(mainAnchor.getHeight()*200/625);
 			profilePhoto.setLayoutY(mainAnchor.getHeight()*45/625);
-			userName.setLayoutY(mainAnchor.getHeight()*137/625);
+			userName.setLayoutY(mainAnchor.getHeight()*75/625);
 			myDescr.setLayoutY(mainAnchor.getHeight()*150/625);
 			logOutButton.setPrefHeight(mainAnchor.getHeight()*35/625);
 			logOutButton.setLayoutY(mainAnchor.getHeight()*14/625);
@@ -309,7 +309,7 @@ public class ProfileViewController implements Observer{
 			profileAnchor.setPrefWidth(mainAnchor.getWidth()*592/1280);
 			profilePhoto.setPrefWidth(mainAnchor.getWidth()*200/1280);
 			profilePhoto.setLayoutX(mainAnchor.getWidth()*55/1280);
-			userName.setLayoutX(mainAnchor.getWidth()*238/1280);
+			userName.setLayoutX(mainAnchor.getWidth()*240/1280);
 			myDescr.setLayoutX(mainAnchor.getWidth()*280/1280);
 			myDescr.setWrappingWidth(mainAnchor.getWidth()*270/1280);
 			logOutButton.setPrefWidth(mainAnchor.getWidth()*35/1280);
