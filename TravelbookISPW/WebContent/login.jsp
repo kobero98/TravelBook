@@ -10,6 +10,15 @@
 <jsp:setProperty name="userReg" property="*"/> 
 
 <%	
+	if(request.getParameter("forgot")!=null){
+		ControllerLogin controller=new ControllerLogin();
+		String code=controller.calcoloRegistration(user.getUsername());
+		request.getSession().setAttribute("code",code);
+		request.getSession().setAttribute("pswd",user.getUsername());
+		%>
+			<jsp:forward page="confirm.jsp"/>
+		<%
+	}
 	if (request.getParameter("accedi")!=null){
 		ControllerLogin controller=new ControllerLogin();
 		UserBean logged=controller.signIn(user.getUsername(), user.getPassword());
@@ -109,12 +118,14 @@
 				<div class=buttons>
 				<input type="button" value="registrati" class="form-button" onclick="apriRegistrazione()">
 				<input type="submit" value="accedi" name="accedi" class="form-button">
+				<input type="submit" name="forgot" value="forgot your password?">
 			</div>
 			</form>
 			<div id=fb>
 			<a href="https://www.facebook.com/v3.2/dialog/oauth?client_id=1332279647110748&response_type=token&redirect_uri=http://localhost:8080/TravelbookISPW/login.jsp&state=\'{st=state123abc,ds=123456789}\'">Accedi con facebook</a>
 			<img src="resource\logoFacebook.png" alt="FB logo">
 		</div>
+		
 		</div>
 		<div id="immagine">
 			<img src="resource\mondo.png" alt="logo">
