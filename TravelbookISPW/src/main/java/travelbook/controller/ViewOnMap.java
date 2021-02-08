@@ -5,6 +5,7 @@ import exception.MapboxException;
 
 import java.util.ArrayList;
 import main.java.travelbook.model.bean.StepBean;
+import main.java.travelbook.util.Place;
 import main.java.travelbook.util.PlaceAdapter;
 public class ViewOnMap {
 	private static ViewOnMap istance =null;
@@ -33,7 +34,8 @@ public class ViewOnMap {
 		boolean start=true;
 		for(StepBean step: steps) {
 			script=new StringBuilder();
-			
+			if(step.getPlace()==null)
+				continue;
 			if(step.getFullPlace()==null) {
 				step.setFullPlace(getPlaceByName(step.getPlace()));
 			}
@@ -114,7 +116,7 @@ public class ViewOnMap {
 		}
 		return icon;
 	}
-	private PlaceAdapter getPlaceByName(String place)throws MapboxException {
+	private Place getPlaceByName(String place)throws MapboxException {
 		PredictionController controller=new PredictionController();
 		return new PlaceAdapter(controller.getPlaceByName(place));
 	}

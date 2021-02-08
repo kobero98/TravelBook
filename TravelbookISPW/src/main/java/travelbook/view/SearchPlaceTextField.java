@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import main.java.travelbook.util.Place;
 import main.java.travelbook.util.PlaceAdapter;
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
@@ -14,7 +15,7 @@ import org.json.simple.JSONObject;
 import exception.MapboxException;
 
 import java.util.List;
-public class SearchPlaceTextField extends AutocompleteTextField<PlaceAdapter> {
+public class SearchPlaceTextField extends AutocompleteTextField<Place> {
 	
 	public SearchPlaceTextField() {
 		this(new TextField());
@@ -28,9 +29,9 @@ public class SearchPlaceTextField extends AutocompleteTextField<PlaceAdapter> {
 		setPos(Side.BOTTOM);
 	}
 	@Override
-	protected List<PlaceAdapter> getPredictions(String text){
+	protected List<Place> getPredictions(String text){
 		PredictionController predict=new PredictionController();
-		List<PlaceAdapter> places=new ArrayList<>();
+		List<Place> places=new ArrayList<>();
 		try{
 			List<JSONObject> results=predict.getPredictions(text);
 			

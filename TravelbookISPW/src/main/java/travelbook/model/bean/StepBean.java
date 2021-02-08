@@ -9,6 +9,7 @@ import java.util.List;
 
 import javafx.scene.image.Image;
 import main.java.travelbook.model.StepEntity;
+import main.java.travelbook.util.Place;
 import main.java.travelbook.util.PlaceAdapter;
 public class StepBean implements Bean{
 	private List<ByteArrayOutputStream> bytes=new ArrayList<>();
@@ -26,7 +27,7 @@ public class StepBean implements Bean{
 	private String descriptionStep;
 	private String place;
 	private List <Image> photo;            //abbiamo sia foto come immagini che foto come file. ne serve solo una
-	private PlaceAdapter fullPlace;
+	private Place fullPlace;
 	private String precisionInformation;
 	private List<InputStream> isL;
 	private List<byte[]> array=new ArrayList<>();
@@ -104,10 +105,10 @@ public class StepBean implements Bean{
 		return i;
 	}
 	
-	public PlaceAdapter getFullPlace() {
+	public Place getFullPlace() {
 		return fullPlace;
 	}
-	public void setFullPlace(PlaceAdapter fullPlace) {
+	public void setFullPlace(Place fullPlace) {
 		this.fullPlace = fullPlace;
 	}
 	public int getNumberInDay() {

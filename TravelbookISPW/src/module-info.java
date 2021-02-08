@@ -9,6 +9,7 @@ module travelbook {
 	requires java.mail;
 	requires httpclient;
 	requires javafx.web;
+	requires junit;
 
     opens main.java.travelbook.view to javafx.fxml;
     exports main.java.travelbook;

@@ -7,7 +7,7 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class PlaceAdapter {
+public class PlaceAdapter implements Place{
 
 	private String pred;
 	private String type;
@@ -18,6 +18,7 @@ public class PlaceAdapter {
 	private String postCode;
 	private String category;
 	private String icon;
+	@Override
 	public String getIcon() {
 		return icon;
 	}
@@ -27,6 +28,7 @@ public class PlaceAdapter {
 	private void setIcon(String icon) {
 		this.icon = icon;
 	}
+	@Override
 	public String getCategory() {
 		return category;
 	}
@@ -36,6 +38,7 @@ public class PlaceAdapter {
 	private void setPostCode(String code) {
 		this.postCode=code;
 	}
+	@Override
 	public String getPostCode() {
 		return this.postCode;
 	}
@@ -55,25 +58,30 @@ public class PlaceAdapter {
 		this.lat=lat;
 		this.lon=lon;
 	}
+	@Override
 	public List<Double> getCoordinates() {
 		List<Double> array=new ArrayList<>();
 		array.add(this.lat);
 		array.add(this.lon);
 		return array;
 	}
+	@Override
 	public String getPlaceName() {
 		return this.pred;
 	}
+	@Override
 	public String getType() {
 		return this.type;
 	}
+	@Override
 	public String getCountry() {
 		return this.country;
 	}
+	@Override
 	public String getCity() {
 		return this.city;
 	}
-	
+	@Override
 	public String toString() {
 		return this.pred;
 	}

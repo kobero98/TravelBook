@@ -96,7 +96,7 @@ public class PredictionController {
 				}
 			}
 		}
-		return results.get(0);
+		throw new MapboxException("Unable to find place you searched for, probably your text string is incorrect");
 	}
 	public String getToken() {
 		return token;

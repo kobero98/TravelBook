@@ -2,6 +2,7 @@ package main.java.travelbook.controller;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import exception.FewParametersException;
 import exception.MalformedEmailException;
 
 import javax.mail.Session;
@@ -42,9 +43,9 @@ public class EmailSenderController {
 	    transport.connect("smtp.office365.com",mit,pswd);
 	    transport.sendMessage(message, message.getAllRecipients());
 		}
-		public void sendMessage(List<String> destinatari, List<String> mexByDest, List<String> subj) throws MalformedEmailException,MessagingException{
+		public void sendMessage(List<String> destinatari, List<String> mexByDest, List<String> subj) throws MalformedEmailException,MessagingException,FewParametersException{
 			if(destinatari.size()!=mexByDest.size() || destinatari.size()!=subj.size()) {
-				//Lancia una eccezzione
+				throw new FewParametersException("Insert the same size of dest, mex and subj");
 			}
 			else {
 			for (int i=0;i<destinatari.size();i++) {
