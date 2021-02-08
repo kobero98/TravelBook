@@ -51,6 +51,7 @@ public class ExploreController {
 					count++;
 				}
 			}catch(SQLException e) {
+				e.printStackTrace();
 				throw new DBException(e.getMessage());
 			}
 		}

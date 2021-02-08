@@ -16,10 +16,6 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 		List<Entity> predictions=new ArrayList<>();
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
-		}catch(SQLException e4) {
-			throw new DBException("servers unreacheable");
-		}
-		try {
 			String sql=AllQuery.getInstance().cityAutocompleteRequest();
 		try(PreparedStatement stmt=connection.prepareStatement(sql)){
 			stmt.setString(1, text+"%");
@@ -36,8 +32,7 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 		}
 		}
 		}catch(SQLException e1) {
-			e1.printStackTrace();
-			//throw new DBException("we can't reach our servers");
+			throw new DBException("we can't reach our servers");
 		}
 		return predictions;
 

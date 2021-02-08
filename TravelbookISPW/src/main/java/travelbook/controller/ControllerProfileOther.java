@@ -13,15 +13,12 @@ import main.java.travelbook.model.dao.PersistanceDAO;
 import main.java.travelbook.model.dao.VisualDAO;
 
 public class ControllerProfileOther extends ProfileController{
-	
-	//@Override
+
 	public UserBean getUser(Integer userId) throws DBException {
 		VisualDAO userDao = DaoFactory.getInstance().createVisual(DaoType.OTHERUSER);
 		OtherUserEntity userE = new OtherUserEntity(userId);
 		try {
-			System.out.println(userId);
 			userE = (OtherUserEntity)userDao.getData(userE).get(0);
-			System.out.println(userE.getId());
 		} catch ( SQLException e) {
 			throw new DBException("connection lost");
 		}

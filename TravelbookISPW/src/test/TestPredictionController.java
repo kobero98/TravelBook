@@ -32,7 +32,7 @@ public class TestPredictionController {
 	public void testGetPlaceByNameByBadPlace() {
 		//Test if search throw exception when i try to search a place that don't exist
 		PredictionController con=new PredictionController();
-		String text="questa città sono sicuro che non esiste";
+		String text="questa cittï¿½ sono sicuro che non esiste";
 		assertThrows(MapboxException.class,()-> con.getPlaceByName(text));
 	}
 	@Test

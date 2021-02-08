@@ -536,8 +536,8 @@ public class LoginViewController {
 	}
 	@FXML
 	private void confirmPasswordHandler() {
-		if(this.newP.getText()!=null && !this.newP.getText().isEmpty()) {
-			if(this.newPC.getText()!=null && !this.newPC.getText().isEmpty() && this.newPC.getText().equals(this.newP.getText())) {
+		if(this.newP.getText()!=null && !this.newP.getText().isEmpty() &&
+			this.newPC.getText()!=null && !this.newPC.getText().isEmpty() && this.newPC.getText().equals(this.newP.getText())) {
 				
 					ControllerLogin con=new ControllerLogin();
 					try {
@@ -548,7 +548,6 @@ public class LoginViewController {
 					}
 					this.changePassword.setVisible(false);
 					this.myAnchor.setOpacity(1);
-			}
 		}
 	}
 	@FXML

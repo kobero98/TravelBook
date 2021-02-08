@@ -46,10 +46,6 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		PreparedStatement stmt=null;
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
-		}catch (SQLException e1) {
-			throw new LoginPageException("we couldn't reach our servers");
-		}
-		try {
 			String query=db.requestLogin(connection,user.getUsername(), user.getPassword());	
 			stmt=connection.prepareStatement(query);
 			stmt.setString(1, user.getUsername());	
@@ -109,10 +105,8 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			stmt.close();
 			list.add((Entity) utente);
 			return list;
-		}catch(LoginPageException e){
-			throw e;
-		}catch(SQLException e){
-			throw new LoginPageException(e.getMessage());
+		}catch (SQLException e1) {
+			throw new LoginPageException("we couldn't reach our servers");
 		}finally {
 			if(stmt!=null) {
 				stmt.close();
@@ -129,7 +123,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 				AllQuery.getInstance().requestRegistrationUser(this.connection, this.entity);
 				this.connection.close();
 			} catch (SQLException e) {
-				throw new ExceptionRegistration("Errore registrazione");
+				throw new ExceptionRegistration("Registration error");
 			}
 			
 		}
@@ -147,7 +141,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		return this.entity;
 	}
 	@Override
-	public void delete(Entity object) {
+	public void delete(Entity object) throws DBException {
 		try {
 			this.entity=(UserEntity) object;
 		
@@ -155,7 +149,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		
 		AllQuery.getInstance().deleteAccount(connection, this.entity.getId());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DBException("Delete failed");
 		}
 	}
 	@Override
@@ -175,7 +169,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 				if(this.entity.getListFollowing()!=null && !this.entity.getListFollowing().isEmpty()) 
 					AllQuery.getInstance().updateListFollower(connection, this.entity.getId(), this.entity.getListFollowing().get(this.entity.getListFollowing().size()-1));
 		} catch (SQLException e) {
-			throw new DBException("errore update");
+			throw new DBException("update error");
 		}
 	}
 	@Override

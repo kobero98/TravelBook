@@ -32,7 +32,6 @@ import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.util.DateUtil;
 import main.java.travelbook.util.Notification;
-import main.java.travelbook.util.PlaceAdapter;
 import javafx.event.ActionEvent;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ChoiceBox;

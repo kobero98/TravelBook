@@ -81,7 +81,6 @@ public class ProfileOtherController {
 	private static final String CSS = "fav-selected";
 	
 	public void initialize() {
-		System.out.println(MenuBar.getInstance().getUserId());
 		try {
 			
 			this.user = myController.getUser(MenuBar.getInstance().getUserId());

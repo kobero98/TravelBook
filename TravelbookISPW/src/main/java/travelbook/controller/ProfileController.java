@@ -15,7 +15,7 @@ import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
 import main.java.travelbook.model.dao.VisualDAO;
 
-public abstract class ProfileController{
+public class ProfileController{
 	
 	public List<Bean> getTravel(List<Integer> l) throws DBException{
 		List<Bean> ol = null;
@@ -116,6 +116,6 @@ public abstract class ProfileController{
 		}
 		return f;
 	}
-	//public abstract UserBean getUser(Integer userId) throws DBException;
+	
 
 }

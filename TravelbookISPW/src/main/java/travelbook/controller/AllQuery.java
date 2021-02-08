@@ -608,8 +608,6 @@ public class AllQuery {
 			 stmt.setString(1, entity.getNameC());
 		     stmt.setString(2, entity.getState());
 			 stmt.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}finally {
 			if(stmt!=null)
 					stmt.close();
@@ -690,7 +688,7 @@ public class AllQuery {
 	public String getTravels(UserEntity user){
 		String query="";
 		if(!user.getListFollower().isEmpty() || !user.getListFollowing().isEmpty()) {
-			query="SELECT distinct idTrip from trip join follow on (CreatorTrip=Follower or CreatorTrip=Following) where (Follower=? or Following=?) and CreatorTrip!=? order by dataCreazione desc";
+			query="SELECT distinct idTrip,dataCreazione from trip join follow on (CreatorTrip=Follower or CreatorTrip=Following) where (Follower=? or Following=?) and CreatorTrip!=? order by dataCreazione desc";
 		}
 		else {
 			query="SELECT idTrip from trip  where CreatorTrip!=? order by dataCreazione desc";

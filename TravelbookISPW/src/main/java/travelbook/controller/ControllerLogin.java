@@ -1,6 +1,7 @@
 package main.java.travelbook.controller;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
@@ -74,7 +75,7 @@ public class ControllerLogin {
         
 			
 	}
-	public UserBean facebookLogin(String string) throws LoginPageException
+	public UserBean facebookLogin(String string) throws DBException
 	{
 		try {
 			int i=string.indexOf("&");
@@ -120,8 +121,8 @@ public class ControllerLogin {
 		            idUtente=AllQuery.getInstance().getVerifiedEmail(email);
 		            dao.setData(id,idUtente);
 		            EmailSenderController s=new EmailSenderController();
-		            String mex="il suo Username: "+u.getUsername()+"\n la susa Password: "+u.getPassword();
-		            s.sendMessage(email,mex, "nuovo account travelbook");
+		            String mex="Your username: "+u.getUsername()+"\n Your password: "+u.getPassword();
+		            s.sendMessage(email,mex, "new Travelbook account");
 		            UserBean user1=signIn(u.getUsername(),u.getPassword());
 		            user1.setFirstTime(true);
 		            return user1;
@@ -135,8 +136,7 @@ public class ControllerLogin {
 		}catch (LoginPageException e) {
 			throw e;
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new LoginPageException("errore pagina di Login");
+			throw new LoginPageException("Error during login");
 		}
 		return null;
 	}
@@ -194,12 +194,11 @@ public class ControllerLogin {
 				for(int i=0;i<j;i++) code="0".concat(code);
 			}
 		try {
-			s.sendMessage(email,code, "Codice Registrazione TravelBoook");
+			s.sendMessage(email,code, "TravelBook registration code");
 		
 		} catch (MessagingException e) {
-			Platform.runLater(()->{
-				new TriggerAlert().triggerAlertCreate("Send failed, try asking for a new code","warn").showAndWait();
-			});
+			Platform.runLater(()->
+				new TriggerAlert().triggerAlertCreate("Send failed, try asking for a new code","warn").showAndWait());
 		}
 		return code;
 	}
@@ -209,11 +208,12 @@ public class ControllerLogin {
 		UserEntity newUser= new UserEntity(user);
 		try {
 			newUser.setPassword(this.passwordHash(user.getPassword()));
-		}catch(Exception e) {
-			e.getStackTrace();
-		}
+		
 		userDao.setMyEntity(newUser);
 		userDao.setData();
+		}catch(Exception e) {
+			throw new DBException("Error during registration");
+		}
 	}
 	public void changeMyPassword(String email,String password)throws DBException {
 		UserEntity user=new UserEntity();
@@ -223,7 +223,7 @@ public class ControllerLogin {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.USER);
 		dao.update(user);
 		}catch(Exception e) {
-			throw new DBException(e.getMessage());
+			throw new DBException("Error while changing password");
 		}
 	}
 }

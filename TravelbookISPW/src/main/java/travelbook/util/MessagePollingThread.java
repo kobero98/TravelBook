@@ -5,6 +5,7 @@ import main.java.travelbook.view.MenuBar;
 import java.util.List;
 
 import exception.DBException;
+import exception.TriggerAlert;
 import main.java.travelbook.model.bean.MessageBean;
 import java.util.ArrayList;
 public class MessagePollingThread extends Thread {
@@ -33,8 +34,10 @@ public class MessagePollingThread extends Thread {
 		}
 		Thread.sleep(3000);
 		
-		}catch(Exception e) {
-			e.printStackTrace();
+		}catch(DBException e) {
+			new TriggerAlert().triggerAlertCreate(e.getMessage(),"err");
+		} catch (InterruptedException e) {
+			break;
 		}
 		}
 		}

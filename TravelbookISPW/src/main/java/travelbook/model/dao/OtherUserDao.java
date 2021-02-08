@@ -6,7 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import exception.LoginPageException;
+
+import exception.DBException;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.OtherUserEntity;
@@ -32,7 +33,7 @@ public class OtherUserDao implements VisualDAO {
 		}
 		
 		@Override
-		public List <Entity> getData(Entity user1) throws LoginPageException, SQLException{
+		public List <Entity> getData(Entity user1) throws DBException, SQLException{
 			final Connection connection;
 			ResultSet otherRs=null;
 			PreparedStatement otherStmt=null;
@@ -41,10 +42,6 @@ public class OtherUserDao implements VisualDAO {
 			List <Entity> list=new ArrayList<>();
 			try {
 				connection = AllQuery.getInstance().getConnection();
-			} catch (SQLException e1) {
-				throw new LoginPageException("we couldn't reach our servers");
-			}
-			try {
 				String query=db.requestUserbyID();
 				otherStmt=connection.prepareStatement(query);
 				if(otherUser.getId()!=0)
@@ -109,8 +106,7 @@ public class OtherUserDao implements VisualDAO {
 				}
 				
 			}catch(SQLException e){
-				e.printStackTrace();
-				throw new LoginPageException("errore");
+				throw new DBException("Error while loading data");
 			}finally {
 				if(otherStmt!=null)
 				{
