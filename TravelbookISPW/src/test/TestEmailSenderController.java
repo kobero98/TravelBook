@@ -3,7 +3,6 @@ import org.junit.Test;
 import java.util.List;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
-
 import exception.FewParametersException;
 import exception.MalformedEmailException;
 import main.java.travelbook.controller.EmailSenderController;
