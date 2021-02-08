@@ -10,6 +10,12 @@
 			RegistrationBean user=(RegistrationBean)request.getSession().getAttribute("regBean");
 			ControllerLogin controller=new ControllerLogin();
 			if(code.equals(request.getParameter("code"))){
+				if(request.getSession().getAttribute("pswd")!=null){
+					
+					%>
+						<jsp:forward page="recuperaPassword.jsp"/>
+					<%
+				}
 				controller.signUp(user);
 				UserBean logged=controller.signIn(user.getUsername(),user.getPassword());
 				request.getSession().setAttribute("loggedBean",logged);
@@ -31,10 +37,13 @@
 </head>
 <body>
 			<form action="confirm.jsp" method="POST" id="codice">
+
+
 				<p id=code-text>
 					Insert here the code we have sent you
 				</p>
-				<input id="code" type="text" name="code" value="insert code here" class="textfield">
+				<input id="code" type="text" name="code" value="insert code here" class="textfield" required>
+
 				<div id=c-buttons class="buttons">
 				<input id="closeCode" type="button" name="closeCode" value="close" class="form-button code-button">
 				<input id="confirm" type="submit" name="confirm" value="confirm" class="form-button code-button">
