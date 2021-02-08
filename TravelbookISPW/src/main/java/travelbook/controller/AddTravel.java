@@ -4,6 +4,7 @@ import java.util.List;
 import main.java.travelbook.util.PlaceAdapter;
 import org.json.simple.JSONObject;
 
+import exception.AddTravelException;
 import exception.DBException;
 import exception.MapboxException;
 
@@ -95,7 +96,17 @@ public class AddTravel {
 		myTravel.setListStep(steps);
 		myTravel.setCityView(cities);
 		dao.setMyEntity((Entity)myTravel);
-		dao.setData();
+		this.sendData(dao);
+	}
+	private void sendData(PersistanceDAO dao) throws AddTravelException,DBException {
+		try {
+			dao.setData();
+			}catch(AddTravelException e) {
+				if(e.getId()!=null) {
+					dao.delete(new TravelEntity(e.getId()));
+				}
+				throw new AddTravelException("Something went wrong try again please");
+			}
 	}
 	public TravelBean getTravelById(Integer id) throws DBException {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);

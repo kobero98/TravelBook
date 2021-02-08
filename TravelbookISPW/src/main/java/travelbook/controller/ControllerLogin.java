@@ -19,6 +19,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import exception.DBException;
 import exception.LoginPageException;
+import exception.MalformedEmailException;
 import exception.TriggerAlert;
 import javafx.application.Platform;
 import main.java.travelbook.model.Entity;
@@ -184,7 +185,7 @@ public class ControllerLogin {
 		return x;
 	}
 	
-	public String calcoloRegistration(String email) {
+	public String calcoloRegistration(String email) throws MalformedEmailException {
 		EmailSenderController s=new EmailSenderController();
 		String code= Integer.toString(numberGenerator());
 		if(code.length()<6)
@@ -194,6 +195,7 @@ public class ControllerLogin {
 			}
 		try {
 			s.sendMessage(email,code, "Codice Registrazione TravelBoook");
+		
 		} catch (MessagingException e) {
 			Platform.runLater(()->{
 				new TriggerAlert().triggerAlertCreate("Send failed, try asking for a new code","warn").showAndWait();
@@ -213,5 +215,15 @@ public class ControllerLogin {
 		userDao.setMyEntity(newUser);
 		userDao.setData();
 	}
-
+	public void changeMyPassword(String email,String password)throws DBException {
+		UserEntity user=new UserEntity();
+		user.setEmail(email);
+		try {
+		user.setPassword(this.passwordHash(password));
+		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.USER);
+		dao.update(user);
+		}catch(Exception e) {
+			throw new DBException(e.getMessage());
+		}
+	}
 }

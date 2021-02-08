@@ -1,6 +1,9 @@
 package main.java.travelbook.controller;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import exception.MalformedEmailException;
+
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.Message;
@@ -8,7 +11,7 @@ import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Properties;
 public class EmailSenderController {
-		public void sendMessage(String dest,String mex, String subj) throws MessagingException {
+		public void sendMessage(String dest,String mex, String subj) throws MessagingException,MalformedEmailException {
 		// Create a mail session
 
 		
@@ -24,6 +27,9 @@ public class EmailSenderController {
 	    MimeMessage message = new MimeMessage(session);
 	    message.setSubject(subj);
 	    message.setText(mex);
+	    if(!dest.contains("@") || !dest.contains(".")) {
+	    	throw new MalformedEmailException("L'email destinatario non ha la sintassi corretta");
+	    }
 	    // add address of mit and dest
 	    InternetAddress fromAddress = new InternetAddress(mit);
 	    InternetAddress toAddress = new InternetAddress(dest);
@@ -36,7 +42,7 @@ public class EmailSenderController {
 	    transport.connect("smtp.office365.com",mit,pswd);
 	    transport.sendMessage(message, message.getAllRecipients());
 		}
-		public void sendMessage(List<String> destinatari, List<String> mexByDest, List<String> subj) throws MessagingException{
+		public void sendMessage(List<String> destinatari, List<String> mexByDest, List<String> subj) throws MalformedEmailException,MessagingException{
 			if(destinatari.size()!=mexByDest.size() || destinatari.size()!=subj.size()) {
 				//Lancia una eccezzione
 			}

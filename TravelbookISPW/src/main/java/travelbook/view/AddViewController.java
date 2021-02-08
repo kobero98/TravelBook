@@ -24,6 +24,8 @@ import javafx.application.Platform;
 import main.java.travelbook.model.bean.TravelBean;
 import javafx.scene.input.MouseEvent;
 import main.java.travelbook.controller.AddTravel;
+import exception.AddTravelException;
+import exception.DBException;
 import exception.MissingPageException;
 import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;
@@ -854,6 +856,13 @@ public class AddViewController implements Observer{
 				//when done activate the close button
 		    	closeProgressBar.setVisible(true);
 			});
+			}catch(AddTravelException ex) {
+				Platform.runLater(()->{
+						new TriggerAlert().triggerAlertCreate(ex.getMessage(), "err").showAndWait();
+						this.progressBar.setVisible(false);
+						this.progressBar.setOpacity(0);
+						this.internalPane.setOpacity(1);
+				});
 			}catch(Exception e) {
 				Platform.runLater(()->{
 					new TriggerAlert().triggerAlertCreate("Sometimes go bad "+e.getMessage(), "err").showAndWait();

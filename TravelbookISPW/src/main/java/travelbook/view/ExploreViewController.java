@@ -109,6 +109,7 @@ public class ExploreViewController implements Observer{
 		topTenGroup=new ArrayList<>(10);
 		selectionGroup=new ArrayList<>(15);
 		List<MiniTravelBean> travelSuggest=new ArrayList<>();
+		List<MiniTravelBean> tt=new ArrayList<>();
 		//Now create some buttons 10 for tt and 15 for travelSelection.
 		while(i<10) {
 			MiniTravelBean travel=new MiniTravelBean();
@@ -117,6 +118,7 @@ public class ExploreViewController implements Observer{
 			istance.getPane().getStyleClass().add("pane");
 			istance.getTitle().getStyleClass().add(myText);
 			istance.getSubtitle().getStyleClass().addAll(myText, "subtitle");
+			tt.add(travel);
 			topTenGroup.add(istance);
 			topTenBar.getButtons().add(istance.getStack());
 			
@@ -138,6 +140,7 @@ public class ExploreViewController implements Observer{
 		ExploreController controller=new ExploreController();
 		try {
 		controller.setSuggests(travelSuggest, MenuBar.getInstance().getLoggedUser());
+		controller.setTopTen(tt);
 		}catch(DBException e) {
 			new TriggerAlert().triggerAlertCreate("IMPOSSIBILE PROSEGUIRE " +e.getMessage(),"err").showAndWait();
 		}
@@ -175,7 +178,9 @@ public class ExploreViewController implements Observer{
 		for(int i=0;i<15;i++) {
 			this.selectionGroup.get(i).setMainPane(main);
 		}
-		
+		for(int i=0;i<10;i++) {
+			this.topTenGroup.get(i).setMainPane(main);
+		}
 		
 		this.mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->{
 			worldPane.setPrefHeight(mainAnchor.getPrefHeight()*591/625);

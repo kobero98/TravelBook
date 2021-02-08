@@ -163,6 +163,9 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 		this.entity= (UserEntity) object;
 		try {
 				this.connection = AllQuery.getInstance().getConnection();
+				if(this.entity.getPassword()!=null) 
+					AllQuery.getInstance().changePassword(this.entity, connection);
+				
 				if(this.entity.getDescription()!=null)
 					AllQuery.getInstance().updateDescriptionUser(connection, this.entity.getId(), this.entity.getDescription());
 				if(this.entity.getPhoto()!=null)

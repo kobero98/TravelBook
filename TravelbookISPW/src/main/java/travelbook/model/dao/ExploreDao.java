@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.ArrayList;
 import exception.DBException;
@@ -13,12 +14,45 @@ import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.controller.AllQuery;
 public class ExploreDao implements VisualDAO {
 
+	private List<Entity> topTen() throws DBException, SQLException{
+		Statement stmt=null;
+		List<Integer> id=new ArrayList<>();
+		List<Entity> trav=new ArrayList<>();
+		Connection conn=AllQuery.getInstance().getConnection();
+		String query="SELECT idTravel from topten";
+		try {
+		stmt=conn.createStatement();
+		ResultSet rs=stmt.executeQuery(query);
+		
+		while(rs.next()) {
+			id.add(rs.getInt(1));
+		}
+		}finally {
+			if(stmt!=null) {
+				stmt.close();
+			}
+		}
+		if(!id.isEmpty()) {
+			for(Integer i: id) {
+				VisualDAO dao=DaoFactory.getInstance().createVisual(DaoType.S_TRAVEL);
+				TravelEntity tr=new TravelEntity();
+				tr.setIdTravel(i);
+				List<Entity> results=dao.getData(tr);
+				tr=(TravelEntity)results.get(0);
+				trav.add(tr);
+			}
+		}
+		return trav;
+	}
 	@Override
 	public List<Entity> getData(Entity object) throws DBException, SQLException {
 		ResultSet rs;
 		List<Integer> travelId=new ArrayList<>();
 		List<Entity> travels=new ArrayList<>();
 		UserEntity user=(UserEntity)object;
+		if(user.getId()==-1) 
+			return this.topTen();
+		
 		Connection conn=AllQuery.getInstance().getConnection();
 		String query=AllQuery.getInstance().getTravels(user);
 		PreparedStatement stmt=conn.prepareStatement(query);

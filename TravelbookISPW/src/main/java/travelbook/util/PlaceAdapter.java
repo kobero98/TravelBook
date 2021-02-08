@@ -12,7 +12,7 @@ public class PlaceAdapter {
 	private String pred;
 	private String type;
 	private String country;
-	private String city;
+	private String city="unkown";
 	private double lat;
 	private double lon;
 	private String postCode;

@@ -152,6 +152,14 @@
             <Button fx:id="closeConfirmationButton" layoutX="400.0" mnemonicParsing="false" onAction="#closeConfirmPaneHandler" text="Close" />
          </children>
       </Pane>
+      <Pane fx:id="changePassword" layoutX="400.0" layoutY="200.0" opacity="0.0" prefHeight="300.0" prefWidth="400.0" visible="false">
+         <children>
+            <PasswordField fx:id="newP" layoutY="150.0" promptText="Repeat password" />
+            <PasswordField fx:id="newPC" layoutY="70.0" promptText="Insert new Password" />
+            <Button layoutX="310.0" mnemonicParsing="false" onAction="#closePasswordHandler" text="Close" />
+            <Button layoutX="300.0" layoutY="250.0" mnemonicParsing="false" onAction="#confirmPasswordHandler" text="Confirm" />
+         </children>
+      </Pane>
    </children>
    <stylesheets>
       <URL value="@../css/project.css" />

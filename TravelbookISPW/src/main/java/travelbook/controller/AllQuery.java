@@ -752,4 +752,12 @@ public class AllQuery {
 		}
 		return query;
 	}
+	public void changePassword(UserEntity user,Connection conn)throws SQLException {
+		String query="UPDATE user set password=? where email=?";
+		PreparedStatement stmt=conn.prepareStatement(query);
+		stmt.setString(1, user.getPassword());
+		stmt.setString(2, user.getEmail());
+		stmt.execute();
+	}
+	
 }

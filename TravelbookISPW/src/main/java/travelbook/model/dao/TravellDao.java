@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.AddTravelException;
 import exception.DBException;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.CityEntity;
@@ -114,10 +115,11 @@ public class TravellDao implements PersistanceDAO{
 	private Connection connection;
 	@Override
 	public void setData() throws DBException {
+		int idTravel=-1;
 		try {
 			this.connection=AllQuery.getInstance().getConnection();
 		
-		int idTravel=AllQuery.getInstance().requestRegistrationTrip(this.connection,entity);
+		idTravel=AllQuery.getInstance().requestRegistrationTrip(this.connection,entity);
 		int i;
 		for(i=0;i<entity.getListStep().size();i++)
 		{
@@ -140,7 +142,10 @@ public class TravellDao implements PersistanceDAO{
 			AllQuery.getInstance().setCityToTravel(connection, idTravel, this.entity.getCreatorId(), citta);
 		}
 		} catch (SQLException e) {
-			throw new DBException("connection lost");
+			AddTravelException ex=new AddTravelException(e.getMessage());
+			if(idTravel!=-1)
+				ex.setId(idTravel);
+			throw ex;
 		}
 		AllQuery.getInstance().updateTravelNumberForUser(connection, this.entity.getCreatorId());
 	}

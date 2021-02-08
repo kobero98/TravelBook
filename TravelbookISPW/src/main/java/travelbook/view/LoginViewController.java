@@ -6,7 +6,10 @@ import javafx.scene.control.ButtonType;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.sql.Date;import java.util.Optional;
+
+import exception.DBException;
 import exception.LoginPageException;
+import exception.MalformedEmailException;
 import exception.MissingPageException;
 import exception.TriggerAlert;
 import javafx.scene.web.WebView;
@@ -40,8 +43,15 @@ import main.java.travelbook.model.bean.RegistrationBean;
 import main.java.travelbook.model.bean.UserBean;
 
 public class LoginViewController {
+	private String mode="";
 	private RegistrationBean userToBeRegister;
 	private String codeOfreg;
+	@FXML
+	private PasswordField newP;
+	@FXML
+	private PasswordField newPC;
+	@FXML
+	private Pane changePassword;
 	@FXML
 	private Pane codeConfirmPane;
 	@FXML
@@ -387,8 +397,37 @@ public class LoginViewController {
 	private void forgot() {
 		if(error.isVisible())
 			error.setVisible(false);
+		if(this.emailField.getText()==null || this.emailField.getText().isEmpty())
+			new TriggerAlert().triggerAlertCreate("Inserisci l'email nel campo email e ti invieremo un codice", "warn").showAndWait();
+		else {
+			ControllerLogin con=new ControllerLogin();
+			try {
+			this.codeOfreg=con.calcoloRegistration(this.emailField.getText());
+			this.mode="pswd";
+			this.codeConfirmPane.setVisible(true);
+			this.codeConfirmPane.setOpacity(1);
+			this.myAnchor.setOpacity(0);
+			}catch(MalformedEmailException e) {
+				new TriggerAlert().triggerAlertCreate("Something went wrong", "err").showAndWait();
+			}
+		}
 		//Gestisci aprendo link sul browser che porta alla nostra pagina di gestione credenziali cosi la scriviamo una volta sola in tecnologia web
 
+	}
+	private void sendEmailReg(String email) {
+		new Thread(()->{
+      	  ControllerLogin controller=new ControllerLogin();
+      try {
+        this.codeOfreg=controller.calcoloRegistration(email);
+        Platform.runLater(()->{
+      	  this.codeConfirmPane.setVisible(true);
+    		this.registerPane.setVisible(false);
+    		this.mode="reg";
+        });
+        }catch(MalformedEmailException e) {
+      	  new TriggerAlert().triggerAlertCreate("something went wrong unable to send email", "err").showAndWait();
+      	  
+        }}).start();
 	}
 	@FXML
 	private void registrami() {
@@ -446,15 +485,8 @@ public class LoginViewController {
           user.setGender(gender);
           user.setNazionalita(nations.getValue());
           this.userToBeRegister=user;
-          new Thread(()->{
-        	  ControllerLogin controller=new ControllerLogin();
-          this.codeOfreg=controller.calcoloRegistration(email);
-          Platform.runLater(()->{
-        	  this.codeConfirmPane.setVisible(true);
-      		this.registerPane.setVisible(false);
-          });
-          }).start();
-            
+          this.sendEmailReg(email);
+		
 		}
 		else {
 			registerError.setText("Errore nella registrazione");
@@ -481,12 +513,42 @@ public class LoginViewController {
 	private void confirmCode() {
 		String text=this.codeTextField.getText();
 		if(text.equals(codeOfreg)) {
-			saveRegistration();
+			if(mode.equals("reg"))
+				saveRegistration();
+			else {
+				this.codeConfirmPane.setVisible(false);
+				this.changePassword.setVisible(true);
+				this.myAnchor.setOpacity(0);
+				this.changePassword.setOpacity(1);
+			}
 		}
 		else {
 			new TriggerAlert().triggerAlertCreate("Wrong code, try again", "err").showAndWait();
 			this.codeConfirmPane.setVisible(false);
 			this.closeRegisterHandler();
+		}
+	}
+	@FXML
+	private void closePasswordHandler() {
+		this.myAnchor.setOpacity(1);
+		this.changePassword.setOpacity(0);
+		this.changePassword.setVisible(false);
+	}
+	@FXML
+	private void confirmPasswordHandler() {
+		if(this.newP.getText()!=null && !this.newP.getText().isEmpty()) {
+			if(this.newPC.getText()!=null && !this.newPC.getText().isEmpty() && this.newPC.getText().equals(this.newP.getText())) {
+				
+					ControllerLogin con=new ControllerLogin();
+					try {
+					con.changeMyPassword(this.emailField.getText(), this.newP.getText());
+					}catch(DBException e) {
+						new TriggerAlert().triggerAlertCreate("Something went wrong try again later", "err").showAndWait();
+						
+					}
+					this.changePassword.setVisible(false);
+					this.myAnchor.setOpacity(1);
+			}
 		}
 	}
 	@FXML
