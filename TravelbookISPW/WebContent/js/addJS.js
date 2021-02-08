@@ -215,7 +215,7 @@ function compareDate(start,end){
 	return false;
 }
 function travelNameListener(){
-	document.getElementById("travelName").className.replace("errorElements","");
+	document.getElementById("travelName").className = "add-text";
 	travelName=document.getElementById("travelName").value;
 }
 function travelDescriptionListener(){

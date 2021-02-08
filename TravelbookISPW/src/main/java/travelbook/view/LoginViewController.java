@@ -1,6 +1,8 @@
 package main.java.travelbook.view;
 
 import javafx.scene.control.ButtonType;
+
+
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.sql.Date;import java.util.Optional;
@@ -8,6 +10,7 @@ import exception.LoginPageException;
 import exception.MissingPageException;
 import exception.TriggerAlert;
 import javafx.scene.web.WebView;
+
 import javafx.scene.web.WebEngine;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.DatePicker;
@@ -21,6 +24,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -79,7 +83,7 @@ public class LoginViewController {
 	@FXML
 	private ImageView backgroundImage;
 	private BorderPane mainPane;
-
+	private boolean firstTime=false;
 	@FXML
 	private Label error;
 	//Register Pane elements
@@ -304,6 +308,7 @@ public class LoginViewController {
 			try {
 				ControllerLogin controller=new ControllerLogin();
 				user=controller.signIn(localUsername, pswd);
+				user.setFirstTime(firstTime);
 			} catch (LoginPageException e1) {
 				error.setVisible(true);
 				error.setText(e1.getMessage());
@@ -462,6 +467,7 @@ public class LoginViewController {
 			controller.signUp(this.userToBeRegister);
 			emailField.setText(userToBeRegister.getUsername());
 			pswdField.setText(userToBeRegister.getPassword());
+			firstTime=true;
 			loginButtonHandler();
 			
 			}catch(Exception e) {
@@ -469,6 +475,7 @@ public class LoginViewController {
 				new TriggerAlert().triggerAlertCreate("Several system error", "err").showAndWait();
 			}
 	}
+
 	
 	@FXML
 	private void confirmCode() {

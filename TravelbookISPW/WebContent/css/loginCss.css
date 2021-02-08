@@ -119,10 +119,15 @@ body{
 	/*opacity: 0;*/
 	align-items: center;
 	justify-content: space-evenly;
-	padding-top: 20em;
+	padding-top: 10em;
+	height: 20em;
 	
 }
 
+#code-text{
+	color: var(--Dcolor);
+	font: bold normal 1.75em Arial,Sans-serif;
+}
 
 .textfield{
 	background-color: #FDFDFD;
@@ -232,4 +237,15 @@ a:active{
 	height: 2em;
 	background: var(--Dcolor);
 	outline: var(--Dcolor);
+}
+.code-button{
+	width: 5em;
+	height: 2em;
+	background: var(--Dcolor);
+	font-size: 1em;
+}
+#c-buttons{
+	width: 15em;
+	justify-content: space-around;
+	margin-left:5em;
 }

@@ -22,10 +22,10 @@ public class ProfilePollingThread extends Thread{
 		{
 			UserBean user=MenuBar.getInstance().getLoggedUser();
 			VisualDAO dao=DaoFactory.getInstance().createVisual(DaoType.OTHERUSER);
-			OtherUserEntity entity= new OtherUserEntity(id);
+			/*OtherUserEntity entity= new OtherUserEntity(id);
 			try {
 				entity=(OtherUserEntity) dao.getData(entity);
-				if(user.get
+				//if(user.get
 				
 				
 			} catch (DBException e) {
@@ -36,7 +36,7 @@ public class ProfilePollingThread extends Thread{
 				e.printStackTrace();
 			}
 		
-			Thread.sleep(3000);
+			Thread.sleep(3000);*/
 		}
 		
 	}

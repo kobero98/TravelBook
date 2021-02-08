@@ -253,17 +253,17 @@
             <Image url="@../../../resources/AddViewImages/Vector(4).png" />
          </image>
       </ImageView>
-      <Pane fx:id="progressPane" layoutX="300.0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.0" prefHeight="400.0" prefWidth="600.0" visible="false">
+      <Pane fx:id="progressPane" layoutX="300.0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.0" prefHeight="400.0" prefWidth="600.0" styleClass="progress-pane" visible="false">
          <children>
             <ProgressBar fx:id="progressBar" layoutX="200.0" layoutY="175.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" progress="0.0" />
-            <Button fx:id="closeProgressBar" layoutX="500.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#progressBarDoneHandler" prefHeight="38.0" prefWidth="80.0" text="Close" visible="false" />
+            <Button fx:id="closeProgressBar" layoutX="500.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#progressBarDoneHandler" prefHeight="38.0" prefWidth="80.0" text="Close" />
          </children>
          <stylesheets>
             <URL value="@../css/add-travel.css" />
             <URL value="@../css/project.css" />
          </stylesheets>
       </Pane>
-      <StackPane fx:id="viewImagePane" layoutX="400.0" layoutY="106.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.0" prefHeight="444.0" prefWidth="400.0" visible="false">
+      <StackPane fx:id="viewImagePane" layoutX="400.0" layoutY="106.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="400.0" styleClass="progress-pane">
          <children>
             <ImageView fx:id="viewImage" fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" />
             <Button fx:id="closeImage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#closeImage" prefHeight="36.0" prefWidth="36.0" StackPane.alignment="TOP_RIGHT">

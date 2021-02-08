@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import main.java.travelbook.model.OtherUserEntity;
 
 public class UserBean implements Bean{
-	
+	private boolean first=false;
 	private int id;
 	private String name="ciao";
 	private String surname; 
@@ -109,6 +109,12 @@ public class UserBean implements Bean{
 	public void setPhoto(Image photo)
 	{
 		this.photo=photo;
+	}
+	public void setFirstTime(boolean first) {
+		this.first = first;
+	}
+	public boolean isFirstTime() {
+		return this.first;
 	}
 	public void setPhoto(InputStream photo)
 	{

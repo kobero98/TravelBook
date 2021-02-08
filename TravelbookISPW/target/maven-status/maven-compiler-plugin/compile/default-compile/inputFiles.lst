@@ -56,6 +56,7 @@
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/util/MessagePollingThread.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/dao/UserDao.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/dao/ShortTravelDao.java
+/Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/exception/MapboxException.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/ShareEntity.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/dao/DaoType.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/exception/DBException.java
@@ -86,6 +87,5 @@
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/controller/PredictionController.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/bean/MessageBean.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/module-info.java
-/Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/controller/MapboxException.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/exception/ExceptionLogin.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/view/ViewTravelController.java

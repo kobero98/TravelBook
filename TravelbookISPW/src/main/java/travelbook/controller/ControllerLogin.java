@@ -121,7 +121,9 @@ public class ControllerLogin {
 		            EmailSenderController s=new EmailSenderController();
 		            String mex="il suo Username: "+u.getUsername()+"\n la susa Password: "+u.getPassword();
 		            s.sendMessage(email,mex, "nuovo account travelbook");
-		            return signIn(u.getUsername(),u.getPassword());
+		            UserBean user1=signIn(u.getUsername(),u.getPassword());
+		            user1.setFirstTime(true);
+		            return user1;
 				}
 				else {
 					PersistanceDAO dao1=DaoFactory.getInstance().create(DaoType.USER);

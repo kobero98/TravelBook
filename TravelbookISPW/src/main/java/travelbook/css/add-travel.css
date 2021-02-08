@@ -188,4 +188,21 @@
 	-fx-underline: true;
 }
 
+.progress-bar .track{
+	-fx-background-color: #FDFDFD;
+	-fx-border-color: -fx-dcolor;
+	
+}
+.progress-bar .bar {
+    -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-fx-dcolor,95%), derive(-fx-mcolor,10%)),
+        linear-gradient(to bottom, derive(-fx-mcolor,38%), -fx-dcolor);
+}
+.progress-pane{
+	-fx-border-color:-fx-text-dcolor;
+	-fx-background-color: #F0EBED;
+}
+
+
 

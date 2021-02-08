@@ -31,10 +31,13 @@
 </head>
 <body>
 			<form action="confirm.jsp" method="POST" id="codice">
+				<p id=code-text>
+					Insert here the code we have sent you
+				</p>
 				<input id="code" type="text" name="code" value="insert code here" class="textfield">
-				<div class="buttons">
-				<input id="closeCode" type="button" name="closeCode" value="close" class="form-button">
-				<input id="confirm" type="submit" name="confirm" value="confirm" class="form-button">
+				<div id=c-buttons class="buttons">
+				<input id="closeCode" type="button" name="closeCode" value="close" class="form-button code-button">
+				<input id="confirm" type="submit" name="confirm" value="confirm" class="form-button code-button">
 				</div>
 			</form>
 </body>

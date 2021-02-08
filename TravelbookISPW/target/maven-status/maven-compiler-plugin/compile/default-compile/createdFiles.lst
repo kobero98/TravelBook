@@ -36,6 +36,7 @@ main/java/travelbook/view/MenuBar.class
 main/java/travelbook/view/ChatViewController.class
 main/java/travelbook/model/bean/RegistrationBean.class
 main/java/travelbook/util/Chat.class
+exception/MapboxException.class
 main/java/travelbook/util/PlaceAdapter.class
 main/java/travelbook/model/bean/UserBean.class
 main/java/travelbook/view/animation/SlideImageAnimationHR.class
@@ -49,7 +50,6 @@ main/java/travelbook/model/bean/MiniTravelBean.class
 main/java/travelbook/model/dao/PersistanceDAO.class
 main/java/travelbook/controller/PredictionController.class
 main/java/travelbook/view/ProfileViewController$ShCell.class
-main/java/travelbook/controller/MapboxException.class
 main/java/travelbook/model/OtherUserEntity.class
 main/java/travelbook/model/dao/UserDao.class
 main/java/travelbook/controller/AddTravel.class

@@ -6,8 +6,12 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Error</title>
+<link rel="stylesheet" href="css/loginCss.css">
+<link rel="stylesheet" href="css/error.css">
 </head>
 <body>
-	Exception is: <%= exception %>
+	<p id=txt>
+		Exception is: <%= exception %>
+	</p>
 </body>
 </html>
