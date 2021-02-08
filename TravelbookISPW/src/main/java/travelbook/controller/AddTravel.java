@@ -98,7 +98,7 @@ public class AddTravel {
 		dao.setMyEntity((Entity)myTravel);
 		this.sendData(dao);
 	}
-	private void sendData(PersistanceDAO dao) throws AddTravelException,DBException {
+	private void sendData(PersistanceDAO dao) throws DBException{
 		try {
 			dao.setData();
 			}catch(AddTravelException e) {

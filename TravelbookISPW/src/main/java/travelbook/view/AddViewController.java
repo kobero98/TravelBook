@@ -27,7 +27,6 @@ import main.java.travelbook.model.bean.TravelBean;
 import javafx.scene.input.MouseEvent;
 import main.java.travelbook.controller.AddTravel;
 import exception.AddTravelException;
-import exception.DBException;
 import exception.MissingPageException;
 import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;

@@ -81,7 +81,7 @@ public class AllQuery {
 					 	stmt=conn.prepareStatement("Select idUser,NameUser,Surname,Birthdate,DescriptionProfile,Email,TripNumber,ProfileImage,Gender,Nazionalita FROM User where email=? and password=?");
 					 	rs=selectUser(stmt,username,password); 
 					}
-				 else throw new ExceptionLogin("Errore Username o password");	 
+				 else throw new ExceptionLogin("Wrong Username or password");	 
 			}
 			return query;
 			}finally {
@@ -89,7 +89,7 @@ public class AllQuery {
 					stmt.close();
 			}
 			}catch(SQLException e){
-				throw new ExceptionLogin("Errore Inasspettato");
+				throw new ExceptionLogin("Unexpected error");
 			}
 	
 	}
@@ -98,7 +98,7 @@ public class AllQuery {
 		stmt.setString(1, username);
 	 	stmt.setString(2, password);
 	    rs= stmt.executeQuery();
-		if(!rs.next()) throw new ExceptionLogin("Errore Password");	
+		if(!rs.next()) throw new ExceptionLogin("Wrong password");	
 		return rs;
 	}
 	public String requestTripById(int idTrip)
@@ -233,11 +233,11 @@ public class AllQuery {
 						    preparedStmt.execute();
 						    preparedStmt.close();
 				     }catch(SQLIntegrityConstraintViolationException e) {
-						throw new ExceptionRegistration("Errore Utente gia presente nel Database");
+						throw new ExceptionRegistration("User already exist");
 					}catch(MysqlDataTruncation e){
-						throw new ExceptionRegistration("Dati non validi");
+						throw new ExceptionRegistration("Unvalid data");
 					}catch(SQLException e){
-						throw new LoginPageException("Errore nell'accesso al database");
+						throw new LoginPageException("Error while cennecting to database");
 					}finally {
 						if(preparedStmt!=null) preparedStmt.close();
 							
@@ -285,11 +285,7 @@ public class AllQuery {
 		}finally {
 			
 			if(preparedStmt!=null) {
-					try {
 						preparedStmt.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
 			}
 			
 		}
@@ -462,10 +458,9 @@ public class AllQuery {
 		
 	}
 	
-	public void updateTravelNumberForUser(Connection connessione,int idUser) {
+	public void updateTravelNumberForUser(Connection connessione,int idUser) throws SQLException {
 		PreparedStatement stmt=null;
 		String query="update User set TripNumber= ? where idUser=?";
-		try {
 			String q="Select Count(idTrip) as tripNumber from trip where CreatorTrip=?";
 			try(PreparedStatement stmt2=connessione.prepareStatement(q)){
 				stmt2.setInt(1, idUser);
@@ -475,15 +470,9 @@ public class AllQuery {
 				stmt.setInt(1, rs.getInt(1));
 				stmt.setInt(2, idUser);
 				stmt.execute();
-			}} catch (SQLException e) {
-			e.printStackTrace();
 		}finally {
 			if(stmt!=null ) {
-				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
 			}
 				
 		}
@@ -522,7 +511,7 @@ public class AllQuery {
  		}
 	}
 	
-	public void updateDescriptionUser(Connection connessione,int iduser,String description) {
+	public void updateDescriptionUser(Connection connessione,int iduser,String description) throws SQLException {
 		PreparedStatement stmt=null;
 		String query="update User set DescriptionProfile= ? where idUser=?";
 		try {
@@ -530,19 +519,14 @@ public class AllQuery {
 			stmt.setString(1, description);
 			stmt.setInt(2, iduser);
 			stmt.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		
 		}finally {
 			if(stmt!=null)
-				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
 		}
 	}
 	
-	public void updatePhotoProfile(Connection connessione,int idUser,InputStream image) {
+	public void updatePhotoProfile(Connection connessione,int idUser,InputStream image) throws SQLException {
 		PreparedStatement stmt=null;
 		String query="update User set ProfileImage= ? where idUser=?";
 		try {
@@ -550,19 +534,13 @@ public class AllQuery {
 			stmt.setBlob(1, image);
 			stmt.setInt(2, idUser);
 			stmt.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}finally {
 			if(stmt!=null)
-				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
 		}
 	}
 
-	public void deleteTravel(Connection connessione,int idtrip)
+	public void deleteTravel(Connection connessione,int idtrip) throws SQLException
 	{
 		PreparedStatement preparedStmt=null;
 		try {
@@ -571,45 +549,23 @@ public class AllQuery {
 			    preparedStmt.setInt (1,idtrip);
 			    preparedStmt.execute();
 			    preparedStmt.close();
-		}catch (SQLException e) {
-			e.printStackTrace();
 		}finally {
 			if(preparedStmt!=null) {
-					try {
+
 						preparedStmt.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
 			}
 		}
 	}
-	public void deleteAccount(Connection connessione,int iduser)
+	public void deleteAccount(Connection connessione,int iduser) throws SQLException
 	{ 	
-		PreparedStatement preparedStmt=null;
-		try {
-				  String query = "Delete from User where idUser=? ";
-			      preparedStmt = connessione.prepareStatement(query);
-			      preparedStmt.setInt (1,iduser);
-			      preparedStmt.execute();
-			      preparedStmt.close();
 		
-		}catch (SQLException e) {
-			e.printStackTrace();
+		String query = "Delete from User where idUser=? ";
+		try (PreparedStatement preparedStmt = connessione.prepareStatement(query)){     
+			 preparedStmt.setInt (1,iduser);
+			 preparedStmt.execute();
 		}finally {
-			try {
-					connessione.close();
-				} catch (SQLException e) {
-					
-					e.printStackTrace();
-				}
-			}
-			if(preparedStmt!=null) {
-					try {
-						preparedStmt.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-			}
+			connessione.close();
+		}
 	}
 	public String requestUserbyID() {
 		
@@ -628,7 +584,7 @@ public class AllQuery {
 		
 		return CITYAUTOCOMPLETE;
 	}
-	public ResultSet userAutocompleteRequest(Statement stmt, String text) {
+	public ResultSet userAutocompleteRequest(Statement stmt, String text) throws SQLException {
 		String[] nameSurname=text.split(" ");
 		String name=nameSurname[0];
 		String surname="";
@@ -636,18 +592,14 @@ public class AllQuery {
 		if(nameSurname.length>1)
 			surname=nameSurname[1];
 		String query="SELECT idUser, NameUser, Surname,Username,ProfileImage from User where NameUser like '"+name+"%' and Surname like '"+surname+"%' order by char_length(NameUser),char_length(Surname)";
-		try {
-			rs=stmt.executeQuery(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		rs=stmt.executeQuery(query);
 		return rs;
 	}
 	public String getCityByName() {
 		
 		return CITYREQUEST;
 	}
-	public void setCity(Connection connect, CityEntity entity) {
+	public void setCity(Connection connect, CityEntity entity) throws SQLException {
 		String query="INSERT into City(NameC,State) values (?,?)";
 		PreparedStatement stmt=null;
 		try {				
@@ -660,24 +612,16 @@ public class AllQuery {
 			e.printStackTrace();
 		}finally {
 			if(stmt!=null)
-				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
 		}
 	}
-	public void deleteCity(Connection connect,CityEntity entity) {
+	public void deleteCity(Connection connect,CityEntity entity) throws SQLException {
 		String query="DELETE from City where NameC=? and State=?";
-		try {
 				try(PreparedStatement prp=connect.prepareStatement(query)){
 				prp.setString(1, entity.getNameC());
 				prp.setString(2, entity.getState());
 				prp.execute();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		
 	}
 	public String getMessage(MessageEntity message)  {
@@ -755,10 +699,11 @@ public class AllQuery {
 	}
 	public void changePassword(UserEntity user,Connection conn)throws SQLException {
 		String query="UPDATE user set password=? where email=?";
-		PreparedStatement stmt=conn.prepareStatement(query);
-		stmt.setString(1, user.getPassword());
-		stmt.setString(2, user.getEmail());
-		stmt.execute();
+		try(PreparedStatement stmt=conn.prepareStatement(query)){
+			stmt.setString(1, user.getPassword());
+			stmt.setString(2, user.getEmail());
+			stmt.execute();
+		}
 	}
 	
 }

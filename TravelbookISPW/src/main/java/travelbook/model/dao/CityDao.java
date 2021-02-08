@@ -69,16 +69,21 @@ public class CityDao implements PredictableDAO,PersistanceDAO{
 	public void setData() throws DBException {
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
+		
+		if(myEntity!=null)
+			AllQuery.getInstance().setCity(connection, myEntity);
 		}catch(SQLException e) {
 			throw new DBException("we can't save your data, try again");
 		}
-		if(myEntity!=null)
-			AllQuery.getInstance().setCity(connection, myEntity);
 	}
 	@Override
-	public void delete(Entity object) {
+	public void delete(Entity object) throws DBException {
 		CityEntity city=(CityEntity) object;
-		AllQuery.getInstance().deleteCity(connection, city);
+		try {
+			AllQuery.getInstance().deleteCity(connection, city);
+		} catch (SQLException e) {
+			throw new DBException("Error while deleting");
+		}
 	}
 	@Override
 	public void update(Entity object) {

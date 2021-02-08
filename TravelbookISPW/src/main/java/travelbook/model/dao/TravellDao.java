@@ -147,7 +147,11 @@ public class TravellDao implements PersistanceDAO{
 				ex.setId(idTravel);
 			throw ex;
 		}
-		AllQuery.getInstance().updateTravelNumberForUser(connection, this.entity.getCreatorId());
+		try {
+			AllQuery.getInstance().updateTravelNumberForUser(connection, this.entity.getCreatorId());
+		} catch (SQLException e) {
+			throw new DBException("Error while updating travel number");
+		}
 	}
 	@Override
 	public Entity getMyEntity() {
@@ -163,7 +167,11 @@ public class TravellDao implements PersistanceDAO{
 		} catch (SQLException e) {
 			throw new DBException("Errore nella delete");
 		}
-		AllQuery.getInstance().deleteTravel(connect, trav.getIdTravel());
+		try {
+			AllQuery.getInstance().deleteTravel(connect, trav.getIdTravel());
+		} catch (SQLException e) {
+			throw new DBException("error while deleting, try again later");
+		}
 	}
 
 	@Override

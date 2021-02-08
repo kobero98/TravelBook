@@ -7,13 +7,7 @@ import java.util.List;
 import exception.MissingPageException;
 import exception.DBException;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import javafx.scene.input.KeyEvent;
 import main.java.travelbook.view.animation.SlideImageAnimationHL;
@@ -90,12 +84,12 @@ public class ExploreViewController implements Observer{
 	@FXML
 	private Line ttLine;
 	@FXML
-	private void initialize()  {
+	private void initialize() {
 		//Ask to controller to obtain information about selection travel and top ten travel
 		//And load it into the button 
 		//The controller must return a Collection of TravelBean compilated and these travelBean must be passed in constructButton
 		//In this example use Empty image as Pane and Some strings a cazzo di cane.
-		if(!MenuBar.getInstance().getLoggedUser().isFirstTime()) {
+		if(MenuBar.getInstance().getLoggedUser().isFirstTime()) {
 			openTutorial();
 		}
 		MenuBar.getInstance().addObserver(this);
@@ -109,7 +103,7 @@ public class ExploreViewController implements Observer{
 		topTenGroup=new ArrayList<>(10);
 		selectionGroup=new ArrayList<>(15);
 		List<MiniTravelBean> travelSuggest=new ArrayList<>();
-		List<MiniTravelBean> tt=new ArrayList<>();
+		List<MiniTravelBean> topten=new ArrayList<>();
 		//Now create some buttons 10 for tt and 15 for travelSelection.
 		while(i<10) {
 			MiniTravelBean travel=new MiniTravelBean();
@@ -118,7 +112,7 @@ public class ExploreViewController implements Observer{
 			istance.getPane().getStyleClass().add("pane");
 			istance.getTitle().getStyleClass().add(myText);
 			istance.getSubtitle().getStyleClass().addAll(myText, "subtitle");
-			tt.add(travel);
+			topten.add(travel);
 			topTenGroup.add(istance);
 			topTenBar.getButtons().add(istance.getStack());
 			
@@ -140,26 +134,21 @@ public class ExploreViewController implements Observer{
 		ExploreController controller=new ExploreController();
 		try {
 		controller.setSuggests(travelSuggest, MenuBar.getInstance().getLoggedUser());
-		controller.setTopTen(tt);
+		controller.setTopTen(topten);
 		}catch(DBException e) {
 			new TriggerAlert().triggerAlertCreate("IMPOSSIBILE PROSEGUIRE " +e.getMessage(),"err").showAndWait();
 		}
 	}
-	private void openTutorial() {
+	private void openTutorial(){
 		
 		WebView view=new WebView();
 		view.setPrefHeight(625);
 		view.setPrefWidth(1280);
 		WebEngine engine=view.getEngine();
-		try {
-			view.setVisible(true);
+		view.setVisible(true);
 			
-			String url = new File("src/main/java/travelbook/view/Tutorial/tutorial.html").toURI().toString();
-			engine.load("file://"+url.substring(5));
-		 } catch ( Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String url = new File("src/main/java/travelbook/view/Tutorial/tutorial.html").toURI().toString();
+		engine.load("file://"+url.substring(5));
 		Stage stage=new Stage();
 		 AnchorPane anchor=new AnchorPane();
 		 anchor.setPrefHeight(720);
