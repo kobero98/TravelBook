@@ -1,0 +1,15 @@
+@charset "UTF-8";
+body{
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+#txt{
+	color: #333333;
+	border-bottom: 1px solid var(--lightGrey);
+	font: normal normal 1.5em Arial,Sans-serif;
+	width: 20em;
+	text-align: justify;
+	padding: 1em;
+	background: var(--Mcolor);
+}

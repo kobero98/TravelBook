@@ -62,6 +62,7 @@
 	<meta charset="ISO-8859-1">
 	<link rel="stylesheet" href="css\loginCss.css">
     <link rel="stylesheet" href="css\explore.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 	<title>Travelbook</title>
 	<Script>
@@ -96,7 +97,7 @@
         <div class="panel">
             <div class="menu-bar">
             <form action="explore.jsp" method="POST">
-                <input type="submit" class="button" name="profile" value="PROFILE">
+                <span class="material-icons">face</span><input type="submit" class="button" name="profile" value="PROFILE">
                 <input type="submit" class="button" name="add" value="ADD">
                 <input type="submit" class="button p-button" name="explore" value="EXPLORE">
                 <input type="submit" class="button" name="chat" value="CHAT">
@@ -105,6 +106,7 @@
             <p class = "write">
                 Suggestions
             </p>
+            <span class="material-icons">face</span>
             <div class="scroll">
 			<%
 				List<MiniTravelBean> travels=new ArrayList<>();
