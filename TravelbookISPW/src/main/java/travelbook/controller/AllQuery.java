@@ -688,10 +688,10 @@ public class AllQuery {
 	public String getTravels(UserEntity user){
 		String query="";
 		if(!user.getListFollower().isEmpty() || !user.getListFollowing().isEmpty()) {
-			query="SELECT distinct idTrip,dataCreazione from trip join follow on (CreatorTrip=Follower or CreatorTrip=Following) where (Follower=? or Following=?) and CreatorTrip!=? order by dataCreazione desc";
+			query="SELECT distinct idTrip,dataCreazione from trip join follow on (CreatorTrip=Follower or CreatorTrip=Following) where (Follower=? or Following=?) and CreatorTrip!=? and Condiviso=1 order by dataCreazione desc";
 		}
 		else {
-			query="SELECT idTrip from trip  where CreatorTrip!=? order by dataCreazione desc";
+			query="SELECT idTrip from trip  where CreatorTrip!=? and Condiviso=1 order by dataCreazione desc";
 		}
 		return query;
 	}
