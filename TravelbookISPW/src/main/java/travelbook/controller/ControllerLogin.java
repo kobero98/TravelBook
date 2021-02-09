@@ -1,7 +1,6 @@
 package main.java.travelbook.controller;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;

@@ -19,16 +19,7 @@ public class ExploreController {
 		user.setUsername(myUser.getUsername());
 		try {
 		List<Entity> results=dao.getData(user);
-		Integer count=0;
-		for(Entity en: results) {
-			TravelEntity travel=(TravelEntity)en;
-			travels.get(count).setImageStream(travel.getImage());
-			travels.get(count).setDescriptionTravel(travel.getDescriptionTravel());
-			travels.get(count).setNameTravel(travel.getNameTravel());
-			travels.get(count).setId(travel.getIdTravel());
-			travels.get(count).setChanged();
-			count++;
-		}
+		getResults(travels, results);
 		
 		}catch(SQLException e) {
 			throw new DBException(e.getMessage());
@@ -40,19 +31,22 @@ public class ExploreController {
 			UserEntity user=new UserEntity(-1);
 			try {
 				List<Entity> results=dao.getData(user);
-				Integer count=0;
-				for(Entity en: results) {
-					TravelEntity travel=(TravelEntity)en;
-					travels.get(count).setImageStream(travel.getImage());
-					travels.get(count).setDescriptionTravel(travel.getDescriptionTravel());
-					travels.get(count).setNameTravel(travel.getNameTravel());
-					travels.get(count).setId(travel.getIdTravel());
-					travels.get(count).setChanged();
-					count++;
-				}
+				getResults(travels,results);
 			}catch(SQLException e) {
 				e.printStackTrace();
 				throw new DBException(e.getMessage());
 			}
 		}
+	private void getResults(List<MiniTravelBean> travels, List<Entity> results) {
+		Integer count=0;
+		for(Entity en: results) {
+			TravelEntity travel=(TravelEntity)en;
+			travels.get(count).setImageStream(travel.getImage());
+			travels.get(count).setDescriptionTravel(travel.getDescriptionTravel());
+			travels.get(count).setNameTravel(travel.getNameTravel());
+			travels.get(count).setId(travel.getIdTravel());
+			travels.get(count).setChanged();
+			count++;
+		}
+	}
 }
