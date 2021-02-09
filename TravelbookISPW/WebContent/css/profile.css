@@ -145,5 +145,11 @@
 	width: 2.5em;
 	height:2em;
 }
-
+#logoutButton{
+	position:absolute;
+	left:20em;
+	top:10em;
+	background: black;
+	opacity:1;
+}
 

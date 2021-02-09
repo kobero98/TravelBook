@@ -13,6 +13,7 @@
 	Integer id=Integer.valueOf(request.getParameter("travelID"));
 	TravelController controller=new TravelController();
 	TravelBean myTravel=controller.getTravel(id);
+	System.out.println(request.getParameterMap().keySet());
 	if(request.getParameter("profile")!=null){
 		%>
 			<jsp:forward page="profileOther.jsp">
@@ -309,7 +310,7 @@
                 </div>
                 <div class="bb">
                 	<form action="viewTravel.jsp" method="POST">
-                    <input type="button" id="profile" name="profile" class="bb-button" value="goProfile(<%=myUser.getId()%>)">
+                    <input type="button" id="profile" name="profile" value="profile" class="bb-button" onclick="goProfile(<%=myUser.getId()%>)">
                     <input type="button" id="chat" name="chat" class="bb-button" value="chat" onclick="goChat(<%=myUser.getId()%>)">
                     <input type="button" id="fav" name="fav" class="bb-button" value="fav" onclick="addFav()">
                     <input type="button" id="share" class="bb-button" onclick="showFav(<%=myUser.getId()%>)" name="shareButton">

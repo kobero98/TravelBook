@@ -18,7 +18,16 @@
 	ProfileController controller=new MyProfileController();
 	UserBean myUser=(UserBean) request.getSession().getAttribute("loggedBean");
 	Set<String> params=request.getParameterMap().keySet();
+	System.out.println(params);
 	for(String s: params){
+		if(s.startsWith("shared")){
+			String[] arg1=s.split("shared");
+			%>
+				<jsp:forward page="viewTravel.jsp">
+				<jsp:param name="travelID" value="<%=arg1[1] %>"/>
+				</jsp:forward>
+			<% 
+		}
 		if(s.startsWith("travel")){
 			String[] arg=s.split("travel");
 			%>
@@ -53,6 +62,7 @@
 		MyProfileController cont=new MyProfileController();
 		cont.updatePhoto(myUser.getId(),is);
 	}
+	
 	
 %>
 
@@ -104,7 +114,9 @@
 		}
 	}
 	
-
+	function logout(){
+		document.location.href="http://localhost:8080/TravelbookISPW/login.jsp";
+	}
 			
 			function showShared(){
 				jQuery.ajax({
@@ -138,9 +150,11 @@
         </p>
     </div>
     <div class="anchor">
+   	 
         <div class="panel">
             
             <div class="profile-panel">
+            <input type="button" id="logoutButton" value="esci" onclick="logout()">
             <div id=fotoFile>
             <%
             	byte[] userB=myUser.getArray();

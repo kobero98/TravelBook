@@ -15,6 +15,11 @@
 	TravelBean myTravel=null;
 	AddTravel myController=new AddTravel();
 	UserBean loggedUser=(UserBean)request.getSession().getAttribute("loggedBean");
+	if(loggedUser==null){
+		%>
+			<jsp:forward page="login.jsp"/>
+		<% 
+	}
 	if(request.getParameter("POSTTRAVEL")!=null){
 		System.out.println(request.getParameterMap().keySet());
 		JSONParser parser=new JSONParser();
@@ -31,6 +36,7 @@
 			types.add(array.get(i).toString());
 		}
 		String s1=(String)obj.get("foto");
+		
 		if(s1!=null){
 			byte[] bytesB641=s1.getBytes();
 			byte[] bytes1=Base64.getDecoder().decode(bytesB641);
@@ -279,7 +285,8 @@ $(function()
                         Upload your presentation photo:
                     </p>
                     <input type="file" id="presentationFile" name="choose" class="add-button" accept="image/jpg, image/png" onchange="loadImage()">
-                </div>    
+                </div> 
+                <input type="button" value="removeImage" onclick="removePresentation()" class="add-button">   
                 <div class="photo-grid" id="presentation">
                     
                 </div>
@@ -367,9 +374,14 @@ $(function()
         
         </div>
         <div id="fotoingrande">
-        	<img src="" id="immagineSelezionata" alt="immagineSelezionata"/>
+        	<img src="" id="immagineSelezionata" alt="immagineSelezionata" style="width:20em;heigth:20em;"/>
         	<input type="button" value="close" id="closeImage" onclick="closeImg()"/>
         	<input type="button" value="rimuovi" id="removeImage" onclick="removeImg()"/>
+        </div>
+        <div id="progressPane">
+        	<div id="progressValue">
+        	</div>
+        	<input id="closeProgress" type="button" value="close">
         </div>
         </body>
         </html>

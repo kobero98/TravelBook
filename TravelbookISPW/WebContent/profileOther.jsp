@@ -152,7 +152,7 @@
 				for(MiniTravelBean trav: travel){
 					String buttonName="travel"+trav.getId();
 					byte[] bytes=Base64.getEncoder().encode(trav.getArray());
-					String encoded;
+					String encoded="";
 					if(bytes!=null){
 						encoded=new String(bytes,"UTF-8");
 						String path="data:image/gif;base64,"+bytes;
