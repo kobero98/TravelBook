@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class ClasseConnessione {
 
 	private String username="root";
-	private String password="root";
+	private String ps="root";
 	
 	public ClasseConnessione() {
 		/*Constructor, dosn't need any param*/
@@ -24,7 +24,7 @@ public class ClasseConnessione {
 			throw new SQLException();
 		}
 		
-		return DriverManager.getConnection(myUrl,this.username,this.password);
+		return DriverManager.getConnection(myUrl,this.username,this.ps);
 	}
 
 }
