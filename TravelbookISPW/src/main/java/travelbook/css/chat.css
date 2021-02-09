@@ -66,6 +66,11 @@
 	-fx-text-fill: -fx-text-dcolor;
 	-fx-background-radius: 30;
 	-fx-padding: 1em 2em 1em 2em;
+	-fx-word-wrap: break-word;
+}
+.label .text{
+	-fx-word-wrap: break-word;
+	-fx-text-fill: -fx-text-dcolor;
 }
 .contact{
 	-fx-background-color: -fx-mcolor;

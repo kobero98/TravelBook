@@ -31,8 +31,7 @@
 	-fx-font: lighter 0.5em "Arial";
 }
 .pane{
-	-fx-background-image: url("../cupola1.jpg");
-	-fx-background-size: cover;
+
 	-fx-shape: "M 350 900 L 350 795 C 350 780 360 770 375 770 L 438 770 C 453 770 463 780 463 795 L 463 900 Z";
 }
 
