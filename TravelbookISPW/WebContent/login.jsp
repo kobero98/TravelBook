@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
- <%@page errorPage="errorpage.jsp" %>
 <%@ page import="main.java.travelbook.model.bean.UserBean" %>
 <%@ page import="main.java.travelbook.controller.*" %>
 <%@page import="java.sql.Date" %>

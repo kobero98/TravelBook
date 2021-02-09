@@ -19,12 +19,26 @@
 	int selettore=-1;
 	if(request.getParameter("invia")!=null)
 	{
+					int controlloEsistenzaUtente=0;
 					String s= (String) request.getParameter("invia");
 					int nuovoId=Integer.valueOf(s);
-					Chat newChat=new Chat(nuovoId);
-					c.add(newChat);
-					request.getSession().setAttribute("ChatList",c);
-					tryContacts = myController.getContacts(c,log.getId());
+					
+					for(int j=0;j<tryContacts.size();j++){
+						if(tryContacts.get(j).getId()==nuovoId) {
+							selettore=j;
+				    		sel=tryContacts.get(j).getId();
+				    		request.getSession().setAttribute("sel",sel);
+				    		request.getSession().setAttribute("selettore",j);
+				    		 controlloEsistenzaUtente=1;
+						}
+					}
+					if(controlloEsistenzaUtente==0)
+					{
+						Chat newChat=new Chat(nuovoId);
+						c.add(newChat);
+						request.getSession().setAttribute("ChatList",c);
+						tryContacts = myController.getContacts(c,log.getId());
+					}
 		}
 	for(int j=0;j<tryContacts.size();j++)
     {
@@ -147,7 +161,7 @@
 		$(function(){
 			$('#search-bar').autocomplete(
 	             {
-		           	 position:{ my: "left top", at: "left bottom", collision: "none" },
+		           	 position:{ my: "center bottom", at: "center top", collision: "flip" },
 		           	 minlength:1,
 		           	 async: true,
 		             source:function(request,response)
@@ -164,7 +178,6 @@
 								},
 			                 success:function(data)
 			                 {
-			                	 console.log(data);
 			                	 id=data;
 								 var temp={}
 									 for (i = 0; i < data.length; i++) {
