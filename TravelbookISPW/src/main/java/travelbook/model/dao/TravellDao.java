@@ -144,10 +144,9 @@ public class TravellDao implements PersistanceDAO{
 		} catch (SQLException e) {
 			AddTravelException ex;
 			if(idTravel!=-1)
-			ex=new AddTravelException(e.getMessage(),idTravel);
-			else {
+				ex=new AddTravelException(e.getMessage(),idTravel);
+			else 
 				ex=new AddTravelException(e.getMessage(),null);
-			}
 			throw ex;
 		}
 		try {
