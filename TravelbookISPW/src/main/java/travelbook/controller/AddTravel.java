@@ -39,8 +39,9 @@ public class AddTravel {
 		TravelEntity myTravel=new TravelEntity();
 		
 		myTravel.setDescriptionTravel(travel.getDescriptionTravel());
-		if(travel.getPathFile()!=null)
-			myTravel.setBackground(new ByteArrayInputStream(travel.getArray()));
+		byte[] array=travel.getArray();
+		if(array!=null)
+			myTravel.setBackground(new ByteArrayInputStream(array));
 		if(travel.getCostTravel()!=null)
 			myTravel.setCostTravel(travel.getCostTravel());
 		myTravel.setCreatorTravel(userId);
@@ -105,7 +106,7 @@ public class AddTravel {
 				if(e.getId()!=null) {
 					dao.delete(new TravelEntity(e.getId()));
 				}
-				throw new AddTravelException("Something went wrong try again please");
+				throw new AddTravelException("Something went wrong try again please",null);
 			}
 	}
 	public TravelBean getTravelById(Integer id) throws DBException {
