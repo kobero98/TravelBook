@@ -29,6 +29,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -174,13 +175,23 @@ public class ChatViewController implements Observer{
             		hBox.setAlignment(Pos.BASELINE_RIGHT);
             	}
                 // Create centered Label
-                Label label = new Label(item.getText());
-                label.setWrapText(true);
-                label.setMaxWidth((chatAnchor.getPrefWidth()-(1.0/5)*chatAnchor.getPrefWidth())/2);
+                VBox label = new VBox();
+                Text msg=new Text(item.getText());
+                label.setMinHeight(USE_PREF_SIZE);
+                label.setMaxHeight(USE_PREF_SIZE);
+                label.setMaxWidth(USE_PREF_SIZE);
+                label.setMinWidth(USE_PREF_SIZE);
+                label.getStyleClass().add("label");
+                label.setPrefWidth((chatAnchor.getPrefWidth()-(1.0/5)*chatAnchor.getPrefWidth())/2);
+                msg.setWrappingWidth((chatAnchor.getPrefWidth()-(1.0/4)*chatAnchor.getPrefWidth())/2);
                 label.setAlignment(Pos.CENTER);
-
+                label.getChildren().add(msg);
                 hBox.getChildren().add(label);
                 setGraphic(hBox);
+                mainAnchor.widthProperty().addListener((observable,newValue,oldValue)->{
+                    label.setPrefWidth((chatAnchor.getPrefWidth()-(1.0/5)*chatAnchor.getPrefWidth())/2);
+                    msg.setWrappingWidth((chatAnchor.getPrefWidth()-(1.0/4)*chatAnchor.getPrefWidth())/2);
+                });
             }
             else
             	setGraphic(null);

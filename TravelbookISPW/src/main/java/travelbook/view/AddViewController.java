@@ -27,6 +27,8 @@ import main.java.travelbook.model.bean.TravelBean;
 import javafx.scene.input.MouseEvent;
 import main.java.travelbook.controller.AddTravel;
 import exception.AddTravelException;
+import exception.DBException;
+import exception.MapboxException;
 import exception.MissingPageException;
 import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;
@@ -844,18 +846,7 @@ public class AddViewController implements Observer{
 				});
 			//Call the controller applicativo
 			try {
-				if(travelId!=null) {
-					myController.saveAndDelete(travel, travelId,MenuBar.getInstance().getLoggedUser().getId());
-				}
-				else {
-			myController.saveTravel(travel,MenuBar.getInstance().getLoggedUser().getId());
-				}
-			saved=true;
-			Platform.runLater(()->{
-				progressBar.setProgress(1);
-				//when done activate the close button
-		    	closeProgressBar.setVisible(true);
-			});
+				activateProgressBar();
 			}catch(AddTravelException ex) {
 				Platform.runLater(()->{
 						new TriggerAlert().triggerAlertCreate(ex.getMessage(), "err").showAndWait();
@@ -878,6 +869,20 @@ public class AddViewController implements Observer{
 				Node node=(Node) listOfErrors.get(i);
 				node.setStyle("-fx-border-color: #FF0000");
 			}
+	    }
+	    private void activateProgressBar() throws DBException, MapboxException {
+	    	if(travelId!=null) {
+				myController.saveAndDelete(travel, travelId,MenuBar.getInstance().getLoggedUser().getId());
+			}
+			else {
+		myController.saveTravel(travel,MenuBar.getInstance().getLoggedUser().getId());
+			}
+		saved=true;
+		Platform.runLater(()->{
+			progressBar.setProgress(1);
+			//when done activate the close button
+	    	closeProgressBar.setVisible(true);
+		});
 	    }
 	    private void addFiltersAndDate(List<Object> listOfErrors,TravelBean travel) {
 	    	DateUtil util=new DateUtil();
@@ -986,23 +991,12 @@ public class AddViewController implements Observer{
 	    	new Thread(()->{
     			
     			Platform.runLater(()->{
-    				double indeterminate=ProgressIndicator.INDETERMINATE_PROGRESS;
-    				progressBar.setProgress(indeterminate);
+    				double indet=ProgressIndicator.INDETERMINATE_PROGRESS;
+    				progressBar.setProgress(indet);
     				});
     			//Call the controller applicativo
     			try {
-    			if(travelId!=null) {
-    				myController.saveAndDelete(travel, travelId, MenuBar.getInstance().getLoggedUser().getId());
-    			}
-    			else {
-    				myController.saveTravel(travel,MenuBar.getInstance().getLoggedUser().getId());
-    				saved=true;
-    			}
-    			Platform.runLater(()->{
-    				progressBar.setProgress(1);
-    				//when done activate the close button
-    		    	closeProgressBar.setVisible(true);
-    			});
+    				activateProgressBar();
     			}catch(Exception e) {
     				progressBar.setVisible(false);
     				progressBar.setOpacity(0);

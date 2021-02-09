@@ -351,7 +351,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			user.getFollower().add(me.getId());
 		}
 		try {
-			myController.updateFollow(me);
+			myController.updateFollow(me.getId(),user.getId());
 		} catch (DBException e) {
 			
 			new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();

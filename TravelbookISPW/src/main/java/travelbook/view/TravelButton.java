@@ -44,7 +44,6 @@ public class TravelButton implements Observer {
 		this.subtitle = subtitle;
 	}
 	public TravelButton(double width, double height, Integer i, MiniTravelBean travel) {
-		// the real constructor take a TravelBean as third parameter
 		travel.addObserver(this);
 		stack=new StackPane();
 		pane=new Pane();
@@ -56,6 +55,7 @@ public class TravelButton implements Observer {
 		pane.setPrefHeight(height*130/190);
 		pane.setMaxHeight(height*130/190);
 		pane.setMinHeight(height*130/190);
+		pane.getStyleClass().add("pane");
 		stack.getChildren().addAll(pane,title,subtitle);
 		StackPane.setAlignment(pane,Pos.TOP_CENTER);
 		StackPane.setAlignment(title,Pos.CENTER);
@@ -101,6 +101,7 @@ public class TravelButton implements Observer {
 			Background newBg = new Background(bgPhoto);
 			this.pane.getStyleClass().clear();
 			this.pane.setBackground(newBg);
+			this.pane.getStyleClass().add("pane");
 		}
 	}
 	@Override

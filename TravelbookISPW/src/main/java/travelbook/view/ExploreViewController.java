@@ -136,13 +136,13 @@ public class ExploreViewController implements Observer{
 		controller.setSuggests(travelSuggest, MenuBar.getInstance().getLoggedUser());
 		controller.setTopTen(topten);
 		}catch(DBException e) {
-			new TriggerAlert().triggerAlertCreate("IMPOSSIBILE PROSEGUIRE " +e.getMessage(),"err").showAndWait();
+			new TriggerAlert().triggerAlertCreate(e.getMessage(),"err").showAndWait();
 		}
 	}
 	private void openTutorial(){
 		
 		WebView view=new WebView();
-		view.setPrefHeight(625);
+		view.setPrefHeight(720);
 		view.setPrefWidth(1280);
 		WebEngine engine=view.getEngine();
 		view.setVisible(true);
