@@ -1,10 +1,8 @@
 package main.java.travelbook.util;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import exception.DBException;
 import main.java.travelbook.model.OtherUserEntity;
 import main.java.travelbook.model.bean.UserBean;
@@ -23,15 +21,13 @@ public class ProfilePollingThread extends Thread{
 		if(l1.size()!=l2.size()) return false;
 		Collections.sort(l1);
 		Collections.sort(l2);
-		for(int i=0;i<l1.size();i++) if(l1.get(i)!=l2.get(i)) return false;
+		for(int i=0;i<l1.size();i++) if(!l1.get(i).equals(l2.get(i))) return false;
 		return true;
 	}
 	@Override
 	public void run() {
 	try {
-			while(goOn)
-			{
-				
+			while(goOn){
 				UserBean user=MenuBar.getInstance().getLoggedUser();
 				VisualDAO dao=DaoFactory.getInstance().createVisual(DaoType.OTHERUSER);
 				OtherUserEntity entity= new OtherUserEntity(user.getId());
@@ -41,17 +37,9 @@ public class ProfilePollingThread extends Thread{
 				if(entity.getListFollowing()!=null && Boolean.FALSE.equals(controllo(entity.getListFollowing(), user.getFollowing()))) user.setFollowing(entity.getListFollowing());	
 				if(user.getTravel()!=null && Boolean.FALSE.equals(controllo(user.getTravel(),entity.getTravel()))) user.setTravel(entity.getTravel());
 				Thread.sleep(3000);
-				
 			}
-		} catch (DBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-		} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-		} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-		}
+		} catch (DBException | SQLException | InterruptedException e) {
+			Thread.currentThread().interrupt();
+		} 
 	}
 }
