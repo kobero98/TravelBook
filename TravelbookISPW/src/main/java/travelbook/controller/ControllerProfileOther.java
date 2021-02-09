@@ -2,6 +2,8 @@ package main.java.travelbook.controller;
 
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import exception.DBException;
 import main.java.travelbook.model.OtherUserEntity;
@@ -30,10 +32,12 @@ public class ControllerProfileOther extends ProfileController{
 		userE.setFavoriteList(u.getFav());
 		userDao.update(userE);
 	}
-	public void updateFollow(UserBean u) throws DBException{
+	public void updateFollow(Integer myId, Integer userId) throws DBException{
 		PersistanceDAO userDao = DaoFactory.getInstance().create(DaoType.USER);
-		UserEntity userE = new UserEntity(u.getId());
-		userE.setListFollowing(u.getFollowing());
+		UserEntity userE = new UserEntity(myId);
+		List<Integer> f= new ArrayList<>();
+		f.add(userId)		;
+		userE.setListFollowing(f);
 		userDao.update(userE);
 	}
 }
