@@ -19,6 +19,7 @@
 				controller.signUp(user);
 				UserBean logged=controller.signIn(user.getUsername(),user.getPassword());
 				request.getSession().setAttribute("loggedBean",logged);
+				request.getSession().setAttribute("firstTime", true);
 			%>
 				<jsp:forward page="explore.jsp"/>
 			<% 

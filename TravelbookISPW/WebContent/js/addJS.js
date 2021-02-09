@@ -179,7 +179,7 @@ function changeDayNumber(num) {
 		for (x = dayNumber; x < num; x++) {
 			arrayStep[x] = new Array();
 			actualDay = x;
-			var choice = document.createElement("option");
+			choice = document.createElement("option");
 			choice.value = x;
 			choice.appendChild(document.createTextNode(x + 1));
 			var select = document.getElementById("days");
@@ -193,8 +193,7 @@ function changeDayNumber(num) {
 		changeDay();
 	}
 	else {
-		var select = document.getElementById("days");
-		var x;
+		select = document.getElementById("days");
 		var nodes=select.childNodes;
 		var limit=nodes.length;
 		for(x=0;x<limit;x++){
@@ -397,7 +396,7 @@ function openProgress(){
 function handleProgress(val){
 	var elem = document.getElementById("progressValue");
 	if(!val){
-		i = 1;
+		var i = 1;
     
     var width = 1;
     var id = setInterval(frame, 10);

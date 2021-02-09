@@ -9,7 +9,9 @@
 <%@page import="java.util.Base64" %>
 <%@page import="java.util.Set" %>
 <%
+	
 	UserBean log=null;
+	boolean firstTime=false;
 	if(request.getSession().getAttribute("loggedBean")!=null){
 		log=(UserBean)request.getSession().getAttribute("loggedBean");
 		out.println(log.getName());
@@ -63,6 +65,7 @@
 
 	<title>Travelbook</title>
 	<Script>
+	window.onload(if(firstTime) window.open("Tutorial/tutorial.html"));
 	function spostamentoSearch(){
 		location.replace("search.jsp");
 	}		

@@ -9,8 +9,8 @@
  <%
  	if(request.getAttribute("confirm")!=null){
  		String email=(String)request.getSession().getAttribute("pswd");
- 		String pswd=(String)request.getAttribute(pswd);
- 		String pswdR=(String)request.getAttribute(pswdR);
+ 		String pswd=(String)request.getAttribute('pswd');
+ 		String pswdR=(String)request.getAttribute('pswdR');
  		if(pswd.equals(pswdR)){
  			ControllerLogin controller=new ControllerLogin();
  			controller.changeMyPassword(email, pswd);
@@ -21,7 +21,7 @@
  	}
  %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>Travelbook</title>
