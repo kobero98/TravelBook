@@ -15,6 +15,7 @@
 		c=(List<Chat>) request.getSession().getAttribute("ChatList");				
 		if(c!=null) tryContacts = myController.getContacts(c,log.getId());
 	}
+	System.out.println(c.size());
 	Integer sel=-1;
 	int selettore=-1;
 	if(request.getParameter("invia")!=null)

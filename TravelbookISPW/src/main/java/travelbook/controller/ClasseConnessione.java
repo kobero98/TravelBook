@@ -1,8 +1,6 @@
 package main.java.travelbook.controller;
 
-import java.io.*;
 import java.sql.Connection;
-
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -19,10 +17,9 @@ public class ClasseConnessione {
 		String myUrl="jdbc:mysql://localhost:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
-			    System.out.println("Working Directory = " + System.getProperty("user.dir"));
 		}catch (ClassNotFoundException e) {
 			throw new SQLException();
-		}
+		} 
 		
 		return DriverManager.getConnection(myUrl,this.username,this.ps);
 	}

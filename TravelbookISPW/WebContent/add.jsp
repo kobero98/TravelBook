@@ -107,6 +107,18 @@
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<title>Travelbook</title>
 <script>
+function goToExplore()
+{
+	  location.replace("explore.jsp");
+}
+function goToProfile()
+{
+	  location.replace("profile.jsp");
+}
+function goToChat()
+{
+	  location.replace("chat.jsp");
+}
 $(function()
         {
          $('#searchPlace').autocomplete(
@@ -245,12 +257,12 @@ $(function()
          
         <div class="panel">
             <div class="menu-bar">
-            <form class="form-bar" action="explore.jsp" method="POST">
-                <button type="submit" class="button" name="profile"> <span class="material-icons">person</span>PROFILE</button>
-                <button type="submit" class="button p-button" name="add"> <span class="material-icons">edit</span>ADD</button>
-                <button type="submit" class="button" name="explore"> <span class="material-icons">explore</span>EXPLORE</button>
-                <button type="submit" class="button" name="chat"> <span class="material-icons">textsms</span>CHAT</button>
-            </form>
+            <div>
+                <input type="button" class="button" name="profile" value="PROFILE" onclick=goToProfile()>
+                <input type="button" class="button p-button" name="add" value="ADD">
+                <input type="button" class="button" name="explore" value="EXPLORE" onclick=goToExplore()>
+                <input type="button" class="button" name="chat" value="CHAT" onclick=goToChat()>
+            </div>
             </div>
             <p class=write>
                 Hi, so glad you decided to share your travels

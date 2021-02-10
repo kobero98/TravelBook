@@ -11,7 +11,7 @@ public class RegistrationBean implements Bean{
 	private String email;
 	private Date birthDate;
 	private String gender;
-	private String nazionalita;
+	private String nazionalita="Italia";
 	
 	public void setUsername(String username) {
 		this.username=username;

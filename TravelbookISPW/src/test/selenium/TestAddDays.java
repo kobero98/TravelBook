@@ -19,8 +19,8 @@ public class TestAddDays {
 		System.setProperty("webdriver.chrome.driver", "Driver/chromedriver.exe");
 		WebDriver driver = new ChromeDriver();
 		driver.get("http://localhost:8080/TravelbookISPW/login.jsp");
-		driver.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys("matt");
-		driver.findElement(By.xpath("//*[@id=\"pswd\"]")).sendKeys("computer");
+		driver.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys("admin");
+		driver.findElement(By.xpath("//*[@id=\"pswd\"]")).sendKeys("admin");
 		driver.findElement(By.xpath("//*[@id=\"loginTable\"]/div/input[2]")).click();
 		driver.findElement(By.xpath("/html/body/div[2]/div[1]/div[1]/form/input[2]")).click();
 		driver.findElement(By.xpath("//*[@id=\"s-date\"]")).sendKeys("01/02/2021");

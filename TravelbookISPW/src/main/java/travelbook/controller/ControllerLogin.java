@@ -135,6 +135,7 @@ public class ControllerLogin {
 		}catch (LoginPageException e) {
 			throw e;
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new LoginPageException("Error during login");
 		}
 		return null;
@@ -187,18 +188,21 @@ public class ControllerLogin {
 	public String calcoloRegistration(String email) throws MalformedEmailException {
 		EmailSenderController s=new EmailSenderController();
 		String code= Integer.toString(numberGenerator());
+		
 		if(code.length()<6)
 			{
 				int j=6-code.length();
 				for(int i=0;i<j;i++) code="0".concat(code);
 			}
 		try {
+			System.out.println("inizio invio mail");
 			s.sendMessage(email,code, "TravelBook registration code");
-		
+			System.out.println(code);
 		} catch (MessagingException e) {
 			Platform.runLater(()->
 				new TriggerAlert().triggerAlertCreate("Send failed, try asking for a new code","warn").showAndWait());
 		}
+		
 		return code;
 	}
 	
@@ -211,6 +215,7 @@ public class ControllerLogin {
 		userDao.setMyEntity(newUser);
 		userDao.setData();
 		}catch(Exception e) {
+			e.printStackTrace();
 			throw new DBException("Error during registration");
 		}
 	}

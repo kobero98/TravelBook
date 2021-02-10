@@ -87,6 +87,18 @@
 			$("#chooseIm").animate({opacity: '0'},"slow");
 		});
 	}
+	function goToExplore()
+	{
+		  location.replace("explore.jsp");
+	}
+	function goToAdd()
+	{
+		  location.replace("add.jsp");
+	}
+	function goToChat()
+	{
+		  location.replace("chat.jsp");
+	}
 	function fileLoaded(frEvnt){
 		var sFBody = frEvnt.target.result;
 		var sBodyBase64 = btoa(sFBody);
@@ -184,6 +196,13 @@
                     </p>
                 </div>
             </div>
+            <div class="menu-bar" id="p-menubar">
+            	<div>
+                <input type="button" class="button p-button" name="profile" value="PROFILE">
+                <input type="button" class="button" name="add" value="ADD" onclick=goToAdd()>
+                <input type="button" class="button" name="explore" value="EXPLORE" onclick=goToExplore()>
+                <input type="button" class="button" name="chat" value="CHAT" onclick=goToChat()>
+                </div>
             <div class="menu-bar" id=p-menubar>
             <form class="form-bar" action="explore.jsp" method="POST">
                 <button type="submit" class="button p-button" name="profile"> <span class="material-icons">person</span>PROFILE</button>

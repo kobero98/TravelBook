@@ -106,6 +106,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			list.add((Entity) utente);
 			return list;
 		}catch (SQLException e1) {
+			e1.printStackTrace();
 			throw new LoginPageException("we couldn't reach our servers");
 		}finally {
 			if(stmt!=null) {
@@ -123,6 +124,7 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 				AllQuery.getInstance().requestRegistrationUser(this.connection, this.entity);
 				this.connection.close();
 			} catch (SQLException e) {
+				e.printStackTrace();
 				throw new ExceptionRegistration("Registration error");
 			}
 			

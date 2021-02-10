@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page errorPage="errorpage.jsp" %>
+<%@page errorPage="errorpage.jsp" %>
 <%@page import="main.java.travelbook.model.bean.UserBean" %>
 <%@page import="main.java.travelbook.model.bean.MiniTravelBean" %>
 <%@page import="java.util.List" %>
@@ -16,6 +16,12 @@
 		log=(UserBean)request.getSession().getAttribute("loggedBean");
 		out.println(log.getName());
 	}
+	if(log.isFirstTime()){
+		log.setFirstTime(false);
+		System.out.println("ciao1");
+		request.getSession().setAttribute("loggedBean",log);
+		%> <jsp:forward page="Tutorial.jsp"/> <% 
+	}
 	Set<String> params=request.getParameterMap().keySet();
 	for(String s: params){
 		if(s.startsWith("suggest")){
@@ -26,31 +32,6 @@
 				</jsp:forward>
 			<% 
 		}
-	}
-	if(request.getParameter("profile")!=null){
-%>
-	<jsp:forward page="profile.jsp"/>
-<%		
-	}
-	if(request.getParameter("add")!=null){
-%>
-	<jsp:forward page="add.jsp"/>
-<% 
-	}
-	if(request.getParameter("chat")!=null){
-%>
-	<jsp:forward page="chat.jsp"/>
-<% 
-	}
-	if(request.getParameter("explore")!=null){
-%>
-	<jsp:forward page="explore.jsp"/>
-<% 
-	}
-	if(request.getParameter("searchButton")!=null){
-%>
-	<jsp:forward page="search.jsp"/>
-<% 
 	}
 %>
 <!DOCTYPE html>
@@ -66,24 +47,38 @@
 
 	<title>Travelbook</title>
 	<Script>
-	window.onload(if(firstTime) window.open("Tutorial/tutorial.html"));
+	function goToChat()
+	{
+		  location.replace("chat.jsp");
+	}
+	function goToProfile()
+	{
+		  location.replace("profile.jsp");
+	}
+	function goToAdd()
+	{
+		  location.replace("add.jsp");
+	}
 	function spostamentoSearch(){
 		location.replace("search.jsp");
 	}		
-	$.ajax({
+	function avvioThread(){
+		$.ajax({
+	
          url:"ChatThread.jsp",
          method:"get",
          data:{id:<%=log.getId()%>},
-         success:function(data)
-         { 
-        	 console.log(id);
-         }
+         success: function(data) {
+            	console.log("polling2");
+         },
+
      });
+		}
 
 	</Script>
 
 </head>
-<body>
+<body onload=avvioThread()>
     <div class="header">
         <p class="title">
             Travelbook
@@ -96,11 +91,11 @@
          
         <div class="panel">
             <div class="menu-bar">
-            <form class="form-bar" action="explore.jsp" method="POST">
-                <button type="submit" class="button" name="profile"> <span class="material-icons">person</span>PROFILE</button>
-                <button type="submit" class="button" name="add"> <span class="material-icons">edit</span>ADD</button>
-                <button type="submit" class="button p-button" name="explore"> <span class="material-icons">explore</span>EXPLORE</button>
-                <button type="submit" class="button" name="chat"> <span class="material-icons">textsms</span>CHAT</button>
+            <form action="explore.jsp" method="POST">
+                <span class="material-icons">face</span><input type="button" class="button" name="profile" value="PROFILE" onclick=goToProfile()>
+                <input type="button" class="button" name="add" value="ADD" onclick=goToAdd()>
+                <input type="button" class="button p-button" name="explore" value="EXPLORE">
+                <input type="button" class="button" name="chat" value="CHAT" onclick=goToChat()>
             </form>
             </div>
             <p class = "write">
@@ -150,13 +145,14 @@
                 ADVANCED SEARCH
             </p>
             <div id="sp">
-            	<form action="explore.jsp" method="POST">
+            	<div>
                 <p id = "searchWrite">
                     Looking for something more specific? Try our research tool, narrowing your desires with a lot of different options
                 </p>
-                </form>
 
-                <button type="button" id="searchButton" name="searchButton" onclick="spostamentoSearch()"><span class="material-icons md-48">forward</span></button>
+                </div>
+
+                <input type="button" id="searchButton" name="searchButton" onclick="spostamentoSearch()" path="M12 8V4l8 8-8 8v-4H4V8z">
 
             </div>
             

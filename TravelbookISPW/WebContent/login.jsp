@@ -29,7 +29,9 @@
 	if(request.getParameter("signup")!=null){
 		String date=(String)request.getParameter("birthDate");
 		userReg.setBirtdate((Date.valueOf(date)));
+		userReg.setGender(userReg.getGender().subSequence(0, 0).toString());
 		ControllerLogin controller=new ControllerLogin();
+		System.out.println(userReg.getEmail());
 		String code= controller.calcoloRegistration(userReg.getEmail());
 		request.getSession().setAttribute("regBean",userReg);
 		request.getSession().setAttribute("code",code);
@@ -39,13 +41,10 @@
 	}	if(request.getParameter("token")!=null){
 		
 		ControllerLogin controller=new ControllerLogin();
-		
+		System.out.println(request.getParameter("token"));
 		UserBean logged=controller.facebookLogin(request.getParameter("token"));
 		request.getSession().setAttribute("loggedBean",logged);
 		
-		%>
-			<jsp:forward page="explore.jsp"/>
-		<% 
 	}
 	
 %>
@@ -112,7 +111,7 @@
 	<div class="anchor">
 		<div id=login>
 			<form action="login.jsp" id="loginTable" method="POST">
-				<input id="username" type="text" name="username" class="textfield" required>
+				<input id="username" type="text" name="username" vaule="username or Email" class="textfield" required>
 				<input id="pswd" type="password" name="password" class="textfield" required>
 				<div class=buttons>
 				<input type="button" value="registrati" class="form-button" onclick="apriRegistrazione()">
@@ -133,10 +132,11 @@
 	</div>
 	<div id=registrazione>
 			<form action="login.jsp" method="POST" id="registerTable">
-				<input id="username" type="text" name="username" class="textfield" required>
-				<input type="password" name="password" class="textfield" required>
-				<input type="email" name="email" class="textfield" required>
-				<input type="text" id="name" name="name" class="textfield" required>
+				<input id="username" type="text" value="username" name="username" class="textfield" required>
+				<input type="password" name="password" value="password" class="textfield" required>
+				<input type="email" name="email" value="email" class="textfield" required>
+				<input type="text" id="name" name="name" value="name" class="textfield" required>
+				<input type="text" id="surname" name="surname" value="surname" class="textfield" required>
 				<input type="date" name="birthDate" class="date-picker" required>
 				<div>
 				 <input type="radio" id="male" name="gender" value="male" required>

@@ -91,6 +91,7 @@ public class ExploreViewController implements Observer{
 		//In this example use Empty image as Pane and Some strings a cazzo di cane.
 		if(MenuBar.getInstance().getLoggedUser().isFirstTime()) {
 			openTutorial();
+			MenuBar.getInstance().getLoggedUser().setFirstTime(false);
 		}
 		MenuBar.getInstance().addObserver(this);
 		MenuBar.getInstance().setNewThread();
@@ -146,7 +147,6 @@ public class ExploreViewController implements Observer{
 		view.setPrefWidth(1280);
 		WebEngine engine=view.getEngine();
 		view.setVisible(true);
-			
 		String url = new File("src/main/java/travelbook/view/Tutorial/tutorial.html").toURI().toString();
 		engine.load("file://"+url.substring(5));
 		Stage stage=new Stage();
