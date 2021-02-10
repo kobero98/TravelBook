@@ -37,10 +37,10 @@ public class MessagePollingThread extends Thread {
 		}catch(DBException e) {
 			new TriggerAlert().triggerAlertCreate(e.getMessage(),"err");
 		} catch (InterruptedException e) {
-			break;
+			Thread.currentThread().interrupt();
 		}
 		}
-		}
+	}
 		private void updateMessage(List<Chat> chats) throws DBException {
 			boolean found=false;
 			Instant lastLocalTime;
