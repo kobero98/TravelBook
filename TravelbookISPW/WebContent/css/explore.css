@@ -29,7 +29,12 @@
     overflow-x: scroll;
 }
 #searchButton{
-	background-color: var(--textColorD);
+	color: var(--textColorD);
+	background-color: transparent;
+	border: 1px solid var(--textColorD);
+	height: 4em;
+	width:4em;
+	border-radius:2em;
 	/*-fx-effect: dropshadow(three-pass-box, shadow, 4, 0, -4, 4);*/
 }
 #sp{
@@ -47,4 +52,11 @@
     margin-left: 2.5em;
     font: normal normal 1em Arial, Sans-serif;
     color: var(--textColorD);
+}
+.expand{
+	margin-left:4.5em;
+	color:var(--textColorL);
+	background-color: transparent;
+	border: 0px solid transparent;
+	outline: none;
 }

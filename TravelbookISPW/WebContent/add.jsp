@@ -100,6 +100,7 @@
     <link rel="stylesheet" href="css/loginCss.css">
     <link rel="stylesheet" href="css/add.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="js/addJS.js"></script>
     <script src="js/jquery.min.js"></script> 
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>  
@@ -244,12 +245,12 @@ $(function()
          
         <div class="panel">
             <div class="menu-bar">
-            <form action="explore.jsp" method="POST">
-                <input type="submit" class="button" name="profile" value="PROFILE">
-                <input type="submit" class="button p-button" name="add" value="ADD">
-                <input type="submit" class="button" name="explore" value="EXPLORE">
-                <input type="submit" class="button" name="chat" value="CHAT">
-                </form>
+            <form class="form-bar" action="explore.jsp" method="POST">
+                <button type="submit" class="button" name="profile"> <span class="material-icons">person</span>PROFILE</button>
+                <button type="submit" class="button p-button" name="add"> <span class="material-icons">edit</span>ADD</button>
+                <button type="submit" class="button" name="explore"> <span class="material-icons">explore</span>EXPLORE</button>
+                <button type="submit" class="button" name="chat"> <span class="material-icons">textsms</span>CHAT</button>
+            </form>
             </div>
             <p class=write>
                 Hi, so glad you decided to share your travels
@@ -284,9 +285,10 @@ $(function()
                     <p class="text">
                         Upload your presentation photo:
                     </p>
+                    <button type="button" onclick="removePresentation()" class="icon-button"><span class="material-icons">delete</span></button> 
                     <input type="file" id="presentationFile" name="choose" class="add-button" accept="image/jpg, image/png" onchange="loadImage()">
                 </div> 
-                <input type="button" value="removeImage" onclick="removePresentation()" class="add-button">   
+                  
                 <div class="photo-grid" id="presentation">
                     
                 </div>
@@ -337,15 +339,15 @@ $(function()
                     <div>
                     <input type="text" name="searchPlace" id="searchPlace" class="ui-widget" /> 
                     </div>
-                    <input type="button" class="vom" onclick="apriMappa()">
+                    <input type="button" class="vom" value="View on map" onclick="apriMappa()">
 
                 </div>
                 <div class="line">  
                 	 
                     <div id="steps">
                     </div>
-                    <input type="button" name="remove" class="icon-button" onclick="removeButton()">
-                    <input type="button" name="add" class="icon-button" onclick="addButton()">
+                    <button type="button" name="remove" class="icon-button" onclick="removeButton()"><span class="material-icons">remove</span></button> 
+                    <button type="button" name="add" class="icon-button" onclick="addButton()"><span class="material-icons">add</span></button>
                 </div>
                 <div class="line">  
                     <p class="text">
@@ -375,13 +377,13 @@ $(function()
         </div>
         <div id="fotoingrande">
         	<img src="" id="immagineSelezionata" alt="immagineSelezionata" style="width:20em;heigth:20em;"/>
-        	<input type="button" value="close" id="closeImage" onclick="closeImg()"/>
-        	<input type="button" value="rimuovi" id="removeImage" onclick="removeImg()"/>
+        	<button type="button"  class="icon-button" id="closeImage" onclick="closeImg()"><span class="material-icons">clear</span></button>
+        	<button type="button" class="icon-button" id="removeImage" onclick="removeImg()"><span class="material-icons">delete</span></button>
         </div>
         <div id="progressPane">
         	<div id="progressValue">
         	</div>
-        	<input id="closeProgress" type="button" value="close">
+        	<button id="closeProgress" type="button" class="icon-button"><span class="material-icons">clear</span></button>
         </div>
         </body>
         </html>

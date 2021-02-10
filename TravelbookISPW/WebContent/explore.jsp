@@ -96,17 +96,16 @@
          
         <div class="panel">
             <div class="menu-bar">
-            <form action="explore.jsp" method="POST">
-                <span class="material-icons">face</span><input type="submit" class="button" name="profile" value="PROFILE">
-                <input type="submit" class="button" name="add" value="ADD">
-                <input type="submit" class="button p-button" name="explore" value="EXPLORE">
-                <input type="submit" class="button" name="chat" value="CHAT">
+            <form class="form-bar" action="explore.jsp" method="POST">
+                <button type="submit" class="button" name="profile"> <span class="material-icons">person</span>PROFILE</button>
+                <button type="submit" class="button" name="add"> <span class="material-icons">edit</span>ADD</button>
+                <button type="submit" class="button p-button" name="explore"> <span class="material-icons">explore</span>EXPLORE</button>
+                <button type="submit" class="button" name="chat"> <span class="material-icons">textsms</span>CHAT</button>
             </form>
             </div>
             <p class = "write">
                 Suggestions
             </p>
-            <span class="material-icons">face</span>
             <div class="scroll">
 			<%
 				List<MiniTravelBean> travels=new ArrayList<>();
@@ -125,7 +124,7 @@
 					%>
 						<form action="explore.jsp" method="POST">
 						<div id="suggest<%=i %>" class="travelButton" >
-							<input type="submit" name="suggest<%=t.getId() %>" value="Vedi Viaggio"/>
+							<button type="submit" class="expand" name="suggest<%=t.getId() %>"><span class="material-icons">open_in_full</span></button>
 							<img src="data:image/*;base64,<%=encoded%>" style="width: 8em; height: 6em;" alt="travelImage">
 							<h1 class="travel-text"><%=t.getNameTravel() %></h1>
 							<p class="travel-text"><%=t.getDescriptionTravel() %></p>
@@ -155,13 +154,9 @@
                 <p id = "searchWrite">
                     Looking for something more specific? Try our research tool, narrowing your desires with a lot of different options
                 </p>
-
-                <input type="submit" id="searchButton" name="searchButton" path="M12 8V4l8 8-8 8v-4H4V8z">
                 </form>
 
-                <input type="button", id="searchButton", name="searchButton",path="M12 8V4l8 8-8 8v-4H4V8z">
-
-                <input type="button" id="searchButton" name="searchButton" onclick="spostamentoSearch()"path="M12 8V4l8 8-8 8v-4H4V8z">
+                <button type="button" id="searchButton" name="searchButton" onclick="spostamentoSearch()"><span class="material-icons md-48">forward</span></button>
 
             </div>
             

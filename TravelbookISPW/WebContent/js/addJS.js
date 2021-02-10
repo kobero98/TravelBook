@@ -129,12 +129,16 @@ function loadMultipleImage() {
 }
 function addButton() {
 	arrayStep[actualDay][arrayStep[actualDay].length] = new StepJS(actualDay, arrayStep[actualDay].length);
-	var btn = document.createElement("input");
+	var btn = document.createElement("button");
 	btn.setAttribute("class", "stepButton");
 	btn.setAttribute("type", "button");
 	btn.setAttribute("onclick", "setStep(event)");
 	btn.setAttribute("id", actualDay + ";" + arrayStep[actualDay].length);
+	var icon = document.createElement("i");
+	icon.setAttribute("class", "material-icons md-48");
+	icon.innerHTML = "place";
 	var div1 = document.getElementById("steps");
+	btn.appendChild(icon);
 	div1.appendChild(btn);
 	return btn;
 }
@@ -160,12 +164,16 @@ function changeDay() {
 		div.removeChild(div.lastChild);
 	var i;
 	for (i = 0; i < arrayStep[actualDay].length; i++) {
-		var btn = document.createElement("input");
+		var btn = document.createElement("button");
 		btn.setAttribute("class", "stepButton");
 		btn.setAttribute("type", "button");
 		btn.setAttribute("onclick", "setStep(event)");
 		btn.setAttribute("id", actualDay + ";" + (i + 1));
+		var icon = document.createElement("i");
+		icon.setAttribute("class", "material-icons md-48");
+		icon.innerHTML = "place";
 		div = document.getElementById("steps");
+		btn.appendChild(icon);
 		div.appendChild(btn);
 	}
 	btn = document.getElementById(actualDay + ";" + (1));

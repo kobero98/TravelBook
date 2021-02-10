@@ -43,6 +43,8 @@
     overflow: scroll;
     border-radius:  1.875em;
     align-items: center;
+    padding-top:1em;
+    padding-bottom:1em;
 }
 .map{
     background-image: url(../resource/cartina-no-sfondo.png);
@@ -147,9 +149,12 @@
 }
 #logoutButton{
 	position:absolute;
-	left:20em;
-	top:10em;
-	background: black;
+	top:2em;
+	left:2em;
+	background-color:transparent;
+	color:var(--textColorD);
 	opacity:1;
+	border: 1px solid var(--Mcolor);
+	
 }
 

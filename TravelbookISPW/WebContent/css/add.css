@@ -63,7 +63,6 @@
     height:11.25em;
     margin-bottom: 2em;
     margin-top:2em;
-    border: 1px solid seagreen;
 }
 #fotoingrande{
 	opacity:0;
@@ -71,6 +70,7 @@
 	display:flex;
 	top:10em;
 	left:40em;
+	background-color: #FDFDFD;
 }
 #progressPane {
 	position:absolute;
@@ -90,5 +90,21 @@
 #steps{
     width: 26.25em;
     height:3.125em;
-    border: 1px solid seagreen;
+    display:flex;
+    align-items: flex-end;
+    border-bottom: 2px solid var(--Dcolor);
+}
+.icon-button{
+	width:3em;
+	height:3em;
+	border-radius: 1.5em;
+	background-color: var(--Mcolor);
+	color: var(--textColorD);
+	border: 0px solid transparent;
+}
+.vom{
+	color: var(--textColorD);
+	background-color: transparent;
+	border: 0px solid transparent;
+	border-bottom: 1px solid var(--lightGrey);
 }

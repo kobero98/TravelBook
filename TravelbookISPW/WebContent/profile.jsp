@@ -73,6 +73,7 @@
 	<meta charset="ISO-8859-1">
     <link rel="stylesheet" href="css/loginCss.css">
     <link rel="stylesheet" href="css/profile.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="js\jquery.min.js"></script>
     <script src="js\jsonReader.js"></script>
 	<title>Travelbook</title>
@@ -154,7 +155,7 @@
         <div class="panel">
             
             <div class="profile-panel">
-            <input type="button" id="logoutButton" value="esci" onclick="logout()">
+            <button type="button" id="logoutButton" onclick="logout()"><span class="material-icons">logout</span></button>
             <div id=fotoFile>
             <%
             	byte[] userB=myUser.getArray();
@@ -183,24 +184,24 @@
                     </p>
                 </div>
             </div>
-            <div class="menu-bar" id="p-menubar">
-            	<form action="explore.jsp" method="POST">
-                <input type="submit" class="button p-button" name="profile" value="PROFILE">
-                <input type="submit" class="button" name="add" value="ADD">
-                <input type="submit" class="button" name="explore" value="EXPLORE">
-                <input type="submit" class="button" name="chat" value="CHAT">
-                </form>
+            <div class="menu-bar" id=p-menubar>
+            <form class="form-bar" action="explore.jsp" method="POST">
+                <button type="submit" class="button p-button" name="profile"> <span class="material-icons">person</span>PROFILE</button>
+                <button type="submit" class="button" name="add"> <span class="material-icons">edit</span>ADD</button>
+                <button type="submit" class="button" name="explore"> <span class="material-icons">explore</span>EXPLORE</button>
+                <button type="submit" class="button" name="chat"> <span class="material-icons">textsms</span>CHAT</button>
+            </form>
             </div>
             <div id="bottom">
                 <div id="l-bottom">
                     <input type="button" class="profile-button" value="Follower:<%=myUser.getNFollower() %>" onclick="showFollower()">
                     <input type="button" class="profile-button" value="Following:<%=myUser.getNFollowing()%>" onclick="showFollowing()">
-                    <input type="button" class="profile-button fav-button" onclick="showFav()">
+                    <button type="button" class="profile-button fav-button" onclick="showFav()"><span class="material-icons">favorite_border</span></button>
                     
                     <p class="text">
                         Your favourite travels
                     </p>
-                    <input type="button" class="profile-button fav-button" onclick="showShared()">
+                    <button type="button" class="profile-button fav-button" onclick="showShared()"><span class="material-icons">share</span></button>
                     <p class="text">
                     Your shared travels
                     </p>
@@ -246,8 +247,8 @@
 									 <%=trav.getNameTravel() %>
 									 <%=trav.getDescriptionTravel() %>
 									 </p>
-									 <input type="submit" name=<%=buttonName %> id=<%=trav.getId() %>/>
-									 <input type="button"  onclick="modifyTravel(<%=trav.getId()%>)"/>
+									 <button type="submit" class="tile-icon" name=<%=buttonName %> id=<%=trav.getId() %>><span class="material-icons">open_in_full</span></button>
+									 <button type="button" class="tile-icon" onclick="modifyTravel(<%=trav.getId()%>)"><span class="material-icons">edit</span></button>
 								</form>
 							</div>
 						</div>
