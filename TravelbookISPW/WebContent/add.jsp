@@ -21,10 +21,8 @@
 		<% 
 	}
 	if(request.getParameter("POSTTRAVEL")!=null){
-		System.out.println(request.getParameterMap().keySet());
 		JSONParser parser=new JSONParser();
 		JSONObject obj=(JSONObject)parser.parse(request.getParameter("POSTTRAVEL"));
-		System.out.println(obj);
 		TravelBean travel=new TravelBean();
 		travel.setNameTravel(obj.get("travelName").toString());
 		travel.setDescriptionTravel(obj.get("travelDescription").toString());

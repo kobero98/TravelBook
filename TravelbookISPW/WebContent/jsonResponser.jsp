@@ -44,9 +44,7 @@ if(request.getParameter("follower")!=null || request.getParameter("following")!=
 		json.put("image",encoded);
 		json.put("id",""+us.getId());
 		array.add(json);
-		System.out.println(json.toString());
 	}
-		System.out.println(array.toString());
 		response.setCharacterEncoding("UTF-8");
 		users.put("users",array);
 		response.getWriter().write(users.toString());

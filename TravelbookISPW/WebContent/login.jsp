@@ -31,7 +31,6 @@
 		userReg.setBirtdate((Date.valueOf(date)));
 		userReg.setGender(userReg.getGender().subSequence(0, 0).toString());
 		ControllerLogin controller=new ControllerLogin();
-		System.out.println(userReg.getEmail());
 		String code= controller.calcoloRegistration(userReg.getEmail());
 		request.getSession().setAttribute("regBean",userReg);
 		request.getSession().setAttribute("code",code);
@@ -41,7 +40,6 @@
 	}	if(request.getParameter("token")!=null){
 		
 		ControllerLogin controller=new ControllerLogin();
-		System.out.println(request.getParameter("token"));
 		UserBean logged=controller.facebookLogin(request.getParameter("token"));
 		request.getSession().setAttribute("loggedBean",logged);
 		

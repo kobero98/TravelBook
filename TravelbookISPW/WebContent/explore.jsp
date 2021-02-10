@@ -18,7 +18,6 @@
 	}
 	if(log.isFirstTime()){
 		log.setFirstTime(false);
-		System.out.println("ciao1");
 		request.getSession().setAttribute("loggedBean",log);
 		%> <jsp:forward page="Tutorial.jsp"/> <% 
 	}

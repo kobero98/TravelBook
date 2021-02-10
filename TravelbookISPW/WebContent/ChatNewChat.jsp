@@ -11,7 +11,6 @@ if(request.getSession().getAttribute("nuovaChat")!=null){
 	request.getSession().setAttribute("nuovaChat",null);
 }
 else{
-	
 	out.println("{}");
 }
 %>

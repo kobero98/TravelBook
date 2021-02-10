@@ -22,8 +22,7 @@
 		out.print(o);
     } catch(Exception e1)
       {
-    	System.out.println(e1.getMessage());
-      out.println(e1);
+      	out.println(e1);
       }
 	}
 	if(request.getParameter("place")!=null){
