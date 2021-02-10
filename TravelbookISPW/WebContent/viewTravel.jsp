@@ -48,6 +48,7 @@
 	<meta charset="ISO-8859-1">
     <link rel="stylesheet" href="css/loginCss.css">
     <link rel="stylesheet" href="css/viewTravel.css">
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="js\jquery.min.js"></script>
 	<title>Travelbook</title>
 	<script>
@@ -286,7 +287,7 @@
     </div>
     <div class="anchor">
         <div class="panel panel2">
-            <input type="button" id="back-button" class="back-button back2" onclick="goBack()">
+            <button type="button" id="back-button" class="back-button back2" onclick="goBack()"><span class="material-icons md-48">arrow_back</span></button></button>
             <div class="top">
                 
                 <div id="travel">
@@ -310,10 +311,10 @@
                 </div>
                 <div class="bb">
                 	<form action="viewTravel.jsp" method="POST">
-                    <input type="button" id="profile" name="profile" value="profile" class="bb-button" onclick="goProfile(<%=myUser.getId()%>)">
-                    <input type="button" id="chat" name="chat" class="bb-button" value="chat" onclick="goChat(<%=myUser.getId()%>)">
-                    <input type="button" id="fav" name="fav" class="bb-button" value="fav" onclick="addFav()">
-                    <input type="button" id="share" class="bb-button" onclick="showFav(<%=myUser.getId()%>)" name="shareButton">
+                    <button type="button" id="profile" name="profile" class="bb-button" onclick="goProfile(<%=myUser.getId()%>)"><span class="material-icons">person</span></button>
+                    <button type="button" id="chat" name="chat" class="bb-button" onclick="goChat(<%=myUser.getId()%>)"><span class="material-icons">textsms</span></button>
+                    <button type="button" id="fav" name="fav" class="bb-button" onclick="addFav()"><span class="material-icons">favorite_border</span></button>
+                    <button type="button" id="share" class="bb-button" onclick="showFav(<%=myUser.getId()%>)" name="shareButton"><span class="material-icons">share</span></button>
                   
                     </form>
                 </div>
@@ -341,6 +342,7 @@
 						StepBean step=steps.get(j);
 					%>
 						<button class="stepButton" onclick="openStep(event,<%=i %>,<%=j %>)">
+						<span class="material-icons md-48">room</span>
 						</button>
 					<% 
 					}

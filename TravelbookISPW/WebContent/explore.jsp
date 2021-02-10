@@ -91,12 +91,10 @@
          
         <div class="panel">
             <div class="menu-bar">
-            <form action="explore.jsp" method="POST">
-                <span class="material-icons">face</span><input type="button" class="button" name="profile" value="PROFILE" onclick=goToProfile()>
-                <input type="button" class="button" name="add" value="ADD" onclick=goToAdd()>
-                <input type="button" class="button p-button" name="explore" value="EXPLORE">
-                <input type="button" class="button" name="chat" value="CHAT" onclick=goToChat()>
-            </form>
+                <button type="button" class="button" name="profile" onclick=goToProfile()><span class="material-icons">person</span>PROFILE</button>
+                <button type="button" class="button" name="add" onclick=goToAdd()><span class="material-icons">edit</span>ADD</button>
+                <button type="button" class="button p-button" name="explore"><span class="material-icons">explore</span>EXPLORE</button>
+                <button type="button" class="button" name="chat" onclick=goToChat()><span class="material-icons">textsms</span>CHAT</button>
             </div>
             <p class = "write">
                 Suggestions

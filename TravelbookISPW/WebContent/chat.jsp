@@ -85,6 +85,8 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     
     <script src="js\jquery.min.js"></script> 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>  
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -221,12 +223,12 @@
     </div>
     <div class="anchor">
      <div class="panel contact-panel">
-            <form action="chat.jsp" class="menu-bar">
-                <input type="button" class="button" name="profile" value="PROFILE" onclick=goToProfile()>
-                <input type="button" class="button" name="add" value="ADD" onclick=goToAdd()>
-                <input type="button" class="button" name="explore" value="EXPLORE" onclick=goToExplore()>
-                <input type="button" class="button p-button" name="chat" value="CHAT">
-            </form>
+            <div class="menu-bar">
+                <button type="button" class="button" name="profile" onclick=goToProfile()><span class="material-icons">person</span>PROFILE</button>
+                <button type="button" class="button" name="add" onclick=goToChat()><span class="material-icons">edit</span>ADD</button>
+                <button type="button" class="button" name="explore" onclick=goToExplore()><span class="material-icons">explore</span>EXPLORE</button>
+                <button type="button" class="button p-button" name="chat"><span class="material-icons">textsms</span>CHAT</button>
+            </div>
             <div class="contact" id=contact>
 				<%
 				int i=0;
@@ -251,9 +253,9 @@
             		  <img src="resource/travelers.png" id="profileIm" style="width: 4em; height: 4em;" class="image" alt="default profile picture">
             		<% 
             	}
-            %>
-						<input type="submit" name=contatto<%=String.valueOf(i)%> onclick=avvioThread()>
-						<p><%=contact.getName()%> <%=contact.getSurname()%><br>
+            %>			<p><%=contact.getName()%> <%=contact.getSurname()%></p>
+						<button type="submit" name=contatto<%=String.valueOf(i)%> class="c-expand"onclick=avvioThread()><span class="material-icons">chevron_right</span></button>
+						
 					</form>			
 			
 				<%
@@ -266,7 +268,7 @@
             </div>
             <form class="search ui-widget" action=chat.jsp method="post">
                 <input type="search" class="textfield" id=search-bar>
-                <input type="submit" id=invia name=invia onclick=getData() >
+                <button type="submit" id=invia name=invia onclick=getData() class="c-expand"><span class="material-icons md-36">search</span></button>
             </form>
         </div>
         <div class="panel chat-panel">
@@ -309,7 +311,7 @@
             </div>
             <form class="write" action="chat.jsp" method="get">
                 <textarea class="textfield" name=mex id=write-bar wrap="hard"></textarea>
-                <input type="submit" name=invioMex>
+                <button type="submit" class="c-expand" name=invioMex><span class="material-icons md-48">send</span></button>
             </form>
         </div>
    </div>

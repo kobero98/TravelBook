@@ -196,20 +196,11 @@
                     </p>
                 </div>
             </div>
-            <div class="menu-bar" id="p-menubar">
-            	<div>
-                <input type="button" class="button p-button" name="profile" value="PROFILE">
-                <input type="button" class="button" name="add" value="ADD" onclick=goToAdd()>
-                <input type="button" class="button" name="explore" value="EXPLORE" onclick=goToExplore()>
-                <input type="button" class="button" name="chat" value="CHAT" onclick=goToChat()>
-                </div>
             <div class="menu-bar" id=p-menubar>
-            <form class="form-bar" action="explore.jsp" method="POST">
-                <button type="submit" class="button p-button" name="profile"> <span class="material-icons">person</span>PROFILE</button>
-                <button type="submit" class="button" name="add"> <span class="material-icons">edit</span>ADD</button>
-                <button type="submit" class="button" name="explore"> <span class="material-icons">explore</span>EXPLORE</button>
-                <button type="submit" class="button" name="chat"> <span class="material-icons">textsms</span>CHAT</button>
-            </form>
+                <button type="button" class="button p-button" name="profile" ><span class="material-icons">person</span>PROFILE</button>
+                <button type="button" class="button" name="add" onclick=goToAdd()><span class="material-icons">edit</span>ADD</button>
+                <button type="button" class="button" name="explore" onclick=goToExplore()><span class="material-icons">explore</span>EXPLORE</button>
+                <button type="button" class="button" name="chat" onclick=goToChat()><span class="material-icons">textsms</span>CHAT</button>
             </div>
             <div id="bottom">
                 <div id="l-bottom">

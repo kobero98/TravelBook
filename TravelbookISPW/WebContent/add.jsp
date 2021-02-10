@@ -257,12 +257,10 @@ $(function()
          
         <div class="panel">
             <div class="menu-bar">
-            <div>
-                <input type="button" class="button" name="profile" value="PROFILE" onclick=goToProfile()>
-                <input type="button" class="button p-button" name="add" value="ADD">
-                <input type="button" class="button" name="explore" value="EXPLORE" onclick=goToExplore()>
-                <input type="button" class="button" name="chat" value="CHAT" onclick=goToChat()>
-            </div>
+                <button type="button" class="button" name="profile" onclick=goToProfile()><span class="material-icons">person</span>PROFILE</button>
+                <button type="button" class="button p-button" name="add"><span class="material-icons">edit</span>ADD</button>
+                <button type="button" class="button" name="explore" onclick=goToExplore()><span class="material-icons">explore</span>EXPLORE</button>
+                <button type="button" class="button" name="chat" onclick=goToChat()><span class="material-icons">textsms</span>CHAT</button>
             </div>
             <p class=write>
                 Hi, so glad you decided to share your travels

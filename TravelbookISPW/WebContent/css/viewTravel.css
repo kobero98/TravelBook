@@ -96,7 +96,9 @@
 .bb-button{
     width:2.1875em;
     height:2.1875em;
-    background-color: var(--textColorD);
+    background-color: transparent;
+	border: 0px solid transparent;
+	color: var(--textColorD);
 }
 #right-panel{
     background-color:  rgba(252, 220, 200, 0.5);

@@ -83,3 +83,8 @@
 	border-radius: 25px;
 	padding:1em
 }
+.c-expand{
+	background-color: transparent;
+	color: var(--textColorL);
+	border: none;
+}
