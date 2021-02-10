@@ -7,7 +7,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -143,7 +142,6 @@
             </Button>
          </buttons>
       </ButtonBar>
-      <ListView fx:id="travels" layoutX="631.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0" prefWidth="606.0" styleClass="travel-view" />
       <Button fx:id="shButton" layoutX="41.0" layoutY="564.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#sharedList" prefHeight="50.0" prefWidth="50.0">
          <graphic>
             <ImageView fx:id="shIcon" fitHeight="27.53" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -158,9 +156,6 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <ListView fx:id="showTravel" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="297.0" styleClass="lists" visible="false" />
-      <ListView fx:id="showShared" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="297.0" styleClass="lists" visible="false" />
-      <ListView fx:id="show" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="297.0" styleClass="lists" visible="false" />
       <StackPane fx:id="listTitle" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="297.0" styleClass="list-titles" visible="false">
          <children>
             <Button fx:id="backButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="40.0" styleClass="back-button" StackPane.alignment="CENTER_LEFT">

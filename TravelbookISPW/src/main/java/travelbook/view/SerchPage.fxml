@@ -4,7 +4,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -30,7 +29,6 @@
       <Line fx:id="lineaVerticaleGrande" endY="484.0" layoutX="953.0" layoutY="131.0" startY="3.0" styleClass="line" />
       <Button fx:id="advanced" layoutX="27.0" layoutY="114.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showSearchAdvanced" prefHeight="13.0" prefWidth="15.0" styleClass="BottoneExtensive" />
       <Label fx:id="scritta1" layoutX="48.0" layoutY="109.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="advanced-search" text="advanced search" />
-      <ListView fx:id="lista" layoutX="54.0" layoutY="176.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="885.0" />
       <Pane fx:id="advancedSearch" layoutX="34.0" layoutY="133.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="910.0" visible="false">
          <children>
             <Label fx:id="scritta3" layoutX="6.0" layoutY="7.0" styleClass="advanced" text="Your budget" />
@@ -42,7 +40,6 @@
             <TextField fx:id="minCost" layoutX="220.0" layoutY="78.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="96.0" text="min" />
             <Label fx:id="scritta5" layoutX="211.0" layoutY="7.0" styleClass="advanced" text="How many days?" />
             <TextField fx:id="maxCost" layoutX="347.0" layoutY="78.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="96.0" text="max" />
-            <ListView fx:id="type" layoutX="469.0" layoutY="54.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="137.0" prefWidth="217.0" styleClass="categories-choose" />
             <ScrollPane fx:id="scrollSelezionati" hbarPolicy="NEVER" layoutX="697.0" layoutY="55.0" prefHeight="137.0" prefWidth="217.0" styleClass="categories-show" vbarPolicy="ALWAYS" visible="false">
                <content>
                   <VBox fx:id="tipiSelezionati" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="122.0" prefWidth="215.0" />

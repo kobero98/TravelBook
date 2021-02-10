@@ -111,6 +111,7 @@ public class MenuBar extends Observable implements Observer{
 			ProfileViewController controller=loader.getController();
 			controller.setMainPane(mainPane);
 		} catch (IOException e) {
+			e.printStackTrace();
 			throw new MissingPageException();
 		}
 	}
@@ -124,6 +125,7 @@ public class MenuBar extends Observable implements Observer{
 			ChatViewController controller=loader.getController();
 			controller.setMainPane(mainPane);
 		} catch (IOException e) {
+			e.printStackTrace();
 			throw new MissingPageException();
 		}
 	}
@@ -164,6 +166,7 @@ public class MenuBar extends Observable implements Observer{
 			ProfileOtherController controller=loader.getController();
 			controller.setMainPane(mainPane,back,travelId);
 		} catch (IOException e) {
+			e.printStackTrace();
 			throw new MissingPageException();
 		}
 	}

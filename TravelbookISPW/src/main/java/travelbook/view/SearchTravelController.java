@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import exception.DBException;
-import exception.MissingPageException;
+
 import exception.TriggerAlert;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,12 +16,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
+
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SelectionMode;
+
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
@@ -36,14 +34,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
+
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
+
 import main.java.travelbook.controller.ControllerSearch;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.SearchTrip;
-import main.java.travelbook.util.SetImage;
+
 
 public class SearchTravelController {
 	private BorderPane mainPane;
@@ -67,8 +64,7 @@ public class SearchTravelController {
 	private Label foundLabel;
 	@FXML
 	private Line lineaListView;
-	@FXML
-	private ListView <MiniTravelBean> lista;
+	private Cell lista;
 	@FXML
 	private Button advanced;
 	@FXML
@@ -84,7 +80,7 @@ public class SearchTravelController {
 	@FXML
 	private Pane ricerca;
 	@FXML
-	private ListView <MyTypes> type;
+	private TypeCell type;
 	@FXML
 	private VBox tipiSelezionati; 
 	@FXML
@@ -125,38 +121,23 @@ public class SearchTravelController {
 			return this.colore;
 		}
 	}
-	class TipoListaGraphic extends ListCell<MyTypes>{
-			@Override
-	        public void updateItem(MyTypes item, boolean empty) {
-	            super.updateItem(item, empty);
-	            if (item != null) {
-	                HBox box= new HBox(2);
-	            	Label label= new Label(item.getType());
-	            	label.getStyleClass().add("categories-label");
-	            	label.setWrapText(true);
-	            	label.setMaxWidth(type.getHeight()-1);
-	            	Circle cerchio =new Circle(10,item.getColor());
-	            	box.getChildren().addAll(cerchio,label);
-	            	HBox.setMargin(cerchio, new Insets(2));
-	            	HBox.setMargin(label, new Insets(2));
-	            	box.setAlignment(Pos.CENTER_LEFT);
-	            	setGraphic(box);
-	            }
-	        }
-		}
+
 	@FXML
 	private void initialize() {
+		this.type=new TypeCell(this.sfondo,this.mainPane,this.advancedSearch);
+		this.type.getScroll().setVisible(true);
 		new SearchCityTextField(ricercaTextField);
 		ObservableList<MyTypes> information = FXCollections.observableArrayList(new MyTypes("Romantic Trip",Color.DARKMAGENTA),new MyTypes("Family Holiday",Color.DARKTURQUOISE),
 				new MyTypes("On The Road",Color.LIMEGREEN),new MyTypes("Children Friendly",Color.CRIMSON),new MyTypes("Travel with Friend",Color.NAVY),
 				new MyTypes("Cultural Travel",Color.ORANGE),new MyTypes("Relaxing Holiday",Color.VIOLET));
-		MultipleSelectionModel<MyTypes> selectionModel = type.getSelectionModel();
-        selectionModel.setSelectionMode(SelectionMode.MULTIPLE);
-		this.type.setItems(information);
-		this.type.setCellFactory(list-> new TipoListaGraphic());
-		selectionModel.selectedItemProperty().addListener((observable,oldValue,  newValue)-> 
+        List<Object> o=new ArrayList<>();
+        for(MyTypes m: information) {
+        	o.add(m);
+        }
+		this.type.setItems(o);
+		type.getSelectedItem().addListener((observable,oldValue,  newValue)-> 
 			{
-				MyTypes addType = selectionModel.getSelectedItem();
+				MyTypes addType = type.getSelectedItem().getValue();
 				boolean bool = addType!=null && !typeChoose.contains(addType);
 		        	if(bool) {
 		        		typeChoose.add(addType);
@@ -212,13 +193,15 @@ public class SearchTravelController {
     		tipiSelezionati.getParent().getParent().getParent().setVisible(false);
 
     	}
-    	type.getSelectionModel().clearSelection();
+
 }
 	public void setMainPane(BorderPane main)
 	{
+		
 		ToggleGroup group;
 		this.mainPane=main;
-		
+		this.lista=CellFactory.getInstance().create(CellType.SEARCH, this.sfondo, this.mainPane);
+		this.lista.getScroll().setVisible(true);
 		group = new ToggleGroup();
 	    budjet1.setToggleGroup(group);
 	    budjet2.setToggleGroup(group);
@@ -307,8 +290,8 @@ public class SearchTravelController {
 			
 			scritta1.setLayoutY(sfondo.getHeight()*109/625);
 			
-			lista.setPrefHeight(sfondo.getHeight()*t);
-			lista.setLayoutY(sfondo.getHeight()*y);
+			lista.getScroll().setPrefHeight(sfondo.getHeight()*t);
+			lista.getScroll().setLayoutY(sfondo.getHeight()*y);
 			
 			advancedSearch.setPrefHeight(sfondo.getHeight()*200/625);
 			advancedSearch.setLayoutY(sfondo.getHeight()*133/625);
@@ -331,8 +314,8 @@ public class SearchTravelController {
 			
 			scritta4.setLayoutY(sfondo.getHeight()*7/625);
 			
-			type.setPrefHeight(sfondo.getHeight()*137/625);
-			type.setLayoutY(sfondo.getHeight()*54/625);
+			type.getScroll().setPrefHeight(sfondo.getHeight()*137/625);
+			type.getScroll().setLayoutY(sfondo.getHeight()*54/625);
 			
 			tipiSelezionati.setPrefHeight(sfondo.getHeight()*tipiSelezionati.getPrefHeight()/625);
 			scrollSelezionati.setLayoutY(sfondo.getHeight()*55/625);
@@ -375,8 +358,8 @@ public class SearchTravelController {
 			
 			scritta1.setLayoutX(sfondo.getWidth()*48/1280);
 			
-			lista.setPrefWidth(sfondo.getWidth()*885/1280);
-			lista.setLayoutX(sfondo.getWidth()*61/1280);
+			lista.getScroll().setPrefWidth(sfondo.getWidth()*885/1280);
+			lista.getScroll().setLayoutX(sfondo.getWidth()*61/1280);
 			
 			advancedSearch.setPrefWidth(sfondo.getWidth()*910/1280);
 			advancedSearch.setLayoutX(sfondo.getWidth()*34/1280);
@@ -396,8 +379,8 @@ public class SearchTravelController {
 			
 			scritta4.setLayoutX(sfondo.getWidth()*479/1280);
 			
-			type.setPrefWidth(sfondo.getWidth()*217/1280);
-			type.setLayoutX(sfondo.getWidth()*469/1280);
+			type.getScroll().setPrefWidth(sfondo.getWidth()*217/1280);
+			type.getScroll().setLayoutX(sfondo.getWidth()*469/1280);
 			
 			tipiSelezionati.setPrefWidth(sfondo.getWidth()*215/1280);
 			scrollSelezionati.setLayoutX(sfondo.getWidth()*697/1280);
@@ -418,8 +401,8 @@ public class SearchTravelController {
 			double move=this.advancedSearch.getHeight();
 			this.foundLabel.setLayoutY(this.foundLabel.getLayoutY()+move);
 			this.lineaListView.setLayoutY(this.lineaListView.getLayoutY()+move);
-			this.lista.setPrefHeight(this.lista.getHeight()-move);
-			this.lista.setLayoutY(this.lista.getLayoutY()+move);
+			this.lista.getScroll().setPrefHeight(this.lista.getScroll().getHeight()-move);
+			this.lista.getScroll().setLayoutY(this.lista.getScroll().getLayoutY()+move);
 			this.advancedSearch.setVisible(true);
 		
 		}
@@ -428,8 +411,8 @@ public class SearchTravelController {
 			double move=this.advancedSearch.getHeight();
 			this.foundLabel.setLayoutY(this.foundLabel.getLayoutY()-move);
 			this.lineaListView.setLayoutY(this.lineaListView.getLayoutY()-move);
-			this.lista.setPrefHeight(this.lista.getPrefHeight()+move);
-			this.lista.setLayoutY(this.lista.getLayoutY()-move);
+			this.lista.getScroll().setPrefHeight(this.lista.getScroll().getPrefHeight()+move);
+			this.lista.getScroll().setLayoutY(this.lista.getScroll().getLayoutY()-move);
 			this.advancedSearch.setVisible(false);
 		}
 	}
@@ -479,7 +462,6 @@ public class SearchTravelController {
 		}
 		if(l!=null) for(int i=0;i<l.size();i++) {
 			lista.setItems(FXCollections.observableArrayList(l));
-			lista.setCellFactory(list->new TravelCell());
 		}
 	}
 	private void setBudget(SearchTrip trip) {
@@ -496,64 +478,5 @@ public class SearchTravelController {
 				trip.setCostoMin(2000);
 		}
 	}
-	class TravelCell extends ListCell<MiniTravelBean>{
-		@Override
-        public void updateItem(MiniTravelBean item, boolean empty) {
-            super.updateItem(item, empty);
-            if(!empty) {
-            	HBox travel = new HBox();
-            	travel.setPrefWidth(sfondo.getPrefWidth()*835/1280);
-        		travel.setPrefHeight(sfondo.getPrefHeight()*180/625);
-            	travel.setMaxWidth(USE_PREF_SIZE);
-            	travel.setMinWidth(USE_PREF_SIZE);
-            	
-            	CornerRadii rad = new CornerRadii(25);
-            	Insets in = new Insets(0);
-            	BackgroundFill bgcc = new BackgroundFill(Paint.valueOf("rgb(250, 250, 250)"), rad, in);
-            	
-            	Background mybg = new Background(bgcc);
-            	travel.setBackground(mybg);
-            	Pane travelPic = new Pane();
-            	travelPic.setPrefHeight(sfondo.getPrefHeight()*180/625);
-            	travelPic.setPrefWidth(sfondo.getPrefWidth()*265/1280);
-            	new SetImage(travelPic, item.getPathImage(), true);
-            	VBox vBox = new VBox();
-            	HBox hBox = new HBox();
-            	vBox.setPrefWidth(sfondo.getPrefWidth()*265/1280);
-            	vBox.setMaxWidth(USE_PREF_SIZE);
-            	vBox.setSpacing(sfondo.getPrefHeight()*(180.0/15)/625);
-            	Label name = new Label(item.getNameTravel());
-            	Text descr = new Text(item.getDescriptionTravel());
-            	descr.setWrappingWidth(sfondo.getPrefWidth()*265/1280);
-            	hBox.setAlignment(Pos.BOTTOM_RIGHT);
-            	travel.setOnMouseClicked(e->{
-            		try {
-            			MenuBar.getInstance().setIdTravel(item.getId());
-            			MenuBar.getInstance().moveToView(mainPane, 4);
-            		}catch(MissingPageException exc) {
-            			exc.exit();
-            		}
-            	});
-            	vBox.getChildren().add(name);
-            	vBox.getChildren().add(descr);
-            	vBox.getChildren().add(hBox);
-            	
-            	travel.getChildren().add(travelPic);
-            	travel.getChildren().add(vBox);
-            	sfondo.heightProperty().addListener((observable, oldValue, newValue)->{            		
-            		travel.setPrefHeight(sfondo.getPrefHeight()*180/625);
-            		travelPic.setPrefHeight(sfondo.getPrefHeight()*180/625);
-                	
-            	});
-            	sfondo.widthProperty().addListener((observable, oldValue, newValue)->{
-            		travel.setPrefWidth(sfondo.getPrefWidth()*530/1280);
-            		travelPic.setPrefWidth(sfondo.getPrefWidth()*265/1280);
-            		descr.setWrappingWidth(sfondo.getPrefWidth()*265/1280);
-            	});
-            	setGraphic(travel);
-            	
-            	
-            }
-		}
-	}
+	
 }

@@ -8,20 +8,12 @@ import exception.DBException;
 import exception.MissingPageException;
 import exception.TriggerAlert;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import main.java.travelbook.controller.ControllerProfileOther;
 import main.java.travelbook.controller.TravelController;
@@ -31,7 +23,6 @@ import main.java.travelbook.util.SetImage;
 import	main.java.travelbook.model.bean.Bean;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 public class ProfileOtherController {
@@ -41,8 +32,7 @@ public class ProfileOtherController {
 	private UserBean user;
 	@FXML
 	private AnchorPane mainAnchor;
-	@FXML
-	private ListView<Bean> travels;
+	private Cell travels;
 	@FXML
 	private Pane profilePhoto;
 	@FXML
@@ -81,6 +71,7 @@ public class ProfileOtherController {
 	private static final String CSS = "fav-selected";
 	
 	public void initialize() {
+		travels=CellFactory.getInstance().create(CellType.TRAVEL, this.mainAnchor, this.mainPane);
 		try {
 			
 			this.user = myController.getUser(MenuBar.getInstance().getUserId());
@@ -88,15 +79,15 @@ public class ProfileOtherController {
 			new TriggerAlert().triggerAlertCreate(e1.getMessage(), "err").showAndWait();
 		}
 		new Thread(()->{
-			ObservableList<Bean> data;
+			List<Bean> data;
 			try {
-				data = FXCollections.observableArrayList(myController.getTravel(user.getTravel()));
-				travels.setItems(data); 
+				data = myController.getTravel(user.getTravel());
+				List<Object> obj=new ArrayList<>(data);
+				travels.setItems(obj); 
 			} catch (DBException e) {
 				new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 			}
 			
-			travels.setCellFactory(list->new TravelCell());
 		}).start();
 		if(MenuBar.getInstance().getLoggedUser().getFollowing()!=null &&
     			MenuBar.getInstance().getLoggedUser().getFollowing().contains(user.getId()))
@@ -109,81 +100,7 @@ public class ProfileOtherController {
 		placeVisited.setText(user.getName() + " has visited " + user.getnPlace() +" places");
 		favText.setText(user.getName()+"'s favourite travels");
 	}
-	class TravelCell extends ListCell<Bean>{
-		@Override
-        public void updateItem(Bean item, boolean empty) {
-            super.updateItem(item, empty);
-            if(!empty) {
-            	MiniTravelBean item1 = (MiniTravelBean)item;
-            	HBox travel = new HBox();
-            	
-            	
-            	CornerRadii rad = new CornerRadii(25);
-            	Insets in = new Insets(0);
-            	BackgroundFill bgcc = new BackgroundFill(Paint.valueOf("rgb(250, 250, 250)"), rad, in);
-            	
-            	Background mybg = new Background(bgcc);
-            	travel.setBackground(mybg);
-            	Pane travelPic = new Pane();
-            	
-            	new SetImage(travelPic, item1.getPathImage(), true);
-            	VBox vBox = new VBox();
-            	HBox hBox = new HBox();
-            	
-            	Label name = new Label(item1.getNameTravel());
-            	Text descr = new Text(item1.getDescriptionTravel());
-            	descr.setWrappingWidth(mainAnchor.getPrefWidth()*265/1280);
-            	hBox.setAlignment(Pos.BOTTOM_RIGHT);
-            	
-            	travel.setPrefWidth(mainAnchor.getPrefWidth()*530/1280);
-        		travel.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
-            	travel.setMaxWidth(USE_PREF_SIZE);
-            	travel.setMinWidth(USE_PREF_SIZE);
-            	vBox.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
-            	vBox.setMaxWidth(USE_PREF_SIZE);
-            	vBox.setSpacing(mainAnchor.getPrefHeight()*(180.0/15)/625);
-            	travelPic.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
-            	travelPic.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
-            	
-            	Button fav = new Button();
-            	fav.setPrefWidth(mainAnchor.getPrefWidth()*35/1280);
-            	fav.setPrefHeight(mainAnchor.getPrefHeight()*35/625);
-            	fav.getStyleClass().add("favourite");
-            	if(MenuBar.getInstance().getLoggedUser().getFav()!=null &&
-            			MenuBar.getInstance().getLoggedUser().getFav().contains(item1.getId()))
-            				fav.getStyleClass().add(CSS);
-            	travel.setOnMouseClicked(e->{
-            			try {
-            				MenuBar.getInstance().moveToView(mainPane, 3);
-            		}catch(MissingPageException exc) {
-            			exc.exit();
-            		}
-            	});
-            	fav.setOnMouseClicked(e->addToFav(item1,fav));
-            	hBox.getChildren().add(fav);
-            	vBox.getChildren().add(name);
-            	vBox.getChildren().add(descr);
-            	vBox.getChildren().add(hBox);
-            	
-            	travel.getChildren().add(travelPic);
-            	travel.getChildren().add(vBox);
-            	mainAnchor.heightProperty().addListener((observable, oldValue, newValue)->{            		
-            		travel.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
-            		travelPic.setPrefHeight(mainAnchor.getPrefHeight()*180/625);
-                	fav.setPrefHeight(mainAnchor.getPrefHeight()*35/625);
-            	});
-            	mainAnchor.widthProperty().addListener((observable, oldValue, newValue)->{
-            		travel.setPrefWidth(mainAnchor.getPrefWidth()*530/1280);
-            		travelPic.setPrefWidth(mainAnchor.getPrefWidth()*265/1280);
-            		fav.setPrefWidth(mainAnchor.getPrefWidth()*35/1280);
-            		descr.setWrappingWidth(mainAnchor.getPrefWidth()*265/1280);
-            	});
-            	setGraphic(travel);
-            	
-            	
-            }
-		}
-	}
+
 	
 	public void addToFav(MiniTravelBean item, Button fav){
 		try {
@@ -212,6 +129,7 @@ public class ProfileOtherController {
 	public void setMainPane(BorderPane main, int provenience, int travelId) {
 		this.mainPane=main;
 		this.goBack=provenience;
+		this.travels.setBorder(main);
 		this.travelId = travelId;
 this.mainPane.getScene().getWindow().heightProperty().addListener((observable,oldValue,newValue)->					
 			this.mainPane.setPrefHeight(this.mainPane.getScene().getWindow().getHeight()));
@@ -244,8 +162,8 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			backButton.setLayoutY(mainAnchor.getHeight()*20/625);
 			showBackButton.setPrefHeight(mainAnchor.getHeight()*40/625);
 			listText.setPrefHeight(mainAnchor.getHeight()*30/625);
-			travels.setPrefHeight(mainAnchor.getHeight()*591/625);
-			travels.setLayoutY(mainAnchor.getHeight()*14/625);
+			travels.getScroll().setPrefHeight(mainAnchor.getHeight()*591/625);
+			travels.getScroll().setLayoutY(mainAnchor.getHeight()*14/625);
 			follow.setPrefHeight(mainAnchor.getHeight()*30/625);
 		});	
 		
@@ -276,8 +194,8 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 			backButton.setLayoutX(mainAnchor.getWidth()*20/1280);
 			showBackButton.setPrefWidth(mainAnchor.getWidth()*40/1280);
 			listText.setPrefWidth(mainAnchor.getWidth()*200/1280);
-			travels.setPrefWidth(mainAnchor.getWidth()*606/1280);
-			travels.setLayoutX(mainAnchor.getWidth()*631/1280);
+			travels.getScroll().setPrefWidth(mainAnchor.getWidth()*606/1280);
+			travels.getScroll().setLayoutX(mainAnchor.getWidth()*631/1280);
 			follow.setPrefWidth(mainAnchor.getWidth()*30/1280);
 		});	
 	this.mainAnchor.setPrefHeight(mainPane.getHeight()*625/720);
