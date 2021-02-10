@@ -16,7 +16,12 @@ import org.openqa.selenium.support.ui.Select;
 public class TestAddDays {
 	@Test
 	public void testAddDaysNumber() {
-		System.setProperty("webdriver.chrome.driver", "Driver/chromedriver.exe");
+		if(System.getProperty("os.name").startsWith("Windows")){
+			System.setProperty("webdriver.chrome.driver", "Driver/chromedriver.exe");
+		}
+		if(System.getProperty("os.name").startsWith("Mac OS")) {
+			System.setProperty("webdriver.chrome.driver", "Driver/chromedriver");
+		}
 		WebDriver driver = new ChromeDriver();
 		driver.get("http://localhost:8080/TravelbookISPW/login.jsp");
 		driver.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys("admin");
