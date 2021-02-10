@@ -61,7 +61,7 @@
 	<meta charset="ISO-8859-1">
     <link rel="stylesheet" href="css\loginCss.css">
     <link rel="stylesheet" href="css\search.css">
-   
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
     <script src="js\jquery.min.js"></script> 
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>  
@@ -133,11 +133,11 @@
     </div>
     <form  action="search.jsp" method="POST">
     <div class="search-bar ui-widget" >
-        <input type="submit" name="search-button" id=search-button>
+        <button type="submit" name="search-button" class="icon-button" id=search-button><span class="material-icons md-36">search</span></button>
         <input type="text" name="search" value="" id=search class="textfield">
     </div>
      <div class="advanced-search">
-                <input type="button" onclick="spostamento()" id="expand">
+                <button type="button" class="icon-button" onclick="spostamento()" id="expand"><span class="material-icons">expand_more</span></button>
                 <p id=test class="as-text">
                     advanced search
                 </p>
@@ -172,7 +172,7 @@
     </div>
     </form>
     <div id=d class="anchor">
-        <input type="button" id="back" name="back" value="back" onclick="tornaIndietro()" class="back-button">
+        <button type="button" id="back" name="back" value="back" onclick="tornaIndietro()" class="back-button"><span class="material-icons md-48">arrow_back</span></button>
         <div class="panel l-panel">
            
             <div id=found class="found">
@@ -188,7 +188,6 @@
 	    					byte[] bytes=Base64.getEncoder().encode(trip.getArray());
 	    					String encoded=new String(bytes,"UTF-8");
 	    					String path="data:image/gif;base64,"+bytes;
-	    					out.println(bytes);
                 			%>
                 			<div id=<%=i %> class="travel-tile">
 								<img id="travImg"src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" class="travel-tile-photo" alt="travel picture"/>
@@ -198,7 +197,7 @@
 									 	<%=trip.getNameTravel() %>
 										 <%=trip.getDescriptionTravel() %>
 										 </p>
-										 <input type="submit" name=<%=buttonName %> id=<%=trip.getId() %>/>
+										 <button type="submit" class="icon-button" name=<%=buttonName %> id=<%=trip.getId() %>><span class="material-icons">open_in_full</span></button>
 									</form>
 								</div>
 							</div>

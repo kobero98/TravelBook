@@ -150,7 +150,7 @@
 
                 </div>
 
-                <input type="button" id="searchButton" name="searchButton" onclick="spostamentoSearch()" path="M12 8V4l8 8-8 8v-4H4V8z">
+                <button type="button" id="searchButton" name="searchButton" onclick="spostamentoSearch()"><span class="material-icons md-48">forward</span></button>
 
             </div>
             

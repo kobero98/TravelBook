@@ -50,3 +50,8 @@
 	font: bold normal 1.1em Arial, Sans-serif;
 	color: var(--Dcolor);
 }
+.icon-button{
+	background-color: transparent;
+	color: var(--textColorD);
+	border: 0px solid transparent;
+}
