@@ -140,6 +140,7 @@ function addButton() {
 	var div1 = document.getElementById("steps");
 	btn.appendChild(icon);
 	div1.appendChild(btn);
+	btn.click();
 	return btn;
 }
 function removeButton() {
@@ -155,6 +156,11 @@ function removeButton() {
 	var div = document.getElementById("steps");
 	var btn = document.getElementById(actualDay + ";" + (actualStep + 1));
 	div.removeChild(btn);
+	btn=document.getElementById(actualDay+";"+(actualStep));
+	if(btn!=undefined)
+		btn.click();
+	else
+		btn=addButton();
 }
 function changeDay() {
 	var select = document.getElementById("days");
@@ -404,14 +410,15 @@ function openProgress(){
 function handleProgress(val){
 	var elem = document.getElementById("progressValue");
 	if(!val){
+ì
 		var i = 1;
+
     
     var width = 1;
     var id = setInterval(frame, 10);
     function frame() {
       if (width >= 80) {
         clearInterval(id);
-        i = 0;
       } else {
         width++;
         elem.style.width = width + "%";

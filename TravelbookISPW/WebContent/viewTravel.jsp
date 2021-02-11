@@ -7,6 +7,7 @@
 <%@ page import="java.util.Base64" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="main.java.travelbook.model.bean.UserBean" %>
+<%@ page import="main.java.travelbook.controller.ControllerProfileOther" %>
 <%
 	UserBean myUser=(UserBean)request.getSession().getAttribute("loggedBean");
 	System.out.println(request.getParameterMap().keySet());
@@ -35,10 +36,14 @@
 		System.out.println(shareable);
 		String[] users=shareable.split(",");
 		List<Integer> ids=new ArrayList<>();
+		List<UserBean> user=new ArrayList<>();
 		for(String s: users){
 			ids.add(Integer.valueOf(s));
+			ControllerProfileOther cp=new ControllerProfileOther();
+			UserBean u=cp.getUser(Integer.valueOf(s));
+			user.add(u);
 		}
-		controller.shareTravel(ids, id, myTravel.getIdCreator(), myUser.getId());
+		controller.shareTravel(user, id, myTravel.getIdCreator(), myUser.getId());
 	}
 
 %>
