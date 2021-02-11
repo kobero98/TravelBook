@@ -28,6 +28,9 @@ public class CellFactory {
 		if(type==CellType.OTHERTRAVEL) {
 			ret=new TravelCell(anchor,pane,true,530,true);
 		}
+		if(type==CellType.SHAREABLE) {
+			ret=new ShareableContactCell(anchor,pane);
+		}
 		return ret;
 	}
 }

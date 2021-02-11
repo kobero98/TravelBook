@@ -23,6 +23,7 @@ public class ShortUserDao implements VisualDAO {
 		user.setName(rs.getString(2));
 		user.setSurname(rs.getString(3));
 		user.setPhoto(rs.getBinaryStream(4));
+		user.setEmail(rs.getString(5));
 		return user;
 		
 	}

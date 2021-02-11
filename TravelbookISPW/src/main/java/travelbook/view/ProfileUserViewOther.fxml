@@ -68,7 +68,6 @@
          </styleClass>
       </Text>
       <Label fx:id="placeVisited" alignment="CENTER" layoutX="307.0" layoutY="419.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="270.0" text="Label" wrapText="true" />
-      <ListView fx:id="travels" layoutX="641.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0" prefWidth="606.0" styleClass="travel-view" />
       <Pane fx:id="profilePhoto" layoutX="65.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="profile-pic">
          <children>
             <Button fx:id="follow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#follow" prefHeight="30.0" prefWidth="30.0" styleClass="follow" />

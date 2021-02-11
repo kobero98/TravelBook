@@ -29,10 +29,7 @@ import main.java.travelbook.view.animation.SlideImageAnimationHL;
 import main.java.travelbook.view.animation.SlideImageAnimationHR;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -93,16 +90,16 @@ public class ViewTravelController {
 	private Button rightScroll;
 	@FXML
 	private Button leftScroll;
-	@FXML
-	private ListView<UserBean> shareList;
+	private ShareableContactCell shareList;
 	@FXML
 	private Button goShare;
 	private Button selected = null;
 	private TravelController myController = new TravelController();
-	private List <Integer> toShareId = new ArrayList<>();
+	private List <UserBean> toShare = new ArrayList<>();
 	@FXML
 	private void initialize() {
-		
+		this.shareList=(ShareableContactCell)CellFactory.getInstance().create(CellType.SHAREABLE, this.mainAnchor, this.mainPane);
+		this.shareList.setToShare(this.toShare);
 		try {
 			myTravel = myController.getTravel(MenuBar.getInstance().getTravelId());
 		} catch (DBException e1) {
@@ -260,8 +257,8 @@ public class ViewTravelController {
 			photoBox.setPrefHeight(mainAnchor.getHeight()*169/625);
 			leftScroll.setPrefHeight(mainAnchor.getHeight()*20/625);
 			rightScroll.setPrefHeight(mainAnchor.getHeight()*20/625);
-			shareList.setPrefHeight(mainAnchor.getHeight()*280/625);
-			shareList.setLayoutY(mainAnchor.getHeight()*264/625);
+			shareList.getScroll().setPrefHeight(mainAnchor.getHeight()*280/625);
+			shareList.getScroll().setLayoutY(mainAnchor.getHeight()*264/625);
 			viewMap.setPrefHeight(mainAnchor.getHeight()*35/625);
 			viewMap.setLayoutY(mainAnchor.getHeight()*292/625);
 			goShare.setPrefHeight(mainAnchor.getHeight()*30/625);
@@ -301,8 +298,8 @@ public class ViewTravelController {
 			photoBox.setPrefWidth(mainAnchor.getWidth()*photoBox.getPrefWidth()/1280);
 			leftScroll.setPrefWidth(mainAnchor.getWidth()*15/1280);
 			rightScroll.setPrefWidth(mainAnchor.getWidth()*15/1280);
-			shareList.setPrefWidth(mainAnchor.getWidth()*240/1280);
-			shareList.setLayoutX(mainAnchor.getWidth()*336/1280);
+			shareList.getScroll().setPrefWidth(mainAnchor.getWidth()*240/1280);
+			shareList.getScroll().setLayoutX(mainAnchor.getWidth()*336/1280);
 			viewMap.setPrefWidth(mainAnchor.getWidth()*150/1280);
 			viewMap.setLayoutX(mainAnchor.getWidth()*437/1280);
 			goShare.setPrefWidth(mainAnchor.getWidth()*240/1280);
@@ -445,81 +442,39 @@ public class ViewTravelController {
 	}
 	@FXML
 	private void shareButtonHandler() {
-		if(!shareList.isVisible()) {
-			shareList.setItems(null);
+		if(!shareList.getScroll().isVisible()) {
 			viewMap.setVisible(false);
-			shareList.setVisible(true);
+			shareList.getScroll().setVisible(true);
 			goShare.setVisible(true);
 			try {
-				ObservableList<UserBean> data = FXCollections.observableArrayList(myController.getContactSharing(MenuBar.getInstance().getLoggedUser()));
-				shareList.setItems(data);
+				List<UserBean> data = myController.getContactSharing(MenuBar.getInstance().getLoggedUser());
+				List<Object> o=new ArrayList<>(data);
+				shareList.setItems(o);
 			} catch (DBException e) {
 				new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 			}
-			shareList.setCellFactory(list->new ContactCell());
 		}
 		else {
-			shareList.setVisible(false);
+			shareList.getScroll().setVisible(false);
 			goShare.setVisible(false);
 			viewMap.setVisible(true);
-			toShareId.clear();
+			toShare.clear();
 		}
 	}
-	class ContactCell extends ListCell<UserBean>{
-		@Override
-		public void updateItem(UserBean item, boolean empty) {
-			super.updateItem(item, empty);
-			if(!empty) {
-				HBox hBox = new HBox();
-				hBox.setSpacing(mainAnchor.getPrefWidth()*5/1280);
-				hBox.setAlignment(Pos.CENTER);
-				hBox.getStyleClass().add("h-box");
-				Text contact = new Text(item.getName()+" "+item.getSurname());
-				contact.getStyleClass().add("text");
-				contact.setWrappingWidth(mainAnchor.getPrefWidth()*100/1280);
-				Pane contactPic = new Pane();
-				new SetImage(contactPic, item.getPhoto(), false);
-				contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625);
-				contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
-				CheckBox check = new CheckBox();
-				check.selectedProperty().addListener((observable, oldValue, newValue)->{
-					if(check.isSelected()) 
-						toShareId.add(item.getId());
-					else
-						if(toShareId.contains(item.getId())) 
-							toShareId.remove(item.getId());
-				});
-				mainAnchor.widthProperty().addListener((observable,oldValue,newValue)->{
-					contactPic.setPrefWidth(mainAnchor.getPrefWidth()*50/1280);
-					hBox.setSpacing(mainAnchor.getPrefWidth()*5/1280);
-					contact.setWrappingWidth(mainAnchor.getPrefWidth()*100/1280);
-				});
-				mainAnchor.heightProperty().addListener((observable,oldValue,newValue)->
-					contactPic.setPrefHeight(mainAnchor.getPrefHeight()*50/625)
-				);
-				hBox.getChildren().add(contactPic);
-				hBox.getChildren().add(contact);
-				hBox.getChildren().add(check);
-				setGraphic(hBox);
-			}
-			else {
-				setGraphic(null);
-			}
-		}
-	}
+
 	
 	@FXML
 	private void goShareHandler() {
-		if(!toShareId.isEmpty()) {
+		if(!toShare.isEmpty()) {
 			try {
-				myController.shareTravel(this.toShareId, this.myTravel.getId(), this.myTravel.getIdCreator(), MenuBar.getInstance().getLoggedUser().getId());
+				myController.shareTravel(this.toShare, this.myTravel.getId(), this.myTravel.getIdCreator(), MenuBar.getInstance().getLoggedUser().getId());
 			} catch (DBException e) {
 				new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 			}
-			shareList.setVisible(false);
+			shareList.getScroll().setVisible(false);
 			goShare.setVisible(false);
 			viewMap.setVisible(true);
-			toShareId.clear();
+			toShare.clear();
 		}
 	}
 	@FXML

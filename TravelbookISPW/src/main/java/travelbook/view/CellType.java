@@ -7,5 +7,6 @@ public enum CellType {
 	TRAVEL,
 	MESSAGE,
 	SEARCH,
-	OTHERTRAVEL
+	OTHERTRAVEL,
+	SHAREABLE
 }

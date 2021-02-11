@@ -51,10 +51,9 @@ public class MessageCell extends Cell{
 		super.setBox(b);
 		super.getScroll().setContent(b);
 		super.getAnchor().getChildren().add(super.getScroll());
-		messages.addListener((ListChangeListener<MessageBean>)e->{
-				this.observableItems.add(messages.get(messages.size()-1));
-				this.setItems(messages);
-		});
+		messages.addListener((ListChangeListener<MessageBean>)e->
+				this.setItems(messages)
+		);
 		for(MessageBean item: messages) {
 		this.setItem(item);
 	}

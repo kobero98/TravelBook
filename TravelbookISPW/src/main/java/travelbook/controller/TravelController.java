@@ -4,7 +4,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import exception.DBException;
+import exception.FewParametersException;
+import exception.MalformedEmailException;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.ShareEntity;
 import main.java.travelbook.model.TravelEntity;
@@ -76,23 +80,38 @@ public class TravelController{
 				} catch ( SQLException e) {
 					throw new DBException("connection lost");
 				}
-				contact.add(new UserBean(res));
+				UserBean u=new UserBean(res);
+				u.setEmail(res.getEmail());
+				contact.add(u);
 			}
 		}
 		return contact;
 	}
-	public void shareTravel(List<Integer> user, int travelId, int travelC, int userId) throws DBException {
+	public void shareTravel(List<UserBean> user, int travelId, int travelC, int userId) throws DBException {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.SHARE);
-		for(Integer us: user) {
+		EmailSenderController c=new EmailSenderController();
+		List<String> messages=new ArrayList<>();
+		List<String> subj=new ArrayList<>();
+		List<String> dest=new ArrayList<>();
+		String sub="A new travel shared on Travelbook";
+		for(UserBean us: user) {
+			String emailStub="Dear "+us.getName()+" a your friend shared with you a travel, go on travelbook to view it!";
+			messages.add(emailStub);
+			dest.add(us.getEmail());
+			subj.add(sub);
 			ShareEntity sh=new ShareEntity();
 			sh.setTravelShared(travelId);
 			sh.setWhoShare(userId);
-			sh.setWhoReceive(us);
+			sh.setWhoReceive(us.getId());
 			sh.setCreator(travelC);
 			dao.setMyEntity((Entity)sh);
 			dao.setData();
 		}
-		
+		try {
+		c.sendMessage(dest, messages, subj);
+		}catch(FewParametersException | MessagingException | MalformedEmailException e) {
+			throw new DBException(e.getMessage());
+		}
 		
 	}
 	}

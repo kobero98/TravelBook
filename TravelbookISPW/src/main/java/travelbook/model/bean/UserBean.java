@@ -10,6 +10,7 @@ import main.java.travelbook.model.OtherUserEntity;
 public class UserBean implements Bean{
 	private boolean first=false;
 	private int id;
+	private String email;
 	private String name="ciao";
 	private String surname; 
 	private String description;
@@ -86,6 +87,7 @@ public class UserBean implements Bean{
 		this.follower =user.getListFollower();
 		this.following = user.getListFollowing();
 		this.fav = user.getFavoriteList();
+	
 	}
 	
 	public int getId() {
@@ -221,6 +223,14 @@ public class UserBean implements Bean{
 	@Override
 	public String toString() {
 		return this.getName()+ " " +this.getSurname();
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 

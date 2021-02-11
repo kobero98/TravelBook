@@ -388,9 +388,7 @@ public class AllQuery {
 				stmt.setInt(1, idUser);
 				stmt.setInt(2, idTravel);
 				rs=stmt.executeQuery();
-				}finally {
-					stmt.close();
-				}
+				
 				if(!rs.next()) {
 					try {
 					query="insert into favorite (CodiceUser,codiceTravel,codiceCreatore) values( ?,?,?)";
@@ -403,8 +401,10 @@ public class AllQuery {
 						if(stmt1!=null)
 							stmt1.close();
 					}
+				
 					query="Select Nlike from trip where idTrip=?";
 					stmt=connessione.prepareStatement(query);
+					stmt.setInt(1, idTravel);
 					ResultSet rs1=stmt.executeQuery();
 					rs1.next();
 					int i=rs1.getInt(1);
@@ -445,10 +445,12 @@ public class AllQuery {
 					stmt1.execute();
 					stmt1.close();
 					}finally {
-					
+							
 							stmt1.close();
 					}
-					
+				}}finally {
+						stmt.close();
+				
 				}
 		}finally {
 			if(stmt!=null) stmt.close();
@@ -574,7 +576,7 @@ public class AllQuery {
 	}
 	public String shortUserByID( int id)  {
 		
-		String query = "Select idUser,NameUser,Surname, ProfileImage from User where idUser=?";
+		String query = "Select idUser,NameUser,Surname, ProfileImage, Email from User where idUser=?";
 		if(id>=0)
 			return query;
 		return null;
