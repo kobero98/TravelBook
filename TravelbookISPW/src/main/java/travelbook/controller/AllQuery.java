@@ -393,8 +393,8 @@ public class AllQuery {
 						
 						if(!rs.next()) {
 							try {
-							query="insert into favorite (CodiceUser,codiceTravel,codiceCreatore) values( ?,?,?)";
-							stmt1=connessione.prepareStatement(query);
+							String query3="insert into favorite (CodiceUser,codiceTravel,codiceCreatore) values( ?,?,?)";
+							stmt1=connessione.prepareStatement(query3);
 							stmt1.setInt(1,idUser );
 							stmt1.setInt(2, idTravel);
 							stmt1.setInt(3, cretorTrip);
@@ -404,8 +404,8 @@ public class AllQuery {
 									stmt1.close();
 							}
 						
-							query="Select Nlike from trip where idTrip=?";
-							stmt=connessione.prepareStatement(query);
+							String query2="Select Nlike from trip where idTrip=?";
+							stmt=connessione.prepareStatement(query2);
 							stmt.setInt(1, idTravel);
 							ResultSet rs1=stmt.executeQuery();
 							rs1.next();
