@@ -17,7 +17,7 @@
 <%@ page import="main.java.travelbook.controller.ControllerProfileOther" %>
 <%
 	ControllerProfileOther c=new ControllerProfileOther();
-	ProfileController controller=new MyProfileController();
+	MyProfileController controller=new MyProfileController();
 	UserBean myUser=(UserBean) request.getSession().getAttribute("loggedBean");
 	if(request.getSession().getAttribute("loggedBean")==null){
 		%>
@@ -44,6 +44,14 @@
 				</jsp:forward>
 			<%
 		}
+		if(s.startsWith("removeTravel")){
+			String[] ar=s.split("removeTravel");
+			controller.deleteTravel(Integer.valueOf(ar[1]));
+			myUser.getTravel().remove(Integer.valueOf(ar[1]));
+			if(myUser.getFav().contains(Integer.valueOf(ar[1])))
+				myUser.getFav().remove(Integer.valueOf(ar[1]));
+			request.getSession().setAttribute("loggedBean",myUser);
+		}
 		if(s.startsWith("follow")){
 			String[] arg;
 			System.out.println(s);
@@ -69,6 +77,10 @@
 		InputStream is=new ByteArrayInputStream(bytes);
 		MyProfileController cont=new MyProfileController();
 		cont.updatePhoto(myUser.getId(),is);
+	}
+	if(request.getParameter("descrizione")!=null){
+		String s=request.getParameter("descrizione");
+		controller.updateDescr(myUser.getId(), s);
 	}
 	
 	
@@ -180,6 +192,26 @@
 			function modifyTravel(id){
 				document.location.href="http://localhost:8080/TravelbookISPW/add.jsp?modifyTravel="+id;
 			}
+			var block=true;
+			function modificaDesc(){
+				if(block){
+					block=false;
+					document.getElementById("descText").removeAttribute("disabled");
+				}
+				else{
+					block=true;
+					document.getElementById("descText").setAttribute("disabled","");
+					jQuery.ajax({
+						url:"profile.jsp",
+						data:{"descrizione":document.getElementById("descText").value},
+						error: function(xhr,ajaxOptions,thrownError){
+							console.log(xhr.responseText);
+							alert(xhr.status);
+					         alert(thrownError);
+					       }
+					});
+				}
+			}
 	</script>
 
 </head>
@@ -219,11 +251,11 @@
                 </div>
                 <div class="v">
                     <p class="us">
-                       <%=myUser.getName() %>
+                       <%=myUser.getName() %> <%=myUser.getSurname() %>
                     </p>
-                    <p class="us ds">
-                        <%=myUser.getDescription() %>
-                    </p>
+                    <textarea id="descText" style="width:20em; height:10em;"disabled maxlength="150"><%=myUser.getDescription() %></textarea>
+                    <button type="button" value="modificaDesc" onclick="modificaDesc()">
+                    </button>
                 </div>
             </div>
             <div class="menu-bar" id=p-menubar>
@@ -297,6 +329,7 @@
 									 <% 
 									 	}
 									 %>
+									 <button type="submit" name="removeTravel<%=trav.getId() %>" value="remove"></button>
 								</form>
 							</div>
 						</div>

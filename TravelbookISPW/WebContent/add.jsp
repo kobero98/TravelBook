@@ -310,7 +310,7 @@ $(function()
                     <p class="text">
                         Give us a name for your travel:
                     </p>
-                    <input type="text" name="name" class="add-text" id="travelName" onchange="travelNameListener()">
+                    <input type="text" name="name" class="add-text" id="travelName" onchange="travelNameListener()" maxlength="20">
                 </div>
                 <div class="line">
                     <p class="text">
@@ -323,7 +323,7 @@ $(function()
                     <p class="text">
                         Add a description:
                     </p>
-                    <textarea class="add-text area" id="descr" wrap="hard" onchange="travelDescriptionListener()"></textarea>
+                    <textarea class="add-text area" id="descr" wrap="hard" onchange="travelDescriptionListener()" maxlength="100"></textarea>
                 </div>
                 <div class="line">    
                     <p class="text">
@@ -403,13 +403,13 @@ $(function()
                     <p class="text">
                         Add a description:
                     </p>
-                    <textarea class="add-text area" id="step-descr" wrap="hard" onchange="descriptionListener()"></textarea>
+                    <textarea class="add-text area" id="step-descr" wrap="hard" onchange="descriptionListener()" maxlength="300"></textarea>
                 </div>
                 <div class="line">   
                     <p class="text">
                         Do you want to give some pratical information?
                     </p>
-                    <textarea class="add-text area" id="step-inf" wrap="hard" onchange="precisionListener()"></textarea>
+                    <textarea class="add-text area" id="step-inf" wrap="hard" onchange="precisionListener()" maxlength="500"></textarea>
                 </div>
                 <div class="line"> 
                     <p class="text">

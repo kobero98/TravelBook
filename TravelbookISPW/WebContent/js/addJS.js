@@ -165,8 +165,10 @@ function removeButton() {
 	btn=document.getElementById(actualDay+";"+(actualStep));
 	if(btn!=undefined)
 		btn.click();
-	else
+	else{
 		btn=addButton();
+		btn.click();
+		}
 }
 function changeDay() {
 	var select = document.getElementById("days");
