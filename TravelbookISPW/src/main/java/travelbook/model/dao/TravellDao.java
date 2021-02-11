@@ -141,7 +141,7 @@ public class TravellDao implements PersistanceDAO{
 			}
 			AllQuery.getInstance().setCityToTravel(connection, idTravel, this.entity.getCreatorId(), citta);
 		}
-		} catch (SQLException e) {
+		} catch (DBException |SQLException e) {
 			AddTravelException ex;
 			if(idTravel!=-1)
 				ex=new AddTravelException(e.getMessage(),idTravel);

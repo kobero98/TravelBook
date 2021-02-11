@@ -29,7 +29,6 @@ public class MainApp extends Application {
 	}
 	private void initRootLayout() throws MissingPageException {
 		try {
-			Object j=new Object();
 		AnchorPane exploreLayout;
 		URL url = new File("src/main/java/travelbook/view/RootLayout.fxml").toURI().toURL();
 		this.rootLayout=(BorderPane) FXMLLoader.load(url);
