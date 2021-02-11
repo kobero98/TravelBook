@@ -16,7 +16,7 @@
 <meta charset="ISO-8859-1" />
 <title>Display a map</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-<script src="https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.js"></script>
+<script src="https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.js" integrity="sha384-dRMjy8ZlKk6czEwpaK3yySKItGPpGOplDM1+osgTwGhmxeTPpjB4kmRbDr2Y7lfQ" crossorigin="anonymous"></script>
 <link href="https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.css" rel="stylesheet" />
 <style>
 	body { margin: 0; padding: 0; }

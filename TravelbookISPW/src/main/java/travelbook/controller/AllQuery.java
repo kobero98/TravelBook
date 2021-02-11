@@ -385,66 +385,65 @@ public class AllQuery {
 				stmt.close();
 				query="select * from favorite where CodiceUser=? and CodiceTravel=?";
 				try {
-				stmt=connessione.prepareStatement(query);
-				stmt.setInt(1, idUser);
-				stmt.setInt(2, idTravel);
-				rs=stmt.executeQuery();
-				
-				if(!rs.next()) {
-					try {
-					query="insert into favorite (CodiceUser,codiceTravel,codiceCreatore) values( ?,?,?)";
-					stmt1=connessione.prepareStatement(query);
-					stmt1.setInt(1,idUser );
-					stmt1.setInt(2, idTravel);
-					stmt1.setInt(3, cretorTrip);
-					stmt1.execute();
-					}finally {
-						if(stmt1!=null)
-							stmt1.close();
-					}
-				
-					query="Select Nlike from trip where idTrip=?";
-					stmt=connessione.prepareStatement(query);
-					stmt.setInt(1, idTravel);
-					ResultSet rs1=stmt.executeQuery();
-					rs1.next();
-					int i=rs1.getInt(1);
-					stmt.close();
-					try {
-					stmt1=connessione.prepareStatement("update Trip set Nlike= ? where idTrip= ?");
-					stmt1.setInt(1, i+1);
-					stmt1.setInt(2,idTravel );
-					stmt1.execute();
-					}finally {
+						stmt=connessione.prepareStatement(query);
+						stmt.setInt(1, idUser);
+						stmt.setInt(2, idTravel);
+						rs=stmt.executeQuery();
+						
+						if(!rs.next()) {
+							try {
+							query="insert into favorite (CodiceUser,codiceTravel,codiceCreatore) values( ?,?,?)";
+							stmt1=connessione.prepareStatement(query);
+							stmt1.setInt(1,idUser );
+							stmt1.setInt(2, idTravel);
+							stmt1.setInt(3, cretorTrip);
+							stmt1.execute();
+							}finally {
+								if(stmt1!=null)
+									stmt1.close();
+							}
+						
+							query="Select Nlike from trip where idTrip=?";
+							stmt=connessione.prepareStatement(query);
+							stmt.setInt(1, idTravel);
+							ResultSet rs1=stmt.executeQuery();
+							rs1.next();
+							int i=rs1.getInt(1);
 							stmt.close();
+							try {
+								stmt1=connessione.prepareStatement("update Trip set Nlike= ? where idTrip= ?");
+								stmt1.setInt(1, i+1);
+								stmt1.setInt(2,idTravel );
+								stmt1.execute();
+							}finally {
+									stmt1.close();
+							}
+						}
+						else {
+							
+							String s="delete from Favorite where CodiceUser=? and CodiceTravel=? ";
+							try {
+							stmt1=connessione.prepareStatement(s);
+							stmt1.setInt(1, idUser);
+							stmt1.setInt(2, idTravel);
+							stmt1.execute();
+							}finally {
+								if(stmt1!=null)
+									stmt1.close();
+							}
+							query="Select Nlike from trip where idTrip=?";
+							stmt=connessione.prepareStatement(query);
+							stmt.setInt(1, idTravel);
+							ResultSet rs1=stmt.executeQuery();
+							rs1.next();
+							int i=rs1.getInt(1);
+							stmt.close();
+							try {
+							stmt1=connessione.prepareStatement("update Trip set Nlike= ? where idTrip= ?");
+							stmt1.setInt(1, i-1);
+							stmt1.setInt(2,idTravel );
+							stmt1.execute();
 							stmt1.close();
-					}
-				}
-				else {
-					
-					String s="delete from Favorite where CodiceUser=? and CodiceTravel=? ";
-					try {
-					stmt1=connessione.prepareStatement(s);
-					stmt1.setInt(1, idUser);
-					stmt1.setInt(2, idTravel);
-					stmt1.execute();
-					}finally {
-						if(stmt1!=null)
-							stmt1.close();
-					}
-					query="Select Nlike from trip where idTrip=?";
-					stmt=connessione.prepareStatement(query);
-					stmt.setInt(1, idTravel);
-					ResultSet rs1=stmt.executeQuery();
-					rs1.next();
-					int i=rs1.getInt(1);
-					stmt.close();
-					try {
-					stmt1=connessione.prepareStatement("update Trip set Nlike= ? where idTrip= ?");
-					stmt1.setInt(1, i-1);
-					stmt1.setInt(2,idTravel );
-					stmt1.execute();
-					stmt1.close();
 					}finally {
 							
 							stmt1.close();
