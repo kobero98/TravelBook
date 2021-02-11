@@ -33,7 +33,6 @@ public class ExploreController {
 				List<Entity> results=dao.getData(user);
 				getResults(travels,results);
 			}catch(SQLException e) {
-				e.printStackTrace();
 				throw new DBException(e.getMessage());
 			}
 		}

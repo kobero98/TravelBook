@@ -106,7 +106,6 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			list.add((Entity) utente);
 			return list;
 		}catch (SQLException e1) {
-			e1.printStackTrace();
 			throw new LoginPageException("we couldn't reach our servers");
 		}finally {
 			if(stmt!=null) {
@@ -124,7 +123,6 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 				AllQuery.getInstance().requestRegistrationUser(this.connection, this.entity);
 				this.connection.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
 				throw new ExceptionRegistration("Registration error");
 			}
 			
@@ -171,7 +169,6 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 				if(this.entity.getListFollowing()!=null && !this.entity.getListFollowing().isEmpty()) 
 					AllQuery.getInstance().updateListFollower(connection, this.entity.getId(), this.entity.getListFollowing().get(this.entity.getListFollowing().size()-1));
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DBException("update error");
 		}
 	}
@@ -185,8 +182,17 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 			throw new DBException("no suggestion avaiable");
 		}
 		try {
-			Statement stmt=connection.createStatement();
-			rs=AllQuery.getInstance().userAutocompleteRequest(stmt, text);
+			
+			String query=AllQuery.getInstance().userAutocompleteRequest();
+			String[] nameSurname=text.split(" ");
+			String name=nameSurname[0]+"%";
+			String surname="%";
+			if(nameSurname.length>1)
+				surname=nameSurname[1]+"%";
+			PreparedStatement stmt=connection.prepareStatement(query);
+			stmt.setString(1, name);
+			stmt.setString(2, surname);
+			rs=stmt.executeQuery();
 			if(rs!=null) {
 				UserEntity localEntity;
 				while(rs.next()) {

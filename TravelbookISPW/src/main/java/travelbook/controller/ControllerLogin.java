@@ -135,7 +135,6 @@ public class ControllerLogin {
 		}catch (LoginPageException e) {
 			throw e;
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new LoginPageException("Error during login");
 		}
 		return null;
@@ -195,9 +194,7 @@ public class ControllerLogin {
 				for(int i=0;i<j;i++) code="0".concat(code);
 			}
 		try {
-			System.out.println("inizio invio mail");
 			s.sendMessage(email,code, "TravelBook registration code");
-			System.out.println(code);
 		} catch (MessagingException e) {
 			Platform.runLater(()->
 				new TriggerAlert().triggerAlertCreate("Send failed, try asking for a new code","warn").showAndWait());
@@ -215,7 +212,6 @@ public class ControllerLogin {
 		userDao.setMyEntity(newUser);
 		userDao.setData();
 		}catch(Exception e) {
-			e.printStackTrace();
 			throw new DBException("Error during registration");
 		}
 	}

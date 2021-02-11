@@ -586,16 +586,8 @@ public class AllQuery {
 		
 		return CITYAUTOCOMPLETE;
 	}
-	public ResultSet userAutocompleteRequest(Statement stmt, String text) throws SQLException {
-		String[] nameSurname=text.split(" ");
-		String name=nameSurname[0];
-		String surname="";
-		ResultSet rs=null;
-		if(nameSurname.length>1)
-			surname=nameSurname[1];
-		String query="SELECT idUser, NameUser, Surname,Username,ProfileImage from User where NameUser like '"+name+"%' and Surname like '"+surname+"%' order by char_length(NameUser),char_length(Surname)";
-		rs=stmt.executeQuery(query);
-		return rs;
+	public String userAutocompleteRequest(){
+		return "SELECT idUser, NameUser, Surname,Username,ProfileImage from User where NameUser like ? and Surname like ? order by char_length(NameUser),char_length(Surname)";
 	}
 	public String getCityByName() {
 		
