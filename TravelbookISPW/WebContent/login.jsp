@@ -3,21 +3,15 @@
 <%@ page import="main.java.travelbook.model.bean.UserBean" %>
 <%@ page import="main.java.travelbook.controller.*" %>
 <%@page import="java.sql.Date" %>
+<%@page errorPage="errorpage.jsp" %>
+<%@page import="java.util.Locale" %>
 <jsp:useBean id="user" scope="session" class="main.java.travelbook.model.bean.UserBean"/>
 <jsp:setProperty name="user" property="*" />
 <jsp:useBean id="userReg" scope="request" class="main.java.travelbook.model.bean.RegistrationBean"/>
 <jsp:setProperty name="userReg" property="*"/> 
 
 <%	
-	if(request.getParameter("forgot")!=null){
-		ControllerLogin controller=new ControllerLogin();
-		String code=controller.calcoloRegistration(user.getUsername());
-		request.getSession().setAttribute("code",code);
-		request.getSession().setAttribute("pswd",user.getUsername());
-		%>
-			<jsp:forward page="confirm.jsp"/>
-		<%
-	}
+
 	if (request.getParameter("accedi")!=null){
 		ControllerLogin controller=new ControllerLogin();
 		UserBean logged=controller.signIn(user.getUsername(), user.getPassword());
@@ -92,7 +86,9 @@
 				$("#registrazione").animate({opacity:'1'},"slow");
 				$("#code").animate({opacity:'0'},"slow");
 			}
-			
+			function cambiaPassword(){
+				document.location.href="http://localhost:8080/TravelbookISPW/inserisciEmail.jsp";
+			}
 				
 	</script>
 
@@ -109,14 +105,17 @@
 	<div class="anchor">
 		<div id=login>
 			<form action="login.jsp" id="loginTable" method="POST">
-				<input id="username" type="text" name="username" value="username or Email" class="textfield" required>
+				<input id="Username" type="text" name="username" class="textfield" required>
+				<label for="Username">Username or Email</label>
 				<input id="pswd" type="password" name="password" class="textfield" required>
+				<label for="pswd">Password</label>
 				<div class=buttons>
 				<input type="button" value="registrati" class="form-button" onclick="apriRegistrazione()">
 				<input type="submit" value="accedi" name="accedi" class="form-button">
-				<input type="submit" name="forgot" value="forgot your password?">
+				
 			</div>
 			</form>
+			<input type="button" name="forgot" value="forgot your password?" onclick="cambiaPassword()">
 			<div id=fb>
 			<a href="https://www.facebook.com/v3.2/dialog/oauth?client_id=1332279647110748&response_type=token&redirect_uri=http://localhost:8080/TravelbookISPW/login.jsp&state=\'{st=state123abc,ds=123456789}\'">Accedi con facebook</a>
 			<img src="resource\logoFacebook.png" alt="FB logo">
@@ -130,12 +129,31 @@
 	</div>
 	<div id=registrazione>
 			<form action="login.jsp" method="POST" id="registerTable">
-				<input id="username" type="text" value="username" name="username" class="textfield" required>
-				<input type="password" name="password" value="password" class="textfield" required>
-				<input type="email" name="email" value="email" class="textfield" required>
-				<input type="text" id="name" name="name" value="name" class="textfield" required>
-				<input type="text" id="surname" name="surname" value="surname" class="textfield" required>
-				<input type="date" name="birthDate" class="date-picker" required>
+				<input id="username" type="text"  name="username" class="textfield" required>
+				<label for="username">Username</label>
+				<input type="password" id="password" name="password" value="password" class="textfield" required>
+				<label for="password">Password</label>
+				<input type="email" id="email"name="email"  class="textfield" required>
+				<label for="email">Email</label>
+				<input type="text" id="name" name="name"  class="textfield" required>
+				<label for="name">Name</label>
+				<input type="text" id="surname" name="surname"  class="textfield" required>
+				<label for="surname">Surname</label>
+				<input type="date" id="dateB" name="birthDate" class="date-picker" required>
+				<label for="dateB">Birthdate</label>
+				<select id="nation"  name="nation">
+					<%
+					String[] countryCodes=Locale.getISOCountries();
+					for(String cc: countryCodes) {
+						Locale obj = new Locale("", cc);
+						String nation=obj.getDisplayCountry();
+						%>
+							<option><%=nation %></option>
+						<% 
+						
+					}
+					%>
+				</select>
 				<div>
 				 <input type="radio" id="male" name="gender" value="male" required>
 					<label for="male">Male</label><br>

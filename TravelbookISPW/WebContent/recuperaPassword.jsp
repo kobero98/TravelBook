@@ -7,13 +7,16 @@
 <%@page import="main.java.travelbook.model.bean.UserBean" %>
 <%@ page import="exception.DBException" %>
  <%
- 	if(request.getAttribute("confirm")!=null){
+ 	if(request.getParameter("confirm1")!=null){
  		String email=(String)request.getSession().getAttribute("pswd");
- 		String pswd=(String)request.getAttribute("pswd");
- 		String pswdR=(String)request.getAttribute("pswdR");
+ 		String pswd=(String)request.getParameter("pswd");
+ 		String pswdR=(String)request.getParameter("pswdR");
  		if(pswd.equals(pswdR)){
  			ControllerLogin controller=new ControllerLogin();
  			controller.changeMyPassword(email, pswd);
+ 			%>
+ 				<jsp:forward page="login.jsp"/>
+ 			<% 
  		}
  		else{
  			throw new DBException("Le password non sono uguali");
@@ -33,7 +36,7 @@
 				<input id="pswdR" type="password" name="pswdR" value="repeat password" class="textfield" required>
 				<div class="buttons">
 				<input id="closeCode" type="button" name="closeCode" value="close" class="form-button">
-				<input id="confirm" type="submit" name="confirm" value="confirm" class="form-button">
+				<input id="confirm" type="submit" name="confirm1" value="confirm" class="form-button">
 				</div>
 				</form>
 </body>
