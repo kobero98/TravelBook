@@ -385,11 +385,11 @@ public class AllQuery {
 				int cretorTrip=rs.getInt(1);
 				stmt.close();
 				query="select * from favorite where CodiceUser=? and CodiceTravel=?";
-				try {
-						stmt=connessione.prepareStatement(query);
-						stmt.setInt(1, idUser);
-						stmt.setInt(2, idTravel);
-						rs=stmt.executeQuery();
+				try(PreparedStatement stmt2=connessione.prepareStatement(query)) {
+						
+						stmt2.setInt(1, idUser);
+						stmt2.setInt(2, idTravel);
+						rs=stmt2.executeQuery();
 						
 						if(!rs.next()) {
 							try {

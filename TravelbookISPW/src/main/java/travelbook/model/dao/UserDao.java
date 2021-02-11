@@ -175,7 +175,6 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 	public List<Entity> getPredictions(String text) throws DBException{
 		List<Entity> predictions=new ArrayList<>();
 		ResultSet rs;
-		;
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
 		} catch (SQLException e) {
