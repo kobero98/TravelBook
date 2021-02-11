@@ -74,7 +74,7 @@ public class AddTravel {
 			stepE.setNumberOfDay(step.getNumberInDay());
 			stepE.setPlace(step.getPlace());
 			stepE.setUserId(userId);
-			stepE.setListPhoto(step.getImageFile());
+			stepE.setListPhoto(new ArrayList<>());
 			stepE.setBytes(step.getBytes());
 			stepE.setNumber(i);
 			stepE.setPrecisionInformation(step.getPrecisionInformation());

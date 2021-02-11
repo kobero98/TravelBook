@@ -295,17 +295,18 @@ public class AllQuery {
 	public Integer requestRegistrationTrip(Connection connessione,TravelEntity trip) throws SQLException {
 			PreparedStatement preparedStmt=null;
 			  try{
-					  String query = " insert into Trip (nome,costo,tipo,StartDate,EndDate,PhotoBackground,DescriptionTravel,CreatorTrip,Condiviso)" + " values (?, ?, ?, ?, ?, ? ,? ,?,?)";
+					  String query = " insert into Trip (nome,costo,tipo,StartDate,EndDate,StepNumber,PhotoBackground,DescriptionTravel,CreatorTrip,Condiviso)" + " values (?, ?, ?, ?, ?, ?, ? ,? ,?,?)";
 					  preparedStmt = connessione.prepareStatement(query);
 					  preparedStmt.setString (1, trip.getNameTravel());
 					  preparedStmt.setDouble (2, trip.getCostTravel());
 					  preparedStmt.setString (3, trip.getTypeTravel());
 					  preparedStmt.setDate (4, trip.getStartDate());
-					  preparedStmt.setDate   (5,trip.getEndDate());// il data va sistemato
-					  preparedStmt.setBinaryStream(6,trip.getImage());
-					  preparedStmt.setString (7,trip.getDescriptionTravel());
-					  preparedStmt.setInt (8,trip.getCreatorId());
-					  preparedStmt.setInt(9, trip.getShare());
+					  preparedStmt.setDate   (5,trip.getEndDate());
+					  preparedStmt.setInt(6, trip.getStepNumber());
+					  preparedStmt.setBinaryStream(7,trip.getImage());
+					  preparedStmt.setString (8,trip.getDescriptionTravel());
+					  preparedStmt.setInt (9,trip.getCreatorId());
+					  preparedStmt.setInt(10, trip.getShare());
 					  preparedStmt.execute();
 					  preparedStmt.close();
 					  query = " select idTrip from Trip where nome= ? and CreatorTrip= ? and StartDate=? and EndDate=? ";

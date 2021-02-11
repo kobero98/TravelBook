@@ -1,8 +1,10 @@
 package main.java.travelbook.view;
 import java.io.IOException;
-
+import java.io.InputStream;
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
+
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import main.java.travelbook.util.Observer;
 import main.java.travelbook.util.Place;
@@ -223,19 +225,7 @@ public class AddViewController implements Observer{
 		endDate.valueProperty().addListener((observable,oldValue,newValue)->
 				endDateListener());
 		dayBox.valueProperty().addListener((observable,oldValue,newValue)->{
-			String valore=dayBox.getValue();
-			dayNumber=Integer.parseInt(valore);
-			dayNumber--;
-			//Set la buttonBar a contenere i bottoni dei suoi step e fai il fire sul primo
-			stepsBar.getButtons().removeAll(stepsBar.getButtons());
-			List<StepBean> steps=stepByDay.get(dayNumber);
-			Button button;
-			for(int i=0;i<steps.size();i++) {
-				button=makeButton();
-				stepsBar.getButtons().add(button);
-			}
-			button=(Button)stepsBar.getButtons().get(0);
-			button.fire();
+			dayBoxListener();
 			
 		});
 		this.practicalInformation.textProperty().addListener(e->
@@ -306,6 +296,21 @@ public class AddViewController implements Observer{
 			this.stepByDay.get(dayNumber).get(stepNumber).setDescriptionStep(stopDescription.getText());
 			}
 		}
+	}
+	private void dayBoxListener() {
+		String valore=dayBox.getValue();
+		dayNumber=Integer.parseInt(valore);
+		dayNumber--;
+		//Set la buttonBar a contenere i bottoni dei suoi step e fai il fire sul primo
+		stepsBar.getButtons().removeAll(stepsBar.getButtons());
+		List<StepBean> steps=stepByDay.get(dayNumber);
+		Button button;
+		for(int i=0;i<steps.size();i++) {
+			button=makeButton();
+			stepsBar.getButtons().add(button);
+		}
+		button=(Button)stepsBar.getButtons().get(0);
+		button.fire();
 	}
 	private void infListener() {
 		if(this.practicalInformation.getText()!=null) {
@@ -971,7 +976,14 @@ public class AddViewController implements Observer{
 	    	}
 	    	travel.setStartTravelDate(startDateString);
 	    	travel.setEndTravelDate(endDateString);
-	    	travel.setPathBackground(this.viewPresentation.getImage());
+	    	try {
+                BufferedImage bImage = SwingFXUtils.fromFXImage(viewPresentation.getImage(), null);
+                ByteArrayOutputStream s = new ByteArrayOutputStream();
+                ImageIO.write(bImage, "png", s);
+                this.travel.setArray(s.toByteArray());
+                }catch(Exception e) {
+                    new TriggerAlert().triggerAlertCreate("we couldn't load your photo", "warn");
+                }
 	    	travel.setShare(false);
 	    	List<String> filtri=new ArrayList<>();
 	    	CheckBox element;
@@ -1271,15 +1283,15 @@ public class AddViewController implements Observer{
 	    	if(travel.getEndDate()!=null) {
 	    		this.endDate.setValue(util.toLocalDate(travel.getEndDate()));
 	    	}
-	    	if(travel.getPathImage()!=null) {
-	    		this.viewPresentation.setImage(travel.getPathImage());
+	    	Image img = travel.getPathImage();
+	    	if(img!=null) {
+	    		this.viewPresentation.setImage(img);
 	    	}
 	    	
 	    	List<StepBean> stepOfTravel=travel.getListStep();
 	    	List<List<StepBean>> stepInDay=new ArrayList<>();
 	    	
 	    	int numOfDaysInt=this.dayBox.getItems().size();
-	    	
 	    	this.setFiltersFromTravel(travel);
 	    	if(stepOfTravel!=null) {
 	    		for(int i=0;i<numOfDaysInt;i++) {
@@ -1294,7 +1306,8 @@ public class AddViewController implements Observer{
 	    		}
 	    		this.stepByDay=stepInDay;
 	    		this.setImageForSteps();
-	    		this.dayBox.setValue("1");
+	    		this.dayBox.valueProperty().set("1");
+	    		this.dayBoxListener();
 	    	}
 	    	}catch(Exception e) {
 	    		new TriggerAlert().triggerAlertCreate("error while loading travel", "err");
@@ -1329,10 +1342,11 @@ public class AddViewController implements Observer{
     				nextRow=0;
     				//GridPane created before by changeDayListener
     				//Add elements to this pane
-    				if(stepByDay.get(i).get(step).getListPhoto()!=null) {
+    				List<Image> l = stepByDay.get(i).get(step).getListPhoto();
+    				if(l!=null) {
     					this.imageGridPane=dayImagePane.get(i).get(step);
-    				for(int c=0;c<stepByDay.get(i).get(step).getListPhoto().size();c++) {
-    					Image image=stepByDay.get(i).get(step).getListPhoto().get(c);
+    				for(int c=0;c<l.size();c++) {
+    					Image image=l.get(c);
     					
     					ImageView view;
     					view=new ImageView();
