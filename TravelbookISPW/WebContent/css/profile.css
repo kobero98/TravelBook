@@ -172,4 +172,7 @@
 	color:var(--textColorD);
 	border: 0px solid transparent;
 }
+.select{
+	color: var(--Dcolor);
+}
 

@@ -112,10 +112,9 @@
 				}
 				tablinks=document.getElementsByClassName("tablinks");
 				for(i=0;i<tablinks.length;i++){
-					console.log("prova");
 					tablinks[i].className="tablinks";
 				}
-				document.getElementById("day"+dayNumber).style.display="block";
+				document.getElementById("day"+dayNumber).style.display="flex";
 				event.currentTarget.className+=" active";
 			}
 			function openStep(event,dayNumber,stepNumber){
@@ -355,9 +354,9 @@
                 </div>
                 <div class="bb">
                 
-                    <button type="button" id="profile" name="profile" class="bb-button" onclick="goProfile(<%=myUser.getId()%>)"><span class="material-icons">person</span></button>
+                    <button type="button" id="profile" name="profile" class="bb-button" onclick="goProfile(<%=myTravel.getIdCreator()%>)"><span class="material-icons">person</span></button>
                     <button type="button" id="chat" name="chat" class="bb-button" onclick="goChat(<%=myUser.getId()%>)"><span class="material-icons">textsms</span></button>
-                    <%if(myUser.getFav().contains(myTravel.getId())){
+                    <%if(myUser.getFav()!=null && myUser.getFav().contains(myTravel.getId())){
                     	%><button type="button" id="fav" name="fav" class="bb-button select" onclick="addFav()"><span class="material-icons">favorite_border</span></button>
                    <% }
                     else{

@@ -81,7 +81,13 @@
 				         alert(thrownError);
 					},
 					success: function(){
-						//CHANGE BUTTON COLOR
+						var btn = document.getElementById("follow");
+						if(btn.className==="follow"){
+							btn.className+=" select";
+						}
+						else{
+							btn.className="follow";
+						}
 					}
 					
 				});
@@ -105,8 +111,13 @@
         <div class="panel">
             <button type="button" id="back" class="back-button"><span class="material-icons md-48">arrow_back</span></button>
             <div class="profile-panel other-panel">
-            <button type="button" class="follow" name="addFav" onclick="addToFav()"><span class="material-icons md-36">person_add</span></button>
-                <%
+            <%if(myUser.getFollower()!=null && myUser.getFollower().contains(loggedUser.getId())){
+           %> <button type="button" id=follow class="follow select" name="addFav" onclick="addToFav()"><span class="material-icons md-36">person_add</span></button>
+               <%}
+            else{
+            %><button type="button" id=follow class="follow" name="addFav" onclick="addToFav()"><span class="material-icons md-36">person_add</span></button>
+        
+                <%}
             	byte[] userB=myUser.getArray();
             	if(userB!=null){
             		byte[] bytes=Base64.getEncoder().encode(userB);
@@ -178,11 +189,11 @@
 						String path="data:image/gif;base64,"+bytes;
 					}
 					%>
-						<div id=<%=i %>>
+						<div id=<%=i %> class="travel-tile">
 						<% 
 						if(bytes!=null){
 							%>
-							<img id="travImg"src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" class="image" alt="travel picture"/>
+							<img id="travImg"src="data:image/*;base64,<%=encoded%>" style="width: 12.5em; height: 12.5em;" class="travel-tile-photo" alt="travel picture"/>
 							<%
 						}
 						%>
