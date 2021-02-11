@@ -342,7 +342,7 @@ public class AllQuery {
 		return null; 
 	}
 	public String requestShortTravel(int idTrip){
-		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground from trip where idTrip=?";
+		String query="Select idTrip,nome,Descriptiontravel,PhotoBackground,Condiviso from trip where idTrip=?";
 		if(idTrip>=0)
 			return query;
 		return null;

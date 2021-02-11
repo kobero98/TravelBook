@@ -21,6 +21,7 @@ public class ShortTravelDao implements VisualDAO{
 		e.setNameTravel(rs.getString(2));
 		e.setDescriptionTravel(rs.getString(3));
 		e.setBackground(rs.getBinaryStream(4));
+		e.setShare(rs.getInt(5));
 		return e;
 	}
 	

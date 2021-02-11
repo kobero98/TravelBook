@@ -15,6 +15,7 @@ public class MiniTravelBean extends Observable implements Bean{
 	private String descriptionTravel;
 	private Image pathBackground;
 	private InputStream picStream;
+	private boolean shared;
 	private byte[] array;
 	public void setId(Integer id) {
 		this.id = id;
@@ -67,7 +68,10 @@ public class MiniTravelBean extends Observable implements Bean{
 			this.picStream=travel.getImage();
 		}
 		this.descriptionTravel=travel.getDescriptionTravel();
-		
+		if(travel.getShare()==1)
+			this.shared=true;
+		else
+			this.shared=false;
 	}
 	
 	public String getDescriptionTravel() {
@@ -88,5 +92,13 @@ public class MiniTravelBean extends Observable implements Bean{
 			this.pathBackground=new Image(this.picStream);
 		}
 		return this.pathBackground;
+	}
+
+	public boolean isShared() {
+		return shared;
+	}
+
+	public void setShared(boolean shared) {
+		this.shared = shared;
 	}
 }
