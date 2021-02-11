@@ -2,7 +2,9 @@ package main.java.travelbook.view;
 
 import java.util.List;
 
+import exception.DBException;
 import exception.MissingPageException;
+import exception.TriggerAlert;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -17,6 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import main.java.travelbook.controller.MyProfileController;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.util.SetImage;
 import javafx.scene.layout.Region;
@@ -70,7 +73,7 @@ public class TravelCell extends Cell {
     	if(other)
     		edit=this.makeOther(item1);
     	else
-    		edit=this.make();
+    		edit=this.make(item1,travel,hBox);
 
     	travel.setOnMouseClicked(e->{
 			try {
@@ -121,13 +124,42 @@ public class TravelCell extends Cell {
     	fav.setOnMouseClicked(e->c.addToFav(item,fav));
     	return fav;
 	}
-	private Button make() {
+	private Button make(MiniTravelBean item,HBox h,HBox parent) {
     	Button edit = new Button();
     	edit.setPrefWidth(super.getAnchor().getPrefWidth()*35/1280);
     	edit.setPrefHeight(super.getAnchor().getPrefHeight()*35/625);
-    	edit.setVisible(this.isEditable);
+    	edit.setVisible(this.isEditable&& !(item.isShared()));
     	edit.getStyleClass().clear();
     	edit.getStyleClass().add("edit");
+    	Button removeTravel=new Button();
+    	removeTravel.setText("Remove");
+    	removeTravel.setPrefWidth(super.getAnchor().getPrefWidth()*100/1280);
+    	removeTravel.setPrefHeight(super.getAnchor().getPrefHeight()*50/625);
+    	super.getAnchor().widthProperty().addListener((observable,oldValue,newValue)->
+    		removeTravel.setPrefWidth(super.getAnchor().getPrefWidth()*100/1280)
+    	);
+    	super.getAnchor().heightProperty().addListener((observable,oldValue,newValue)->
+    		removeTravel.setPrefHeight(super.getAnchor().getPrefHeight()*50/625)
+    	);
+    	removeTravel.setVisible(this.isEditable);
+    	removeTravel.setMaxWidth(Region.USE_PREF_SIZE);
+    	removeTravel.setMinWidth(Region.USE_PREF_SIZE);
+    	removeTravel.setMinHeight(Region.USE_PREF_SIZE);
+    	removeTravel.setMaxHeight(Region.USE_PREF_SIZE);
+    	removeTravel.setOnMouseClicked(e->{
+    		MyProfileController myController=new MyProfileController();
+    		try {
+    			myController.deleteTravel(item.getId());
+    			}catch(DBException ex) {
+    				new TriggerAlert().triggerAlertCreate("Unable to remove your travel","err").showAndWait();
+    			}
+    		MenuBar.getInstance().getLoggedUser().getTravel().remove(item.getId());
+    		List<Integer> fav=MenuBar.getInstance().getLoggedUser().getFav();
+    		if(fav.contains(item.getId()))
+    			fav.remove(item.getId());
+    		this.getBox().getChildren().remove(h);
+    	});
+    	parent.getChildren().add(removeTravel);
     	return edit;
 	}
 }

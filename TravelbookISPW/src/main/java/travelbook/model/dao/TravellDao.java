@@ -172,6 +172,7 @@ public class TravellDao implements PersistanceDAO{
 		try {
 			AllQuery.getInstance().deleteTravel(connect, trav.getIdTravel());
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new DBException("error while deleting, try again later");
 		}
 	}

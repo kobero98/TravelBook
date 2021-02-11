@@ -77,5 +77,11 @@ public class MyProfileController extends ProfileController{
 		return new UserBean(rs);
 
 	}
+	public void deleteTravel(int id) throws DBException{
+		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.TRAVEL);
+		TravelEntity t=new TravelEntity();
+		t.setIdTravel(id);
+		dao.delete(t);
+	}
 
 }

@@ -410,7 +410,13 @@ public class ProfileViewController implements Observer{
 			
 		}
 	}
-
+	public void removeATrip(int id) {
+		try {
+		this.myController.deleteTravel(id);
+		}catch(DBException e) {
+			new TriggerAlert().triggerAlertCreate("Unable to remove your travel","err").showAndWait();
+		}
+	}
 	@FXML
 	private void back() {
 		show.getScroll().setVisible(false);

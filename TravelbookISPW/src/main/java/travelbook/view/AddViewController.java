@@ -1,7 +1,9 @@
 package main.java.travelbook.view;
 import java.io.IOException;
+
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
+
 
 import java.io.ByteArrayOutputStream;
 import main.java.travelbook.util.Observer;
@@ -419,7 +421,30 @@ public class AddViewController implements Observer{
 		}
 		public void remove(int row,int col) {
 			//set valid the entry
-			this.positions.get(row).set(col, 1);
+			
+			int c=this.positions.get(row).size();
+			int count=0;
+			int i=0;
+			int j=0;
+			for(i=0;i<row+1;i++) {
+				for(j=0;j<this.positions.get(i).size();j++) {
+					if(this.positions.get(i).get(j)==1)
+						count++;
+				}
+			}
+			j=0;
+			i=0;
+			c=0;
+			count=row*c+col+count;
+			while(c<count) {
+				j++;
+				if(j==5) {
+					i++;
+					j=0;
+				}
+				c++;
+			}
+			this.positions.get(i).set(j, 1);
 		}
 		public boolean isValid(int row,int col) {
 			//return ture if the position is valid
@@ -1205,14 +1230,18 @@ public class AddViewController implements Observer{
 	    	//Remove the selected image from gridPane and step.
 	    	int col=imageGridPane.getGridPane().getColumnConstraints().size();
 	    	int row=imageGridPane.getGridPane().getRowConstraints().size();
+	    	boolean finito=false;
 	    	for(int i=0;i<row;i++) {
 	    		for(int j=0;j<col;j++) {
 	    			if(imageGridPane.getGridPane().getChildren().get(i*col +j)==actualImage) {
 	    				actualRemove(i,j,col);
+	    				finito=true;
 	    				break;
 	    			}
 	    			
 	    		}
+	    		if(finito)
+	    			break;
 	    	}
 	    	}
 	    	else {
