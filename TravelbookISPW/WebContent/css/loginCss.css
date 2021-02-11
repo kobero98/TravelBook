@@ -258,6 +258,9 @@ a:active{
 	border: 0px solid transparent;
 	margin-left:1em;
 }
+.p-step{
+	color: #FDFDFD;
+}
 .code-button{
 	width: 5em;
 	height: 2em;

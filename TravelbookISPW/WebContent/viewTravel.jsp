@@ -118,6 +118,12 @@
 				event.currentTarget.className+=" active";
 			}
 			function openStep(event,dayNumber,stepNumber){
+				var steps = document.getElementsByClassName("stepButton"); //non va
+				for(var i=0;i<steps.lenght;i++){
+					console.log("sono qui");
+					steps[i].className="stepButton";
+				}
+				event.currentTarget.className+=" p-step";
 				var div=document.getElementById("right-panel");
 				var fotoDiv=document.createElement("div");
 				fotoDiv.setAttribute("id","fotodiv");

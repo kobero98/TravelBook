@@ -392,7 +392,7 @@ $(function()
         <div id="progressPane">
         	<div id="progressValue">
         	</div>
-        	<button id="closeProgress" type="button" class="icon-button"><span class="material-icons">clear</span></button>
+        	<button id=closeProgress type="button" class="icon-button"><span class="material-icons">clear</span></button>
         </div>
         </body>
         </html>

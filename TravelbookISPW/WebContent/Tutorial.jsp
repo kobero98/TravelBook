@@ -15,10 +15,10 @@
  	
  %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Travelbook tutorial</title>
 </head>
 <body style="display:flex; align-items:center;">
 	<form action="Tutorial.jsp" method="POST">

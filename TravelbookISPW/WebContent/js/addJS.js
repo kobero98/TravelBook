@@ -171,7 +171,7 @@ function changeDay() {
 	var i;
 	for (i = 0; i < arrayStep[actualDay].length; i++) {
 		var btn = document.createElement("button");
-		btn.setAttribute("class", "stepButton");
+		btn.setAttribute("class", "stepButton s-pressed");
 		btn.setAttribute("type", "button");
 		btn.setAttribute("onclick", "setStep(event)");
 		btn.setAttribute("id", actualDay + ";" + (i + 1));
