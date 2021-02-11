@@ -22,7 +22,6 @@
 		c=(List<Chat>) request.getSession().getAttribute("ChatList");				
 		if(c!=null) tryContacts = myController.getContacts(c,log.getId());
 	}
-	System.out.println(c.size());
 	Integer sel=-1;
 	int selettore=-1;
 	if(request.getParameter("invia")!=null)
@@ -156,7 +155,7 @@
 		$(function(){
 			$('#search-bar').autocomplete(
 	             {
-		           	 position:{ my: "center bottom", at: "center top", collision: "flip" },
+	            	 position:{ my: "center bottom", at: "center top", collision: "flip" },
 		           	 minlength:1,
 		           	 async: true,
 		             source:function(request,response)
@@ -181,7 +180,6 @@
 									  temp[i].value=data[i].nome;
 									  temp[i].label=data[i].nome;
 									  temp[i].id=data[i].id;
-									  
 									}
 								 console.log(temp);
 			                	 response(temp);
@@ -196,8 +194,8 @@
 	            });
 		
 		function updateScroll(){
-			var element = document.getElementById("chat");
-		   	element.scrollTop = element.scrollHeight;
+		var element = document.getElementById("chat");
+		element.scrollTop = element.scrollHeight;
 		}
 	
 	</script>
