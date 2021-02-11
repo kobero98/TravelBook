@@ -19,10 +19,11 @@
 	ControllerProfileOther c=new ControllerProfileOther();
 	ProfileController controller=new MyProfileController();
 	UserBean myUser=(UserBean) request.getSession().getAttribute("loggedBean");
-	if(myUser==null)
+	if(request.getSession().getAttribute("loggedBean")==null){
 		%>
 			<jsp:forward page="login.jsp"/>
 		<% 
+	}
 	myUser=c.getUser(myUser.getId());
 	Set<String> params=request.getParameterMap().keySet();
 	System.out.println(params);
@@ -263,9 +264,17 @@
 									<p class=text>
 									 <%=trav.getNameTravel() %>
 									 <%=trav.getDescriptionTravel() %>
+
 									 </p>
 									 <button type="submit" class="tile-icon" name=<%=buttonName %> id=<%=trav.getId() %>><span class="material-icons">open_in_full</span></button>
+									 <% 
+									 	if(!trav.isShared()){
+									 %>
+									 
 									 <button type="button" class="tile-icon" onclick="modifyTravel(<%=trav.getId()%>)"><span class="material-icons">edit</span></button>
+									 <% 
+									 	}
+									 %>
 								</form>
 							</div>
 						</div>

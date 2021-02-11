@@ -13,10 +13,11 @@
         ControllerProfileOther controller=new ControllerProfileOther();
 		UserBean loggedUser=(UserBean)request.getSession().getAttribute("loggedBean");
 		UserBean myUser=new UserBean();
-		if(myUser==null)
+		if(myUser==null){
 			%>
-				<jsp:forward page="login.jsp">
+				<jsp:forward page="login.jsp"/>
 			<% 
+		}
 		if(request.getParameter("user")!=null){
 			Integer myId=Integer.valueOf(request.getParameter("user"));
 			myUser=controller.getUser(myId);
@@ -109,9 +110,16 @@
             	if(userB!=null){
             		byte[] bytes=Base64.getEncoder().encode(userB);
 					String encoded=new String(bytes,"UTF-8");
+					if(!encoded.isEmpty()){
             		%>
             			<img src="data:image/*;base64,<%=encoded%>" id="profileIm" style="width: 12.5em; height: 12.5em;" class="image" alt="profile picture">
             		<% 
+					}
+					else{
+						%>
+	            		  <img src="resource/travelers.png" id="profileIm" style="width: 12.5em; height: 12.5em;" class="image" alt="default profile picture">
+	            		<% 
+					}
             	}
             	else{
             		%>
@@ -134,7 +142,12 @@
                     <input type="button" class="profile-button" value="Following:<%=myUser.getNFollowing()%>" onclick="showFollowing()">
                     <input type="button" class="profile-button fav-button" onclick="showFav()">
                     <p class="text">
-                        <%=myUser.getName()%> has <%=myUser.getFav().size()%> favorite travels
+                    <%
+                    	Integer num=0;
+                    	if(myUser.getFav()!=null)
+                    		num=myUser.getFav().size();
+                    %>
+                        <%=myUser.getName()%> has <%=num%> favorite travels
                     </p>
                 </div>
                 <div class="map">

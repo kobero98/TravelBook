@@ -14,10 +14,11 @@
 	boolean firstTime=false;
 	if(request.getSession().getAttribute("loggedBean")!=null){
 		log=(UserBean)request.getSession().getAttribute("loggedBean");
-		if(log==null)
-			%>
-				<jsp:forward page="login.jsp"/>
-			<% 
+	}
+	else{
+		%>
+			<jsp:forward page="login.jsp"/>
+		<% 
 	}
 	if(log.isFirstTime()){
 		log.setFirstTime(false);

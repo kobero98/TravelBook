@@ -41,6 +41,11 @@
 			byte[] bytes1=Base64.getDecoder().decode(bytesB641);
 			travel.setArray(bytes1);
 		}
+		boolean b=false;
+		if(request.getParameter("SHARED")!=null){
+			 b=Boolean.valueOf(request.getParameter("SHARED"));
+			travel.setShare(b);
+		}
 		travel.setType(types);
 		travel.setListStep(new ArrayList<>());
 		StepBean stepBean;
@@ -67,7 +72,18 @@
 			}
 			}
 		}
-		myController.saveTravel(travel,loggedUser.getId());
+		boolean nuovo=true;
+		if(request.getParameter("NEW")!=null){
+			if(!request.getParameter("NEW").equals("-1")){
+				nuovo=false;
+			}
+		}
+		if(nuovo){
+			myController.saveTravel(travel,loggedUser.getId());
+		}
+		else{
+			myController.saveAndDelete(travel, Integer.valueOf(request.getParameter("NEW")), loggedUser.getId());
+		}
 	}
 	if(request.getParameter("modifyTravel")!=null){
 		myTravel=myController.getTravelById(Integer.valueOf(request.getParameter("modifyTravel")));
@@ -166,6 +182,9 @@ $(function()
 <%
 	if(myTravel!=null){
 		//ModifyTravelMode
+		%>
+			notNew=<%=myTravel.getId()%>;
+		<%
 		List<StepBean> steps=myTravel.getListStep();
 		%>
 			startDate="<%=myTravel.getStartDate()%>";
@@ -322,7 +341,7 @@ $(function()
                         <label for="check7" class="text"> Relaxing Holiday</label><br>
                     </div>
                     <div class="submit">    
-                        <input type="button" name="saveButton" class="add-button" value="Save as draft">  
+                        <input type="button" name="saveButton" class="add-button" value="Save as draft" onclick="save()">  
                         <input type="button" name="postButton" class="add-button" value="All done! Post" onclick="post()"> 
                     </div>    
                 </div>                              

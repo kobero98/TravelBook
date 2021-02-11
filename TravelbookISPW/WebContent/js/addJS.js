@@ -14,6 +14,7 @@ class StepJS {
 		return (this.descriptionStep != undefined && this.place != undefined && this.precision != undefined);
 	}
 }
+var notNew=-1;
 var travelName;
 var travelDescription;
 var startDate;
@@ -350,7 +351,7 @@ function post(blocked = true) {
 		jQuery.ajax({
 			url: "add.jsp",
 			type: "POST",
-			data: { "POSTTRAVEL": JSON.stringify(requestJSON) },
+			data: { "POSTTRAVEL": JSON.stringify(requestJSON), "SHARED": blocked, "NEW": notNew },
 			error: function(xhr, ajaxOptions, thrownError) {
 				console.log(xhr.responseText);
 				alert(xhr.status);

@@ -7,7 +7,8 @@ function readTravel(data,type){
     	var divInt=document.createElement("div");
     	var title=document.createElement("div");
     	var backButton=document.createElement("button");
-    	backButton.setAttribute("class","s-back-button");
+    	backButton.setAttribute("class","s-back-button");	
+		backButton.setAttribute("onclick","closePanel()");
     	divInt.setAttribute("class","show");
     	title.setAttribute("class", "show-title");
     	title.appendChild(backButton);
@@ -55,6 +56,7 @@ function readTravel(data,type){
     	var title=document.createElement("div");
     	var backButton=document.createElement("button");
     	backButton.setAttribute("class","s-back-button");
+		backButton.setAttribute("onclick","closePanel()");
     	title.setAttribute("class", "show-title");
     	title.appendChild(backButton);
     	divInt.appendChild(title);

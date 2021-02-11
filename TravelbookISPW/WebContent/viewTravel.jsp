@@ -11,10 +11,11 @@
 <%@page errorPage="errorpage.jsp" %>
 <%
 	UserBean myUser=(UserBean)request.getSession().getAttribute("loggedBean");
-	if(myUser==null)
+	if(myUser==null){
 		%>
-			<jsp:forward page="login.jsp">
+			<jsp:forward page="login.jsp"/>
 		<%
+	}
 	Integer id=Integer.valueOf(request.getParameter("travelID"));
 	TravelController controller=new TravelController();
 	TravelBean myTravel=controller.getTravel(id);
