@@ -1,10 +1,8 @@
 package main.java.travelbook.view;
 import java.io.IOException;
-import java.io.InputStream;
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import main.java.travelbook.util.Observer;
 import main.java.travelbook.util.Place;
@@ -224,10 +222,8 @@ public class AddViewController implements Observer{
 		});
 		endDate.valueProperty().addListener((observable,oldValue,newValue)->
 				endDateListener());
-		dayBox.valueProperty().addListener((observable,oldValue,newValue)->{
-			dayBoxListener();
-			
-		});
+		dayBox.valueProperty().addListener((observable,oldValue,newValue)->
+			dayBoxListener());
 		this.practicalInformation.textProperty().addListener(e->
 			infListener());
 		TextField text=new TextField();

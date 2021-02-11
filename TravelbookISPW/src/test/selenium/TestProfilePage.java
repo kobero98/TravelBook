@@ -20,15 +20,15 @@ public class TestProfilePage {
         if(System.getProperty("os.name").startsWith("Mac OS X")) {
             System.setProperty("webdriver.chrome.driver", "Driver/chromedriver");
         }
-		WebDriver driver = new ChromeDriver();
-		driver.get("http://localhost:8080/TravelbookISPW/login.jsp");
-		driver.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys("Alalea");
-		driver.findElement(By.xpath("//*[@id=\"pswd\"]")).sendKeys("1234");
-		driver.findElement(By.xpath("//*[@id=\"loginTable\"]/div/input[2]")).click();
-		driver.findElement(By.xpath("/html/body/div[2]/div[1]/div[1]/button[1]")).click();
-		String user = driver.findElement(By.xpath("/html/body/div[2]/div[1]/div[1]/div[2]/p[1]")).getText();
-		String descr = driver.findElement(By.xpath("/html/body/div[2]/div[1]/div[1]/div[2]/p[2]")).getText();
-		driver.close();
+		WebDriver driver2 = new ChromeDriver();
+		driver2.get("http://localhost:8080/TravelbookISPW/login.jsp");
+		driver2.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys("Alalea");
+		driver2.findElement(By.xpath("//*[@id=\"pswd\"]")).sendKeys("1234");
+		driver2.findElement(By.xpath("//*[@id=\"loginTable\"]/div/input[2]")).click();
+		driver2.findElement(By.xpath("/html/body/div[2]/div[1]/div[1]/button[1]")).click();
+		String user = driver2.findElement(By.xpath("/html/body/div[2]/div[1]/div[1]/div[2]/p[1]")).getText();
+		String descr = driver2.findElement(By.xpath("/html/body/div[2]/div[1]/div[1]/div[2]/p[2]")).getText();
+		driver2.close();
 		boolean right = true;
 		if(!user.contentEquals("Sara"))
 			right = false;

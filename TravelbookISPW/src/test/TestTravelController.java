@@ -54,5 +54,4 @@ public class TestTravelController {
 		
 		assertEquals(true,(test.size()==1 && test.get(0).getId()==19));
 	}
-	//TODO cambiare id quando database fatto bene
 }

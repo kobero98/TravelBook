@@ -36,7 +36,6 @@ public class TestMyProfileController {
 		String text="a".repeat(151);
 		assertThrows(DBException.class, ()->controller.updateDescr(6, text));
 	}
-	//TODO cambiare id per updateDescr, getUser e controllo con 1 quando admin avrà 1
 	//cambiare viaggio con primo viaggio nel db
 	@Test
 	public void testGetTravel() throws DBException{
