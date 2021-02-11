@@ -39,14 +39,14 @@ public class PredictionController {
 		}
 		String newText;
 		try {
-			newText=URLEncoder.encode(text,"UTF8");
+			newText=URLEncoder.encode(text,"UTF-8");
 		
 		HttpClient client=HttpClientBuilder.create().build();
 		String url="https://api.mapbox.com/geocoding/v5/mapbox.places/"+newText+".json"+"?fuzzyMatch="+bool+"&limit="+limit+"&types="+tipi+"&access_token="+token;
 		HttpGet request=new HttpGet(url);
 		request.addHeader("accept", "application/json");
 			HttpResponse response = client.execute(request);
-			String json = EntityUtils.toString(response.getEntity(), "UTF-8");
+			String json = EntityUtils.toString(response.getEntity(),"UTF-8");
 			return parseString(json);
 		} catch (IOException e) {
 			throw new MapboxException(e.getMessage());
@@ -77,13 +77,13 @@ public class PredictionController {
 		String s = "place_name";
 		List<String> types=new ArrayList<>();
 		types.add("place");
-		types.add("locality");
 		types.add("address");
+		types.add("locality");
 		types.add("poi");
-		List<JSONObject> results=this.mapboxQuery(name, false, 10,"place,locality,address,poi");
+		List<JSONObject> results=this.mapboxQuery(name, false, 10,"place,address,locality,poi");
+		JSONObject o=results.get(0);
 		for(JSONObject res: results) {
-			
-			if(res.get(s).equals(name)) {
+			if(name.startsWith(res.get(s).toString()) || name.endsWith(res.get(s).toString()) ) {
 				return res;
 			}
 		}
@@ -91,12 +91,13 @@ public class PredictionController {
 			results=this.mapboxQuery(name, false, 10, tipo);
 			for(JSONObject res: results) {
 				
-				if(res.get(s).equals(name)) {
+				if(name.startsWith(res.get(s).toString()) || name.endsWith(res.get(s).toString())) {
 					return res;
 				}
 			}
 		}
-		throw new MapboxException("Unable to find place you searched for, probably your text string is incorrect");
+		return o;
+		
 	}
 	public String getToken() {
 		return token;

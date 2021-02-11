@@ -55,13 +55,6 @@ public class ViewOnMap {
 			else {
 				popupContent.append(step.getFullPlace().getType()+"<br>");
 			}
-			popupContent.append("User Description: ");
-			if(step.getDescriptionStep()!=null && !step.getDescriptionStep().isEmpty()) {
-				popupContent.append(step.getDescriptionStep()+"<br>");
-			}
-			else {
-				popupContent.append("No description yet<br>");
-			}
 			script.append("\"<p>"+popupContent+"</p>\",");
 			String icon=getIcon(step, category);
 			script.append("\""+icon+"\",");
