@@ -4,12 +4,10 @@
 <%@ page import="org.json.simple.JSONObject"%>
 
 <%
-if(request.getSession().getAttribute("nuovaChat")!=null){
-	MessageBean m=(MessageBean) request.getSession().getAttribute("nuovaChat");
+if(request.getSession().getAttribute("notifica")!=null){
 	JSONObject o=new JSONObject();
-	o.put("text", m.getText());
+	o.put("text", "notifica");
 	out.println(o);
-	request.getSession().setAttribute("nuovaChat",null);
 }
 else{
 	out.println("{}");

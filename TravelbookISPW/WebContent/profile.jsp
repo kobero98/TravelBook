@@ -107,6 +107,28 @@
 	{
 		  location.replace("chat.jsp");
 	}
+	(function Notify() {
+	    setTimeout(function() {
+	        $.ajax({
+	            url: "ChatNewChat.jsp",
+	            type: "POST",
+	            dataType: "json",
+	            error:function(xhr,ajaxOptions,thrownError){
+					console.log(xhr.responseText);
+					alert(xhr.status);
+			         alert(thrownError);
+				},
+	            success: function(data) {
+	            	 if(data.text!=null){
+	            		 document.getElementById("chatNotify").innerHTML = "mark_chat_unread";
+	            		}
+	            },
+	            
+	            complete: Notify,
+	            timeout: 2000
+	        })
+	    }, 5000);
+	})();
 	function fileLoaded(frEvnt){
 		var sFBody = frEvnt.target.result;
 		var sBodyBase64 = btoa(sFBody);
@@ -208,7 +230,7 @@
                 <button type="button" class="button p-button" name="profile" ><span class="material-icons">person</span>PROFILE</button>
                 <button type="button" class="button" name="add" onclick=goToAdd()><span class="material-icons">edit</span>ADD</button>
                 <button type="button" class="button" name="explore" onclick=goToExplore()><span class="material-icons">explore</span>EXPLORE</button>
-                <button type="button" class="button" name="chat" onclick=goToChat()><span class="material-icons">textsms</span>CHAT</button>
+                <button type="button" class="button" name="chat" onclick=goToChat()><span id=chatNotify class="material-icons">textsms</span>CHAT</button>
             </div>
             <div id="bottom">
                 <div id="l-bottom">

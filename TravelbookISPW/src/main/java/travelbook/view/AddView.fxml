@@ -263,7 +263,7 @@
             <URL value="@../css/project.css" />
          </stylesheets>
       </Pane>
-      <StackPane fx:id="viewImagePane" layoutX="400.0" layoutY="106.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="400.0" styleClass="progress-pane">
+      <StackPane fx:id="viewImagePane" layoutX="400.0" layoutY="106.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="400.0" styleClass="progress-pane" visible="false">
          <children>
             <ImageView fx:id="viewImage" fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" />
             <Button fx:id="closeImage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#closeImage" prefHeight="36.0" prefWidth="36.0" StackPane.alignment="TOP_RIGHT">

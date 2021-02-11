@@ -8,6 +8,7 @@
 <%@ page import="main.java.travelbook.controller.ChatController" %>
 <%@page errorPage="errorpage.jsp" %>
 <%
+	request.getSession().setAttribute("notifica",null);
 	ChatController myController=new ChatController();
 	List <Chat> c=new ArrayList<>();
 	UserBean log=(UserBean)request.getSession().getAttribute("loggedBean");
@@ -114,7 +115,7 @@
 	}
 	var id={};
 		function getData() { 
-			document.getElementById("invia").value = selected.id;
+			document.getElementById("invia").value = selected;
 		}
 		(function poll() {
 		    setTimeout(function() {
@@ -150,22 +151,7 @@
 		        })
 		    }, 5000);
 		})();
-		
-		(function poll2() {
-		    setTimeout(function() {
-		        $.ajax({
-		            url: "ChatNewChat.jsp",
-		            type: "POST",
-		            dataType: "json",
-		            success: function(data) {
-		               	console.log("polling2");
-		            },
-		            
-		            complete: poll2,
-		            timeout: 2000
-		        })
-		    }, 5000);
-		})();
+
 		
 		$(function(){
 			$('#search-bar').autocomplete(
@@ -186,23 +172,26 @@
 							         alert(thrownError);
 								},
 			                 success:function(data)
-			                 {
+			                 { 
+			                	 console.log(data);
 			                	 id=data;
-								 var temp={}
+								 var temp={};
 									 for (i = 0; i < data.length; i++) {
-									  temp[i]=data[i].nome;
+									  temp[i]={};
+									  temp[i].value=data[i].nome;
+									  temp[i].label=data[i].nome;
+									  temp[i].id=data[i].id;
+									  
 									}
+								 console.log(temp);
 			                	 response(temp);
 			                 }
 		             		});
 		             },
 		             select: function( event, ui ) {
-		            	 for(i=0;i<id.length;i++){
-		            		 if(ui.item.value==id[i].nome){
-		            			 selected=id[i];
-		            		 }
+		            	 	selected=ui.item.id;
+		            		
 		            	 }
-	                   }
 	             }); 
 	            });
 		
@@ -231,7 +220,7 @@
      <div class="panel contact-panel">
             <div class="menu-bar">
                 <button type="button" class="button" name="profile" onclick=goToProfile()><span class="material-icons">person</span>PROFILE</button>
-                <button type="button" class="button" name="add" onclick=goToChat()><span class="material-icons">edit</span>ADD</button>
+                <button type="button" class="button" name="add" onclick=goToAdd()><span class="material-icons">edit</span>ADD</button>
                 <button type="button" class="button" name="explore" onclick=goToExplore()><span class="material-icons">explore</span>EXPLORE</button>
                 <button type="button" class="button p-button" name="chat"><span class="material-icons">textsms</span>CHAT</button>
             </div>

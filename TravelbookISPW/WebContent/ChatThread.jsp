@@ -26,8 +26,10 @@
 						boolean found=false;
 						lastLocalTime=lastTime;
 						List<MessageBean> messages=myController.getNewMessage(id,lastLocalTime);
-						if(!messages.isEmpty())
+						if(!messages.isEmpty()){
 							lastTime=Instant.now();
+							request.getSession().setAttribute("notifica","notify");
+						}
 						for(MessageBean message: messages) {
 							found=false;
 							
