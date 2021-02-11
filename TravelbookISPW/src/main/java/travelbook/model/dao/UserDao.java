@@ -175,20 +175,19 @@ public class UserDao implements PersistanceDAO, PredictableDAO{
 	public List<Entity> getPredictions(String text) throws DBException{
 		List<Entity> predictions=new ArrayList<>();
 		ResultSet rs;
+		;
 		try {
 			this.connection = AllQuery.getInstance().getConnection();
 		} catch (SQLException e) {
 			throw new DBException("no suggestion avaiable");
 		}
-		try {
-			
-			String query=AllQuery.getInstance().userAutocompleteRequest();
+		String query=AllQuery.getInstance().userAutocompleteRequest();
+		try (PreparedStatement stmt=connection.prepareStatement(query)){
 			String[] nameSurname=text.split(" ");
 			String name=nameSurname[0]+"%";
 			String surname="%";
 			if(nameSurname.length>1)
 				surname=nameSurname[1]+"%";
-			PreparedStatement stmt=connection.prepareStatement(query);
 			stmt.setString(1, name);
 			stmt.setString(2, surname);
 			rs=stmt.executeQuery();

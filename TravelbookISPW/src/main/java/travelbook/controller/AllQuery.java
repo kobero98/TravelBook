@@ -416,7 +416,7 @@ public class AllQuery {
 					stmt1.setInt(2,idTravel );
 					stmt1.execute();
 					}finally {
-						
+							stmt.close();
 							stmt1.close();
 					}
 				}

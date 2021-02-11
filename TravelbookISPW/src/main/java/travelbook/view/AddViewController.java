@@ -998,11 +998,15 @@ public class AddViewController implements Observer{
     			try {
     				activateProgressBar();
     			}catch(Exception e) {
-    				progressBar.setVisible(false);
-    				progressBar.setOpacity(0);
-    				internalPane.setOpacity(1);
-    				new TriggerAlert().triggerAlertCreate("An error has occured while save your travel please try again", "err").showAndWait();
-    				progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+    				Platform.runLater(()->{ 
+    					progressBar.setVisible(false);
+    					progressBar.setOpacity(0);
+    					internalPane.setOpacity(1);
+    					new TriggerAlert().triggerAlertCreate("An error has occured while save your travel please try again", "err").showAndWait();
+    					progressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+    					});
+    				
+    				
     			}
     			
     		}).start();
@@ -1050,7 +1054,6 @@ public class AddViewController implements Observer{
 	    			}
 	    		}
 	    		//Aggiungi il file nella stessa posizione in cui trovi il file Image 
-	    		imageGridPane.getFiles().get(nextRow).add(files.get(i));
 	    		imageGridPane.add(view, nextCol, nextRow);
 	    		updateGridIndex();
 	    		progressIndicator.setProgress(progressIndicator.getProgress()+percentuale);
@@ -1213,9 +1216,6 @@ public class AddViewController implements Observer{
 	    private void actualRemove(int i, int j, int col) {
 	    	imageGridPane.getGridPane().getChildren().remove(i*col+j);
 			imageGridPane.remove(i, j);
-			imageGridPane.getFiles().get(i).remove(j);
-			if(imageGridPane.getFiles().get(i).isEmpty())
-				imageGridPane.getFiles().remove(i);
 			nextCol=j;
 			nextRow=i;
 	    }
