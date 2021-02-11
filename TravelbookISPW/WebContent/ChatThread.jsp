@@ -67,6 +67,7 @@
 				List<MessageBean> messages = myController.getMessagesThread(0,id);
 				for(MessageBean message: messages) {
 					found=false;
+					if(!message.getRead()) request.getSession().setAttribute("notifica","notify");
 					for(int i=0;i<chats.size();i++) {
 						Chat chat=chats.get(i);
 						if(chat.getIdUser()==message.getIdMittente()) {

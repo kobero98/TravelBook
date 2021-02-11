@@ -285,6 +285,7 @@
 					List<MessageBean> m= myController.getMessages(msgR, msgS);
 					for(MessageBean messaggio:m)
 					{
+						if(!messaggio.getRead()) myController.setReadMex(messaggio);
 						if(messaggio.getIdDestinatario()==c.get(x).getIdUser()){
 							%>
 							<div>
