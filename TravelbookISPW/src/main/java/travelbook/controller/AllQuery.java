@@ -28,6 +28,7 @@ public class AllQuery {
 	private static final String QUERYUSERID= "Select NameUser, Surname, BirthDate, DescriptionProfile, TripNumber, ProfileImage from User where idUser=?";
 	private static AllQuery instance=null;
 	private static final String FAVORITEID="Select CodiceTravel from Favorite where codiceUser=?";
+	private static final String USERAUTOCOMPLETE="SELECT idUser, NameUser, Surname,Username,ProfileImage from User where NameUser like ? and Surname like ? order by char_length(NameUser),char_length(Surname)";
 	private AllQuery() {}
 	public static AllQuery getInstance() {
 		if(instance==null) instance=new AllQuery();
@@ -587,7 +588,7 @@ public class AllQuery {
 		return CITYAUTOCOMPLETE;
 	}
 	public String userAutocompleteRequest(){
-		return "SELECT idUser, NameUser, Surname,Username,ProfileImage from User where NameUser like ? and Surname like ? order by char_length(NameUser),char_length(Surname)";
+		return USERAUTOCOMPLETE;
 	}
 	public String getCityByName() {
 		
