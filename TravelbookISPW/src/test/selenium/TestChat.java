@@ -17,7 +17,6 @@ public class TestChat {
 
 	@Test
 	public void testAddChatUser() throws InterruptedException {
-	
 		if(System.getProperty("os.name").startsWith("Windows")){
 			System.setProperty("webdriver.chrome.driver", "Driver/chromedriver.exe");
 		}
@@ -40,11 +39,9 @@ public class TestChat {
 			if(!driver.findElement(By.xpath("/html/body/ul")).findElements(By.xpath("//li")).isEmpty()){
 				
 				String name=driver.findElement(By.xpath("/html/body/ul/li[1]/div")).getText();
-				System.out.println(name);
 				driver.findElement(By.xpath("/html/body/ul/li[1]/div")).click();
 				driver.findElement(By.xpath("/html/body/div[2]/div[1]/form/button")).click();
 				List<WebElement> childs =driver.findElement(By.xpath("/html/body/div[2]/div[1]/div[2]")).findElements(By.xpath(".//form"));
-				System.out.println(childs.size());
 
 				for(WebElement c:childs)
 				{
