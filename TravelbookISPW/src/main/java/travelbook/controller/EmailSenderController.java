@@ -17,7 +17,7 @@ public class EmailSenderController {
 
 		
 		String mit = "progettoispwtravelbook@outlook.it";
-		String pswd= "Progettoispw2021";
+		String pswd= "";
 		Properties props=new Properties();
 	    props.put("mail.smtp.host", "smtp.office365.com");
 	    props.put("mail.smtp.auth", "true");
