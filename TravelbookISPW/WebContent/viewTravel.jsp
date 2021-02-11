@@ -119,9 +119,8 @@
 				event.currentTarget.className+=" active";
 			}
 			function openStep(event,dayNumber,stepNumber){
-				var steps = document.getElementsByClassName("stepButton"); //non va
-				for(var i=0;i<steps.lenght;i++){
-					console.log("sono qui");
+				var steps = document.getElementsByClassName("stepButton");
+				for(var i=0;i<steps.length;i++){
 					steps[i].className="stepButton";
 				}
 				event.currentTarget.className+=" p-step";
@@ -247,7 +246,13 @@
 		         alert(thrownError);
 			},
 			success: function(){
-				
+			var btn=document.getElementById("fav");
+			if(btn.className==="bb-button"){
+				btn.className+=" select";
+			}
+			else{
+				btn.className="bb-button";
+			}
 			}
 		});
 	}
@@ -352,7 +357,12 @@
                 
                     <button type="button" id="profile" name="profile" class="bb-button" onclick="goProfile(<%=myUser.getId()%>)"><span class="material-icons">person</span></button>
                     <button type="button" id="chat" name="chat" class="bb-button" onclick="goChat(<%=myUser.getId()%>)"><span class="material-icons">textsms</span></button>
-                    <button type="button" id="fav" name="fav" class="bb-button" onclick="addFav()"><span class="material-icons">favorite_border</span></button>
+                    <%if(myUser.getFav().contains(myTravel.getId())){
+                    	%><button type="button" id="fav" name="fav" class="bb-button select" onclick="addFav()"><span class="material-icons">favorite_border</span></button>
+                   <% }
+                    else{
+                    %><button type="button" id="fav" name="fav" class="bb-button" onclick="addFav()"><span class="material-icons">favorite_border</span></button>
+                    <% }%>
                     <button type="button" id="share" class="bb-button" onclick="showFav(<%=myUser.getId()%>)" name="shareButton"><span class="material-icons">share</span></button>
                   
                 </div>

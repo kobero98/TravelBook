@@ -43,8 +43,13 @@ function endDateListener() {
 	}
 }
 function setStep(evt) {
-	console.log(evt.currentTarget.id);
+	var steps = document.getElementsByClassName("stepButton");
+	for(var i=0;i<steps.length;i++){
+		steps[i].className="stepButton";
+	}
+	
 	actualStep = evt.currentTarget.id.split(";")[1] - 1;
+	evt.currentTarget.className+=" p-step";
 	var desc = document.getElementById("step-descr");
 	var inf = document.getElementById("step-inf");
 	var divFoto = document.getElementById("photo-grid");
@@ -172,7 +177,7 @@ function changeDay() {
 	var i;
 	for (i = 0; i < arrayStep[actualDay].length; i++) {
 		var btn = document.createElement("button");
-		btn.setAttribute("class", "stepButton s-pressed");
+		btn.setAttribute("class", "stepButton");
 		btn.setAttribute("type", "button");
 		btn.setAttribute("onclick", "setStep(event)");
 		btn.setAttribute("id", actualDay + ";" + (i + 1));
