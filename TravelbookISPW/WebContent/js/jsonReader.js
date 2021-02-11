@@ -7,6 +7,10 @@ function readTravel(data,type){
     	var divInt=document.createElement("div");
     	var title=document.createElement("div");
     	var backButton=document.createElement("button");
+		var iconBack=document.createElement("span");
+		iconBack.setAttribute("class","material-icons md-48");
+		iconBack.innerHTML="arrow_back";
+		backButton.appendChild(iconBack);
     	backButton.setAttribute("class","s-back-button");	
 		backButton.setAttribute("onclick","closePanel()");
     	divInt.setAttribute("class","show");
@@ -19,11 +23,15 @@ function readTravel(data,type){
     		$.each(dataO,function(index,element){
     		var text=document.createTextNode(dataO[index].title);
     		var btn;
+			var icon;
     		var img=document.createElement("img");
     		var div=document.createElement("div");
     		var form=document.createElement("form");
     		form.setAttribute("action","profile.jsp");
     		form.setAttribute("method","POST");
+			icon=document.createElement("span");
+			icon.setAttribute("class","material-icons");
+			icon.innerHTML="chevron_right";
     		btn=document.createElement("button");
     		btn.setAttribute("type","submit");
     		btn.setAttribute("name",type+dataO[index].id);
@@ -37,10 +45,12 @@ function readTravel(data,type){
     		}
     		img.setAttribute("style","width: 5em; height: 5em;");
     		img.setAttribute("class","image");
+			btn.appendChild(icon);
     		form.appendChild(btn);
-    		div.appendChild(form);
-    		div.appendChild(text);
+    		
     		div.appendChild(img);
+			div.appendChild(text);
+			div.appendChild(form);
     		divInt.appendChild(div);
     	});
     	}
@@ -51,10 +61,15 @@ function readTravel(data,type){
     	var text;
     	var form;
     	var img;
+		var icon;
     	var dataO=data.users;
     	var divInt=document.createElement("div");
     	var title=document.createElement("div");
     	var backButton=document.createElement("button");
+		var iconBack=document.createElement("span");
+		iconBack.setAttribute("class","material-icons md-48");
+		iconBack.innerHTML="arrow_back";
+		backButton.appendChild(iconBack);
     	backButton.setAttribute("class","s-back-button");
 		backButton.setAttribute("onclick","closePanel()");
     	title.setAttribute("class", "show-title");
@@ -69,6 +84,9 @@ function readTravel(data,type){
     		btn=document.createElement("button");
     		btn.setAttribute("type","submit");
     		btn.setAttribute("name",type+dataO[index].id);
+			icon=document.createElement("span");
+			icon.setAttribute("class","material-icons");
+			icon.innerHTML="chevron_right";
     		div=document.createElement("div");
     		div.setAttribute("id",type+dataO[index].id);
     		div.setAttribute("class","followPanel");
@@ -82,6 +100,7 @@ function readTravel(data,type){
     		}
     		img.setAttribute("style","width: 5em; height: 5em;");
     		img.setAttribute("class","image");
+			btn.appendChild(icon);
     		form.appendChild(btn);
     		div.appendChild(text);
     		div.appendChild(img);

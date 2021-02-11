@@ -63,6 +63,7 @@
 	<meta charset="ISO-8859-1">
     <link rel="stylesheet" href="css/loginCss.css">
     <link rel="stylesheet" href="css/profile.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="js\jquery.min.js"></script>
     <script src="js\jsonReader.js"></script>
 	<title>Travelbook</title>
@@ -102,9 +103,9 @@
     </div>
     <div class="anchor">
         <div class="panel">
-            <input type="button" id="back" class="back-button">
+            <button type="button" id="back" class="back-button"><span class="material-icons md-48">arrow_back</span></button>
             <div class="profile-panel other-panel">
-            <input type="button" name="addFav" onclick="addToFav()"/>
+            <button type="button" class="follow" name="addFav" onclick="addToFav()"><span class="material-icons md-36">person_add</span></button>
                 <%
             	byte[] userB=myUser.getArray();
             	if(userB!=null){
@@ -140,7 +141,7 @@
                 <div id="l-bottom">
                    <input type="button" class="profile-button" value="Follower:<%=myUser.getNFollower() %>" onclick="showFollower()">
                     <input type="button" class="profile-button" value="Following:<%=myUser.getNFollowing()%>" onclick="showFollowing()">
-                    <input type="button" class="profile-button fav-button" onclick="showFav()">
+                    <button type="button" class="profile-button fav-button" onclick="showFav()"><span class="material-icons">favorite_border</span></button>
                     <p class="text">
                     <%
                     	Integer num=0;
@@ -191,7 +192,7 @@
 									 <%=trav.getNameTravel() %>
 									 <%=trav.getDescriptionTravel() %>
 									 </p>
-									 <input type="submit" name=<%=buttonName %> id=<%=trav.getId() %>/>
+									 <button type="submit" class="tile-icon" name=<%=buttonName %> id=<%=trav.getId() %>><span class="material-icons">open_in_full</span></button>
 								</form>
 							</div>
 						</div>

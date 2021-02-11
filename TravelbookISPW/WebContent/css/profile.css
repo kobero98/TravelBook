@@ -129,6 +129,8 @@
 	border-bottom: 1px solid var(--lightGrey);
 	display:flex;
 	width:20em;
+	align-items:center;
+	justify-content: space-evenly;
 }
 .show{
 	background: var(--Mcolor);
@@ -146,6 +148,11 @@
 	margin: 0.5em;
 	width: 2.5em;
 	height:2em;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	background:transparent;
+	border:none;
 }
 #logoutButton{
 	position:absolute;
@@ -156,5 +163,13 @@
 	opacity:1;
 	border: 1px solid var(--Mcolor);
 	
+}
+.follow{
+	position:absolute;
+	top: 13em;
+	left:3em;
+	background-color:transparent;
+	color:var(--textColorD);
+	border: 0px solid transparent;
 }
 

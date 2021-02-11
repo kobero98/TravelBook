@@ -247,7 +247,7 @@
 		         alert(thrownError);
 			},
 			success: function(){
-				//ADD HERE CHANGE BUTTON COLOR
+				
 			}
 		});
 	}
