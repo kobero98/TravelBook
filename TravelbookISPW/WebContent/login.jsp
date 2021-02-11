@@ -109,7 +109,7 @@
 	<div class="anchor">
 		<div id=login>
 			<form action="login.jsp" id="loginTable" method="POST">
-				<input id="username" type="text" name="username" vaule="username or Email" class="textfield" required>
+				<input id="username" type="text" name="username" value="username or Email" class="textfield" required>
 				<input id="pswd" type="password" name="password" class="textfield" required>
 				<div class=buttons>
 				<input type="button" value="registrati" class="form-button" onclick="apriRegistrazione()">

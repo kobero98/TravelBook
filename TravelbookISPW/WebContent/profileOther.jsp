@@ -8,15 +8,20 @@
 <%@ page import="main.java.travelbook.model.bean.MiniTravelBean" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Set" %>
+<%@page errorPage="errorpage.jsp" %>
 <%
         ControllerProfileOther controller=new ControllerProfileOther();
 		UserBean loggedUser=(UserBean)request.getSession().getAttribute("loggedBean");
 		UserBean myUser=new UserBean();
+		if(myUser==null)
+			%>
+				<jsp:forward page="login.jsp">
+			<% 
 		if(request.getParameter("user")!=null){
 			Integer myId=Integer.valueOf(request.getParameter("user"));
 			myUser=controller.getUser(myId);
 		}
-		
+		else{
 		Set<String> params=request.getParameterMap().keySet();
 		System.out.println(params);
 		for(String s: params){
@@ -45,9 +50,10 @@
 				<% 
 			}
 		}
+		}
 		if(request.getParameter("addFav")!=null){
 			loggedUser.getFollowing().add(myUser.getId());
-			controller.updateFollow(loggedUser);
+			controller.updateFollow(loggedUser.getId(),myUser.getId());
 		}
 %>
 <!DOCTYPE html>

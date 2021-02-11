@@ -11,6 +11,7 @@
 <%@ page import="java.util.Base64" %>
 <%@ page import="java.io.InputStream" %>
 <%@ page import="java.io.ByteArrayOutputStream" %>
+<%@page errorPage="errorpage.jsp" %>
 <%
 	TravelBean myTravel=null;
 	AddTravel myController=new AddTravel();

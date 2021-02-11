@@ -8,20 +8,18 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="main.java.travelbook.model.bean.UserBean" %>
 <%@ page import="main.java.travelbook.controller.ControllerProfileOther" %>
+<%@page errorPage="errorpage.jsp" %>
 <%
 	UserBean myUser=(UserBean)request.getSession().getAttribute("loggedBean");
-	System.out.println(request.getParameterMap().keySet());
+	if(myUser==null)
+		%>
+			<jsp:forward page="login.jsp">
+		<%
 	Integer id=Integer.valueOf(request.getParameter("travelID"));
 	TravelController controller=new TravelController();
 	TravelBean myTravel=controller.getTravel(id);
-	System.out.println(request.getParameterMap().keySet());
-	if(request.getParameter("profile")!=null){
-		%>
-			<jsp:forward page="profileOther.jsp">
-			<jsp:param name="id" value="<%=myTravel.getIdCreator()%>"/>
-			</jsp:forward>
-		<% 
-	}
+
+
 	if(request.getParameter("chat")!=null){
 		response.sendRedirect("chat.jsp");
 	}
@@ -45,6 +43,7 @@
 		}
 		controller.shareTravel(user, id, myTravel.getIdCreator(), myUser.getId());
 	}
+	
 
 %>
 <!DOCTYPE html>
@@ -275,6 +274,34 @@
 			}
 		})
 	}
+	function loadMap(){
+		var i;
+		var arg = new Array();
+		var c = 0;
+		var j;
+		var step;
+		for (i = 0; i < array.length; i++) {
+			for (j = 0; j < array[i].length; j++) {
+				step = array[i][j];
+				arg[c] = { "groupDay": step.groupDay, "numberInDay": step.numberInDay, "description": step.descriptionStep, "precision": step.precision, "photo": step.photo, "place": step.place };
+				c++;
+			}
+		}
+		var places = { "places": arg };
+		jQuery.ajax({
+			url: "add.jsp",
+			data: { "forward": JSON.stringify(places) },
+			type: "POST",
+			error: function(xhr, ajaxOptions, thrownError) {
+				console.log(xhr.responseText);
+				alert(xhr.status);
+				alert(thrownError);
+			},
+			success: function(data) {
+				window.open("http://localhost:8080/TravelbookISPW/map.jsp");
+			}
+		});
+	}
 	function goBack() {
 		  window.history.back();
 		}
@@ -315,15 +342,14 @@
 					%>
                 </div>
                 <div class="bb">
-                	<form action="viewTravel.jsp" method="POST">
+                
                     <button type="button" id="profile" name="profile" class="bb-button" onclick="goProfile(<%=myUser.getId()%>)"><span class="material-icons">person</span></button>
                     <button type="button" id="chat" name="chat" class="bb-button" onclick="goChat(<%=myUser.getId()%>)"><span class="material-icons">textsms</span></button>
                     <button type="button" id="fav" name="fav" class="bb-button" onclick="addFav()"><span class="material-icons">favorite_border</span></button>
                     <button type="button" id="share" class="bb-button" onclick="showFav(<%=myUser.getId()%>)" name="shareButton"><span class="material-icons">share</span></button>
                   
-                    </form>
                 </div>
-               
+               <input type="button" id="viewMap" value="View On Map" onclick="loadMap()">
             </div>
             <div class="bot">
 			<div class="days">

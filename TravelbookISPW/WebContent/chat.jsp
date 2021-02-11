@@ -6,10 +6,15 @@
 <%@ page import="main.java.travelbook.model.bean.*" %>
 <%@ page import="main.java.travelbook.model.*" %>
 <%@ page import="main.java.travelbook.controller.ChatController" %>
+<%@page errorPage="errorpage.jsp" %>
 <%
 	ChatController myController=new ChatController();
 	List <Chat> c=new ArrayList<>();
 	UserBean log=(UserBean)request.getSession().getAttribute("loggedBean");
+	if(log==null)
+		%>
+			<jsp:forward page="login.jsp">
+		<% 
 	List<UserBean> tryContacts=new ArrayList<>();
 	if(request.getSession().getAttribute("ChatList")!=null){ 
 		c=(List<Chat>) request.getSession().getAttribute("ChatList");				

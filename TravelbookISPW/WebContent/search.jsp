@@ -3,6 +3,7 @@
 <%@ page import="main.java.travelbook.model.bean.*" %>
 <%@ page import="main.java.travelbook.controller.*" %>
 <%@ page import="java.util.*" %>
+<%@page errorPage="errorpage.jsp" %>
 <%	List<MiniTravelBean> m=null;
 	ControllerSearch myController=new ControllerSearch();
 	if(request.getParameter("search-button")!=null){

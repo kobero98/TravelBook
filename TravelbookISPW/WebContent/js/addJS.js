@@ -410,8 +410,8 @@ function openProgress(){
 function handleProgress(val){
 	var elem = document.getElementById("progressValue");
 	if(!val){
-ì
-		var i = 1;
+
+
 
     
     var width = 1;
@@ -439,7 +439,7 @@ function closeProgressPane(){
 	elem.removeAttribute("onclick");
 	$("#progressPane").animate({ opacity: '0' }, "slow");
 	$("#addAnchor").animate({ opacity: '1' }, "slow");
-	document.location.href="http://localhost:8080/profile.jsp";
+	document.location.href="http://localhost:8080/TravelbookISPW/profile.jsp";
 }
 function removePresentation(){
 	if(background!=undefined && background!=""){

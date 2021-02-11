@@ -14,9 +14,16 @@
 <%@ page import="main.java.travelbook.controller.MyProfileController" %>
 <%@ page import="java.io.InputStream" %>
 <%@ page import="java.io.ByteArrayInputStream" %>
+<%@ page import="main.java.travelbook.controller.ControllerProfileOther" %>
 <%
+	ControllerProfileOther c=new ControllerProfileOther();
 	ProfileController controller=new MyProfileController();
 	UserBean myUser=(UserBean) request.getSession().getAttribute("loggedBean");
+	if(myUser==null)
+		%>
+			<jsp:forward page="login.jsp"/>
+		<% 
+	myUser=c.getUser(myUser.getId());
 	Set<String> params=request.getParameterMap().keySet();
 	System.out.println(params);
 	for(String s: params){
