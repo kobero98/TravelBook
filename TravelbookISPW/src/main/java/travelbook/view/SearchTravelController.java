@@ -429,7 +429,7 @@ public class SearchTravelController {
 
 	@FXML
 	private void handlerReserch() {
-		this.lista.setItems(new ArrayList<>());;
+		this.lista.setItems(new ArrayList<>());
 		String r=ricercaTextField.getText();
 		if(r.isEmpty()) return;
 		SearchTrip trip=new SearchTrip();
