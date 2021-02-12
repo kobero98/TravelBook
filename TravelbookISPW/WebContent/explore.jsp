@@ -73,7 +73,7 @@
      });
 	}
 	
-	(function Notify() {
+	(function NotifyMessage() {
 		    setTimeout(function() {
 		        $.ajax({
 		            url: "ChatNewChat.jsp",
@@ -90,7 +90,7 @@
 		            		}
 		            },
 		            
-		            complete: Notify,
+		            complete: NotifyMessage,
 		            timeout: 2000
 		        })
 		    }, 5000);

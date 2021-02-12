@@ -111,14 +111,15 @@
 	{
 		  location.replace("explore.jsp");
 	}
-	function goToAdd()
-	{
-		  location.replace("add.jsp");
-	}
 	function goToChat()
 	{
 		  location.replace("chat.jsp");
 	}
+	function goToAdd()
+	{
+		  location.replace("add.jsp");
+	}
+	
 	(function Notify() {
 	    setTimeout(function() {
 	        $.ajax({
