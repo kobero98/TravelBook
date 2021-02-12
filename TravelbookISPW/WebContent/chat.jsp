@@ -229,9 +229,15 @@
 				for(UserBean contact:tryContacts)
 				{
 					int idC=contact.getId();
+					Integer id=(Integer) request.getSession().getAttribute("selettore");
+					System.out.println(id);
+					if(id!=null && idC==tryContacts.get(id.intValue()).getId()){
 					%>
-					<form id=<%=idC %> action="chat.jsp" method="post" class="contact-widget">
-					<%
+					<form id=<%=idC %> action="chat.jsp" method="post" class="contact-widget selected">
+					<%}
+					else{
+					%><form id=<%=idC %> action="chat.jsp" method="post" class="contact-widget"><% 
+					}
 					byte[] userB=contact.getArray();
 	            	if(userB.length!=0){
 	            		byte[] bytes=Base64.getEncoder().encode(userB);

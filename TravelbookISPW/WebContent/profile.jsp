@@ -16,6 +16,7 @@
 <%@ page import="java.io.ByteArrayInputStream" %>
 <%@ page import="main.java.travelbook.controller.ControllerProfileOther" %>
 <%
+    request.getSession().setAttribute("selettore",null);
 	ControllerProfileOther c=new ControllerProfileOther();
 	MyProfileController controller=new MyProfileController();
 	UserBean myUser=(UserBean) request.getSession().getAttribute("loggedBean");

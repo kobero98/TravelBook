@@ -13,6 +13,7 @@
 <%@ page import="java.io.ByteArrayOutputStream" %>
 <%@page errorPage="errorpage.jsp" %>
 <%
+	request.getSession().setAttribute("selettore",null);
 	TravelBean myTravel=null;
 	AddTravel myController=new AddTravel();
 	UserBean loggedUser=(UserBean)request.getSession().getAttribute("loggedBean");

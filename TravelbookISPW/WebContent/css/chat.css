@@ -67,6 +67,9 @@
 	align-items: center;
 	height: 5em;
 }
+.selected{
+	background-color: var(--Dcolor);
+}
 .msg-s{
 	margin-left:1em;
 	max-width: 20em;
