@@ -8,6 +8,7 @@ import main.java.travelbook.view.LoginViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.AnchorPane;
@@ -20,12 +21,22 @@ public class MainApp extends Application {
 	public void start(Stage rootStage) {
 		this.rootStage=rootStage;
 		this.rootStage.setTitle("Travelbook");
+		
 		try {
+			this.setIcon();
 			initRootLayout();
 		} catch (MissingPageException e) {
 			e.exit();
 		}
 		controller.setMain(rootLayout);
+	}
+	private void setIcon() throws MissingPageException {
+		try {
+			URL url=new File("src/main/resources/travelbookIcon.jpg").toURI().toURL();
+			this.rootStage.getIcons().add(new Image(url.toString()));
+			}catch(Exception ex) {
+				throw new MissingPageException();
+			}
 	}
 	private void initRootLayout() throws MissingPageException {
 		try {

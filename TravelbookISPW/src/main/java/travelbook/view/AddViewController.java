@@ -421,8 +421,7 @@ public class AddViewController implements Observer{
 		}
 		public void remove(int row,int col) {
 			//set valid the entry
-			
-			int c=this.positions.get(row).size();
+			int c=0;
 			int count=0;
 			int i=0;
 			int j=0;
