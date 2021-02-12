@@ -330,8 +330,8 @@
 							<div>
 								<form action="profile.jsp" method="POST">
 									<p class=text>
-									 <%=trav.getNameTravel() %>
-									 <%=trav.getDescriptionTravel() %>
+									 <h3><%=trav.getNameTravel() %></h3>
+									 <p><%=trav.getDescriptionTravel() %><br>
 
 									 </p>
 									 <button type="submit" class="tile-icon" name=<%=buttonName %> id=<%=trav.getId() %>><span class="material-icons">open_in_full</span></button>
