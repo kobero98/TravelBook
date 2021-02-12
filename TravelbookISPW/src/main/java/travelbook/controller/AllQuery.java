@@ -44,7 +44,7 @@ public class AllQuery {
 		StringBuilder q=new StringBuilder();
 		q.append("Select idTrip,nome,Descriptiontravel,PhotoBackground from trip join trip_has_city on idTrip=CodiceViaggi and CreatorTrip=CodiceCreatore where Condiviso=1 and City_NameC like ? and City_State like ?  and costo>=?  and tipo like ? and DATEDIFF(EndDate,StartDate)>=?");
 		if(entity.getMaxCost()!=null) {
-			q.append( "and costo<=?");
+			q.append( " and costo<=?");
 
 		}
 		if(entity.getMaxDay()!=null)

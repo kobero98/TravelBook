@@ -429,7 +429,7 @@ public class SearchTravelController {
 
 	@FXML
 	private void handlerReserch() {
-		this.lista.getItems().clear();
+		this.lista.setItems(new ArrayList<>());;
 		String r=ricercaTextField.getText();
 		if(r.isEmpty()) return;
 		SearchTrip trip=new SearchTrip();
@@ -458,7 +458,7 @@ public class SearchTravelController {
 		try {
 			l = myController.search(trip);
 		} catch (DBException e) {
-			new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn");
+			new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 		}
 		if(l!=null) for(int i=0;i<l.size();i++) {
 			lista.setItems(FXCollections.observableArrayList(l));

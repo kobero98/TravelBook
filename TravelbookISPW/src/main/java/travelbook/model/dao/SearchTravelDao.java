@@ -63,6 +63,7 @@ public class SearchTravelDao implements VisualDAO {
 				return l;
 				}
 		} catch (SQLException e1) {
+			e1.printStackTrace();
 			throw new DBException("servers unreachable");
 		}
 		

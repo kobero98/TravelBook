@@ -294,7 +294,7 @@
 		for (i = 0; i < array.length; i++) {
 			for (j = 0; j < array[i].length; j++) {
 				step = array[i][j];
-				arg[c] = { "groupDay": step.groupDay, "numberInDay": step.numberInDay, "description": step.descriptionStep, "precision": step.precision, "photo": step.photo, "place": step.place };
+				arg[c] = { "groupDay": step.groupDay, "numberInDay": step.numberInDay, "description": step.descriptionStep, "precision": step.precision, "place": step.place };
 				c++;
 			}
 		}
