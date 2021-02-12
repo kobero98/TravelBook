@@ -164,8 +164,12 @@ public class LoginViewController {
 			alert.setHeaderText("Exit request");
 			alert.showAndWait();
 			ButtonType result=alert.getResult();
-			if(result.getButtonData()==ButtonData.OK_DONE && MenuBar.getInstance().getMyThread()!=null) {
-					MenuBar.getInstance().getMyThread().kill();
+			if(result.getButtonData()==ButtonData.OK_DONE) {
+				if(MenuBar.getInstance().getMyThread()!=null)
+					MenuBar.getInstance().getMyThread().kill();	
+			}
+			else {
+				e.consume();
 			}
 		});
 	}

@@ -24,7 +24,6 @@
 		}
 		else{
 		Set<String> params=request.getParameterMap().keySet();
-		System.out.println(params);
 		for(String s: params){
 			if(s.startsWith("travel")){
 				String[] arg=s.split("travel");
@@ -109,7 +108,7 @@
     </div>
     <div class="anchor">
         <div class="panel">
-            <button type="button" id="back" class="back-button"><span class="material-icons md-48">arrow_back</span></button>
+            <button type="button" id="back" class="back-button" onclick="goBack()"><span class="material-icons md-48">arrow_back</span></button>
             <div class="profile-panel other-panel">
             <%if(myUser.getFollower()!=null && myUser.getFollower().contains(loggedUser.getId())){
            %> <button type="button" id=follow class="follow select" name="addFav" onclick="addToFav()"><span class="material-icons md-36">person_add</span></button>

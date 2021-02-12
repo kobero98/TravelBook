@@ -26,7 +26,6 @@
 	}
 	myUser=c.getUser(myUser.getId());
 	Set<String> params=request.getParameterMap().keySet();
-	System.out.println(params);
 	for(String s: params){
 		if(s.startsWith("shared")){
 			String[] arg1=s.split("shared");
@@ -54,7 +53,6 @@
 		}
 		if(s.startsWith("follow")){
 			String[] arg;
-			System.out.println(s);
 			if(s.startsWith("follower")){
 				arg=s.split("follower");
 			

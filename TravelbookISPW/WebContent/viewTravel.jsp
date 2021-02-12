@@ -32,7 +32,6 @@
 	}
 	if(request.getParameter("userToBeShared[]")!=null){
 		String shareable=request.getParameter("userToBeShared[]");
-		System.out.println(shareable);
 		String[] users=shareable.split(",");
 		List<Integer> ids=new ArrayList<>();
 		List<UserBean> user=new ArrayList<>();
