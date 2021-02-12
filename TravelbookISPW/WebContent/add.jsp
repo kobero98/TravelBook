@@ -135,7 +135,7 @@ function goToProfile()
 	  location.replace("profile.jsp");
 }
 
-(function Notify() {
+(function NotifyMes() {
     setTimeout(function() {
         $.ajax({
             url: "ChatNewChat.jsp",
@@ -152,7 +152,7 @@ function goToProfile()
             		}
             },
             
-            complete: Notify,
+            complete: NotifyMes,
             timeout: 2000
         })
     }, 5000);
