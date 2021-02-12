@@ -286,7 +286,6 @@
 		})
 	}
 	function loadMap(){
-		alert("FUNZIONE");
 		var i;
 		var arg = new Array();
 		var c = 0;

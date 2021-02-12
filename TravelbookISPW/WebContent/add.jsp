@@ -17,7 +17,6 @@
 	TravelBean myTravel=null;
 	AddTravel myController=new AddTravel();
 	UserBean loggedUser=(UserBean)request.getSession().getAttribute("loggedBean");
-	System.out.println(request.getParameterMap().keySet().toString());
 	if(loggedUser==null){
 		%>
 			<jsp:forward page="login.jsp"/>
@@ -91,7 +90,6 @@
 		myTravel=myController.getTravelById(Integer.valueOf(request.getParameter("modifyTravel")));
 	}
 	if(request.getParameter("forward")!=null){
-		System.out.println("2HERE");
 		JSONParser parser=new JSONParser();
 		JSONObject obj=(JSONObject)parser.parse(request.getParameter("forward"));
 		JSONArray array=(JSONArray)obj.get("places");

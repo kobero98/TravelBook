@@ -231,7 +231,6 @@
 				{
 					int idC=contact.getId();
 					Integer id=(Integer) request.getSession().getAttribute("selettore");
-					System.out.println(id);
 					if(id!=null && idC==tryContacts.get(id.intValue()).getId()){
 					%>
 					<form id=<%=idC %> action="chat.jsp" method="post" class="contact-widget selected">
@@ -243,7 +242,6 @@
 	            	if(userB.length!=0){
 	            		byte[] bytes=Base64.getEncoder().encode(userB);
 						String encoded=new String(bytes,"UTF-8");
-						System.out.println("valroe: "+encoded);
 					%>
 					 <img src="data:image/*;base64,<%=encoded%>" id="profileIm" style="width: 4em; height: 4em;" class="image" alt="Profile picture">
             		<% 

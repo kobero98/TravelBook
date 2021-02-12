@@ -44,6 +44,14 @@
 				</jsp:forward>
 			<%
 		}
+		if(s.startsWith("fav")){
+			String[] arg=s.split("fav");
+			%>
+				<jsp:forward page="viewTravel.jsp">
+				<jsp:param name="travelID" value="<%=arg[1] %>"/>
+				</jsp:forward>
+			<% 
+		}
 		if(s.startsWith("removeTravel")){
 			String[] ar=s.split("removeTravel");
 			controller.deleteTravel(Integer.valueOf(ar[1]));
@@ -99,12 +107,17 @@
 	<title>Travelbook</title>
 	<script>
 	var userID=<%=myUser.getId()%>
+	var op=true;
 	function init(){
 		document.getElementById("fotoFile").addEventListener("mouseover",function(){
-			$("#chooseIm").animate({opacity: '1'},"slow");
+
+				$("#chooseIm").animate({opacity: '1'},"slow");
+
 		});
 		document.getElementById("fotoFile").addEventListener("mouseout",function(){
-			$("#chooseIm").animate({opacity: '0'},"slow");
+
+				$("#chooseIm").animate({opacity: '0'},"slow");
+
 		});
 	}
 	function goToExplore()
@@ -248,7 +261,7 @@
             	}
             %>
               
-                <input type="file" id=chooseIm name="profileImage" accept="image/jpg, image/png" class="custom-file-input" onchange="loadImage()"/>
+                <input type="file" id="chooseIm" name="profileImage" accept="image/jpg, image/png" class="custom-file-input" onchange="loadImage()"/>
                 </div>
                 <div class="v">
                     <p class="us">
