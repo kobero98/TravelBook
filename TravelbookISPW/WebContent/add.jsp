@@ -17,6 +17,7 @@
 	TravelBean myTravel=null;
 	AddTravel myController=new AddTravel();
 	UserBean loggedUser=(UserBean)request.getSession().getAttribute("loggedBean");
+	System.out.println(request.getParameterMap().keySet().toString());
 	if(loggedUser==null){
 		%>
 			<jsp:forward page="login.jsp"/>
@@ -90,6 +91,7 @@
 		myTravel=myController.getTravelById(Integer.valueOf(request.getParameter("modifyTravel")));
 	}
 	if(request.getParameter("forward")!=null){
+		System.out.println("2HERE");
 		JSONParser parser=new JSONParser();
 		JSONObject obj=(JSONObject)parser.parse(request.getParameter("forward"));
 		JSONArray array=(JSONArray)obj.get("places");
@@ -99,8 +101,6 @@
 			StepBean stepBean=new StepBean();
 			stepBean.setNumberInDay(Integer.valueOf(step.get("numberInDay").toString()));
 			stepBean.setGroupDay(Integer.valueOf(step.get("groupDay").toString()));
-			stepBean.setPrecisionInformation(step.get("precision").toString());
-			stepBean.setDescriptionStep(step.get("description").toString());
 			stepBean.setPlace(step.get("place").toString());
 			steps.add(stepBean);
 		}
@@ -119,8 +119,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="js/addJS.js"></script>
     <script src="js/jquery.min.js"></script> 
-    <script src="https://code.jquery.com/jquery-1.10.2.js" integrity="sha384-r0tJvB87edk25TJle8mfwmdYBwaGtkX3r4CYHXS+2yZ7VPdI8xd2rHl6KTQ6oij4" crossorigin="anonymous"></script>  
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" integrity="sha384-YwCdhNQ2IwiYajqT/nGCj0FiU5SR4oIkzYP3ffzNWtu39GKBddP0M0waDU7Zwco0" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js" ></script>  
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<title>Travelbook</title>
 <script>
 function goToChat()

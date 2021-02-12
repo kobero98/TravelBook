@@ -285,6 +285,7 @@
 		})
 	}
 	function loadMap(){
+		alert("FUNZIONE");
 		var i;
 		var arg = new Array();
 		var c = 0;
@@ -301,7 +302,8 @@
 		jQuery.ajax({
 			url: "add.jsp",
 			data: { "forward": JSON.stringify(places) },
-			type: "POST",
+			type: "GET",
+			dataType:"html",
 			error: function(xhr, ajaxOptions, thrownError) {
 				console.log(xhr.responseText);
 				alert(xhr.status);

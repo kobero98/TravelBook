@@ -389,7 +389,7 @@ function apriMappa() {
 	for (i = 0; i < arrayStep.length; i++) {
 		for (j = 0; j < arrayStep[i].length; j++) {
 			step = arrayStep[i][j];
-			arg[c] = { "groupDay": step.groupDay, "numberInDay": step.numberInDay, "description": step.descriptionStep, "precision": step.precision, "photo": step.photo, "place": step.place };
+			arg[c] = { "groupDay": step.groupDay, "numberInDay": step.numberInDay ,  "place": step.place };
 			c++;
 		}
 	}
@@ -397,7 +397,7 @@ function apriMappa() {
 	jQuery.ajax({
 		url: "add.jsp",
 		data: { "forward": JSON.stringify(places) },
-		type: "POST",
+		type: "GET",
 		error: function(xhr, ajaxOptions, thrownError) {
 			console.log(xhr.responseText);
 			alert(xhr.status);
