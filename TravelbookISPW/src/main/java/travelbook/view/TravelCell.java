@@ -132,14 +132,15 @@ public class TravelCell extends Cell {
     	edit.getStyleClass().clear();
     	edit.getStyleClass().add("edit");
     	Button removeTravel=new Button();
-    	removeTravel.setText("Remove");
-    	removeTravel.setPrefWidth(super.getAnchor().getPrefWidth()*100/1280);
-    	removeTravel.setPrefHeight(super.getAnchor().getPrefHeight()*50/625);
+    	removeTravel.getStyleClass().clear();
+    	removeTravel.getStyleClass().add("del");
+    	removeTravel.setPrefWidth(super.getAnchor().getPrefWidth()*35/1280);
+    	removeTravel.setPrefHeight(super.getAnchor().getPrefHeight()*35/625);
     	super.getAnchor().widthProperty().addListener((observable,oldValue,newValue)->
-    		removeTravel.setPrefWidth(super.getAnchor().getPrefWidth()*100/1280)
+    		removeTravel.setPrefWidth(super.getAnchor().getPrefWidth()*35/1280)
     	);
     	super.getAnchor().heightProperty().addListener((observable,oldValue,newValue)->
-    		removeTravel.setPrefHeight(super.getAnchor().getPrefHeight()*50/625)
+    		removeTravel.setPrefHeight(super.getAnchor().getPrefHeight()*35/625)
     	);
     	removeTravel.setVisible(this.isEditable);
     	removeTravel.setMaxWidth(Region.USE_PREF_SIZE);

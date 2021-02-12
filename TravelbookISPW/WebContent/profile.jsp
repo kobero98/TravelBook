@@ -253,7 +253,7 @@
                        <%=myUser.getName() %> <%=myUser.getSurname() %>
                     </p>
                     <textarea id="descText" style="width:20em; height:10em;"disabled maxlength="150"><%=myUser.getDescription() %></textarea>
-                    <button type="button" value="modificaDesc" onclick="modificaDesc()">
+                    <button type="button" class="s-back-button" value="modificaDesc" onclick="modificaDesc()"><span class="material-icons md-18">edit</span>
                     </button>
                 </div>
             </div>
@@ -328,7 +328,7 @@
 									 <% 
 									 	}
 									 %>
-									 <button type="submit" name="removeTravel<%=trav.getId() %>" value="remove"></button>
+									 <button type="submit" class="tile-icon" name="removeTravel<%=trav.getId() %>"><span class="material-icons">delete</span></button>
 								</form>
 							</div>
 						</div>
