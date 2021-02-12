@@ -45,7 +45,7 @@ public class ViewOnMap {
 			forPath.append(coordinates.toString()+",");
 			script.append(coordinates.toString()+",");
 			StringBuilder popupContent=new StringBuilder();
-			popupContent.append("<b>"+step.getPlace()+"</b><br>");
+			popupContent.append("<b>"+step.getPlace().replace("'", "\\'")+"</b><br>");
 			popupContent.append("Category: ");
 			//Category is a comma separeted string if step is a poi or "city" if is a "place" or other
 			String category=step.getFullPlace().getCategory();
