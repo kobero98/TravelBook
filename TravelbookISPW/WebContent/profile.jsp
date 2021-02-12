@@ -91,6 +91,7 @@
 <head>
 	<meta charset="ISO-8859-1">
     <link rel="stylesheet" href="css/loginCss.css">
+    <link rel="shortcut icon" href="resource\travelbookIcon.ico">
     <link rel="stylesheet" href="css/profile.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="js\jquery.min.js"></script>

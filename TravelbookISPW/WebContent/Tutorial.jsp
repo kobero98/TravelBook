@@ -17,6 +17,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="shortcut icon" href="resource\travelbookIcon.ico">
 <meta charset="ISO-8859-1">
 <title>Travelbook tutorial</title>
 </head>

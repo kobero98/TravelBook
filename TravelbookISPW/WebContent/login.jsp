@@ -49,6 +49,7 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<script src="js\jquery.min.js"></script>
+	<link rel="shortcut icon" href="resource\travelbookIcon.ico">
 	<link rel="stylesheet" href="css\loginCss.css">
 	<title>Travelbook</title>
 	<script>

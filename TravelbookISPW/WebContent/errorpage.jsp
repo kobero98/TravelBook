@@ -7,6 +7,7 @@
 <meta charset="ISO-8859-1">
 <title>Error</title>
 <link rel="stylesheet" href="css/loginCss.css">
+<link rel="shortcut icon" href="resource\travelbookIcon.ico">
 <link rel="stylesheet" href="css/error.css">
 </head>
 <body>

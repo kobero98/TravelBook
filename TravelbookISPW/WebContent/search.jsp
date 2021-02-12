@@ -59,6 +59,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="resource\travelbookIcon.ico">
 	<meta charset="ISO-8859-1">
     <link rel="stylesheet" href="css\loginCss.css">
     <link rel="stylesheet" href="css\search.css">

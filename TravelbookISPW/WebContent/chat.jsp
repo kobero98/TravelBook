@@ -90,6 +90,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="shortcut icon" href="resource\travelbookIcon.ico">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      
