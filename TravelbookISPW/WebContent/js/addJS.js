@@ -70,7 +70,6 @@ function setStep(evt) {
 	while (divFoto.lastChild)
 		divFoto.removeChild(divFoto.lastChild);
 	var arrayFoto = step.photo;
-	var i;
 	for (i = 0; i < arrayFoto.length; i++) {
 		var img = document.createElement("img");
 		img.setAttribute("src", "data:image/gif;base64," + arrayFoto[i]);
