@@ -4,23 +4,28 @@
 <meta charset="UTF-8">
 <title>Tutorial</title>
  <script>
-var src = ["search-t.jpg","view-t.jpg","profile-other.jpg","add-t.jpg","profile-t.jpg","chat-t.jpg" ];
+var src = ["search-t.jpg","view-t.jpg","profile-other.jpg","add-t.jpg","profile-t.jpg","chat-t.jpg","Close.jpg.jpg"];
 var i = 0;
 function nextPhoto(){
-	if(i<6){
-		var img=document.getElementById('img');
-		img.setAttribute("src",src[i]);
-		i++;
-	}
-	else{
-		self.close();
-	}
+	i++;
+	var img=document.getElementById('img');
+	img.setAttribute("src",src[i]);
+	document.getElementById("prew").style.display="flex";
+	if (i>=6) {document.getElementById("next").style.display="none";}
+}
+function prewPhoto(){
+	document.getElementById("next").style.display="flex";
+	i--;
+	var img=document.getElementById('img');
+	img.setAttribute("src",src[i]);
+	if (i<=0) {document.getElementById("prew").style.display="none";}
+		
 }
 </script>
 </head>
 <body style="display:flex; align-items:center;">
-
+	<input type="button" id=prew value="prew" onclick=prewPhoto() style="display: none;">
 	<img id=img src="explore-t.jpg" alt="tutorial image">
-	<input type="button" id=next value="next" onclick="nextPhoto();">
+	<input type="button" id=next value="next" onclick=nextPhoto()>
 </body>
 </html>

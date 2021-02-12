@@ -13,14 +13,14 @@ public class EmailDao{
 		String query=AllQuery.getInstance().getEmail();
 		try (Connection conn=AllQuery.getInstance().getConnection()){
 			
-			Statement stmt=conn.createStatement();
+			try(Statement stmt=conn.createStatement()){
 			ResultSet rs=stmt.executeQuery(query);
 			EmailAccount account=new EmailAccount();
 			rs.next();
 			account.setEmail(rs.getString("EmailT"));
 			account.setPswd(rs.getString("pswdEmail"));
-			stmt.close();
 			return account;
+			}
 		} catch (SQLException e) {
 			throw new DBException("Error Email");
 		}
