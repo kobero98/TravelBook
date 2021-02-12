@@ -545,7 +545,6 @@ public class AllQuery {
 
 	public void deleteTravel(Connection connessione,int idtrip) throws SQLException
 	{
-		System.out.println(idtrip);
 		PreparedStatement preparedStmt=null;
 		try {
 				String query = "Delete from Trip where idTrip=? ";
