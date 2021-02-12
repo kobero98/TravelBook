@@ -23,6 +23,7 @@ import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.UserEntity;
 
 public class AllQuery {
+	private static final String EMAILREQUEST="select EmailT,PswdEmail from emailtravelbook";
 	private static final String CITYREQUEST="SELECT NameC,State from City where NameC=? and State=?";
 	private static final String CITYAUTOCOMPLETE="SELECT NameC,State from City where NameC like ? order by char_length(NameC),char_length(State)";
 	private static final String QUERYUSERID= "Select NameUser, Surname, BirthDate, DescriptionProfile, TripNumber, ProfileImage from User where idUser=?";
@@ -111,6 +112,9 @@ public class AllQuery {
 			return null;
 	
 	
+	}
+	public String getEmail(){
+		return EMAILREQUEST;
 	}
 	public int getPlaceVisited( Connection conn,int id) throws SQLException
 	{

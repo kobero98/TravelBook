@@ -1,6 +1,9 @@
 package test;
 import org.junit.Test;
 import java.util.List;
+
+import javax.mail.MessagingException;
+
 import java.util.ArrayList;
 import static org.junit.Assert.*;
 import exception.FewParametersException;
@@ -11,14 +14,14 @@ import main.java.travelbook.controller.EmailSenderController;
  */
 public class TestEmailSenderController {
 	@Test
-	public void testSendMessageByBadEmail() {
+	public void testSendMessageByBadEmail() throws MessagingException {
 		//Test if the method throw a correct exception when i try to send an email to a bad structured address
 		EmailSenderController controller=new EmailSenderController();
 		String email="pippo.it";
 		assertThrows(MalformedEmailException.class,()-> controller.sendMessage(email,"test Eccezzione Email","test"));
 	}
 	@Test
-	public void testSendMessageMultipleDest() {
+	public void testSendMessageMultipleDest() throws MessagingException {
 		//Test if multiple send message throw a correct exception when i try to send an email without specify 
 		//the correct format of parameters
 		EmailSenderController controller=new EmailSenderController();

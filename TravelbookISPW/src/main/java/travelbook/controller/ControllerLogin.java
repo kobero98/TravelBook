@@ -185,15 +185,17 @@ public class ControllerLogin {
 	}
 	
 	public String calcoloRegistration(String email) throws MalformedEmailException {
-		EmailSenderController s=new EmailSenderController();
 		String code= Integer.toString(numberGenerator());
+		try {
+			EmailSenderController s=new EmailSenderController();
+			
 		
-		if(code.length()<6)
+			if(code.length()<6)
 			{
 				int j=6-code.length();
 				for(int i=0;i<j;i++) code="0".concat(code);
 			}
-		try {
+		
 			s.sendMessage(email,code, "TravelBook registration code");
 		} catch (MessagingException e) {
 			Platform.runLater(()->

@@ -89,7 +89,6 @@ public class TravelController{
 	}
 	public void shareTravel(List<UserBean> user, int travelId, int travelC, int userId) throws DBException {
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.SHARE);
-		EmailSenderController c=new EmailSenderController();
 		List<String> messages=new ArrayList<>();
 		List<String> subj=new ArrayList<>();
 		List<String> dest=new ArrayList<>();
@@ -108,7 +107,8 @@ public class TravelController{
 			dao.setData();
 		}
 		try {
-		c.sendMessage(dest, messages, subj);
+			EmailSenderController c=new EmailSenderController();
+			c.sendMessage(dest, messages, subj);
 		}catch(FewParametersException | MessagingException | MalformedEmailException e) {
 			throw new DBException(e.getMessage());
 		}
