@@ -1,4 +1,4 @@
-package main.java.travelbook.view;
+package main.java.travelbook.view.cell;
 
 import java.util.List;
 
@@ -16,6 +16,7 @@ import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.ShareBean;
 import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.util.SetImage;
+import main.java.travelbook.view.MenuBar;
 
 public class SharedCell extends Cell {
 	private  static final String TEXT_CSS="text1";

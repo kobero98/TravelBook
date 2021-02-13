@@ -1,4 +1,4 @@
-package main.java.travelbook.view;
+package main.java.travelbook.view.cell;
 import java.util.List;
 
 import javafx.geometry.Insets;
@@ -21,6 +21,8 @@ import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.MyProfileController;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.util.SetImage;
+import main.java.travelbook.view.MenuBar;
+import main.java.travelbook.view.ProfileOtherController;
 import javafx.scene.layout.Region;
 public class TravelCell extends Cell {
 	private boolean isEditable=true;

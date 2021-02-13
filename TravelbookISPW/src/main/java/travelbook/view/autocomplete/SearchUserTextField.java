@@ -1,4 +1,4 @@
-package main.java.travelbook.view;
+package main.java.travelbook.view.autocomplete;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import main.java.exception.DBException;
 import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.ChatController;
 import main.java.travelbook.model.bean.UserBean;
+import main.java.travelbook.view.MenuBar;
 
 public class SearchUserTextField extends AutocompleteTextField<UserBean>{
 

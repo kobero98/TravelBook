@@ -1,4 +1,4 @@
-package main.java.travelbook.view;
+package main.java.travelbook.view.autocomplete;
 import main.java.exception.MapboxException;
 import main.java.travelbook.controller.PredictionController;
 import javafx.application.Platform;

@@ -1,4 +1,4 @@
-package main.java.travelbook.view;
+package main.java.travelbook.view.cell;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.java.travelbook.model.bean.MessageBean;
+import main.java.travelbook.view.MenuBar;
 
 public class MessageCell extends Cell{
 	private AnchorPane localAnchor;

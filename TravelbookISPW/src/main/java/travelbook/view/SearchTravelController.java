@@ -39,6 +39,11 @@ import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.ControllerSearch;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.SearchTrip;
+import main.java.travelbook.view.autocomplete.SearchCityTextField;
+import main.java.travelbook.view.cell.Cell;
+import main.java.travelbook.view.cell.CellFactory;
+import main.java.travelbook.view.cell.CellType;
+import main.java.travelbook.view.cell.TypeCell;
 
 
 public class SearchTravelController {
@@ -97,7 +102,7 @@ public class SearchTravelController {
 	
 	private List <MyTypes> typeChoose=new ArrayList<>();
 	private ControllerSearch myController = new ControllerSearch();
-	class MyTypes{
+	public class MyTypes{
 		private String tipo;
 		private Color colore;
 		public MyTypes(String type,Color color) {

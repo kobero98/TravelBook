@@ -1,4 +1,4 @@
-package main.java.travelbook.view;
+package main.java.travelbook.view.autocomplete;
 import java.util.LinkedList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -187,7 +187,7 @@ public abstract class AutocompleteTextField<S>{
 		protected void setCharacterLowerBound(int lowerBound) {
 			this.characterLowerBound=lowerBound;
 		}
-		protected TextField getTextField() {
+		public TextField getTextField() {
 			return this.textField;
 		}
 		public boolean isBlocked() {

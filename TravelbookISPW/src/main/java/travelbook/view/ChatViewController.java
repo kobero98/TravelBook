@@ -4,7 +4,10 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import main.java.travelbook.util.Observer;
-
+import main.java.travelbook.view.autocomplete.SearchUserTextField;
+import main.java.travelbook.view.cell.ChatContactView;
+import main.java.travelbook.view.cell.MessageCell;
+import main.java.travelbook.view.cell.ChatContactView.MyItem;
 import main.java.travelbook.util.Observable;
 import javafx.scene.input.KeyCode;
 import javafx.application.Platform;
@@ -26,7 +29,6 @@ import main.java.travelbook.controller.ChatController;
 import main.java.travelbook.model.bean.MessageBean;
 import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.util.Chat;
-import main.java.travelbook.view.ChatContactView.MyItem;
 
 
 public class ChatViewController implements Observer{

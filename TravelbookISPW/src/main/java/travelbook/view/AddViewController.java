@@ -59,6 +59,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser.ExtensionFilter;
 import main.java.travelbook.view.animation.OpacityAnimation;
+import main.java.travelbook.view.autocomplete.SearchPlaceTextField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.GridPane;

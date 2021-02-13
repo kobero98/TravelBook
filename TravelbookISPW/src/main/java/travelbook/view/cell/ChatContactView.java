@@ -1,4 +1,4 @@
-package main.java.travelbook.view;
+package main.java.travelbook.view.cell;
 import javafx.scene.control.ScrollPane;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +60,7 @@ public class ChatContactView {
 		private HBox myBox=null;
 		private ObjectProperty<String> specialIndicator;
 		private UserBean contact;
-        MyItem(UserBean name) {
+        public MyItem(UserBean name) {
             this.contact = name;
             this.specialIndicator =new SimpleObjectProperty<>();
             this.setSpecialIndicator("");

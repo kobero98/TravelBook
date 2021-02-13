@@ -1,4 +1,4 @@
-package main.java.travelbook.view;
+package main.java.travelbook.view.autocomplete;
 import javafx.application.Platform;
 import javafx.geometry.Side;
 import javafx.scene.control.TextField;

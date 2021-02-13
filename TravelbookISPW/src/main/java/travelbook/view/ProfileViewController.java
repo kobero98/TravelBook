@@ -39,6 +39,9 @@ import main.java.travelbook.util.Notification;
 import main.java.travelbook.util.Observable;
 import main.java.travelbook.util.Observer;
 import main.java.travelbook.util.SetImage;
+import main.java.travelbook.view.cell.Cell;
+import main.java.travelbook.view.cell.CellFactory;
+import main.java.travelbook.view.cell.CellType;
 public class ProfileViewController implements Observer{
 	private BorderPane mainPane;
 	private Object[] array1=new Object[15];

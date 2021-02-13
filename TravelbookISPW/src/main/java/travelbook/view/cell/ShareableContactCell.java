@@ -1,4 +1,4 @@
-package main.java.travelbook.view;
+package main.java.travelbook.view.cell;
 
 import java.util.ArrayList;
 import java.util.List;
