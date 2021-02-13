@@ -37,21 +37,17 @@ public class TestTravelController {
 		assertEquals(equal,true);
 	}
 	@Test
-	public void testGetContactSharing() throws DBException {
-		//test if all the returned contact follow admin and are followed by admin
+	public void testGetContactSharing(){
+		//test if this method returns an exception when the requested id are not linked to any user
 		TravelController controller = new TravelController();
-		UserBean user = new UserBean(6);
+		UserBean user = new UserBean(1);
 		List<Integer> follower = new ArrayList<>();
-		follower.add(19);
-		follower.add(31);
-		follower.add(8);
+		follower.add(-1);
 		user.setFollower(follower);
 		List<Integer> following = new ArrayList<>();
-		following.add(19);
-		following.add(13);
+		following.add(-1);
 		user.setFollowing(following);
-		List<UserBean> test = controller.getContactSharing(user);
 		
-		assertEquals(true,(test.size()==1 && test.get(0).getId()==19));
+		assertThrows(DBException.class,()->controller.getContactSharing(user));
 	}
 }

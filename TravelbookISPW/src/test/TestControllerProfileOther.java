@@ -19,46 +19,36 @@ public class TestControllerProfileOther {
 	public void testGetUser() throws DBException {
 		//testing method getUser by checking it effectively returns admin information
 		ControllerProfileOther controller = new ControllerProfileOther();
-		UserBean u=controller.getUser(6);
+		UserBean u=controller.getUser(1);
 		boolean exact = true;
-		if(u.getId()!=6)
+		if(u.getId()!=1)
 			exact = false;
 		if(!u.getName().equals("Admin"))
 			exact=false;
 		if(!u.getSurname().equals("Admin"))
 			exact=false;
-		List<Integer> follower = new ArrayList<>();
-		follower.add(19);
-		List<Integer> following = new ArrayList<>();
-		following.add(19);
-		following.add(13);
-		for(Integer i:u.getFollower())
-			if (!follower.contains(i))
-				exact=false;
-		for(Integer j:u.getFollowing())
-			if(!following.contains(j))
-				exact=false;
 		assertEquals(true,exact);
 	}
+	
 	@Test
-	public void testUpdateFollowAdd() throws DBException {
-		//checking if the followers get added, using the method getUser that has been tested before
-		//to retrieve data from the database and check if they are correct
+	public void testUpdateFollow() {
+		//checking that the update follow return an exception when trying to put
+		//into the database id that are not linked to any user
 		ControllerProfileOther controller = new ControllerProfileOther();
-		controller.updateFollow(6, 25);
-		UserBean u=controller.getUser(6);
-		boolean check = u.getFollowing().contains(25);
-		assertEquals(true,check);
+		
+		assertThrows(DBException.class, ()->controller.updateFollow(2, -1));
 	}
 	@Test
-	public void testUpdateFollowRemove() throws DBException{
-		//now checking if the same function removes the element when it is already there, an id that we know
-		//is in the database
+	public void testUpdateFav() {
+		//checking that the update fav return an exception when trying to put
+		//into the database id that are not linked to any travel
 		ControllerProfileOther controller = new ControllerProfileOther();
-		controller.updateFollow(6, 13);
-		UserBean u=controller.getUser(6);
-		boolean check = !u.getFollowing().contains(13);
-		assertEquals(true,check);
+		UserBean u = new UserBean(2);
+		List<Integer> f = new ArrayList<>();
+		f.add(-1);
+		u.setFav(f);
+		assertThrows(DBException.class, ()->controller.updateFav(u));
 	}
+
 	
 }

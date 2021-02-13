@@ -94,7 +94,7 @@ public class TravelController{
 		List<String> dest=new ArrayList<>();
 		String sub="A new travel shared on Travelbook";
 		for(UserBean us: user) {
-			String emailStub="Dear "+us.getName()+" a your friend shared with you a travel, go on travelbook to view it!";
+			String emailStub="Dear "+us.getName()+" your friend shared a travel with you, go on travelbook to view it!";
 			messages.add(emailStub);
 			dest.add(us.getEmail());
 			subj.add(sub);
