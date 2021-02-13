@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page import="exception.*" %>
+<%@ page import="main.java.exception.*" %>
 <%@ page import="main.java.travelbook.model.bean.*" %>
 <%@ page import="main.java.travelbook.controller.*" %>
 <%@ page import="java.util.*" %>

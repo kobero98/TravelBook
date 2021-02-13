@@ -4,7 +4,7 @@
 <%@page import="org.json.simple.JSONObject"%>
 <%@page language="java" %>
 <%@page import="java.util.*" %>
-<%@page import="exception.MapboxException" %>
+<%@page import="main.java.exception.MapboxException" %>
 <%@ page import="main.java.travelbook.controller.*" %>
 <%@ page import="main.java.travelbook.util.PlaceAdapter" %>
 <%

@@ -5,7 +5,7 @@
  <%@page import="main.java.travelbook.controller.ControllerLogin"  %>
 <%@page import="main.java.travelbook.model.bean.RegistrationBean" %>
 <%@page import="main.java.travelbook.model.bean.UserBean" %>
-<%@ page import="exception.DBException" %>
+<%@ page import="main.java.exception.DBException" %>
  <%
  	if(request.getParameter("confirm1")!=null){
  		String email=(String)request.getSession().getAttribute("pswd");
