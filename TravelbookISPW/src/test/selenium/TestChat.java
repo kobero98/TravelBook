@@ -25,7 +25,7 @@ public class TestChat {
 		}
 		WebDriver driver = new ChromeDriver();
 		driver.get("http://localhost:8080/TravelbookISPW/login.jsp");
-		driver.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys("admin");
+		driver.findElement(By.xpath("//*[@id=\"Username\"]")).sendKeys("admin");
 		driver.findElement(By.xpath("//*[@id=\"pswd\"]")).sendKeys("admin");
 		driver.findElement(By.xpath("//*[@id=\"loginTable\"]/div/input[2]")).click();
 		driver.findElement(By.xpath("/html/body/div[2]/div[1]/div[1]/button[4]")).click();
