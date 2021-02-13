@@ -11,12 +11,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 /*
- * @author Matteo Federico
+ * @author Matteo Federico aka Kobero
  */
 public class TestChat {
 
 	@Test
 	public void testAddChatUser() throws InterruptedException {
+		//testing that when searching a user in chat, the selected user is correctly add to the contact list
 		if(System.getProperty("os.name").startsWith("Windows")){
 			System.setProperty("webdriver.chrome.driver", "Driver/chromedriver.exe");
 		}

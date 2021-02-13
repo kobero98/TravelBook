@@ -18,6 +18,7 @@ public class TestControllerLogin {
 	String username="admin";
 	@Test
 	public void testSignInWork() throws LoginPageException {
+		//testing that upon logging in, the logged user is the right one
 		Boolean test=true;
 		ControllerLogin controller=new ControllerLogin();
 		UserBean user=controller.signIn(username, username);
@@ -27,6 +28,8 @@ public class TestControllerLogin {
 	}
 	@Test
 	public void testSignUpNotWork() {
+		//testing that if sign up is attempted with an already existing
+		//email or username, the controller throws an exception
 		RegistrationBean user=new RegistrationBean();
 		user.setName(username);
 		user.setSurname(username);
@@ -42,7 +45,9 @@ public class TestControllerLogin {
 	
 	@Test
 	public void testSignInNotWork(){
+		//testing that upon trying login with an incorrect password
+		//the controller throws an exception
 		ControllerLogin controller=new ControllerLogin();
-		assertThrows(DBException.class,()->controller.signIn(username, "non é la password"));
+		assertThrows(DBException.class,()->controller.signIn(username, "non ï¿½ la password"));
 	}
 }

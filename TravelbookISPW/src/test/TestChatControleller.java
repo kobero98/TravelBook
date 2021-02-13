@@ -13,12 +13,16 @@ import main.java.exception.DBException;
 import main.java.travelbook.controller.ChatController;
 import main.java.travelbook.model.bean.MessageBean;
 import main.java.travelbook.util.Chat;
-
+/*
+ * @author Matteo Federico aka Kobero
+ */
 public class TestChatControleller {
 
 	@Test
 	public void testgetContactsnotWork()
 	{
+		//testing that getContacts throws the correct exception if the 
+		//id passed as parameter is not linked to any user
 		List<Chat> chats= new ArrayList<>();
 		Chat c=new Chat(-1);
 		chats.add(c);
@@ -28,6 +32,8 @@ public class TestChatControleller {
 	
 	@Test
 	public void testsendMessagenotWork() {
+		//testing that sendMessage throws the correct exception if the sender or receiver
+		//id are not valid values
 		MessageBean message= new MessageBean(-1,-1);
 		message.setText("ciao");
 		message.setTime(Instant.now());
@@ -44,7 +50,8 @@ public class TestChatControleller {
 	}
 	
 	@Test
-	public void testReciveMessage() throws DBException, InterruptedException {
+	public void testGetNewMessage() throws DBException, InterruptedException {
+		//testing that receiveMessage load correctly the messages received after a given time
 		Instant x=Instant.now();
 		ChatController controller=new ChatController();
 		Thread.sleep(1000);

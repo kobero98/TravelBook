@@ -14,6 +14,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class TestProfilePage {
 	@Test
 	public void testCorrectUser() {
+		//testing that after logging in, the profile page displays the right information
 		if(System.getProperty("os.name").startsWith("Windows")){
             System.setProperty("webdriver.chrome.driver", "Driver/chromedriver.exe");
         }

@@ -10,11 +10,15 @@ import org.junit.Test;
 import main.java.exception.DBException;
 import main.java.travelbook.controller.ControllerSearch;
 import main.java.travelbook.model.bean.SearchTrip;
-
+/*
+ * @author Matteo Federico aka Kobero
+ */
 public class TestControllerSearch {
 
 	@Test
 	public void testGetCitiesPredictionsWork() throws DBException {
+		//testing that given a string, all returned predictions starts with that
+		//string
 		String text="Rom";
 		List<String> predictions;
 		ControllerSearch myController=new ControllerSearch();
@@ -26,6 +30,8 @@ public class TestControllerSearch {
 	}
 	@Test
 	public void testSearchNotWork() {
+		//testing that the controller throws an exception when the string parameter
+		//doesn't matches any city from the database or is malformed
 		SearchTrip trip=new SearchTrip();
 		trip.setCity("Narnia");
 		trip.setCostoMin(300);

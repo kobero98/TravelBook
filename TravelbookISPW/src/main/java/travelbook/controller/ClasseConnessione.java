@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ClasseConnessione {
 
 	private String username="root";
-	private String ps="root";
+	private String ps="Sara.d-19";
 	
 
 	public Connection getConenction() throws SQLException {
