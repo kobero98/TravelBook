@@ -175,14 +175,5 @@ public class ChatContactView {
 			}
 		}
 	}
-	public void setChanged(MyItem item) {
-		System.out.println("HERE");
-		for(MyItem i: this.items) {
-			if(i.getUser()==item.getUser() && i.getCircle()==null) {
-				Circle c=new Circle(5, Paint.valueOf("rgb(255, 162, 134)"));
-				i.setCircle(c);
-				i.getHBox().getChildren().add(c);
-			}
-		}
-	}
+
 }
