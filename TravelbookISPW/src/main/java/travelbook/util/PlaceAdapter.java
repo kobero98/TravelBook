@@ -92,7 +92,22 @@ public class PlaceAdapter implements Place{
         	this.setPlaceType(tipo);
         	JSONArray coordinates=(JSONArray)place.get("center");
         	//mapbox return a long lat array but i need lat long (see map)
-        	this.setCoordinates((double)coordinates.get(1), (double)coordinates.get(0));
+        	double d1;
+        	double d0;
+        	if(coordinates.get(1) instanceof Long) { 
+        		Long l1= (Long) coordinates.get(1);
+        		d1=l1.doubleValue();
+        	}else {
+        		d1=(double) coordinates.get(1);
+        	}
+        	if(coordinates.get(0) instanceof Long) { 
+        		Long l0= (Long) coordinates.get(0);
+        		d0=l0.doubleValue();
+        	}else {
+        		d0=(double) coordinates.get(0);
+        	}
+        	
+        	this.setCoordinates(d1,d0);
         	JSONArray context=(JSONArray)place.get("context");
         	analyzeContext(context,tipo);
         	if(tipo.compareTo("poi")==0) {

@@ -337,7 +337,7 @@ $(function()
                         Upload your presentation photo:
                     </p>
                     <button type="button" onclick="removePresentation()" class="icon-button"><span class="material-icons">delete</span></button> 
-                    <input type="file" id="presentationFile" name="choose" class="add-button" accept="image/jpg, image/png" onchange="loadImage()">
+                    <input type="file" id="presentationFile" name="choose" class="add-button" accept="image/*" onchange="loadImage()">
                 </div> 
                   
                 <div class="photo-grid" id="presentation">
@@ -416,7 +416,7 @@ $(function()
                     <p class="text">
                         Upload some photos:
                     </p>
-                    <input type="file" name="img-choose" id="img-choose" class="add-button"  accept="image/jpg, image/png" onchange="loadMultipleImage()" multiple>
+                    <input type="file" name="img-choose" id="img-choose" class="add-button"  accept="image/*" onchange="loadMultipleImage()" multiple>
                     <progress>0%</progress>
                 </div>
                 <div class="photo-grid" id="photo-grid">
