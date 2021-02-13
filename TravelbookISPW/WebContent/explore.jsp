@@ -153,7 +153,31 @@
                 Top ten
             </p>
             <div class="scroll">
-
+			<%
+				travels=new ArrayList<>();
+				for(int i=0;i<15;i++){
+					MiniTravelBean tr=new MiniTravelBean();
+					travels.add(tr);
+				}
+				c.setTopTen(travels);
+				for(int i=0;i<10;i++){
+					MiniTravelBean t=travels.get(i);
+					String encoded="";
+					byte[] bytes=t.getArray();
+					bytes=Base64.getEncoder().encode(bytes);
+					encoded=new String(bytes,"UTF-8");
+					%>
+						<form action="explore.jsp" method="POST">
+						<div id="suggest<%=i %>" class="travelButton" >
+							<button type="submit" class="expand" name="suggest<%=t.getId() %>"><span class="material-icons">open_in_full</span></button>
+							<img src="data:image/*;base64,<%=encoded%>" style="width: 8em; height: 6em;" alt="travelImage">
+							<h1 class="travel-text"><%=t.getNameTravel() %></h1>
+							<p class="travel-text"><%=t.getDescriptionTravel() %></p>
+						</div>
+						</form>
+					<% 
+				}
+			%>
             </div>
         </div>
         <div class= "panel" id="right-panel">

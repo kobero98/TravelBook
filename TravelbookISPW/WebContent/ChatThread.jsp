@@ -19,7 +19,6 @@
 		int goon=(Integer) request.getSession().getAttribute("goon");
 		while(goon==1)
 		{
-			
 			int id= Integer.valueOf(request.getParameter("id"));
 			if(request.getSession().getAttribute("ChatList")!=null) chats=(List<Chat>) request.getSession().getAttribute("ChatList");
 			if(lastTime!=null) {
