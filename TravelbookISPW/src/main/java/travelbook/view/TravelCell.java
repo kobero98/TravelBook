@@ -156,7 +156,7 @@ public class TravelCell extends Cell {
     			}
     		MenuBar.getInstance().getLoggedUser().getTravel().remove(item.getId());
     		List<Integer> fav=MenuBar.getInstance().getLoggedUser().getFav();
-    		if(fav.contains(item.getId()))
+    		if(fav!=null && fav.contains(item.getId()))
     			fav.remove(item.getId());
     		this.getBox().getChildren().remove(h);
     	});
