@@ -8,6 +8,7 @@ import exception.DBException;
 import exception.MissingPageException;
 import exception.TriggerAlert;
 import javafx.scene.layout.AnchorPane;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -83,7 +84,10 @@ public class ProfileOtherController {
 			try {
 				data = myController.getTravel(user.getTravel());
 				List<Object> obj=new ArrayList<>(data);
-				travels.setItems(obj); 
+				Platform.runLater(()->{
+					travels.setItems(obj);
+					travels.getScroll().setVisible(true);
+				});
 			} catch (DBException e) {
 				new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
 			}
