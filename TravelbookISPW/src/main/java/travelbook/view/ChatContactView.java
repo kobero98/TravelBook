@@ -117,6 +117,7 @@ public class ChatContactView {
 			if(item.getSpecialIndicator().equals(SELECTED)) {
 			
 				item.getHBox().getChildren().remove(item.getCircle());
+				item.setCircle(null);
 			}
 		});
 		HBox hBox = new HBox();
@@ -171,6 +172,16 @@ public class ChatContactView {
 			else {
 				if(item.getHBox().getStyleClass().contains(HBOXSELECTED))
 					item.getHBox().getStyleClass().remove(HBOXSELECTED);
+			}
+		}
+	}
+	public void setChanged(MyItem item) {
+		System.out.println("HERE");
+		for(MyItem i: this.items) {
+			if(i.getUser()==item.getUser() && i.getCircle()==null) {
+				Circle c=new Circle(5, Paint.valueOf("rgb(255, 162, 134)"));
+				i.setCircle(c);
+				i.getHBox().getChildren().add(c);
 			}
 		}
 	}

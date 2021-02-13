@@ -69,7 +69,7 @@ public class ChatViewController implements Observer{
 	public void initialize() {
 	this.contactList=new ChatContactView(this.mainAnchor);
 	MenuBar.getInstance().addObserver(this);
-	MenuBar.getInstance().setNotified();
+
 	sentList=new MessageCell(this.chatAnchor,this.mainAnchor,this.mainPane);
 	searchFieldAuto = new SearchUserTextField(searchField);
 	searchFieldAuto.getLastSelectedItem().addListener((observable,oldValue,newValue)->{
@@ -84,12 +84,16 @@ public class ChatViewController implements Observer{
 		 contacts1.add(contactList.new MyItem(u));
 		 
 	 }
+	contactList.setItems(contacts1);
 	 contacts=contactList.getItems();
+		if(MenuBar.getInstance().getNotified())
+			this.update(MenuBar.getInstance());
+		MenuBar.getInstance().setNotified();
 	 for(Chat c:myChats)
 		 if(c.isChanged())
 			 notified(c);
     
-	contactList.setItems(contacts1);
+
 	
 	} catch (DBException e) {
 		new TriggerAlert().triggerAlertCreate(e.getLocalizedMessage(), "warn").showAndWait();
@@ -321,8 +325,9 @@ public void update(Observable bar, Object notify) {
 	
 }
 public void notified(Chat c) {
+
 	for(MyItem u: contacts) {
-		if(u.getUser().getId()==c.getIdUser())
+		if(u.getUser().getId()==c.getIdUser()) 
 			u.setSpecialIndicator("changed");
 	}
 }
