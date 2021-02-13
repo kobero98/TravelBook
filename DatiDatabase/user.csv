@@ -1,4 +1,0 @@
-idUser,Username,password,NameUser,Surname,BirthDate,DescriptionProfile,Email,FollowerNumber,FollowingNumber,TripNumber,ProfileImage,Verification,Gender,Nazionalita
-5,Alalea,7110eda4d09e062aa5e4a390b0a572ac0d2c0220,Sara,"Da Canal",1999-06-19,Description,s.saradacanal@gmail.com,0,0,0,NULL,0,f,NULL
-6,admin,d033e22ae348aeb5660fc2140aec35850c4da997,Admin,Admin,2021-01-04,Description,travelbookispw@outlook.it,0,0,2,NULL,0,m,NULL
-7,kobero,1e4e888ac66f8dd41e00c5a7ac36a32a9950d271,Matteo,Federico,1998-11-20,Description,matteo.fede@live.it,0,0,0,...,0,m,NULL
