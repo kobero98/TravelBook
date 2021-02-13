@@ -44,10 +44,12 @@ public class TestChatControleller {
 	}
 	
 	@Test
-	public void testReciveMessage() throws DBException {
-		sendMessage();
+	public void testReciveMessage() throws DBException, InterruptedException {
+		Instant x=Instant.now();
 		ChatController controller=new ChatController();
-		List<MessageBean> m=controller.getNewMessage(1,Instant.now());
+		Thread.sleep(1000);
+		sendMessage();
+		List<MessageBean> m=controller.getNewMessage(1,x);
 		boolean test=false;
 		for(MessageBean message:m){
 				if(message.getText().equals("ciao")) test=true;

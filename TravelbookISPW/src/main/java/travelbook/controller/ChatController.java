@@ -69,6 +69,7 @@ public class ChatController {
 		}
 		return mess;
 	}
+	
 	public List<MessageBean> getMessagesThread(int idMe, int idUser) throws DBException{
 		PersistanceDAO dao=DaoFactory.getInstance().create(DaoType.MESSAGE);
 		MessageEntity nuovaEntity=new MessageEntity(idMe,idUser);
