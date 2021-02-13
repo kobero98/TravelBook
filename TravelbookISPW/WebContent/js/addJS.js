@@ -149,7 +149,6 @@ function addButton() {
 	return btn;
 }
 function removeButton() {
-	console.log(actualDay, actualStep);
 	arrayStep[actualDay].splice(actualStep, 1);
 	var j;
 	for (j = actualStep; j < arrayStep[actualDay].length; j++) {
@@ -194,7 +193,6 @@ function changeDay() {
 		btn.click();
 }
 function changeDayNumber(num) {
-	console.log(num);
 	if (num >= dayNumber) {
 		var x;
 		for (x = dayNumber; x < num; x++) {
@@ -218,7 +216,6 @@ function changeDayNumber(num) {
 		var nodes=select.childNodes;
 		var limit=nodes.length;
 		for(x=0;x<limit;x++){
-			console.log(limit);
 			select.removeChild(nodes[0]);
 		}
 		for(x=0;x<num;x++){
@@ -236,8 +233,6 @@ function changeDayNumber(num) {
 	}
 }
 function compareDate(start, end) {
-	console.log(start);
-	console.log(end);
 	if (start == undefined || end == undefined)
 		return true;
 	var array1 = start.split("-");
@@ -359,7 +354,6 @@ function post(blocked = true) {
 			type: "POST",
 			data: { "POSTTRAVEL": JSON.stringify(requestJSON), "SHARED": blocked, "NEW": notNew },
 			error: function(xhr, ajaxOptions, thrownError) {
-				console.log(xhr.responseText);
 				alert(xhr.status);
 				alert(thrownError);
 			},
@@ -399,7 +393,6 @@ function apriMappa() {
 		data: { "forward": JSON.stringify(places) },
 		type: "GET",
 		error: function(xhr, ajaxOptions, thrownError) {
-			console.log(xhr.responseText);
 			alert(xhr.status);
 			alert(thrownError);
 		},

@@ -140,7 +140,6 @@
 	            type: "POST",
 	            dataType: "json",
 	            error:function(xhr,ajaxOptions,thrownError){
-					console.log(xhr.responseText);
 					alert(xhr.status);
 			         alert(thrownError);
 				},
@@ -165,7 +164,6 @@
 			type:"POST",
 			data:{"profileIm":sBodyBase64},
 			error:function(xhr,ajaxOptions,thrownError){
-				console.log(xhr.responseText);
 				alert(xhr.status);
 		         alert(thrownError);
 			},
@@ -194,7 +192,6 @@
 					data:{"shared":'true',"userID":userID},
 					dataType:"json",
 					error: function(xhr,ajaxOptions,thrownError){
-						console.log(xhr.responseText);
 						alert(xhr.status);
 				         alert(thrownError);
 				       },
@@ -219,7 +216,6 @@
 						url:"profile.jsp",
 						data:{"descrizione":document.getElementById("descText").value},
 						error: function(xhr,ajaxOptions,thrownError){
-							console.log(xhr.responseText);
 							alert(xhr.status);
 					         alert(thrownError);
 					       }

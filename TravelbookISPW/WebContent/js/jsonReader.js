@@ -19,7 +19,6 @@ function readTravel(data,type){
     	divInt.appendChild(title);
     	document.body.appendChild(divInt);
     	if(dataO[0].title.localeCompare("not found")!=0){
-    		console.log(dataO);
     		$.each(dataO,function(index,element){
     		var text=document.createTextNode(dataO[index].title);
     		var btn;
@@ -115,7 +114,6 @@ function showFollowing(){
 					data:{"following": 'true',"userID":userID},
 					dataType:"json",
 					error:function(xhr,ajaxOptions,thrownError){
-						console.log(xhr.responseText);
 						alert(xhr.status);
 				         alert(thrownError);
 					},
@@ -131,7 +129,6 @@ function showFollowing(){
 					data:{"follower": 'true',"userID": userID},
 					dataType:"json",
 					error: function(xhr,ajaxOptions,thrownError){
-						console.log(xhr.responseText);
 						alert(xhr.status);
 				         alert(thrownError);
 				       },
@@ -147,7 +144,6 @@ function showFollowing(){
 					data:{"travel":'true',"userID":userID},
 					dataType:"json",
 					error: function(xhr,ajaxOptions,thrownError){
-						console.log(xhr.responseText);
 						alert(xhr.status);
 				         alert(thrownError);
 				       },

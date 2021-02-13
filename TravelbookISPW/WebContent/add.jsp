@@ -142,7 +142,6 @@ function goToProfile()
             type: "POST",
             dataType: "json",
             error:function(xhr,ajaxOptions,thrownError){
-				console.log(xhr.responseText);
 				alert(xhr.status);
 		         alert(thrownError);
 			},
@@ -174,7 +173,6 @@ $(function()
              data:{place:request.term},
              success:function(data)
              { 
-            	 console.log(data);
             	 response(data);
              },
              

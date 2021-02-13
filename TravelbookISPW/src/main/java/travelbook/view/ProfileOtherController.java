@@ -19,7 +19,6 @@ import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.ControllerProfileOther;
 import main.java.travelbook.controller.TravelController;
 import main.java.travelbook.model.bean.MiniTravelBean;
-import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.util.SetImage;
 import main.java.travelbook.view.cell.Cell;

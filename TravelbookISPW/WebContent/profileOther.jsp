@@ -38,7 +38,6 @@
 					break;
 				}
 				String[] arg;
-				System.out.println(s);
 				if(s.startsWith("follower"))
 					arg=s.split("follower");
 				else
@@ -76,7 +75,6 @@
 					data:{"user":userID,"addFav":"true"},
 					type:"POST",
 					error: function(xhr,ajaxOptions,thrownError){
-						console.log(xhr.responseText);
 						alert(xhr.status);
 				         alert(thrownError);
 					},

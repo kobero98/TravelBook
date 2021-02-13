@@ -85,7 +85,6 @@
 						for(int c=0;c<bytes.size();c++){
 							byte[] tobe=bytes.get(c);
 							byte[] byteEncod=Base64.getEncoder().encode(tobe);
-							System.out.println(byteEncod);
 							String s=new String(byteEncod,"UTF-8");
 							encoded.add(s);
 						}
@@ -161,7 +160,6 @@
 			data: {"shareable":"true", "userID":idUser},
 			type: "GET",
 			error:function(xhr,ajaxOptions,thrownError){
-				console.log(xhr.responseText);
 				alert(xhr.status);
 		         alert(thrownError);
 			},
@@ -218,7 +216,6 @@
 			type: "POST",
 			data:{"userToBeShared":users, "travelID":travelId},
 			error: function(xhr,ajaxOptions,thrownError){
-				console.log(xhr.responseText);
 				alert(xhr.status);
 		         alert(thrownError);
 			},
@@ -240,7 +237,6 @@
 			data:{"travelID":travelId,"fav":"true"},
 			type:"POST",
 			error: function(xhr,ajaxOptions,thrownError){
-				console.log(xhr.responseText);
 				alert(xhr.status);
 		         alert(thrownError);
 			},
@@ -261,7 +257,6 @@
 			data:{"travelID":travelId,"chat":"true"},
 			type:"POST",
 			error: function(xhr,ajaxOptions,thrownError){
-				console.log(xhr.responseText);
 				alert(xhr.status);
 		         alert(thrownError);
 			},
@@ -276,7 +271,6 @@
 			data:{"travelID":travelId,"profile":"true"},
 			type:"POST",
 			error: function(xhr,ajaxOptions,thrownError){
-				console.log(xhr.responseText);
 				alert(xhr.status);
 		         alert(thrownError);
 			},
@@ -305,7 +299,6 @@
 			type: "GET",
 			dataType:"html",
 			error: function(xhr, ajaxOptions, thrownError) {
-				console.log(xhr.responseText);
 				alert(xhr.status);
 				alert(thrownError);
 			},

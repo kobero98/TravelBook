@@ -124,7 +124,6 @@
 		            type: "POST",
 		            dataType: "json",
 		            error:function(xhr,ajaxOptions,thrownError){
-						console.log(xhr.responseText);
 						alert(xhr.status);
 				         alert(thrownError);
 					},
@@ -132,7 +131,6 @@
 		            success: function(data) {
 		                if(data.text!=null)
 		                	{
-		                		console.log(data.text);
 		                		var div=document.createElement("div");
 		                		var p=document.createElement("p");
 		                		var text = document.createTextNode(data.text);
@@ -167,13 +165,11 @@
 			                 dataType:"json",
 			                 data:{search:request.term},
 			                 error:function(xhr,ajaxOptions,thrownError){
-									console.log(xhr.responseText);
 									alert(xhr.status);
 							         alert(thrownError);
 								},
 			                 success:function(data)
 			                 { 
-			                	 console.log(data);
 			                	 id=data;
 								 var temp={};
 									 for (i = 0; i < data.length; i++) {
@@ -182,7 +178,6 @@
 									  temp[i].label=data[i].nome;
 									  temp[i].id=data[i].id;
 									}
-								 console.log(temp);
 			                	 response(temp);
 			                 }
 		             		});
