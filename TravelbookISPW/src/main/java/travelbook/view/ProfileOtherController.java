@@ -204,6 +204,7 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 
 	@FXML
 	private void favouriteList(){
+		show.setItems(null);
 		show.setVisible(true);
 		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
@@ -220,7 +221,9 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 	}
 	@FXML
 	private void followerList() {
+		show.setItems(null);
 		show.setVisible(true);
+		
 		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText(user.getName()+"'s followers");
@@ -237,7 +240,9 @@ this.mainPane.getScene().getWindow().heightProperty().addListener((observable,ol
 	}
 	@FXML
 	private void followingList() {
+		show.setItems(null);
 		show.setVisible(true);
+		
 		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText(user.getName() +"'s interesting people");

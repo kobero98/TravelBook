@@ -15,6 +15,7 @@ public class FavoriteCell extends Cell {
 	private  static final String TEXT_CSS="text1";
 	public FavoriteCell(AnchorPane anchor, BorderPane pane) {
 		super(anchor,pane);
+		super.scroll.getStyleClass().add("lists");
 	}
 	@Override
 	public void setItems(List<Object> obj) {

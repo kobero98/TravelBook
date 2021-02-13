@@ -22,6 +22,7 @@ public class SharedCell extends Cell {
 	private MyProfileController myController=new MyProfileController();
 	public SharedCell(AnchorPane anchor, BorderPane pane) {
 		super(anchor,pane);
+		super.scroll.getStyleClass().add("lists");
 	}
 	public void setItems(List<Object> obj) {
 		for(Object item: obj) {

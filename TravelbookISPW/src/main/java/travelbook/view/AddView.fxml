@@ -68,7 +68,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="travelDescription" layoutX="179.0" layoutY="163.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0">
+                        <TextArea fx:id="travelDescription" layoutX="179.0" layoutY="163.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0" wrapText="true">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>

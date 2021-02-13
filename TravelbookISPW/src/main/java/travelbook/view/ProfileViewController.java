@@ -374,7 +374,7 @@ public class ProfileViewController implements Observer{
 		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText("Your followers");
-		show.getItems().clear();
+		show.setItems(null);
 		
 		if(user.getFollower()!= null && !user.getFollower().isEmpty()) {
 			try {
@@ -396,7 +396,7 @@ public class ProfileViewController implements Observer{
 		errorMsg.setVisible(false);
 		listTitle.setVisible(true);
 		listText.setText("Your interesting people");
-		show.getItems().clear();
+		show.setItems(null);
 		if(user.getFollowing()!=null && !user.getFollowing().isEmpty()) {
 			try {
 				List<Bean> users=myController.getFollow(user.getFollowing());

@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 
 public abstract class Cell {
 	private VBox box;
-	private ScrollPane scroll;
+	protected ScrollPane scroll;
 	private AnchorPane mainAnchor;
 	private BorderPane mainPane;
 	private List<Object> items=new ArrayList<>();
