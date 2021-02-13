@@ -28,6 +28,7 @@ exception/TriggerAlert.class
 main/java/travelbook/view/ExploreViewController.class
 test/TestPredictionController.class
 main/java/travelbook/model/dao/MessageDao.class
+main/java/travelbook/model/dao/EmailDao.class
 main/java/travelbook/view/MessageCell.class
 main/java/travelbook/util/Observer.class
 main/java/travelbook/controller/ViewOnMap.class
@@ -94,6 +95,7 @@ test/selenium/TestProfilePage.class
 main/java/travelbook/util/ProfilePollingThread.class
 main/java/travelbook/view/SearchPlaceTextField.class
 main/java/travelbook/model/StepEntity.class
+main/java/travelbook/model/EmailAccount.class
 main/java/travelbook/util/MessagePollingThread.class
 main/java/travelbook/model/dao/FacebookDao.class
 main/java/travelbook/view/RootController.class

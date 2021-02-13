@@ -29,6 +29,7 @@
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/exception/MissingPageException.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/test/selenium/TestChat.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/exception/MapboxException.java
+/Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/EmailAccount.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/MainApp.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/view/TravelCell.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/StepEntity.java
@@ -39,6 +40,7 @@
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/view/ProfileViewController.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/bean/Bean.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/dao/CityDao.java
+/Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/model/dao/EmailDao.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/controller/EmailSenderController.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/main/java/travelbook/controller/TravelController.java
 /Users/sara/Desktop/ISPW-project/TravelBook.git/trunk/TravelbookISPW/src/test/selenium/TestAddDays.java
