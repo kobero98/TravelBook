@@ -1,4 +1,4 @@
-package exception;
+package main.java.exception;
 
 import java.io.File;
 import java.net.MalformedURLException;

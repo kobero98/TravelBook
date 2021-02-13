@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
-import exception.DBException;
-import exception.FewParametersException;
-import exception.MalformedEmailException;
+import main.java.exception.DBException;
+import main.java.exception.FewParametersException;
+import main.java.exception.MalformedEmailException;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.ShareEntity;
 import main.java.travelbook.model.TravelEntity;

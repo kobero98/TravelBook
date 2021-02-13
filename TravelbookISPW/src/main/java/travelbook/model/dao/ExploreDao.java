@@ -7,10 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.ArrayList;
-import exception.DBException;
+
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.TravelEntity;
+import main.java.exception.DBException;
 import main.java.travelbook.controller.AllQuery;
 public class ExploreDao implements VisualDAO {
 

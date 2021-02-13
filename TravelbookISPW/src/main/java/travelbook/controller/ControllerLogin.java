@@ -17,11 +17,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import exception.DBException;
-import exception.LoginPageException;
-import exception.MalformedEmailException;
-import exception.TriggerAlert;
+
 import javafx.application.Platform;
+import main.java.exception.DBException;
+import main.java.exception.LoginPageException;
+import main.java.exception.MalformedEmailException;
+import main.java.exception.TriggerAlert;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.RegistrationBean;

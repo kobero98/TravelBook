@@ -3,10 +3,10 @@ package main.java.travelbook.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import exception.DBException;
-import exception.MissingPageException;
+import main.java.exception.DBException;
+import main.java.exception.MissingPageException;
+import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.TravelController;
-import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.bean.UserBean;

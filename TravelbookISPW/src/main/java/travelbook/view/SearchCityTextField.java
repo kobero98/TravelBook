@@ -2,13 +2,12 @@ package main.java.travelbook.view;
 import javafx.application.Platform;
 import javafx.geometry.Side;
 import javafx.scene.control.TextField;
+import main.java.exception.DBException;
+import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.ControllerSearch;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import exception.DBException;
-import exception.TriggerAlert;
 public class SearchCityTextField extends AutocompleteTextField<String> {
 	public SearchCityTextField() {
 		super();

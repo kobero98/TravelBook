@@ -3,7 +3,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import exception.MissingPageException;
+import main.java.exception.MissingPageException;
 import main.java.travelbook.view.LoginViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.application.Application;

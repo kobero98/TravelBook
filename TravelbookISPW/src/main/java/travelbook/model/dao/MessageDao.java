@@ -5,12 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import main.java.exception.DBException;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import java.util.List;
-
-import exception.DBException;
-
 import java.util.ArrayList;
 import main.java.travelbook.model.MessageEntity;
 public class MessageDao implements PersistanceDAO {

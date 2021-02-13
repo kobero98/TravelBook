@@ -7,11 +7,6 @@ import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.sql.Date;import java.util.Optional;
 
-import exception.DBException;
-import exception.LoginPageException;
-import exception.MalformedEmailException;
-import exception.MissingPageException;
-import exception.TriggerAlert;
 import javafx.scene.web.WebView;
 
 import javafx.scene.web.WebEngine;
@@ -20,6 +15,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.ChoiceBox;
 import java.util.Locale;
+
+import main.java.exception.DBException;
+import main.java.exception.LoginPageException;
+import main.java.exception.MalformedEmailException;
+import main.java.exception.MissingPageException;
+import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.ControllerLogin;
 import main.java.travelbook.view.animation.OpacityAnimation;
 import javafx.application.Platform;

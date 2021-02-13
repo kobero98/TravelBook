@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import exception.DBException;
+import main.java.exception.DBException;
 import main.java.travelbook.controller.ControllerSearch;
 import main.java.travelbook.model.bean.SearchTrip;
 

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import exception.DBException;
+import main.java.exception.DBException;
 import main.java.travelbook.model.OtherUserEntity;
 import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.UserBean;

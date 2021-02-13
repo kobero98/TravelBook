@@ -3,14 +3,13 @@ package main.java.travelbook.view;
 
 import java.util.List;
 
-import exception.MissingPageException;
 import javafx.scene.control.Label;
 
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-
+import main.java.exception.MissingPageException;
 import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.util.SetImage;
 

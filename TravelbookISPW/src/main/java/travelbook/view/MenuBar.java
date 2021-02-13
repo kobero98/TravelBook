@@ -3,7 +3,7 @@ import javafx.fxml.FXMLLoader;
 import main.java.travelbook.util.Chat;
 import java.util.List;
 
-import exception.MissingPageException;
+import main.java.exception.MissingPageException;
 import main.java.travelbook.model.bean.UserBean;
 
 import java.io.File;

@@ -6,8 +6,9 @@ import javax.mail.MessagingException;
 
 import java.util.ArrayList;
 import static org.junit.Assert.*;
-import exception.FewParametersException;
-import exception.MalformedEmailException;
+
+import main.java.exception.FewParametersException;
+import main.java.exception.MalformedEmailException;
 import main.java.travelbook.controller.EmailSenderController;
 /*
  * @author Matteo Ciccaglione

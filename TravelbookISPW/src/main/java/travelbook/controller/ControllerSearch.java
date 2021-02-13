@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import exception.DBException;
+import main.java.exception.DBException;
 import main.java.travelbook.model.CityEntity;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.SearchEntity;

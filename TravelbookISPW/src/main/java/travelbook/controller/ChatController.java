@@ -1,9 +1,6 @@
 package main.java.travelbook.controller;
 
 import java.util.List;
-
-import exception.DBException;
-
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -19,6 +16,7 @@ import main.java.travelbook.model.MessageEntity;
 import main.java.travelbook.model.UserEntity;
 import main.java.travelbook.model.bean.MessageBean;
 import main.java.travelbook.model.bean.UserBean;
+import main.java.exception.DBException;
 import main.java.travelbook.model.Entity;
 
 public class ChatController {

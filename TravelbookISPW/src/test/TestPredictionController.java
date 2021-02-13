@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.Test;
 import main.java.travelbook.util.Place;
 import main.java.travelbook.util.PlaceAdapter;
-import exception.MapboxException;
+import main.java.exception.MapboxException;
 import main.java.travelbook.controller.PredictionController;
 import org.json.simple.JSONObject;
 /*

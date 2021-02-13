@@ -4,11 +4,13 @@ import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
 import main.java.travelbook.model.dao.VisualDAO;
 import java.util.List;
+
+import main.java.exception.DBException;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.model.UserEntity;
-import exception.DBException;
+
 import java.sql.SQLException;
 public class ExploreController {
 	public void setSuggests(List<MiniTravelBean> travels,UserBean myUser) throws DBException {

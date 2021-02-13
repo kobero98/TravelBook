@@ -4,10 +4,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import main.java.travelbook.model.ShareEntity;
-import exception.DBException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import main.java.exception.DBException;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 

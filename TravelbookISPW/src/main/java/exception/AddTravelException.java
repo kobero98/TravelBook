@@ -1,4 +1,4 @@
-package exception;
+package main.java.exception;
 
 public class AddTravelException extends DBException {
 	private static final long serialVersionUID = 1L;

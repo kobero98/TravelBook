@@ -3,7 +3,8 @@ package main.java.travelbook.util;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
-import exception.DBException;
+
+import main.java.exception.DBException;
 import main.java.travelbook.model.OtherUserEntity;
 import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.model.dao.DaoFactory;

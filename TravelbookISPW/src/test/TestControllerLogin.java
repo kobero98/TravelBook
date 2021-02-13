@@ -4,8 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import java.sql.Date;
 import org.junit.Test;
-import exception.DBException;
-import exception.LoginPageException;
+
+import main.java.exception.DBException;
+import main.java.exception.LoginPageException;
 import main.java.travelbook.controller.ControllerLogin;
 import main.java.travelbook.model.bean.RegistrationBean;
 import main.java.travelbook.model.bean.UserBean;

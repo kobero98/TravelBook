@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import exception.DBException;
-import exception.ExceptionRegistration;
-import exception.LoginPageException;
+import main.java.exception.DBException;
+import main.java.exception.ExceptionRegistration;
+import main.java.exception.LoginPageException;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import main.java.travelbook.model.UserEntity;

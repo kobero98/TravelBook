@@ -2,7 +2,7 @@ package main.java.travelbook.model.dao;
 
 
 
-import exception.DBException;
+import main.java.exception.DBException;
 import main.java.travelbook.model.Entity;
 
 public interface PersistanceDAO extends VisualDAO{

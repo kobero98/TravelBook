@@ -1,9 +1,8 @@
 package main.java.travelbook.controller;
 import java.util.List;
-
-import exception.MapboxException;
-
 import java.util.ArrayList;
+
+import main.java.exception.MapboxException;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.util.Place;
 import main.java.travelbook.util.PlaceAdapter;

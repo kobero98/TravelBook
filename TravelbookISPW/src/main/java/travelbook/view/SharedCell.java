@@ -2,15 +2,15 @@ package main.java.travelbook.view;
 
 import java.util.List;
 
-import exception.DBException;
-import exception.MissingPageException;
-import exception.TriggerAlert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import main.java.exception.DBException;
+import main.java.exception.MissingPageException;
+import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.MyProfileController;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.ShareBean;

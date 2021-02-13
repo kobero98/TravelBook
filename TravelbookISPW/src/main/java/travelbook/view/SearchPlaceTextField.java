@@ -1,4 +1,5 @@
 package main.java.travelbook.view;
+import main.java.exception.MapboxException;
 import main.java.travelbook.controller.PredictionController;
 import javafx.application.Platform;
 import javafx.geometry.Side;
@@ -11,8 +12,6 @@ import main.java.travelbook.util.Place;
 import main.java.travelbook.util.PlaceAdapter;
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
-
-import exception.MapboxException;
 
 import java.util.List;
 public class SearchPlaceTextField extends AutocompleteTextField<Place> {

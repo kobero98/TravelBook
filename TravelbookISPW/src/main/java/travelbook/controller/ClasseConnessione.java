@@ -7,11 +7,9 @@ import java.sql.SQLException;
 public class ClasseConnessione {
 
 	private String username="root";
-	private String ps="Sara.d-19";
+	private String ps="root";
 	
-	public ClasseConnessione() {
-		/*Constructor, dosn't need any param*/
-	}
+
 	public Connection getConenction() throws SQLException {
 		
 		String myUrl="jdbc:mysql://localhost:3306/mydb1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";

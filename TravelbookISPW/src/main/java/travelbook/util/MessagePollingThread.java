@@ -1,11 +1,11 @@
 package main.java.travelbook.util;
+import main.java.exception.DBException;
+import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.ChatController;
 import java.time.Instant;
 import main.java.travelbook.view.MenuBar;
 import java.util.List;
 
-import exception.DBException;
-import exception.TriggerAlert;
 import main.java.travelbook.model.bean.MessageBean;
 import java.util.ArrayList;
 public class MessagePollingThread extends Thread {

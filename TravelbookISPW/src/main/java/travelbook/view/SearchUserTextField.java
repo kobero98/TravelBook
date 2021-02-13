@@ -3,10 +3,10 @@ package main.java.travelbook.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import exception.DBException;
-import exception.TriggerAlert;
 import javafx.geometry.Side;
 import javafx.scene.control.TextField;
+import main.java.exception.DBException;
+import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.ChatController;
 import main.java.travelbook.model.bean.UserBean;
 

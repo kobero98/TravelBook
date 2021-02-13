@@ -11,9 +11,10 @@ import java.time.Instant;
 
 import java.io.InputStream;
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
-import exception.ExceptionLogin;
-import exception.ExceptionRegistration;
-import exception.LoginPageException;
+
+import main.java.exception.ExceptionLogin;
+import main.java.exception.ExceptionRegistration;
+import main.java.exception.LoginPageException;
 import main.java.travelbook.model.CityEntity;
 import main.java.travelbook.model.MessageEntity;
 import main.java.travelbook.model.SearchEntity;

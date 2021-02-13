@@ -4,10 +4,6 @@ import java.util.List;
 import main.java.travelbook.util.PlaceAdapter;
 import org.json.simple.JSONObject;
 
-import exception.AddTravelException;
-import exception.DBException;
-import exception.MapboxException;
-
 import java.util.ArrayList;
 import main.java.travelbook.model.dao.DaoFactory;
 import main.java.travelbook.model.dao.DaoType;
@@ -15,6 +11,9 @@ import main.java.travelbook.model.TravelEntity;
 import main.java.travelbook.model.bean.StepBean;
 import main.java.travelbook.model.bean.TravelBean;
 import main.java.travelbook.model.StepEntity;
+import main.java.exception.AddTravelException;
+import main.java.exception.DBException;
+import main.java.exception.MapboxException;
 import main.java.travelbook.model.CityEntity;
 import main.java.travelbook.model.Entity;
 

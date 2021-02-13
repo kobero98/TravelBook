@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import exception.DBException;
+import main.java.exception.DBException;
 import main.java.travelbook.controller.ChatController;
 import main.java.travelbook.model.bean.MessageBean;
 import main.java.travelbook.util.Chat;

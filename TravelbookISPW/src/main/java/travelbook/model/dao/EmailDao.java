@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import exception.DBException;
+
+import main.java.exception.DBException;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.EmailAccount;
 

@@ -6,9 +6,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import exception.MapboxException;
-import exception.TriggerAlert;
 import main.java.travelbook.model.bean.StepBean;
+import main.java.exception.MapboxException;
+import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.PredictionController;
 import main.java.travelbook.controller.ViewOnMap;
 import javafx.stage.Stage;

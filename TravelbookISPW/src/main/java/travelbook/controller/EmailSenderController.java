@@ -2,9 +2,9 @@ package main.java.travelbook.controller;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import exception.DBException;
-import exception.FewParametersException;
-import exception.MalformedEmailException;
+import main.java.exception.DBException;
+import main.java.exception.FewParametersException;
+import main.java.exception.MalformedEmailException;
 import main.java.travelbook.model.EmailAccount;
 import main.java.travelbook.model.dao.EmailDao;
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import exception.MapboxException;
+import main.java.exception.MapboxException;
 import main.java.travelbook.controller.ViewOnMap;
 import main.java.travelbook.model.bean.StepBean;
 /*

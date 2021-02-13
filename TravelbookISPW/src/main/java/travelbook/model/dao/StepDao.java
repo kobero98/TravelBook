@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
 
-import exception.DBException;
+import main.java.exception.DBException;
 import main.java.travelbook.controller.AllQuery;
 import main.java.travelbook.model.Entity;
 import java.util.ArrayList;

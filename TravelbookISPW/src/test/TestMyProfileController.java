@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import exception.DBException;
+import main.java.exception.DBException;
 import main.java.travelbook.controller.MyProfileController;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.UserBean;

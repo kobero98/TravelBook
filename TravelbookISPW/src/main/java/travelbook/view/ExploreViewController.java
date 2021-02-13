@@ -3,10 +3,6 @@ import main.java.travelbook.view.animation.SlideImageAnimationHR;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import javafx.scene.input.KeyCode;
 import java.util.List;
-
-import exception.MissingPageException;
-import exception.DBException;
-
 import java.io.File;
 import java.util.ArrayList;
 import javafx.scene.input.KeyEvent;
@@ -18,9 +14,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import exception.TriggerAlert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.layout.AnchorPane;
+import main.java.exception.DBException;
+import main.java.exception.MissingPageException;
+import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.ExploreController;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;

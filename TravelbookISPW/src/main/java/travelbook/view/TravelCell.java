@@ -1,9 +1,6 @@
 package main.java.travelbook.view;
 import java.util.List;
 
-import exception.DBException;
-import exception.MissingPageException;
-import exception.TriggerAlert;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -18,6 +15,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import main.java.exception.DBException;
+import main.java.exception.MissingPageException;
+import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.MyProfileController;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.util.SetImage;

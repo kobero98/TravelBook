@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import exception.DBException;
 
-import exception.TriggerAlert;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -36,7 +34,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import javafx.scene.shape.Line;
-
+import main.java.exception.DBException;
+import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.ControllerSearch;
 import main.java.travelbook.model.bean.MiniTravelBean;
 import main.java.travelbook.model.bean.SearchTrip;

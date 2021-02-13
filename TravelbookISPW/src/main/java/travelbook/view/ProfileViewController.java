@@ -7,10 +7,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import exception.DBException;
-import exception.MissingPageException;
-import exception.TriggerAlert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -25,6 +21,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import main.java.exception.DBException;
+import main.java.exception.MissingPageException;
+import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.MyProfileController;
 import main.java.travelbook.model.bean.Bean;
 import main.java.travelbook.model.bean.UserBean;

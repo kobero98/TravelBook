@@ -6,9 +6,6 @@ import java.util.List;
 import main.java.travelbook.util.Observer;
 
 import main.java.travelbook.util.Observable;
-
-import exception.DBException;
-import exception.MissingPageException;
 import javafx.scene.input.KeyCode;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -22,11 +19,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-
-
-
+import main.java.exception.DBException;
+import main.java.exception.MissingPageException;
+import main.java.exception.TriggerAlert;
 import main.java.travelbook.controller.ChatController;
-import exception.TriggerAlert;
 import main.java.travelbook.model.bean.MessageBean;
 import main.java.travelbook.model.bean.UserBean;
 import main.java.travelbook.util.Chat;
