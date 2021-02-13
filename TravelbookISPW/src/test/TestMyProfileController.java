@@ -36,7 +36,6 @@ public class TestMyProfileController {
 		String text="a".repeat(151);
 		assertThrows(DBException.class, ()->controller.updateDescr(1, text));
 	}
-	//cambiare viaggio con primo viaggio nel db
 	@Test
 	public void testGetTravel() throws DBException{
 		//test if getTravel method return expected result, trying with a known travel
