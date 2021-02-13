@@ -23,10 +23,10 @@ public class CellFactory {
 			ret=new SharedCell(anchor,pane);
 		}
 		if(type==CellType.SEARCH) {
-			ret=new TravelCell(anchor,pane,false,835,false);
+			ret=new TravelCell(anchor,pane,false,835,2);
 		}
 		if(type==CellType.OTHERTRAVEL) {
-			ret=new TravelCell(anchor,pane,true,530,true);
+			ret=new TravelCell(anchor,pane,true,530,3);
 		}
 		if(type==CellType.SHAREABLE) {
 			ret=new ShareableContactCell(anchor,pane);

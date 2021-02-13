@@ -72,7 +72,7 @@ public class ProfileOtherController {
 	private static final String CSS = "fav-selected";
 	
 	public void initialize() {
-		travels=CellFactory.getInstance().create(CellType.TRAVEL, this.mainAnchor, this.mainPane);
+		travels=CellFactory.getInstance().create(CellType.OTHERTRAVEL, this.mainAnchor, this.mainPane);
 		try {
 			
 			this.user = myController.getUser(MenuBar.getInstance().getUserId());

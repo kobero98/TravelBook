@@ -1,5 +1,4 @@
 package main.java.travelbook.view;
-
 import java.util.List;
 
 import exception.DBException;
@@ -26,13 +25,13 @@ import javafx.scene.layout.Region;
 public class TravelCell extends Cell {
 	private boolean isEditable=true;
 	private double width=530;
-	private boolean other=false;
+	private int other=1;
 	private static final String CSS = "fav-selected";
 	public TravelCell(AnchorPane anchor,BorderPane pane) {
 		super(anchor,pane);
 		super.getBox().setSpacing(10);
 	}
-	public TravelCell(AnchorPane anchor,BorderPane pane, boolean edit, double width,boolean other) {
+	public TravelCell(AnchorPane anchor,BorderPane pane, boolean edit, double width,int other) {
 		this(anchor,pane);
 		isEditable=edit;
 		this.width=width;
@@ -70,7 +69,7 @@ public class TravelCell extends Cell {
     	descr.setWrappingWidth(super.getAnchor().getPrefWidth()*265/1280);
     	hBox.setAlignment(Pos.BOTTOM_RIGHT);
     	Button edit;
-    	if(other)
+    	if(other==3)
     		edit=this.makeOther(item1);
     	else
     		edit=this.make(item1,travel,hBox);
@@ -78,7 +77,12 @@ public class TravelCell extends Cell {
     	travel.setOnMouseClicked(e->{
 			try {
 				MenuBar.getInstance().setIdTravel(item1.getId());
-				MenuBar.getInstance().moveToView(super.getBorder(),2);
+				if(other==3)
+					MenuBar.getInstance().moveToView(super.getBorder(), 3);
+				else if(other==2)
+					MenuBar.getInstance().moveToView(super.getBorder(), 4);
+				else
+					MenuBar.getInstance().moveToView(super.getBorder(),2);
 			} catch (MissingPageException e1) {
 				e1.exit();
 			}
@@ -116,6 +120,7 @@ public class TravelCell extends Cell {
 		Button fav = new Button();
     	fav.setPrefWidth(super.getAnchor().getPrefWidth()*35/1280);
     	fav.setPrefHeight(super.getAnchor().getPrefHeight()*35/625);
+    	fav.getStyleClass().clear();
     	fav.getStyleClass().add("favourite");
     	if(MenuBar.getInstance().getLoggedUser().getFav()!=null &&
     			MenuBar.getInstance().getLoggedUser().getFav().contains(item.getId()))
