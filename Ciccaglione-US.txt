@@ -1,9 +1,0 @@
-As an organizer user i want to organize trips so that i can earn money.
-
-
-
-As a normal user I want to have some advice so that i can plan my trip.
-
-
-
-As a normal user I want to ask some questions to another user so that i can resolve my doubts.

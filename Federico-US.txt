@@ -1,7 +1,0 @@
-USER STORIES:
-
-1.As an organizer user i want to post my trips so that i can advertisemy agency and her trips.
-
-2.As a user I want the possibility to show the trips I selected on maps, so that I canrealize how much distance there is between places.
-
-3.As an Organizer user i want to receive forecast, so that i can see the weatherof the days in the places where i wantto go.

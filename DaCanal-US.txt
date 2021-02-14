@@ -1,6 +1,0 @@
-1.  As I normal user I want to find organized trips so that I can join them and travel with new friends.
-
-2.  As a beginner, I want to receive some introduction so that I can learn how to use this social.
-
-3.  As a photographer, I want to post my photos of the trips, so that I can show the spectacular views of the places I’ve visited. 
-  
