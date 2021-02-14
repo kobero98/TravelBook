@@ -89,14 +89,7 @@ public class TravelCell extends Cell {
 				e1.exit();
 			}
 		});
-    	edit.setOnMouseClicked(e->{
-    		try {
-    			MenuBar.getInstance().setIdTravel(item1.getId());
-    			MenuBar.getInstance().moveToAddTravel(super.getBorder());
-    		}catch(MissingPageException exc) {
-    			exc.exit();
-    		}
-    	});
+
     	hBox.getChildren().add(edit);
     	vBox.getChildren().add(name);
     	vBox.getChildren().add(descr);
@@ -138,6 +131,14 @@ public class TravelCell extends Cell {
     	edit.setVisible(this.isEditable&& !(item.isShared()));
     	edit.getStyleClass().clear();
     	edit.getStyleClass().add("edit");
+    	edit.setOnMouseClicked(e->{
+    		try {
+    			MenuBar.getInstance().setIdTravel(item.getId());
+    			MenuBar.getInstance().moveToAddTravel(super.getBorder());
+    		}catch(MissingPageException exc) {
+    			exc.exit();
+    		}
+    	});
     	Button removeTravel=new Button();
     	removeTravel.getStyleClass().clear();
     	removeTravel.getStyleClass().add("del");

@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.java.travelbook.util.Place;
 import main.java.travelbook.util.PlaceAdapter;
-import main.java.travelbook.view.MenuBar;
 
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
