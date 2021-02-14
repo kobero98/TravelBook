@@ -99,7 +99,7 @@
 						if(!found) {
 							List<MessageBean> messaggi=new ArrayList<>();
 							messaggi.add(message);
-							Chat nuovaChat=new Chat(message.getIdDestinatario(),null,messaggi);
+							Chat nuovaChat=new Chat(message.getIdDestinatario(),new ArrayList<>(),messaggi);
 							chats.add(nuovaChat);
 						}
 					}
