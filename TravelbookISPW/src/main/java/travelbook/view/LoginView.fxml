@@ -26,7 +26,7 @@
             <Pane fx:id="loginPane" layoutX="20.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="550.0" styleClass="login-pane">
                <children>
                   <Label fx:id="error" layoutX="50.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="450.0" text="Error message" visible="false" />
-                  <TextField fx:id="emailField" layoutX="50.0" layoutY="59.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="448.0" promptText="Email">
+                  <TextField fx:id="emailField" layoutX="50.0" layoutY="59.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="448.0" promptText="Username or Email">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
