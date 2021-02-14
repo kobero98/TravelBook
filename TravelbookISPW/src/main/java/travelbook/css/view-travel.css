@@ -114,9 +114,7 @@
 	-fx-background-color: rgba(252, 220, 200, 0.5);
 	-fx-background-radius: 30 0 0 30;
 }
-.list-view > .virtual-flow > .clipped-container > .sheet > .list-cell{
-	-fx-background-color: null;
-}
+
 
 .photo-bar{
 	-fx-effect: null;
@@ -149,6 +147,12 @@
 	-fx-stroke-width: 3;
 }
 .itinerary .button:hover{
+	-fx-border-color: -fx-light-grey;
+	-fx-background-color: -fx-dcolor;
+	-fx-background-insets: -16 -8 0 -8;
+	-fx-border-insets: -16 -8 0 -8;
+}
+.itinerary .button-focused{
 	-fx-border-color: -fx-light-grey;
 	-fx-background-color: -fx-dcolor;
 	-fx-background-insets: -16 -8 0 -8;
