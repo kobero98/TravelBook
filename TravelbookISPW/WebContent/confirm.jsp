@@ -50,6 +50,7 @@
 				<input id="closeCode" type="button" name="closeCode" value="close" class="form-button code-button">
 				<input id="confirm" type="submit" name="confirm" value="confirm" class="form-button code-button">
 				</div>
+				
 			</form>
 </body>
 </html>

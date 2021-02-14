@@ -106,10 +106,10 @@
 	<div class="anchor">
 		<div id=login>
 			<form action="login.jsp" id="loginTable" method="POST">
-				<input id="Username" type="text" name="username" class="textfield" required>
 				<label for="Username">Username or Email</label>
-				<input id="pswd" type="password" name="password" class="textfield" required>
+				<input id="Username" type="text" name="username" class="textfield" required>
 				<label for="pswd">Password</label>
+				<input id="pswd" type="password" name="password" class="textfield" required>
 				<div class=buttons>
 				<input type="button" value="registrati" class="form-button" onclick="apriRegistrazione()">
 				<input type="submit" value="accedi" name="accedi" class="form-button">
@@ -130,18 +130,20 @@
 	</div>
 	<div id=registrazione>
 			<form action="login.jsp" method="POST" id="registerTable">
-				<input id="username" type="text"  name="username" class="textfield" required>
+			
 				<label for="username">Username</label>
-				<input type="password" id="password" name="password" value="password" class="textfield" required>
+				<input id="username" type="text"  name="username" class="textfield" required>
 				<label for="password">Password</label>
-				<input type="email" id="email"name="email"  class="textfield" required>
+				<input type="password" id="password" name="password" value="password" class="textfield" required>
 				<label for="email">Email</label>
-				<input type="text" id="name" name="name"  class="textfield" required>
+				<input type="email" id="email"name="email"  class="textfield" required>
 				<label for="name">Name</label>
-				<input type="text" id="surname" name="surname"  class="textfield" required>
+				<input type="text" id="name" name="name"  class="textfield" required>
 				<label for="surname">Surname</label>
-				<input type="date" id="dateB" name="birthDate" class="date-picker" required>
+				<input type="text" id="surname" name="surname"  class="textfield" required>
 				<label for="dateB">Birthdate</label>
+				<input type="date" id="dateB" name="birthDate" class="date-picker" required>
+				<label>Nationality</label>
 				<select id="nation"  name="nation">
 					<%
 					String[] countryCodes=Locale.getISOCountries();

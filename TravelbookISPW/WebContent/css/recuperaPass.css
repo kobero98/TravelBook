@@ -1,0 +1,11 @@
+@charset "ISO-8859-1";
+.esterno{
+	display:flex;
+	flex-direction:column;
+	margin-top:5em;
+	width:25em;
+	margin-left:15em;
+	height:25em;
+	justify-content:space-evenly;
+	
+}
