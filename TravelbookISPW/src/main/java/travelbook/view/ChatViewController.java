@@ -313,7 +313,7 @@ public void update(Observable bar, Object notify) {
 					notified(c);
 					if(current == c){
 						this.sentList.getObservableItems().add(c.getReceive().get(c.getReceive().size()-1));
-						
+						MenuBar.getInstance().setNotified();
 					}
 				}
 			}

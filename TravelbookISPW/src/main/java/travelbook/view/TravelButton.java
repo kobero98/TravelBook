@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -83,6 +84,7 @@ public class TravelButton implements Observer {
 	public void update(Observable o) {
 		MiniTravelBean myTravel;
 		myTravel=(MiniTravelBean) o;
+		Platform.runLater(()->{
 		this.stack.setOnMouseClicked(e->{
 			try {
 				
@@ -103,6 +105,7 @@ public class TravelButton implements Observer {
 			this.pane.setBackground(newBg);
 			this.pane.getStyleClass().add("pane");
 		}
+		});
 	}
 	@Override
 	public void update(Observable o,Object arg) {

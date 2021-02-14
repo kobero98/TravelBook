@@ -130,13 +130,17 @@ public class ExploreViewController implements Observer{
 			travelSuggest.add(travel);
 			i++;
 		}
-		ExploreController controller=new ExploreController();
-		try {
-		controller.setSuggests(travelSuggest, MenuBar.getInstance().getLoggedUser());
-		controller.setTopTen(topten);
-		}catch(DBException e) {
-			new TriggerAlert().triggerAlertCreate(e.getMessage(),"err").showAndWait();
-		}
+		new Thread(()->{
+			ExploreController controller=new ExploreController();
+			try {
+			controller.setSuggests(travelSuggest, MenuBar.getInstance().getLoggedUser());
+			controller.setTopTen(topten);
+			}catch(DBException e) {
+				Platform.runLater(()->
+					new TriggerAlert().triggerAlertCreate(e.getMessage(),"err").showAndWait()
+				);
+			}
+		}).start();
 	}
 	private void openTutorial(){
 		

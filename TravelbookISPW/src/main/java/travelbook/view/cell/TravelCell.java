@@ -92,7 +92,7 @@ public class TravelCell extends Cell {
     	edit.setOnMouseClicked(e->{
     		try {
     			MenuBar.getInstance().setIdTravel(item1.getId());
-    			MenuBar.getInstance().moveToAddTravel(super.getBorder()); //aggiungere id viaggio dopo aver sistemato add
+    			MenuBar.getInstance().moveToAddTravel(super.getBorder());
     		}catch(MissingPageException exc) {
     			exc.exit();
     		}
