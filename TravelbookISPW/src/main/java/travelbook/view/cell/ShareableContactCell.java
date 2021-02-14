@@ -17,6 +17,7 @@ public class ShareableContactCell extends Cell {
 	private List<UserBean> toShare=new ArrayList<>();
 	public ShareableContactCell(AnchorPane anchor,BorderPane pane) {
 		super(anchor,pane);
+		this.getScroll().getStyleClass().add("list-view");
 	}
 	@Override
 	public void setItems(List<Object> obj) {

@@ -133,6 +133,7 @@ public class LoginViewController {
 			Locale obj = new Locale("", cc);
 			this.nations.getItems().add(obj.getDisplayCountry());
 		}
+		
 		//Add some listener for focused property
 		
 		name.focusedProperty().addListener((observable,oldValue,newValue)->{
@@ -307,7 +308,8 @@ public class LoginViewController {
 			closeRegister.setPrefWidth(200*width/1280);
 			closeRegister.setLayoutX(400*width/1280);
 		});
-		
+		this.mainAnchor.setPrefHeight(mainPane.getHeight()*625/720);
+		this.mainAnchor.setPrefWidth(mainPane.getWidth());
 	}
 	@FXML
 	private void loginButtonHandler() {

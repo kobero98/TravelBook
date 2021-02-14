@@ -37,7 +37,7 @@
             </Pane>
             <HBox fx:id="travel" layoutX="45.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="176.0" prefWidth="557.0" styleClass="h-box1" />
             <Button fx:id="viewMap" layoutX="437.0" layoutY="292.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#viewOnMapHandler" prefHeight="35.0" prefWidth="150.0" styleClass="h-box" text="ViewOnMap" />
-            <Button fx:id="goShare" layoutX="336.0" layoutY="544.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goShareHandler" prefHeight="30.0" prefWidth="240.0" styleClass="h-box" text="Share" visible="false" />
+            <Button fx:id="goShare" layoutX="336.0" layoutY="544.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goShareHandler" prefHeight="30.0" prefWidth="240.0" styleClass="h-box" text="Share" textAlignment="CENTER" visible="false" />
          </children>
       </AnchorPane>
       <ScrollPane fx:id="step" hbarPolicy="NEVER" layoutX="684.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="586.0">

@@ -10,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.java.travelbook.util.Place;
 import main.java.travelbook.util.PlaceAdapter;
+import main.java.travelbook.view.MenuBar;
+
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
 
@@ -32,7 +34,7 @@ public class SearchPlaceTextField extends AutocompleteTextField<Place> {
 		PredictionController predict=new PredictionController();
 		List<Place> places=new ArrayList<>();
 		try{
-			List<JSONObject> results=predict.getPredictions(text);
+			List<JSONObject> results=predict.getPredictions(text,MenuBar.getInstance().getLoggedUser().getNation());
 			
 			for(JSONObject obj: results) {
 				places.add(new PlaceAdapter(obj));
