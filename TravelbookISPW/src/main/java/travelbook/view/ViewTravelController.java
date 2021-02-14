@@ -102,6 +102,7 @@ public class ViewTravelController {
 	@FXML
 	private void initialize() {
 		this.shareList=(ShareableContactCell)CellFactory.getInstance().create(CellType.SHAREABLE, this.view, this.mainPane);
+		this.shareList.setSecond(this.mainAnchor);
 		this.shareList.setToShare(this.toShare);
 		try {
 			myTravel = myController.getTravel(MenuBar.getInstance().getTravelId());

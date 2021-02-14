@@ -34,7 +34,7 @@ public class SearchPlaceTextField extends AutocompleteTextField<Place> {
 		PredictionController predict=new PredictionController();
 		List<Place> places=new ArrayList<>();
 		try{
-			List<JSONObject> results=predict.getPredictions(text,MenuBar.getInstance().getLoggedUser().getNation());
+			List<JSONObject> results=predict.getPredictions(text);
 			
 			for(JSONObject obj: results) {
 				places.add(new PlaceAdapter(obj));

@@ -15,6 +15,7 @@ import main.java.travelbook.util.SetImage;
 
 public class ShareableContactCell extends Cell {
 	private List<UserBean> toShare=new ArrayList<>();
+	private AnchorPane main;
 	public ShareableContactCell(AnchorPane anchor,BorderPane pane) {
 		super(anchor,pane);
 		this.getScroll().getStyleClass().add("list-view");
@@ -25,16 +26,16 @@ public class ShareableContactCell extends Cell {
 		for(Object o:obj) {
 		UserBean item=(UserBean)o;
 		HBox hBox = new HBox();
-		hBox.setSpacing(super.getAnchor().getPrefWidth()*5/1280);
+		hBox.setSpacing(this.main.getPrefWidth()*5/1280);
 		hBox.setAlignment(Pos.CENTER);
 		hBox.getStyleClass().add("h-box");
 		Text contact = new Text(item.getName()+" "+item.getSurname());
 		contact.getStyleClass().add("text");
-		contact.setWrappingWidth(super.getAnchor().getPrefWidth()*100/1280);
+		contact.setWrappingWidth(this.main.getPrefWidth()*100/1280);
 		Pane contactPic = new Pane();
 		new SetImage(contactPic, item.getPhoto(), false);
-		contactPic.setPrefHeight(super.getAnchor().getPrefHeight()*50/625);
-		contactPic.setPrefWidth(super.getAnchor().getPrefWidth()*50/1280);
+		contactPic.setPrefHeight(this.main.getPrefHeight()*50/625);
+		contactPic.setPrefWidth(this.main.getPrefWidth()*50/1280);
 		CheckBox check = new CheckBox();
 		check.selectedProperty().addListener((observable, oldValue, newValue)->{
 			if(check.isSelected()) 
@@ -43,19 +44,22 @@ public class ShareableContactCell extends Cell {
 				if(toShare.contains(item)) 
 					toShare.remove(item);
 		});
-		super.getAnchor().widthProperty().addListener((observable,oldValue,newValue)->{
-			contactPic.setPrefWidth(super.getAnchor().getPrefWidth()*50/1280);
-			hBox.setSpacing(super.getAnchor().getPrefWidth()*5/1280);
-			contact.setWrappingWidth(super.getAnchor().getPrefWidth()*100/1280);
+		this.main.widthProperty().addListener((observable,oldValue,newValue)->{
+			contactPic.setPrefWidth(this.main.getPrefWidth()*50/1280);
+			hBox.setSpacing(this.main.getPrefWidth()*5/1280);
+			contact.setWrappingWidth(this.main.getPrefWidth()*100/1280);
 		});
-		super.getAnchor().heightProperty().addListener((observable,oldValue,newValue)->
-			contactPic.setPrefHeight(super.getAnchor().getPrefHeight()*50/625)
+		this.main.heightProperty().addListener((observable,oldValue,newValue)->
+			contactPic.setPrefHeight(this.main.getPrefHeight()*50/625)
 		);
 		hBox.getChildren().add(contactPic);
 		hBox.getChildren().add(contact);
 		hBox.getChildren().add(check);
 		super.getBox().getChildren().add(hBox);
 		}
+	}
+	public void setSecond(AnchorPane a) {
+		this.main=a;
 	}
 	public void setToShare(List<UserBean> l) {
 		this.toShare=l;
