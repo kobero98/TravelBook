@@ -68,8 +68,9 @@
 }
 #chooseIm{
 	position: relative;
-	left: -10em;
-	opacity: 0;
+	left: -12em;
+	top: 3em;
+	opacity: 1;
 }
 
 .text{
@@ -113,11 +114,9 @@
     border-radius: 3.125em;
 }
 
-.custom-file-input::-webkit-file-upload-button {
-  visibility: hidden;
-}
+
 .custom-file-input {
-  width: 2em;
+  width: 5em;
   height:2em;
   top:-7.5em;
   margin-left: 1.5em;

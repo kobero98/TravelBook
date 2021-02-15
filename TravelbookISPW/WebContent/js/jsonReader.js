@@ -54,7 +54,7 @@ function readTravel(data,type){
     	});
     	}
 	}
-	function readUsers(data,textStatus,jqXHR,type){
+	function readUsers(data,type){
     	var btn;
     	var div;
     	var text;
@@ -76,7 +76,10 @@ function readTravel(data,type){
     	divInt.appendChild(title);
     	divInt.setAttribute("class","show");
     	document.body.appendChild(divInt);
-    	$.each(dataO,function(index,element){
+				if(dataO==undefined){
+			return;
+		}
+    	$.each(dataO,function(index){
     		form=document.createElement("form");
     		form.setAttribute("action","profile.jsp");
     		form.setAttribute("method","POST");

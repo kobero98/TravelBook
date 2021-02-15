@@ -108,18 +108,6 @@
 	<script>
 	var userID=<%=myUser.getId()%>
 	var op=true;
-	function init(){
-		document.getElementById("fotoFile").addEventListener("mouseover",function(){
-
-				$("#chooseIm").animate({opacity: '1'},"slow");
-
-		});
-		document.getElementById("fotoFile").addEventListener("mouseout",function(){
-
-				$("#chooseIm").animate({opacity: '0'},"slow");
-
-		});
-	}
 	function goToExplore()
 	{
 		  location.replace("explore.jsp");
@@ -225,7 +213,7 @@
 	</script>
 
 </head>
-<body onload="init()">
+<body>
     <div class="header">
         <p class="title">
             Travelbook
@@ -256,7 +244,7 @@
             		<% 
             	}
             %>
-              
+              	
                 <input type="file" id="chooseIm" name="profileImage" accept="image/jpg, image/png" class="custom-file-input" onchange="loadImage()"/>
                 </div>
                 <div class="v">

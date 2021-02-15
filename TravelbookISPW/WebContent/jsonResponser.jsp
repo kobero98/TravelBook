@@ -50,7 +50,7 @@ if(request.getParameter("follower")!=null || request.getParameter("following")!=
 		response.getWriter().write(users.toString());
 	}
 	else{
-		response.getWriter().write("");
+		response.getWriter().write("{}");
 	}
 }
 	if(request.getParameter("travel")!=null || request.getParameter("shared")!=null){
