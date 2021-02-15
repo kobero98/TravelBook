@@ -258,19 +258,21 @@ public class ChatViewController implements Observer{
 
     @FXML
     private void sendHandler() {
-    	MessageBean newMsg = new MessageBean(current.getIdUser(), MenuBar.getInstance().getLoggedUser().getId());
-    	newMsg.setText(write.getText());
-    	newMsg.setTime(Instant.now());
-    	newMsg.setRead(false);
-    	sentList.getObservableItems().add(newMsg);
-    	current.getSend().add(newMsg);
     	try {
+	    	MessageBean newMsg = new MessageBean(current.getIdUser(), MenuBar.getInstance().getLoggedUser().getId());
+	    	newMsg.setText(write.getText());
+	    	newMsg.setTime(Instant.now());
+	    	newMsg.setRead(false);
+	    	sentList.getObservableItems().add(newMsg);
+	    	current.getSend().add(newMsg);
 			myController.sendMessage(newMsg);
-		} catch (DBException e) {
+			write.clear();
+	    	sentList.getScroll().setVvalue(1);
+    	} catch (DBException e) {
 			new TriggerAlert().triggerAlertCreate(e.getMessage(), "warn").showAndWait();
-		}
-    	write.clear();
-    	sentList.getScroll().setVvalue(1);
+		}catch(NullPointerException e){
+    		new TriggerAlert().triggerAlertCreate("Select a Contact before sending any message", "err").showAndWait();
+    	}
     }
   @FXML
     private void searchHandler() {
