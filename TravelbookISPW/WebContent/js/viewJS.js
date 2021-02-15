@@ -1,7 +1,7 @@
 /**
  * 
  */
-				var array=new Array();
+			var array=new Array();
 			function openDay(event,dayNumber){
 				var i, tabcontent,tablinks;
 				tabcontent=document.getElementsByClassName("tabcontent");
@@ -17,8 +17,8 @@
 			}
 			function openStep(event,dayNumber,stepNumber){
 				var steps = document.getElementsByClassName("stepButton");
-				for(var i=0;i<steps.length;i++){
-					steps[i].className="stepButton";
+				for(let value of steps){
+					value.className="stepButton";
 				}
 				event.currentTarget.className+=" p-step";
 				var div=document.getElementById("right-panel");
@@ -32,7 +32,6 @@
 				p.setAttribute("id", "step-title");
 				
 				p.innerHTML=step.place;
-				var i;
 				var descr=document.createElement("P");
 				descr.setAttribute("class","descr");
 				descr.innerHTML=step.descriptionStep;
@@ -98,12 +97,12 @@
 		});
 	}
 	function shareTravel(){
-		var div=document.getElementById("shareDiv");
-		var array=div.childNodes;
+		
+		
 		var i;
 		var users=new Array();
 		var text;
-		var j=0;
+		
 		var checked = $("input[type=checkbox]:checked");
 		for(i=0;i<checked.length;i++){
 			text=checked[i].id.split("checkbox");
