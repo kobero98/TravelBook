@@ -9,7 +9,6 @@
 <%@page import="java.util.Base64" %>
 <%@page import="java.util.Set" %>
 <%
-	System.out.println(request.getParameterMap().keySet().toString());
     request.getSession().setAttribute("selettore",null);
 	UserBean log=null;
 	if(request.getSession().getAttribute("loggedBean")!=null){
