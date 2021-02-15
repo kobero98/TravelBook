@@ -322,8 +322,8 @@ public class ExploreViewController implements Observer{
     	try {
     		MenuBar.getInstance().deleteObserver(this);
     		MenuBar.getInstance().moveToAdd(mainPane);
-    	}catch(MissingPageException e) {
-    		e.exit();
+    	}catch(MissingPageException ex) {
+    		ex.exit();
     	}
     }
  

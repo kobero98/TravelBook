@@ -252,8 +252,8 @@ public class ChatViewController implements Observer{
     @FXML
     private void addHandler() {
     	try {
-    		MenuBar.getInstance().deleteObserver(this);
     		MenuBar.getInstance().moveToAdd(mainPane);
+    		MenuBar.getInstance().deleteObserver(this);
     	}catch(MissingPageException e) {
     		e.exit();
     	}
