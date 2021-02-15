@@ -736,6 +736,7 @@ public class AddViewController implements Observer{
 			 }
 			 if(exit) {
 	    	try {
+	    		MenuBar.getInstance().deleteObserver(this);
 	    	MenuBar.getInstance().moveToProfile(mainPane);
 	    	}catch(MissingPageException e) {
 	    		e.exit();
@@ -750,6 +751,7 @@ public class AddViewController implements Observer{
 	    	}
 	    	if(exit) {
 	    	try {
+	    		MenuBar.getInstance().deleteObserver(this);
 	    		MenuBar.getInstance().moveToExplore(mainPane);
 	    	}catch(MissingPageException e) {
 	    		e.exit();
@@ -763,6 +765,7 @@ public class AddViewController implements Observer{
 	    	}
 	    	if(exit) {
 	    	try {
+	    		MenuBar.getInstance().deleteObserver(this);
 	    		MenuBar.getInstance().moveToChat(mainPane);
 	    	}catch(MissingPageException e) {
 	    		e.exit();

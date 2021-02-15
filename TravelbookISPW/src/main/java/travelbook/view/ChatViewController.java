@@ -234,6 +234,7 @@ public class ChatViewController implements Observer{
 	@FXML
     private void profileHandler(){
     	try {
+    	MenuBar.getInstance().deleteObserver(this);
     	MenuBar.getInstance().moveToProfile(mainPane);
     	}catch(MissingPageException e) {
     		e.exit();
@@ -242,6 +243,7 @@ public class ChatViewController implements Observer{
     @FXML
     private void exploreHandler() {
     	try {
+    		MenuBar.getInstance().deleteObserver(this);
     		MenuBar.getInstance().moveToExplore(mainPane);
     	}catch(MissingPageException e) {
     		e.exit();
@@ -250,6 +252,7 @@ public class ChatViewController implements Observer{
     @FXML
     private void addHandler() {
     	try {
+    		MenuBar.getInstance().deleteObserver(this);
     		MenuBar.getInstance().moveToAdd(mainPane);
     	}catch(MissingPageException e) {
     		e.exit();

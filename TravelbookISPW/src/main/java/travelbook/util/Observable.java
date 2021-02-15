@@ -21,7 +21,8 @@ public class Observable {
 		this.observers.removeAll(this.observers);
 	}
 	public void deleteObserver(Observer o) {
-		this.observers.remove(o);
+		if(this.observers.contains(o))
+			this.observers.remove(o);
 	}
 	public void setChanged() {
 		this.changed=true;
