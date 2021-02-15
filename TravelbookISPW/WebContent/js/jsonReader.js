@@ -54,7 +54,7 @@ function readTravel(data,type){
     	});
     	}
 	}
-	function readUsers(data,type){
+	function readUsers(data,textStatus,jqXHR,type){
     	var btn;
     	var div;
     	var text;
