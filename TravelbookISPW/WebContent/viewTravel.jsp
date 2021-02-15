@@ -324,7 +324,7 @@
     </div>
     <div class="anchor">
         <div class="panel panel2">
-            <button type="button" id="back-button" class="back-button back2" onclick="goBack()"><span class="material-icons md-48">arrow_back</span></button></button>
+            <button type="button" id="back-button" class="back-button back2" onclick="goBack()"><span class="material-icons md-48">arrow_back</span></button>
             <div class="top">
                 
                 <div id="travel">

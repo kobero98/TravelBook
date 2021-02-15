@@ -9,6 +9,7 @@
 <%@page import="java.util.Base64" %>
 <%@page import="java.util.Set" %>
 <%
+	System.out.println(request.getParameterMap().keySet().toString());
     request.getSession().setAttribute("selettore",null);
 	UserBean log=null;
 	if(request.getSession().getAttribute("loggedBean")!=null){
@@ -28,6 +29,15 @@
 	for(String s: params){
 		if(s.startsWith("suggest")){
 			String[] arg=s.split("suggest");
+			%>
+				<jsp:forward page="viewTravel.jsp">
+				<jsp:param name="travelID" value="<%=arg[1] %>"/>
+				</jsp:forward>
+			<% 
+		}
+		if(s.startsWith("topten")){
+			String[] arg=s.split("topten");
+			System.out.println(arg[1]);
 			%>
 				<jsp:forward page="viewTravel.jsp">
 				<jsp:param name="travelID" value="<%=arg[1] %>"/>
@@ -167,8 +177,8 @@
 					encoded=new String(bytes,"UTF-8");
 					%>
 						<form action="explore.jsp" method="POST">
-						<div id="suggest<%=i %>" class="travelButton" >
-							<button type="submit" class="expand" name="suggest<%=t.getId() %>"><span class="material-icons">open_in_full</span></button>
+						<div id="topten<%=i %>" class="travelButton" >
+							<button type="submit" class="expand" name="topten<%=t.getId()%>"><span class="material-icons">open_in_full</span></button>
 							<img src="data:image/*;base64,<%=encoded%>" style="width: 8em; height: 6em;" alt="travelImage">
 							<h1 class="travel-text"><%=t.getNameTravel() %></h1>
 							<p class="travel-text"><%=t.getDescriptionTravel() %></p>
@@ -184,7 +194,7 @@
                 Where do you want to go?
             </p>
             <img src= "resource/cartina-no-sfondo.png" style="width:36.25em;height:16.8125em;" alt="cartina">
-            <p id = "search" title>
+            <p id = "search">
                 ADVANCED SEARCH
             </p>
             <div id="sp">
