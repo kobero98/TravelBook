@@ -318,6 +318,7 @@ function analizzaElementi(cost,elements,actual){
 }
 function analizzaStep(steps){
 		var j;
+		var i;
 		var step;
 		var stepJSON;
 		var actualElem = 0;
