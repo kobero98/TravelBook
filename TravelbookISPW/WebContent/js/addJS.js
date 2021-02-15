@@ -71,6 +71,7 @@ function setStep(evt) {
 	while (divFoto.lastChild)
 		divFoto.removeChild(divFoto.lastChild);
 	var arrayFoto = step.photo;
+	var i;
 	for (i = 0; i < arrayFoto.length; i++) {
 		var img = document.createElement("img");
 		img.setAttribute("src", "data:image/gif;base64," + arrayFoto[i]);
@@ -289,7 +290,7 @@ function closeImg() {
 	$("#addAnchor").animate({ opacity: '1' }, "slow");
 	document.getElementById("immagineSelezionata").src="";
 }
-function analizzaElementi(cost,elements){
+function analizzaElementi(cost,elements,actual){
 		if (travelName == undefined || travelName == "") {
 		elements[actual] = document.getElementById("travelName");
 		actual++;
@@ -350,7 +351,7 @@ function post(blocked = true) {
 		elements[actual] = document.getElementById("check-box");
 		actual++;
 	}
-	analizzaElementi(cost,elements);
+	analizzaElementi(cost,elements,actual);
 
 	var steps = new Array();
 	
