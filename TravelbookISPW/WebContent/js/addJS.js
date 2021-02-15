@@ -44,9 +44,10 @@ function endDateListener() {
 }
 function setStep(evt) {
 	var steps = document.getElementsByClassName("stepButton");
-	for(var i=0;i<steps.length;i++){
-		steps[i].className="stepButton";
+	for(let value of steps){
+		value.className="stepButton";
 	}
+
 	
 	actualStep = evt.currentTarget.id.split(";")[1] - 1;
 	evt.currentTarget.className+=" p-step";
@@ -288,22 +289,8 @@ function closeImg() {
 	$("#addAnchor").animate({ opacity: '1' }, "slow");
 	document.getElementById("immagineSelezionata").src="";
 }
-function post(blocked = true) {
-	var cost = document.getElementById("costTravel").value;
-	var requestJSON;
-	var elements = new Array();
-	var actual = 0;
-	var types = new Array();
-	var checked = $("input[type=checkbox]:checked");
-	var i;
-	for (i = 0; i < checked.length; i++) {
-		types[i] = checked[i].value;
-	}
-	if (types.length == 0) {
-		elements[actual] = document.getElementById("check-box");
-		actual++;
-	}
-	if (travelName == undefined || travelName == "") {
+function analizzaElementi(cost,elements){
+		if (travelName == undefined || travelName == "") {
 		elements[actual] = document.getElementById("travelName");
 		actual++;
 	}
@@ -327,12 +314,13 @@ function post(blocked = true) {
 		elements[actual] = document.getElementById("costTravel");
 
 	}
-	var j;
-	var actualElem = 0;
-	var steps = new Array();
-	var stepJSON;
-	var step;
-	for (i = 0; i < arrayStep.length; i++) {
+}
+function analizzaStep(steps){
+		var j;
+		var step;
+		var stepJSON;
+		var actualElem = 0;
+		for (i = 0; i < arrayStep.length; i++) {
 		for (j = 0; j < arrayStep[i].length; j++) {
 			step = arrayStep[i][j];
 			if (step.isComplete()) {
@@ -346,6 +334,27 @@ function post(blocked = true) {
 			}
 		}
 	}
+}
+function post(blocked = true) {
+	var cost = document.getElementById("costTravel").value;
+	var requestJSON;
+	var elements = new Array();
+	var actual = 0;
+	var types = new Array();
+	var checked = $("input[type=checkbox]:checked");
+	var i;
+	for (i = 0; i < checked.length; i++) {
+		types[i] = checked[i].value;
+	}
+	if (types.length == 0) {
+		elements[actual] = document.getElementById("check-box");
+		actual++;
+	}
+	analizzaElementi(cost,elements);
+
+	var steps = new Array();
+	
+	analizzaStep(steps);
 	if (elements.length == 0 || !blocked) {
 		requestJSON = { "travelName": travelName, "travelDescription": travelDescription, "tipi": types, "foto": background, "dateS": startDate, "dateE": endDate, "steps": steps };
 		openProgress();
@@ -353,11 +362,11 @@ function post(blocked = true) {
 			url: "add.jsp",
 			type: "POST",
 			data: { "POSTTRAVEL": JSON.stringify(requestJSON), "SHARED": blocked, "NEW": notNew },
-			error: function(xhr, ajaxOptions, thrownError) {
+			error: function(xhr, thrownError) {
 				alert(xhr.status);
 				alert(thrownError);
 			},
-			success: function(data) {
+			success: function() {
 				//STOP ALLA PROGRESS BAR
 				handleProgress(true);
 				alert("VIAGGIO CARICATO");
@@ -392,11 +401,11 @@ function apriMappa() {
 		url: "add.jsp",
 		data: { "forward": JSON.stringify(places) },
 		type: "GET",
-		error: function(xhr, ajaxOptions, thrownError) {
+		error: function(xhr, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
 		},
-		success: function(data) {
+		success: function() {
 			window.open("http://localhost:8080/TravelbookISPW/map.jsp");
 		}
 	});
