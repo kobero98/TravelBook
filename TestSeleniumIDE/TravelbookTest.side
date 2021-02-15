@@ -301,14 +301,9 @@
     }, {
       "id": "2136aeb8-a431-4b07-9c06-e807ef8ca8e9",
       "comment": "",
-      "command": "storeText",
+      "command": "storeValue",
       "target": "id=descText",
-      "targets": [
-        ["id=descText", "id"],
-        ["css=#descText", "css:finder"],
-        ["xpath=//textarea[@id='descText']", "xpath:attributes"],
-        ["xpath=//textarea", "xpath:position"]
-      ],
+      "targets": [],
       "value": "descrizione"
     }, {
       "id": "bebda359-8ac3-48e2-a99a-d3f9b01af07d",
