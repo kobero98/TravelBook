@@ -40,7 +40,7 @@
 				prec.setAttribute("class","descr prec");
 				prec.innerHTML=step.precision;
 				var img;
-				for(i=0;i<step.photo.length;i++){
+				for(var i=0;i<step.photo.length;i++){
 					img=document.createElement("img");
 					img.setAttribute("src","data:image/gif;base64,"+step.photo[i]);
 					img.setAttribute("style","width: 8em; height: 8em;");
