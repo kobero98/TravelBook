@@ -40,9 +40,9 @@
 				prec.setAttribute("class","descr prec");
 				prec.innerHTML=step.precision;
 				var img;
-				for(var i=0;i<step.photo.length;i++){
+				for(let value of step.photo){
 					img=document.createElement("img");
-					img.setAttribute("src","data:image/gif;base64,"+step.photo[i]);
+					img.setAttribute("src","data:image/gif;base64,"+value);
 					img.setAttribute("style","width: 8em; height: 8em;");
 					fotoDiv.appendChild(img);
 				}
