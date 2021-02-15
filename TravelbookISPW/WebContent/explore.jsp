@@ -37,7 +37,6 @@
 		}
 		if(s.startsWith("topten")){
 			String[] arg=s.split("topten");
-			System.out.println(arg[1]);
 			%>
 				<jsp:forward page="viewTravel.jsp">
 				<jsp:param name="travelID" value="<%=arg[1] %>"/>
